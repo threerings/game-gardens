@@ -31,6 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
@@ -266,7 +267,7 @@ public class ChatPanel extends JPanel
 
     protected void sendText ()
     {
-        String text = _entry.getText();
+        String text = _entry.getText().trim();
 
         // if the message to send begins with /tell then parse it and
         // generate a tell request rather than a speak request
@@ -297,6 +298,26 @@ public class ChatPanel extends JPanel
         } else if (text.startsWith("/broadcast ")) {
             text = text.substring(text.indexOf(" ")+1);
             _chatdtr.requestBroadcast(text);
+
+        } else if (text.startsWith("/em ") ||
+                   text.startsWith("/emote ") ||
+                   text.startsWith("/me ")) {
+            text = text.substring(text.indexOf(" ")+1);
+            _chatdtr.requestSpeak(text, ChatCodes.EMOTE_MODE);
+
+        } else if (text.startsWith("/who")) {
+            // dump the occupants of the room to the chat box
+            displayFeedback("m.who_header");
+            Iterator iter = _room.occupantInfo.entries();
+            while (iter.hasNext()) {
+                OccupantInfo info = (OccupantInfo)iter.next();
+                String msg = "m.who_active";
+                switch (info.status) {
+                case OccupantInfo.IDLE: msg = "m.who_idle"; break;
+                case OccupantInfo.DISCONNECTED: msg = "m.who_discon"; break;
+                }
+                displayFeedback(MessageBundle.tcompose(msg, info.username));
+            }
 
         } else if (text.startsWith("/help")) {
             displayFeedback("m.chat_help");
@@ -407,12 +428,13 @@ public class ChatPanel extends JPanel
         if (_focus) {
             _entry.requestFocus();
         }
+        _room = place;
     }
 
     // documentation inherited
     public void didLeavePlace (PlaceObject place)
     {
-        // nothing doing
+        _room = null;
     }
 
     // documentation inherited
@@ -430,6 +452,7 @@ public class ChatPanel extends JPanel
 
     protected ToyBoxContext _ctx;
     protected ChatDirector _chatdtr;
+    protected PlaceObject _room;
 
     protected boolean _focus = true;
 
