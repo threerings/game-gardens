@@ -68,7 +68,7 @@ public class TileGeometryTest extends JPanel
         frame.getContentPane().add(panel);
         frame.pack();
         SwingUtil.centerWindow(frame);
-        frame.show();
+        frame.setVisible(true);
     }
 
     protected AtlantiTile[] _tiles = new AtlantiTile[TILE_TYPES];
