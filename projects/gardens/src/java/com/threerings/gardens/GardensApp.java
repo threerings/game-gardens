@@ -5,6 +5,7 @@ package com.threerings.gardens;
 
 import java.io.File;
 import java.util.Properties;
+import java.util.logging.Level;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
@@ -23,6 +24,8 @@ import com.samskivert.util.ServiceUnavailableException;
 
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
+
+import static com.threerings.toybox.Log.log;
 
 /**
  * Contains references to application-wide resources (like the database
@@ -63,7 +66,7 @@ public class GardensApp extends Application
         String ipath = config.getServletContext().getRealPath("/");
         if (new File(ipath).exists()) {
             props.setProperty("file.resource.loader.path", ipath);
-            Log.info("Velocity loading directly from " + ipath + ".");
+            log.info("Velocity loading directly from " + ipath + ".");
         }
     }
 
@@ -87,12 +90,11 @@ public class GardensApp extends Application
             // load up our build stamp so that we can report it
             String bstamp = PropertiesUtil.loadAndGet(
                 "build.properties", "build.time");
-	    Log.info("Game Gardens application initialized " +
+	    log.info("Game Gardens application initialized " +
                      "[built=" + bstamp + "].");
 
 	} catch (Throwable t) {
-	    Log.warning("Error initializing application: " + t);
-	    Log.logStackTrace(t);
+	    log.log(Level.WARNING, "Error initializing application", t);
 	}
     }
 
@@ -101,10 +103,10 @@ public class GardensApp extends Application
     {
 	try {
 	    _usermgr.shutdown();
-	    Log.info("Game Gardens application shutdown.");
+	    log.info("Game Gardens application shutdown.");
 
 	} catch (Throwable t) {
-	    Log.warning("Error shutting down repository: " + t);
+	    log.log(Level.WARNING, "Error shutting down repository", t);
 	}
     }
 

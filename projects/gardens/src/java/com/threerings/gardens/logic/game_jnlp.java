@@ -4,6 +4,7 @@
 package com.threerings.gardens.logic;
 
 import java.net.URL;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 
 import com.samskivert.servlet.user.User;
@@ -18,8 +19,9 @@ import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.Game;
 
-import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
+
+import static com.threerings.toybox.Log.log;
 
 /**
  * Provides a JNLP file for a particular game.
@@ -47,8 +49,8 @@ public class game_jnlp implements Logic
         try {
             codebase = new URL("http", game.host, 80, path);
         } catch (Exception e) {
-            Log.warning("Error creating codebase URL [ghost=" + game.host +
-                        ", path=" + path + ", error=" + e + "].");
+            log.log(Level.WARNING, "Error creating codebase URL " +
+                    "[ghost=" + game.host + ", path=" + path + "].", e);
             throw new FriendlyException("error.internal_error");
         }
 

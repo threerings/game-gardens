@@ -33,6 +33,5 @@ public class view_game extends OptionalUserLogic
             throw new FriendlyException("error.no_such_game");
         }
         ctx.put("game", game);
-        Log.info("\\n\\n index " + game.instructions.indexOf("\n\n"));
     }
 }

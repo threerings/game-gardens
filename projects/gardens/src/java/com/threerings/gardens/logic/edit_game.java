@@ -3,7 +3,7 @@
 
 package com.threerings.gardens.logic;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import com.samskivert.servlet.user.User;
@@ -71,6 +71,8 @@ public class edit_game extends UserLogic
             // TODO: get host from ToyBoxConfig?
             game.host = req.getServerName();
             game.digest = "";
+            game.created = new Date(System.currentTimeMillis());
+            game.lastUpdated = game.created;
             ctx.put("game", game);
 
             // fill in the user supplied information
@@ -103,7 +105,6 @@ public class edit_game extends UserLogic
         game.definition = requireString(req, "definition", 2500, false);
         game.description = requireString(req, "description", 1000, true);
         game.instructions = requireString(req, "instructions", 1000, true);
-        game.lastUpdated = new Timestamp(System.currentTimeMillis());
 
         // TODO: validate definition
         GameDefinition gamedef = game.parseGameDefinition();

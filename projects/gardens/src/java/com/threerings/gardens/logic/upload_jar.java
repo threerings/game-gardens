@@ -5,7 +5,7 @@ package com.threerings.gardens.logic;
 
 import java.io.File;
 import java.security.MessageDigest;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +24,9 @@ import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.Game;
 
-import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
+
+import static com.threerings.toybox.Log.log;
 
 /**
  * Handles the updating of a game's jar file.
@@ -48,7 +49,7 @@ public class upload_jar extends UserLogic
         // the first item should be the gameid
         FileItem item = (FileItem)iter.next();
         if (item == null || !item.getFieldName().equals("gameid")) {
-            Log.warning("upload_jar: Invalid first item: " +
+            log.warning("upload_jar: Invalid first item: " +
                         toString(item) + ".");
             throw new FriendlyException("error.internal_error");
         }
@@ -76,25 +77,25 @@ public class upload_jar extends UserLogic
 
         // determine where we will be uploading the jar file
         File gdir = ToyBoxConfig.getResourceDir();
-        Log.info("Uploading jar for '" + gamedef.ident + "'.");
+        log.info("Uploading jar for '" + gamedef.ident + "'.");
 
         // the next item should be the jar file itself
         item = (FileItem)iter.next();
         if (item == null || !item.getFieldName().equals("jar")) {
-            Log.warning("upload_jar: Invalid second item: " +
+            log.warning("upload_jar: Invalid second item: " +
                         toString(item) + ".");
             throw new FriendlyException("error.internal_error");
         }
 
         File jar = new File(gdir, gamedef.getJarName());
         item.write(jar);
-        Log.info("Wrote " + jar + ".");
+        log.info("Wrote " + jar + ".");
 
         // compute the digest
         String digest = Resource.computeDigest(jar, md, null);
         if (!digest.equals(game.digest)) {
             game.digest = digest;
-            game.lastUpdated = new Timestamp(System.currentTimeMillis());
+            game.lastUpdated = new Date(System.currentTimeMillis());
             // if the game was pending upgrade it to ready now that it has
             // a jar file
             if (game.getStatus() == Game.Status.PENDING) {

@@ -22,7 +22,7 @@
 package com.threerings.toybox.server.persist;
 
 import java.io.StringReader;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.logging.Level;
 
 import com.samskivert.util.StringUtil;
@@ -75,8 +75,11 @@ public class Game
     /** Brief instructions on how to play the game. */
     public String instructions;
 
-    /** The time at which the jar file was last updated. */
-    public Timestamp lastUpdated;
+    /** The date on which the game was created. */
+    public Date created;
+
+    /** The date on which the jar file was last updated. */
+    public Date lastUpdated;
 
     /** Returns the status of this game. */
     public Status getStatus ()

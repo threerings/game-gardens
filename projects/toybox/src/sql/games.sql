@@ -42,8 +42,11 @@ CREATE TABLE GAMES
     /** Brief instructions on how to play the game. */
     INSTRUCTIONS TEXT NOT NULL,
 
-    /** The last update time of the game's jar file. */
-    LAST_UPDATED DATETIME NOT NULL,
+    /** The day on which the game was created. */
+    CREATED DATE NOT NULL,
+
+    /** The date of last update of the game's jar file. */
+    LAST_UPDATED DATE NOT NULL,
 
     /**
      * Define our table keys.
