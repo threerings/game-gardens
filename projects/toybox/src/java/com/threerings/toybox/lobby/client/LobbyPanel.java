@@ -21,30 +21,55 @@
 
 package com.threerings.toybox.lobby.client;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
+
+import javax.imageio.ImageIO;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+
+import java.io.IOException;
+import java.util.logging.Level;
 
 import com.samskivert.swing.GroupLayout;
 import com.samskivert.swing.HGroupLayout;
+import com.samskivert.swing.MultiLineLabel;
+import com.samskivert.swing.Spacer;
 import com.samskivert.swing.VGroupLayout;
 import com.samskivert.swing.util.SwingUtil;
+
+import com.threerings.media.image.BufferedMirage;
+import com.threerings.media.image.ImageUtil;
+import com.threerings.media.image.Mirage;
+import com.threerings.util.MessageBundle;
 
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.toybox.client.ChatPanel;
 import com.threerings.toybox.client.OccupantList;
+import com.threerings.toybox.client.ToyBoxUI;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
+import com.threerings.toybox.lobby.data.LobbyCodes;
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.lobby.table.TableListView;
+
+import static com.threerings.toybox.lobby.Log.log;
 
 /**
  * Displays the main ToyBox match-making lobby interface.
@@ -59,6 +84,7 @@ public class LobbyPanel extends JPanel
     public LobbyPanel (ToyBoxContext ctx)
     {
         _ctx = ctx;
+        _msgs = _ctx.getMessageManager().getBundle(LobbyCodes.LOBBY_MSGS);
 
         // we want a five pixel border around everything
     	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -83,22 +109,41 @@ public class LobbyPanel extends JPanel
 
         // create our sidebar panel
         gl = new VGroupLayout(GroupLayout.STRETCH);
-        gl.setOffAxisPolicy(GroupLayout.STRETCH);
         JPanel sidePanel = new JPanel(gl);
 
-        // the sidebar contains an occupants list
-        JLabel label = new JLabel("People in lobby");
-        sidePanel.add(label, GroupLayout.FIXED);
-        _occupants = new OccupantList(ctx);
-        sidePanel.add(_occupants);
+        _title = new MultiLineLabel("", MultiLineLabel.CENTER);
+        _title.setLayout(MultiLineLabel.HORIZONTAL, 150);
+        _title.setFont(ToyBoxUI.fancyFont);
+        _title.setAntiAliased(true);
+        sidePanel.add(_title, GroupLayout.FIXED);
 
-        JButton logoff = new JButton("Logoff");
+        JLabel label = new JLabel(_msgs.get("m.occupants"));
+        sidePanel.add(label, GroupLayout.FIXED);
+        sidePanel.add(_occupants = new OccupantList(ctx));
+
+        // match the space that shows up below the font
+        sidePanel.add(new Spacer(1, 14), GroupLayout.FIXED);
+
+        JButton logoff = new JButton(_msgs.get("m.logoff"));
         logoff.addActionListener(LobbyController.DISPATCHER);
         logoff.setActionCommand("logoff");
         sidePanel.add(logoff, GroupLayout.FIXED);
 
         // add our sidebar panel into the mix
         add(sidePanel, GroupLayout.FIXED);
+
+        // load up our background image
+        try {
+            _bgimg = new BufferedMirage(
+                ImageIO.read(
+                    getClass().getClassLoader().getResourceAsStream(
+                        "rsrc/media/lobby_background.png")));
+        } catch (IOException ioe) {
+            log.log(Level.WARNING, "Failed to load background image.", ioe);
+        }
+
+        // properly configure all of our components
+        SwingUtil.applyToHierarchy(this, _colorizer);
     }
 
     /**
@@ -115,6 +160,8 @@ public class LobbyPanel extends JPanel
                 // already entered our place, we need to fake an entry
                 ((PlaceView)matchView).willEnterPlace(_lobj);
             }
+            // properly configure all of our components
+            SwingUtil.applyToHierarchy(this, _colorizer);
             SwingUtil.refresh(_main);
         }
     }
@@ -123,11 +170,24 @@ public class LobbyPanel extends JPanel
     public void willEnterPlace (PlaceObject plobj)
     {
         _lobj = (LobbyObject)plobj;
+        _title.setText(_lobj.name);
     }
 
     // documentation inherited
     public void didLeavePlace (PlaceObject plobj)
     {
+    }
+
+    // documentation inherited
+    protected void paintComponent (Graphics g)
+    {
+        super.paintComponent(g);
+
+        // tile our background image
+        if (_bgimg != null) {
+            Graphics2D gfx = (Graphics2D)g;
+            ImageUtil.tileImage(gfx, _bgimg, 0, 0, getWidth(), getHeight());
+        }
     }
 
     /**
@@ -152,8 +212,30 @@ public class LobbyPanel extends JPanel
         }
     }
 
+    /** Used to de-opaquify and set the right backgrounds in the right
+     * places. */
+    protected SwingUtil.ComponentOp _colorizer = new SwingUtil.ComponentOp() {
+        public void apply (Component comp) {
+            if (comp instanceof JPanel) {
+                ((JPanel)comp).setOpaque(false);
+            } else if (comp instanceof JSlider) {
+                ((JSlider)comp).setOpaque(false);
+            } else if (comp instanceof JScrollPane) {
+                ((JScrollPane)comp).getViewport().setBackground(LIGHT_BLUE);
+            } else if (comp instanceof JLabel) {
+                comp.setForeground(Color.white);
+            } else if (comp instanceof JList ||
+                       comp instanceof JComboBox) {
+                comp.setBackground(LIGHT_BLUE);
+            }
+        }
+    };
+
     /** Giver of life and services. */
     protected ToyBoxContext _ctx;
+
+    /** Our translation messages. */
+    protected MessageBundle _msgs;
 
     /** Contains the match-making view and the chatbox. */
     protected JPanel _main;
@@ -161,6 +243,15 @@ public class LobbyPanel extends JPanel
     /** Our lobby distributed object. */
     protected LobbyObject _lobj;
 
+    /** Displays the game title. */
+    protected MultiLineLabel _title;
+
     /** Our occupant list display. */
     protected OccupantList _occupants;
+
+    /** Our background image. */
+    protected Mirage _bgimg;
+
+    /** The background color we use for scrolly bits. */
+    protected static final Color LIGHT_BLUE = new Color(0xC8E1E9);
 }

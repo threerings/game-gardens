@@ -48,6 +48,7 @@ import com.threerings.crowd.client.PlaceView;
 
 import com.threerings.parlor.client.ParlorDirector;
 
+import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.util.ToyBoxContext;
 
 /**
@@ -76,8 +77,14 @@ public class ToyBoxClient
 
         // keep this for later
         _frame = frame;
-        // TODO: set the title from a translated string
-        _frame.setTitle("ToyBox");
+
+        // load up our user interface bits
+        ToyBoxUI.init(_ctx);
+
+        // use the game name as our title if we have one
+        String title = System.getProperty(
+            "game_name", _ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.app_title"));
+        _frame.setTitle(title);
         _keydisp = new KeyDispatcher(frame);
 
         // log off when they close the window
@@ -86,10 +93,9 @@ public class ToyBoxClient
                 // if we're logged on, log off
                 if (_client.isLoggedOn()) {
                     _client.logoff(true);
-                } else {
-                    // otherwise get the heck out
-                    System.exit(0);
                 }
+                // and get the heck out
+                System.exit(0);
             }
         });
 

@@ -21,7 +21,9 @@
 
 package com.threerings.toybox.client;
 
+import java.awt.Dimension;
 import java.util.Iterator;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -35,8 +37,8 @@ import com.threerings.crowd.util.CrowdContext;
  * The occupant list displays the list of users that are in a particular
  * place.
  */
-public class OccupantList
-    extends JList implements PlaceView, OccupantObserver
+public class OccupantList extends JList
+    implements PlaceView, OccupantObserver
 {
     /**
      * Constructs an occupant list with the supplied context which it will
@@ -47,6 +49,8 @@ public class OccupantList
         // set up our list model
         _model = new DefaultListModel();
         setModel(_model);
+
+        setBorder(BorderFactory.createEtchedBorder());
 
         // keep our context around for later
         _ctx = ctx;
@@ -91,6 +95,14 @@ public class OccupantList
     public void occupantUpdated (OccupantInfo oinfo, OccupantInfo info)
     {
         // nothing doing
+    }
+
+    // documentation inherited
+    public Dimension getPreferredSize ()
+    {
+        Dimension d = super.getPreferredSize();
+        d.width = Math.min(Math.max(d.width, 100), 150);
+        return d;
     }
 
     /** Our client context. */

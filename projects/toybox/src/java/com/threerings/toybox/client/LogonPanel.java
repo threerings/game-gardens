@@ -96,19 +96,6 @@ public class LogonPanel extends JPanel
             log.log(Level.WARNING, "Failed to load background image.", ioe);
         }
 
-        // try to load our fancy font
-        try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream(
-                "rsrc/media/porc.ttf");
-            _fancyFont = Font.createFont(Font.TRUETYPE_FONT, in);
-            _fancyFont = _fancyFont.deriveFont(Font.PLAIN, 52);
-            in.close();
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load custom font, falling " +
-                    "back to default.", e);
-            _fancyFont = DEFAULT_FONT;
-        }
-
         // try obtaining our title text from a system property
         String tstr = null;
         try {
@@ -121,7 +108,7 @@ public class LogonPanel extends JPanel
 
         // create a big fat label
         MultiLineLabel title = new MultiLineLabel(tstr, MultiLineLabel.CENTER);
-        title.setFont(_fancyFont);
+        title.setFont(ToyBoxUI.fancyFont);
         title.setAntiAliased(true);
         box.add(title);
 
@@ -295,9 +282,4 @@ public class LogonPanel extends JPanel
     protected MultiLineLabel _status;
 
     protected BufferedImage _bgimg;
-    protected Font _fancyFont;
-
-    /** The default font used if the custom font can't be loaded. */
-    protected static final Font DEFAULT_FONT =
-        new Font("Dialog", Font.PLAIN, 12);
 }

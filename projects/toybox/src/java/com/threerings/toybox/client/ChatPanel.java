@@ -68,6 +68,7 @@ import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.media.SafeScrollPane;
 
+import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import static com.threerings.toybox.Log.log;
@@ -103,7 +104,8 @@ public class ChatPanel extends JPanel
         createStyles(_text);
 
         // add a label for the text entry stuff
-        add(new JLabel("Type here to chat:"), GroupLayout.FIXED);
+        add(new JLabel(_ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.chat_help")),
+            GroupLayout.FIXED);
 
         // create a horizontal group for the text entry bar
         gl = new HGroupLayout(GroupLayout.STRETCH);
@@ -113,7 +115,7 @@ public class ChatPanel extends JPanel
         _entry.addActionListener(this);
         _entry.setEnabled(false);
 
-        _send = new JButton("Send");
+        _send = new JButton(_ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.send"));
         _send.setEnabled(false);
         _send.addActionListener(this);
         _send.setActionCommand("send");

@@ -39,6 +39,7 @@ import com.samskivert.swing.util.SwingUtil;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.media.SafeScrollPane;
+import com.threerings.util.MessageBundle;
 
 import com.threerings.parlor.client.GameConfigurator;
 import com.threerings.parlor.client.SeatednessObserver;
@@ -76,6 +77,9 @@ public class TableListView extends JPanel
         _config = config;
         _ctx = ctx;
 
+        MessageBundle msgs =
+            ctx.getMessageManager().getBundle(LobbyCodes.LOBBY_MSGS);
+
         // create our table director
         _tdtr = new TableDirector(ctx, LobbyObject.TABLE_SET, this);
 
@@ -91,7 +95,7 @@ public class TableListView extends JPanel
         VGroupLayout pgl = new VGroupLayout(VGroupLayout.STRETCH);
         pgl.setOffAxisPolicy(VGroupLayout.STRETCH);
         JPanel panel = new JPanel(pgl);
-        panel.add(new JLabel("Pending tables"), VGroupLayout.FIXED);
+        panel.add(new JLabel(msgs.get("m.pending_tables")), VGroupLayout.FIXED);
 
         VGroupLayout mgl = new VGroupLayout(VGroupLayout.NONE);
         mgl.setOffAxisPolicy(VGroupLayout.STRETCH);
@@ -109,8 +113,7 @@ public class TableListView extends JPanel
         }
 
         // add the interface for selecting the number of seats at the table
-        String label = ctx.xlate(LobbyCodes.LOBBY_MSGS, "m.seats");
-        panel.add(_pslide = new SimpleSlider(label, 0, 10, 0),
+        panel.add(_pslide = new SimpleSlider(msgs.get("m.seats"), 0, 10, 0),
                   VGroupLayout.FIXED);
 
         // configure our slider
@@ -128,15 +131,17 @@ public class TableListView extends JPanel
         _pslide.setVisible(config.getMinimumPlayers() !=
                            config.getMaximumPlayers());
 
-        _create = new JButton("Create table");
+        _create = new JButton(msgs.get("m.create_table"));
         _create.addActionListener(this);
-        panel.add(_create, VGroupLayout.FIXED);
+        JPanel bbox = HGroupLayout.makeButtonBox(HGroupLayout.RIGHT);
+        bbox.add(_create);
+        panel.add(bbox, VGroupLayout.FIXED);
 
         add(panel);
 
         // ...and one of games in progress
         panel = new JPanel(pgl);
-        panel.add(new JLabel("Games in progress"), VGroupLayout.FIXED);
+        panel.add(new JLabel(msgs.get("m.in_progress")), VGroupLayout.FIXED);
 
         _playList = new JPanel(mgl);
     	_playList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
