@@ -18,7 +18,13 @@ while [ ! -z "$1" ]; do
     shift
 done
 
-# first update the signed libraries
+# mirror the configuration files
+echo "** Mirroring configuration files..."
+$MIRROR $VERBOSE $ROOT/gardens.conf \
+    $ROOT/toybox.properties \
+    $ROOT/projects/toybox/src/sql/*.sql
+
+# update the signed libraries
 echo "*** Updating signed libraries..."
 cd $ROOT
 ant
@@ -26,12 +32,6 @@ ant
 # mirror the library files
 echo "** Mirroring server jars..."
 $MIRROR $VERBOSE $ROOT/seclib/*.jar
-
-# mirror the configuration files
-echo "** Mirroring configuration files..."
-$MIRROR $VERBOSE $ROOT/gardens.conf \
-    $ROOT/toybox.properties \
-    $ROOT/projects/toybox/src/sql/*.sql
 
 # mirror the server scripts
 echo "** Mirroring scripts..."
