@@ -1,5 +1,5 @@
 //
-// $Id: ToyBoxConfig.java,v 1.1 2004/01/20 14:44:40 mdb Exp $
+// $Id: ToyBoxConfig.java,v 1.2 2004/11/15 01:48:51 mdb Exp $
 
 package com.threerings.toybox.server;
 
@@ -22,20 +22,7 @@ public class ToyBoxConfig
 {
     /** Provides access to our config properties. <em>Do not</em> modify
      * these properties! */
-    public static Config config;
-
-    /**
-     * Creates our {@link Config} instance. This method is called by the
-     * {@link ToyBoxManager} when it is constructed. If this is to be used
-     * in circumstances where there is no {@link ToyBoxManager} it can be
-     * initialized by hand with the proper configuration file.
-     */
-    public static void init (Properties props)
-    {
-        if (config == null) {
-            config = new Config("toybox", props);
-        }
-    }
+    public static Config config = new Config("toybox");
 
     /**
      * Returns the directory in which game data is to be stored.
@@ -80,5 +67,13 @@ public class ToyBoxConfig
             // nothing else we can do but hope for the best
         }
         return gdir;
+    }
+
+    /**
+     * Returns the JDBC configuration for this installation.
+     */
+    public static Properties getJDBCConfig ()
+    {
+        return config.getSubProperties("db");
     }
 }
