@@ -24,6 +24,12 @@
   </path>
   <property name="cp" refid="classpath"/>
 
+  <!-- checks to see which packages are available -->
+  <target name="check-available">
+    <available property="threerings.present"
+     classname="com.threerings.user.OOOUser" classpathref="classpath"/>
+  </target>
+
   <!-- generates additional methods for distributed object classes -->
   <target name="gendobj" depends="prepare">
     <taskdef name="dobj"
@@ -80,11 +86,13 @@
   </target>
 
   <!-- build the java class files -->
-  <target name="compile" depends="prepare">
+  <target name="compile" depends="prepare,check-available">
     <javac srcdir="src/java" destdir="${classes.dir}"
            debug="on" optimize="{$build.optimize}" deprecation="on"
            includeAntRuntime="no" source="1.5">
       <classpath refid="classpath"/>
+      <exclude name="com/threerings/toybox/server/ooo/**"
+               unless="threerings.present"/>
       <compilerarg value="-Xlint:unchecked"/>
     </javac>
   </target>
