@@ -21,8 +21,10 @@
 
 package com.threerings.toybox.util;
 
-import com.threerings.parlor.util.ParlorContext;
+import com.threerings.media.FrameManager;
 import com.threerings.util.MessageManager;
+
+import com.threerings.parlor.util.ParlorContext;
 
 import com.threerings.toybox.client.ToyBoxDirector;
 
@@ -41,4 +43,9 @@ public interface ToyBoxContext extends ParlorContext
      * Returns a reference to our ToyBox director.
      */
     public ToyBoxDirector getToyBoxDirector ();
+
+    /**
+     * Returns a reference to our frame manager (used for media services).
+     */
+    public FrameManager getFrameManager ();
 }

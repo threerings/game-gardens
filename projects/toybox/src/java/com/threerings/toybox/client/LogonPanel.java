@@ -229,7 +229,7 @@ public class LogonPanel extends JPanel
     public static Credentials createCredentials (
         String username, String password)
     {
-        Password pw = new Password(username, password);
+        Password pw = Password.makeFromClear(password);
         return new UsernamePasswordCreds(new Name(username), pw.getEncrypted());
     }
 

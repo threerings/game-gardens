@@ -102,7 +102,7 @@ public class ToyBoxManager
             game.gameId = 1;
             game.name = "test";
             game.maintainerId = 1;
-            game.setStatus(Status.PUBLISHED);
+            game.setStatus(Status.READY);
             game.definition = IOUtils.toString(new FileReader(gameConfig));
 
             // compute the digests of all the files

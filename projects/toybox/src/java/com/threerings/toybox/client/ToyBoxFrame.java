@@ -29,20 +29,14 @@ import javax.swing.JPanel;
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
 
+import com.threerings.media.ManagedJFrame;
+
 /**
  * Contains the user interface for the ToyBox client application.
  */
-public class ToyBoxFrame
-    extends JFrame implements ControllerProvider
+public class ToyBoxFrame extends ManagedJFrame
+    implements ControllerProvider
 {
-    /**
-     * Constructs the top-level ToyBox client frame.
-     */
-    public ToyBoxFrame ()
-    {
-        this("ToyBox Client");
-    }
-
     /**
      * Constructs the top-level ToyBox client frame with the specified
      * window title.

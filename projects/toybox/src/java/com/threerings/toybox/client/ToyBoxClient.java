@@ -32,6 +32,7 @@ import javax.swing.SwingUtilities;
 
 import com.samskivert.util.Config;
 import com.samskivert.util.StringUtil;
+import com.threerings.media.FrameManager;
 import com.threerings.util.MessageManager;
 
 import com.threerings.presents.client.Client;
@@ -73,6 +74,8 @@ public class ToyBoxClient
 
         // keep this for later
         _frame = frame;
+        // TODO: set the title from a translated string
+        _frame.setTitle("ToyBox");
 
         // log off when they close the window
         _frame.addWindowListener(new WindowAdapter() {
@@ -237,6 +240,11 @@ public class ToyBoxClient
         public ToyBoxDirector getToyBoxDirector ()
         {
             return _toydtr;
+        }
+
+        public FrameManager getFrameManager ()
+        {
+            return _frame.getFrameManager();
         }
     }
 

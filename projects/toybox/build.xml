@@ -15,7 +15,6 @@
   <property name="javadoc.home"   value="${deploy.dir}/docs"/>
   <property name="classes.dir"    value="${deploy.dir}/classes"/>
   <property name="java.libraries" value="${base.dir}/lib"/>
-  <property name="nartool.path"   value="${narya.home}/bin"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -25,13 +24,21 @@
   </path>
   <property name="cp" refid="classpath"/>
 
-  <!-- generates .java files for all .dobj files -->
-  <target name="gendobj">
-    <apply executable="${nartool.path}/gendobj"
-      failonerror="true" parallel="true">
-      <srcfile/>
-      <fileset dir="src/java" includes="**/*.dobj"/>
-    </apply>
+  <!-- generates additional methods for distributed object classes -->
+  <target name="gendobj" depends="prepare">
+    <taskdef name="dobj"
+             classname="com.threerings.presents.tools.GenDObjectTask"
+             classpathref="classpath"/>
+    <!-- make sure the dobject class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes"
+           debug="on" optimize="${build.optimize}" deprecation="on">
+      <classpath refid="classpath"/>
+      <include name="**/*Object.java"/>
+    </javac>
+    <!-- now generate the associated files -->
+    <dobj classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Object.java"/>
+    </dobj>
   </target>
 
   <!-- generates marshaller and dispatcher classes for all invocation -->
@@ -54,7 +61,7 @@
   </target>
 
   <!-- prepares the application directories -->
-  <target name="prepare" depends="gendobj">
+  <target name="prepare">
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${classes.dir}"/>
     <mkdir dir="${classes.dir}/rsrc"/>

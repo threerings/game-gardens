@@ -28,6 +28,8 @@ import com.samskivert.swing.util.SwingUtil;
 import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.OneLineLogFormatter;
 
+import com.threerings.media.FrameManager;
+
 import com.threerings.presents.client.Client;
 
 import static com.threerings.toybox.Log.log;
@@ -41,7 +43,8 @@ public class ToyBoxApp
         throws IOException
     {
         // create a frame
-        _frame = new ToyBoxFrame();
+        _frame = new ToyBoxFrame("...");
+        _framemgr = FrameManager.newInstance(_frame);
 
         // create and initialize our client instance
         _client = new ToyBoxClient();
@@ -68,6 +71,8 @@ public class ToyBoxApp
                 LogonPanel.createCredentials(username, password));
             client.logon();
         }
+
+        _framemgr.start();
     }
 
     public static void main (String[] args)
@@ -107,4 +112,5 @@ public class ToyBoxApp
 
     protected ToyBoxClient _client;
     protected ToyBoxFrame _frame;
+    protected FrameManager _framemgr;
 }
