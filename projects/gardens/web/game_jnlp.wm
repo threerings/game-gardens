@@ -19,12 +19,8 @@
     <homepage href="$base_path/view_game.wm?gameid=$game.gameId"/>
     <!--<icon kind="splash" href="images/splash.gif"/>-->
     <icon href="/images/icon.png"/>
-<!--    <description kind="short">
-      ...
-    </description> -->
-<!--    <description>
-      ...
-    </description> -->
+    <description kind="short">$string.truncate($game.description, 120, "...")</description>
+    <description>$game.description</description>
   </information>
   <security>
     <all-permissions/>
