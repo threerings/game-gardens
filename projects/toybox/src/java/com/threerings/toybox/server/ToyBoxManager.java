@@ -244,6 +244,8 @@ public class ToyBoxManager
         PlaceRegistry.CreationObserver obs =
             new PlaceRegistry.CreationObserver() {
             public void placeCreated (PlaceObject place, PlaceManager pmgr) {
+                // let our lobby manager know about its game
+                ((LobbyManager)pmgr).setGame(game);
                 // register ourselves in the lobby table
                 _lobbyOids.put(game.gameId, place.getOid());
                 // inform any resolution penders of the lobby oid
