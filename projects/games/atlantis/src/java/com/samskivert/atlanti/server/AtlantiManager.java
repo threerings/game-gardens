@@ -20,6 +20,7 @@ import com.threerings.presents.dobj.SetListener;
 import com.threerings.presents.dobj.MessageEvent;
 
 import com.threerings.presents.dobj.MessageEvent;
+import com.threerings.util.MessageBundle;
 
 import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.data.PlaceObject;
@@ -222,7 +223,7 @@ public class AtlantiManager extends GameManager
             // score it regardless, we score incomplete features only
             // during the final tally
             if (score > 0 || finalTally) {
-                String qual = (score > 0) ? "Completed" : "Incomplete";
+                String qual = (score > 0) ? "m.completed" : "m.incomplete";
 
                 // convert the score into a positive value
                 score = Math.abs(score);
@@ -242,10 +243,13 @@ public class AtlantiManager extends GameManager
                     }
                 }
 
-                String message = qual + " " + TileCodes.FEATURE_NAMES[f.type] +
-                    " scored " + score + " points for " + names + ".";
+                String msg = MessageBundle.compose(
+                    qual, "m." + TileCodes.FEATURE_NAMES[f.type]);
+                msg = MessageBundle.compose(
+                    "m.scored", msg, MessageBundle.taint(String.valueOf(score)),
+                    MessageBundle.taint(names));
                 SpeakProvider.sendInfo(
-                    _atlobj, ATLANTI_MESSAGE_BUNDLE, message);
+                    _atlobj, ATLANTI_MESSAGE_BUNDLE, msg);
 
                 Log.info("New scores: " + StringUtil.toString(_atlobj.scores));
 
@@ -308,17 +312,20 @@ public class AtlantiManager extends GameManager
                     // tally, we score it
                     if (score > 0 || finalTally) {
                         String qual = (score > 0) ?
-                            "complete" : "incomplete";
+                            "m.complete" : "m.incomplete";
 
                         // coerce the score into positive land
                         score = Math.abs(score);
 
                         // deliver a chat notification to tell the
                         // players about the score
-                        String message = getPlayerName(p.owner) + " scored " +
-                            score + " points for " + qual + " temple.";
+                        String msg = MessageBundle.compose(qual, "m.temple");
+                        msg = MessageBundle.compose(
+                            "m.scored", msg,
+                            MessageBundle.taint(String.valueOf(score)),
+                            MessageBundle.taint(getPlayerName(p.owner)));
                         SpeakProvider.sendInfo(
-                            _atlobj, ATLANTI_MESSAGE_BUNDLE, message);
+                            _atlobj, ATLANTI_MESSAGE_BUNDLE, msg);
 
                         // add the score to the owning player
                         _atlobj.scores[p.owner] += score;
@@ -463,10 +470,11 @@ public class AtlantiManager extends GameManager
         for (int i = 0; i < getPlayerCount(); i++) {
             if (cityScores[i] > 0) {
                 _atlobj.scores[i] += cityScores[i];
-                String message = getPlayerName(i) + " scores " +
-                    cityScores[i] + " points for fisheries.";
+                String msg = MessageBundle.tcompose(
+                    "m.scored_fisheries", getPlayerName(i),
+                    String.valueOf(cityScores[i]));
                 SpeakProvider.sendInfo(
-                    _atlobj, ATLANTI_MESSAGE_BUNDLE, message);
+                    _atlobj, ATLANTI_MESSAGE_BUNDLE, msg);
             }
         }
     }

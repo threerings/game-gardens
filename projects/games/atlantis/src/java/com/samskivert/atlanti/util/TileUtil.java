@@ -42,7 +42,9 @@ public class TileUtil implements TileCodes
         List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
         int tsize = TILE_SET.size();
         for (int i = 0; i < tsize; i++) {
-            tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
+            if (com.threerings.util.RandomUtil.getInt(10) > 7) {
+                tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
+            }
         }
         return tiles;
     }

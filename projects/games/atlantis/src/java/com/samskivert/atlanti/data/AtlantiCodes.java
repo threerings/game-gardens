@@ -9,7 +9,7 @@ package com.samskivert.atlanti.data;
 public interface AtlantiCodes
 {
     /** The message bundle identifier for translation messages. */
-    public static final String ATLANTI_MESSAGE_BUNDLE = "atlanti";
+    public static final String ATLANTI_MESSAGE_BUNDLE = "atlantis";
 
     /** The number of piecens provided to each player. */
     public static final int PIECENS_PER_PLAYER = 7;
