@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# $Id: master-mysqld 253 2004-11-16 22:53:59Z mdb $
+#
+# Startup script for the master database server.
+
+`dirname $0`/generic-mysqld master "$@"

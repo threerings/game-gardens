@@ -1,0 +1,57 @@
+#
+# $Id: mysql-slave.cnf.dist 274 2005-02-02 04:40:30Z mdb $
+# 
+# The MySQL database replication server configuration file.
+#
+# The following values must be set:
+# PORT - the port on which mysql will listen
+# MASTER - the hostname of the master database
+# USERNAME - the username of the replication account
+# PASSWORD - the password of the replication account
+
+[client]
+port		= PORT # start at 3308 and go up from there
+socket		= /var/run/mysqld/gardens-mysqld.sock
+
+[mysqld_safe]
+err-log		= /export/gardens/log/mysql.err
+socket		= /var/run/mysqld/gardens-mysqld.sock
+
+[mysqld]
+user		= mysql
+pid-file	= /var/run/mysqld/gardens-mysqld.pid
+socket		= /var/run/mysqld/gardens-mysqld.sock
+port		= PORT
+# log		= /export/gardens/log/mysql.log
+basedir		= /usr
+datadir		= /export/gardens/data/mysql
+tmpdir		= /tmp
+language	= /usr/share/mysql/english
+skip-locking
+skip-networking
+skip-innodb
+key_buffer		= 16M
+max_allowed_packet	= 1M
+thread_stack		= 128K
+query_cache_limit	= 1048576
+query_cache_size        = 26214400
+query_cache_type        = 1
+# The following is our replication configuration
+server-id		= 2
+log-bin			= /export/gardens/data/mysql/mysql-bin.log
+master-host		= MASTER
+master-port		= 3307
+master-user		= USERNAME
+master-password		= PASSWORD
+#binlog-do-db		= include_database_name
+#binlog-ignore-db	= include_database_name
+
+[mysqldump]
+quick
+max_allowed_packet	= 1M
+
+[mysql]
+#no-auto-rehash	# faster start of mysql but no tab completition
+
+[isamchk]
+key_buffer		= 16M

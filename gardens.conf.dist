@@ -17,6 +17,12 @@ export JAVA_HOME=/usr/local/java
 GARDENS_USER=gardens
 
 #
+# The user and password with which we will access the database.
+
+DBUSER=gardens
+DBPASSWD=secret
+
+#
 # The address to which server-related emails will be sent.
 
 LOG_EMAIL=foo@bar.com
