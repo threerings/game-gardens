@@ -263,6 +263,21 @@ public class ToyBoxManager
         }
     }
 
+    /**
+     * Called by the {@link LobbyManager} when it shuts down.
+     */
+    public void lobbyDidShutdown (LobbyManager lmgr)
+    {
+        LobbyConfig lconfig = (LobbyConfig)lmgr.getConfig();
+        String ident = lconfig.getGameDefinition().ident;
+        if (_lobbyOids.remove(ident) == null) {
+            log.warning("Lobby shut down for which we have no registration " +
+                        "[ident=" + ident + ", lmgr=" + lmgr.where() + "].");
+        } else {
+            log.info("Unloading lobby '" + lmgr.where() + "'.");
+        }
+    }
+
     /** Our persistent repository. */
     protected ToyBoxRepository _toyrepo;
 

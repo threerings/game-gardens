@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.samskivert.servlet.user.Password;
 import com.samskivert.swing.GroupLayout;
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
@@ -202,7 +203,13 @@ public class LogonPanel extends JPanel
         setLogonEnabled(false);
 
         Name username = new Name(_username.getText().trim());
-        String password = new String(_password.getPassword()).trim();
+        char[] pchars = _password.getPassword();
+        Password password = new Password(
+            username.toString(), new String(pchars).trim());
+        // wipe out the password data in memory now that it's encrypted
+        for (int ii = 0; ii < pchars.length; ii++) {
+            pchars[ii] = '*';
+        }
 
         String server = _ctx.getClient().getHostname();
         int port = _ctx.getClient().getPort();
@@ -211,7 +218,8 @@ public class LogonPanel extends JPanel
         _status.append(_msgs.xlate(msg) + "\n");
 
         // configure the client with some credentials and logon
-        Credentials creds = new UsernamePasswordCreds(username, password);
+        Credentials creds = new UsernamePasswordCreds(
+            username, password.getEncrypted());
         Client client = _ctx.getClient();
         client.setCredentials(creds);
         client.logon();

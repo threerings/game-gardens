@@ -34,6 +34,9 @@ import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.RootDObjectManager;
 import com.threerings.presents.server.InvocationManager;
 
+// TEMP
+import com.threerings.toybox.server.ooo.OOOAuthenticator;
+
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdClient;
 import com.threerings.crowd.server.CrowdServer;
@@ -73,6 +76,10 @@ public class ToyBoxServer extends CrowdServer
 
         // create our database connection provider
         conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());
+
+        // set up our authenticator; TODO: instantiate this from the
+        // configuration file
+        conmgr.setAuthenticator(new OOOAuthenticator());
 
         // initialize our managers
         parmgr.init(invmgr, plreg);
