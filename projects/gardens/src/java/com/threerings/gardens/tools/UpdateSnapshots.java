@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import com.samskivert.jdbc.StaticConnectionProvider;
+import com.samskivert.util.StringUtil;
 
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.Game;
@@ -46,6 +47,9 @@ public class UpdateSnapshots
             path = docroot + File.separator + "most_popular_incl.html";
             writeGameList(toyrepo.loadPopularGames(9), new File(path));
 
+            path = docroot + File.separator + "many_popular_incl.html";
+            writeExtGameList(toyrepo.loadPopularGames(50), new File(path));
+
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -60,6 +64,26 @@ public class UpdateSnapshots
                 Game game = (Game)obj;
                 out.println("<li> <a href=\"/gardens/view_game.wm?gameid=" +
                             game.gameId + "\">" + game.name + "</a>");
+            }
+            out.close();
+
+        } catch (IOException ioe) {
+            System.err.println("Error writing to '" + target + "'.");
+            ioe.printStackTrace(System.err);
+        }
+    }
+
+    protected static void writeExtGameList (ArrayList games, File target)
+    {
+        try {
+            PrintWriter out = new PrintWriter(
+                new BufferedWriter(new FileWriter(target)));
+            for (Object obj : games) {
+                Game game = (Game)obj;
+                String desc = StringUtil.truncate(game.description, 80, "...");
+                out.println("<li> <a href=\"http://www.gamegardens.com/" +
+                            "gardens/game_" + game.gameId + ".jnlp\">" +
+                            game.name + "</a><br>" + desc);
             }
             out.close();
 
