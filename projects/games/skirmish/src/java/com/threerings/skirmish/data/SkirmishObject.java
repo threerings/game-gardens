@@ -1,5 +1,5 @@
 //
-// $Id: SkirmishObject.java,v 1.5 2002/07/16 19:43:15 mdb Exp $
+// $Id: SkirmishObject.dobj,v 1.6 2002/07/16 19:43:15 mdb Exp $
 
 package com.threerings.skirmish.data;
 
@@ -10,6 +10,7 @@ import com.threerings.parlor.game.GameObject;
  */
 public class SkirmishObject extends GameObject
 {
+    // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>board</code> field. */
     public static final String BOARD = "board";
 
@@ -36,6 +37,7 @@ public class SkirmishObject extends GameObject
 
     /** The field name of the <code>handPos</code> field. */
     public static final String HAND_POS = "handPos";
+    // AUTO-GENERATED: FIELDS END
 
     /** The board on which the game is played. */
     public SkirmishBoard board;
@@ -81,185 +83,217 @@ public class SkirmishObject extends GameObject
         return nvessels;
     }
 
+    // AUTO-GENERATED: METHODS START
     /**
-     * Requests that the <code>board</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>board</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setBoard (SkirmishBoard board)
+    public void setBoard (SkirmishBoard value)
     {
-        this.board = board;
-        requestAttributeChange(BOARD, board);
+        SkirmishBoard ovalue = this.board;
+        requestAttributeChange(
+            BOARD, value, ovalue);
+        this.board = value;
     }
 
     /**
-     * Requests that the <code>vessels</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>vessels</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setVessels (SkirmishVessel[] vessels)
+    public void setVessels (SkirmishVessel[] value)
     {
-        this.vessels = vessels;
-        requestAttributeChange(VESSELS, vessels);
+        SkirmishVessel[] ovalue = this.vessels;
+        requestAttributeChange(
+            VESSELS, value, ovalue);
+        this.vessels = (value == null) ? null : (SkirmishVessel[])value.clone();
     }
 
     /**
      * Requests that the <code>index</code>th element of
-     * <code>vessels</code> field be set to the specified value. The local
-     * value will be updated immediately and an event will be propagated
-     * through the system to notify all listeners that the attribute did
-     * change. Proxied copies of this object (on clients) will apply the
-     * value change when they received the attribute changed notification.
+     * <code>vessels</code> field be set to the specified value.
+     * The local value will be updated immediately and an event will be
+     * propagated through the system to notify all listeners that the
+     * attribute did change. Proxied copies of this object (on clients)
+     * will apply the value change when they received the attribute
+     * changed notification.
      */
     public void setVesselsAt (SkirmishVessel value, int index)
     {
+        SkirmishVessel ovalue = this.vessels[index];
+        requestElementUpdate(
+            VESSELS, index, value, ovalue);
         this.vessels[index] = value;
-        requestElementUpdate(VESSELS, value, index);
     }
 
     /**
-     * Requests that the <code>hands</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>hands</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setHands (SkirmishHand[] hands)
+    public void setHands (SkirmishHand[] value)
     {
-        this.hands = hands;
-        requestAttributeChange(HANDS, hands);
+        SkirmishHand[] ovalue = this.hands;
+        requestAttributeChange(
+            HANDS, value, ovalue);
+        this.hands = (value == null) ? null : (SkirmishHand[])value.clone();
     }
 
     /**
      * Requests that the <code>index</code>th element of
-     * <code>hands</code> field be set to the specified value. The local
-     * value will be updated immediately and an event will be propagated
-     * through the system to notify all listeners that the attribute did
-     * change. Proxied copies of this object (on clients) will apply the
-     * value change when they received the attribute changed notification.
+     * <code>hands</code> field be set to the specified value.
+     * The local value will be updated immediately and an event will be
+     * propagated through the system to notify all listeners that the
+     * attribute did change. Proxied copies of this object (on clients)
+     * will apply the value change when they received the attribute
+     * changed notification.
      */
     public void setHandsAt (SkirmishHand value, int index)
     {
+        SkirmishHand ovalue = this.hands[index];
+        requestElementUpdate(
+            HANDS, index, value, ovalue);
         this.hands[index] = value;
-        requestElementUpdate(HANDS, value, index);
     }
 
     /**
-     * Requests that the <code>damage</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>damage</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setDamage (int[] damage)
+    public void setDamage (int[] value)
     {
-        this.damage = damage;
-        requestAttributeChange(DAMAGE, damage);
+        int[] ovalue = this.damage;
+        requestAttributeChange(
+            DAMAGE, value, ovalue);
+        this.damage = (value == null) ? null : (int[])value.clone();
     }
 
     /**
      * Requests that the <code>index</code>th element of
-     * <code>damage</code> field be set to the specified value. The local
-     * value will be updated immediately and an event will be propagated
-     * through the system to notify all listeners that the attribute did
-     * change. Proxied copies of this object (on clients) will apply the
-     * value change when they received the attribute changed notification.
+     * <code>damage</code> field be set to the specified value.
+     * The local value will be updated immediately and an event will be
+     * propagated through the system to notify all listeners that the
+     * attribute did change. Proxied copies of this object (on clients)
+     * will apply the value change when they received the attribute
+     * changed notification.
      */
     public void setDamageAt (int value, int index)
     {
+        int ovalue = this.damage[index];
+        requestElementUpdate(
+            DAMAGE, index, new Integer(value), new Integer(ovalue));
         this.damage[index] = value;
-        requestElementUpdate(DAMAGE, new Integer(value), index);
     }
 
     /**
-     * Requests that the <code>actionCache</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>actionCache</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setActionCache (int[] actionCache)
+    public void setActionCache (int[] value)
     {
-        this.actionCache = actionCache;
-        requestAttributeChange(ACTION_CACHE, actionCache);
+        int[] ovalue = this.actionCache;
+        requestAttributeChange(
+            ACTION_CACHE, value, ovalue);
+        this.actionCache = (value == null) ? null : (int[])value.clone();
     }
 
     /**
      * Requests that the <code>index</code>th element of
-     * <code>actionCache</code> field be set to the specified value. The local
-     * value will be updated immediately and an event will be propagated
-     * through the system to notify all listeners that the attribute did
-     * change. Proxied copies of this object (on clients) will apply the
-     * value change when they received the attribute changed notification.
+     * <code>actionCache</code> field be set to the specified value.
+     * The local value will be updated immediately and an event will be
+     * propagated through the system to notify all listeners that the
+     * attribute did change. Proxied copies of this object (on clients)
+     * will apply the value change when they received the attribute
+     * changed notification.
      */
     public void setActionCacheAt (int value, int index)
     {
+        int ovalue = this.actionCache[index];
+        requestElementUpdate(
+            ACTION_CACHE, index, new Integer(value), new Integer(ovalue));
         this.actionCache[index] = value;
-        requestElementUpdate(ACTION_CACHE, new Integer(value), index);
     }
 
     /**
-     * Requests that the <code>nextTurn</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>nextTurn</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setNextTurn (long nextTurn)
+    public void setNextTurn (long value)
     {
-        this.nextTurn = nextTurn;
-        requestAttributeChange(NEXT_TURN, new Long(nextTurn));
+        long ovalue = this.nextTurn;
+        requestAttributeChange(
+            NEXT_TURN, new Long(value), new Long(ovalue));
+        this.nextTurn = value;
     }
 
     /**
-     * Requests that the <code>escapeCounter</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>escapeCounter</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setEscapeCounter (int escapeCounter)
+    public void setEscapeCounter (int value)
     {
-        this.escapeCounter = escapeCounter;
-        requestAttributeChange(ESCAPE_COUNTER, new Integer(escapeCounter));
+        int ovalue = this.escapeCounter;
+        requestAttributeChange(
+            ESCAPE_COUNTER, new Integer(value), new Integer(ovalue));
+        this.escapeCounter = value;
     }
 
     /**
-     * Requests that the <code>attackerIndex</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>attackerIndex</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setAttackerIndex (int attackerIndex)
+    public void setAttackerIndex (int value)
     {
-        this.attackerIndex = attackerIndex;
-        requestAttributeChange(ATTACKER_INDEX, new Integer(attackerIndex));
+        int ovalue = this.attackerIndex;
+        requestAttributeChange(
+            ATTACKER_INDEX, new Integer(value), new Integer(ovalue));
+        this.attackerIndex = value;
     }
 
     /**
-     * Requests that the <code>handPos</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>handPos</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setHandPos (int handPos)
+    public void setHandPos (int value)
     {
-        this.handPos = handPos;
-        requestAttributeChange(HAND_POS, new Integer(handPos));
+        int ovalue = this.handPos;
+        requestAttributeChange(
+            HAND_POS, new Integer(value), new Integer(ovalue));
+        this.handPos = value;
     }
+    // AUTO-GENERATED: METHODS END
 }

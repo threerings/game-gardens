@@ -9,7 +9,6 @@
   <property name="deploy.dir"   value="dist"/>
   <property name="dist.jar"     value="${app.name}.jar"/>
   <property name="javadoc.dir"  value="${deploy.dir}/docs"/>
-  <property name="gendobj.path" value="../bin/gendobj"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -17,16 +16,25 @@
     <pathelement location="${deploy.dir}/classes"/>
   </path>
 
-  <!-- generates .java files for all .dobj files -->
-  <target name="gendobj">
-    <apply executable="${gendobj.path}" failonerror="true">
-      <srcfile/>
-      <fileset dir="src/java" includes="**/*.dobj"/>
-    </apply>
+  <!-- generates additional methods for distributed object classes -->
+  <target name="gendobj" depends="prepare">
+    <taskdef name="dobj"
+             classname="com.threerings.presents.tools.GenDObjectTask"
+             classpathref="classpath"/>
+    <!-- make sure the dobject class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes"
+           debug="on" optimize="${build.optimize}" deprecation="on">
+      <classpath refid="classpath"/>
+      <include name="**/*Object.java"/>
+    </javac>
+    <!-- now generate the associated files -->
+    <dobj classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Object.java"/>
+    </dobj>
   </target>
 
   <!-- prepares the application directories -->
-  <target name="prepare" depends="gendobj">
+  <target name="prepare">
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/classes"/>
     <mkdir dir="${deploy.dir}/classes/rsrc"/>

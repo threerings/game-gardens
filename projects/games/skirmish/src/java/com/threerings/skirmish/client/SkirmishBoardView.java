@@ -14,11 +14,10 @@ import javax.swing.JComponent;
 
 import java.util.ArrayList;
 
-import com.samskivert.util.IntervalManager;
+import com.samskivert.util.Interval;
 import com.samskivert.util.ListUtil;
 import com.samskivert.util.StringUtil;
 
-import com.threerings.presents.client.util.SafeInterval;
 import com.threerings.presents.dobj.AttributeChangeListener;
 import com.threerings.presents.dobj.AttributeChangedEvent;
 
@@ -60,13 +59,6 @@ public class SkirmishBoardView extends JComponent
     public SkirmishBoardView (ParlorContext ctx)
     {
         _ctx = ctx;
-
-        // create pop interval
-        POP_INTERVAL = new SafeInterval(ctx.getClient()) {
-            public void run () {
-                popVessel();
-            }
-        };
     }
 
     // documentation inherited from interface
@@ -314,9 +306,13 @@ public class SkirmishBoardView extends JComponent
             _vupdates.add(vup);
 
             // if there's not already a pop interval queued, queue one up
-            if (_popId == -1) {
-                _popId = IntervalManager.register(
-                    POP_INTERVAL, VESSEL_UPDATE_DELAY - sinceLast, null, true);
+            if (_popval == null) {
+                _popval = new Interval(_ctx.getClient().getRunQueue()) {
+                    public void expired () {
+                        popVessel();
+                    }
+                };
+                _popval.schedule(VESSEL_UPDATE_DELAY - sinceLast, true);
             }
 
 //             Log.info("Queued vessel update " +
@@ -340,8 +336,8 @@ public class SkirmishBoardView extends JComponent
             // if we haven't received any vessel updates since the last
             // pop and the hand pos is back to -1, we must be done for
             // this turn; so we'll clear things out
-            IntervalManager.remove(_popId);
-            _popId = -1;
+            _popval.cancel();
+            _popval = null;
 
             // let our hand executors know that we're all done for now
             if (_skobj != null && _skobj.handPos == -1) {
@@ -458,10 +454,7 @@ public class SkirmishBoardView extends JComponent
     protected ArrayList<VesselUpdate> _vupdates = new ArrayList<VesselUpdate>();
 
     /** Used when popping a vessel update off the queue for rendering. */
-    protected int _popId = -1;
-
-    /** Used when popping a vessel update off the queue for rendering. */
-    protected SafeInterval POP_INTERVAL;
+    protected Interval _popval;
 
     /** A list of entities to be notified when we render the actions
      * associated with the execution of a particular hand position. */

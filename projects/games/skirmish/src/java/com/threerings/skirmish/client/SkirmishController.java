@@ -5,11 +5,9 @@ package com.threerings.skirmish.client;
 
 import java.awt.event.ActionEvent;
 
-import com.samskivert.util.IntervalManager;
+import com.samskivert.util.Interval;
 import com.samskivert.util.ListUtil;
 import com.samskivert.util.ObserverList;
-
-import com.threerings.presents.client.util.SafeInterval;
 import com.threerings.util.RandomUtil;
 
 import com.threerings.crowd.client.PlaceView;
@@ -113,18 +111,18 @@ public class SkirmishController extends GameController
     protected void startTicker ()
     {
         // start the tick interval
-        _tid = IntervalManager.register(new SafeInterval(_ctx.getClient()) {
-            public void run () {
+        _ticker = new Interval(_ctx.getClient().getRunQueue()) {
+            public void expired () {
                 tickTickables();
             }
-        }, 100l, null, true);
+        };
+        _ticker.schedule(100L, true);
     }
 
     protected void endTicker ()
     {
-        if (_tid != -1) {
-            IntervalManager.remove(_tid);
-            _tid = -1;
+        if (_ticker != null) {
+            _ticker.cancel();
         }
     }
 
@@ -155,7 +153,7 @@ public class SkirmishController extends GameController
     protected int _selfIndex;
 
     /** Used to track our tick interval. */
-    protected int _tid = -1;
+    protected Interval _ticker;
 
     /** We tick these guys once a second during play. */
     protected ObserverList _tickers =

@@ -3,13 +3,12 @@
 
 package com.threerings.skirmish.server;
 
-import com.samskivert.util.IntervalManager;
+import com.samskivert.util.Interval;
 import com.samskivert.util.StringUtil;
 import com.threerings.util.MessageBundle;
 import com.threerings.util.RandomUtil;
 
 import com.threerings.presents.dobj.MessageEvent;
-import com.threerings.presents.server.util.SafeInterval;
 
 import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.server.CrowdServer;
@@ -128,13 +127,12 @@ public class SkirmishManager extends GameManager
 
         // start up our turn execution timer
         int turnInterval = (Integer)_skonfig.params.get("turn_interval");
-        SafeInterval eeint = new SafeInterval(CrowdServer.omgr) {
-            public void run () {
+        _execval = new Interval(CrowdServer.omgr) {
+            public void expired () {
                 executeTurn();
             }
         };
-        _eeid = IntervalManager.register(
-            eeint, turnInterval * 1000L, null, true);
+        _execval.schedule(turnInterval * 1000L, true);
 
         // update the next turn timer
         _skobj.setNextTurn(System.currentTimeMillis() + turnInterval * 1000L);
@@ -146,9 +144,9 @@ public class SkirmishManager extends GameManager
         super.gameDidEnd();
 
         // shut down our hand execution timer
-        if (_eeid != -1) {
-            IntervalManager.remove(_eeid);
-            _eeid = -1;
+        if (_execval != null) {
+            _execval.cancel();
+            _execval = null;
         }
     }
 
@@ -467,8 +465,8 @@ public class SkirmishManager extends GameManager
     /** Our game configuration object. */
     protected ToyBoxGameConfig _skonfig;
 
-    /** The interval id of our turn execution timer. */
-    protected int _eeid = -1;
+    /** The interval for our turn execution timer. */
+    protected Interval _execval;
 
     /** A monotonically increasing turn counter. */
     protected int _turnCounter;
