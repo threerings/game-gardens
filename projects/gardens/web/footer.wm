@@ -6,12 +6,12 @@
 <td>
 $i18n.xlate("app_name"):
 <a href="/">$i18n.xlate("footer.home")</a>
-| <a href="browse.wm">$i18n.xlate("footer.browse_link")</a>
-#if ($user)
-| <a href="edit_game.wm?mode=new">$i18n.xlate("footer.new_game_link")</a>
-#end
+| <a href="/about.html">$i18n.xlate("footer.about_link")</a>
+| <a href="/account/">$i18n.xlate("footer.account_link")</a>
+| <a href="/discussion/mvnforum/listforums">$i18n.xlate("footer.forums_link")</a>
+| <a href="/howto/">$i18n.xlate("footer.developers_link")</a>
 </td>
-<td align="right">&copy;2004
+<td align="right">&copy;2005
 <a href="mailto:gardens@threerings.net">$i18n.xlate("footer.ooo")</a></td>
 </table>
 
