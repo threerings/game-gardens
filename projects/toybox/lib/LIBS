@@ -3,3 +3,6 @@ narya-base.jar
 narya-distrib.jar
 narya-parlor.jar
 narya-micasa.jar
+commons-digester.jar
+commons-logging.jar
+commons-beanutils.jar
