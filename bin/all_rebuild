@@ -66,6 +66,7 @@ done
 echo "Rebuilding webapps..."
 cd $ROOT/projects/gardens
 ant clean install
+ln -sf $ROOT/projects/gardens/dist/*.jar $ROOT/lib
 
 if [ ! -z "$CLIENT" ]; then
     echo "Rebuilding client..."
