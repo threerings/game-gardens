@@ -9,11 +9,12 @@ $i18n.xlate("browse.all.intro")
 #end
 
 <p><table width="768" cellpadding="2">
-<tr style="border-bottom: 1px solid"><td width="90">$i18n.xlate("browse.header.game")</td>
+<tr style="border-bottom: 1px solid"><td width="90">
+<b>$i18n.xlate("browse.header.game")</b></td>
 #if (!$category)
-<td style="padding-right: 10px">$i18n.xlate("browse.header.category")</td>
+<td style="padding-right: 10px"><b>$i18n.xlate("browse.header.category")</b></td>
 #end
-<td>$i18n.xlate("browse.header.description")</td>
+<td><b>$i18n.xlate("browse.header.description")</b></td>
 <td>&nbsp;</td>
 </tr>
 
