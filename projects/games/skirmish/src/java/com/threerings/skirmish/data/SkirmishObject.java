@@ -3,7 +3,7 @@
 
 package com.threerings.skirmish.data;
 
-import com.threerings.parlor.game.GameObject;
+import com.threerings.parlor.game.data.GameObject;
 
 /**
  * Maintains the board state of a skirmish game.

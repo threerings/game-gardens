@@ -14,7 +14,7 @@ import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.server.CrowdServer;
 import com.threerings.crowd.server.PlaceManager;
 
-import com.threerings.parlor.game.GameManager;
+import com.threerings.parlor.game.server.GameManager;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 
 import com.threerings.skirmish.Log;

@@ -14,7 +14,7 @@ import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
 
-import com.threerings.parlor.game.GameController;
+import com.threerings.parlor.game.client.GameController;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 
 import com.threerings.skirmish.Log;
