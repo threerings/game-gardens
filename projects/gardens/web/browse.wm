@@ -1,9 +1,45 @@
 #set ($title = $i18n.xlate("browse.title"))
 #import ("/header.wm")
 
+<p>
+#if ($category)
+<b>$i18n.xlate("category.$category")</b>: $i18n.xlate("browse.${category}.intro")
+#else
+$i18n.xlate("browse.all.intro")
+#end
+
+<p><table width="768" cellpadding="2">
+<tr style="border-bottom: 1px solid"><td width="90">$i18n.xlate("browse.header.game")</td>
+#if (!$category)
+<td style="padding-right: 10px">$i18n.xlate("browse.header.category")</td>
+#end
+<td>$i18n.xlate("browse.header.description")</td>
+<td>&nbsp;</td>
+</tr>
+
+#if ($games.size() > 0)
+#foreach ($game in $games)
+<tr valign="top"><td>
+<a href="view_game.wm?gameid=$game.gameId">$game.name</a>
+</td>
+#if (!$category)
+<td><a href="browse.wm?category=$game.category">
+$i18n.xlate("category.$game.category")</a></td>
+#end
+<td>$string.truncate($game.description, 120, "...")</td>
+<td class="small">
+[<a href="game_${game.gameId}.jnlp">$i18n.xlate("browse.play")</a>]
+</td>
+</tr>
+#end
+#else
+<tr><td colspan="3">$i18n.xlate("browse.no_games")</td></tr>
+#end
+</table>
+
 #set ($cats = ["card", "classic", "party", "strategy", "word", "other", "all"])
 
-<p> $i18n.xlate("browse.categories")
+<p align="center"> $i18n.xlate("browse.categories")
 #foreach ($cat in $cats)
 #if ($cat == $category || ($cat == "all" && !$category))
 <b>$i18n.xlate("category.$cat")</b>
@@ -17,40 +53,5 @@ $i18n.xlate("category.$cat")</a>
 #end
 &nbsp;&nbsp;
 #end
-
-<p>
-#if ($category)
-$i18n.xlate("browse.${category}.intro")
-#else
-$i18n.xlate("browse.all.intro")
-#end
-
-<p><table width="768" cellpadding="2">
-<tr style="border-bottom: 1px solid"><td width="90">$i18n.xlate("browse.header.game")</td>
-#if (!$category)
-<td>$i18n.xlate("browse.header.category")</td>
-#end
-<td>&nbsp;</td>
-<td>$i18n.xlate("browse.header.description")</td></tr>
-
-#if ($games.size() > 0)
-#foreach ($game in $games)
-<tr valign="top"><td>
-<a href="view_game.wm?gameid=$game.gameId">$game.name</a>
-</td>
-#if (!$category)
-<td>$i18n.xlate("category.$game.category")</td>
-#end
-<td class="small">
-[<a href="game_${game.gameId}.jnlp">$i18n.xlate("browse.play")</a>]
-</td>
-<td>$string.truncate($game.description, 120, "...")</td>
-</tr>
-#end
-#else
-<tr><td colspan="3">$i18n.xlate("browse.no_games")</td></tr>
-#end
-</table>
-<br><br>
 
 #import ("/footer.wm")

@@ -28,6 +28,14 @@
       <param-name>messages_path</param-name>
       <param-value>messages</param-value>
     </init-param>
+    <init-param>
+      <param-name>site_jar_path</param-name>
+      <param-value>/export/gardens/webapps/site-data</param-value>
+    </init-param>
+    <init-param>
+      <param-name>site_messages_path</param-name>
+      <param-value>site_messages</param-value>
+    </init-param>
   </servlet>
 
   <servlet-mapping>

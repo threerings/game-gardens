@@ -5,27 +5,25 @@
 #import ("/header.wm")
 
 #if ($game)
-<table cellpadding="0" cellspacing="0" border="0" width="768">
-<tr><td><h1>$game.name</h1></td></tr>
-<tr><td><a href="game_${game.gameId}.jnlp">
-$i18n.xlate("view_game.play")</a></td>
-
-<td align="right">
+<center>
+<h1>$game.name</h1>
+<a href="game_${game.gameId}.jnlp">$i18n.xlate("view_game.play")</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$i18n.xlate("view_game.back_to") <a href="browse.wm?category=$game.category">
+$i18n.xlate("category.$game.category")</a>
 #if ($user && $user.userId == $game.maintainerId)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="edit_game.wm?gameid=$game.gameId">$i18n.xlate("view_game.edit")</a>
 #end
-</td>
-</tr>
-</table>
+</center>
 
-<p><u>$i18n.xlate("view_game.description")</u><br>
+<p><i>$i18n.xlate("view_game.description")</i><br>
 $string.parafy($game.description)
 
-<p><u>$i18n.xlate("view_game.instructions")</u><br>
+<p><i>$i18n.xlate("view_game.instructions")</i><br>
 $string.parafy($game.instructions)
 
-<p><u>$i18n.xlate("view_game.credits")</u><br>
+<p><i>$i18n.xlate("view_game.credits")</i><br>
 $string.delineate($game.credits)
 
 <p><i>$i18n.xlate("view_game.created")</i>
