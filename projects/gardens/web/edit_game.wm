@@ -3,8 +3,8 @@
 
 #if ($game)
 <form action="edit_game.wm" method="POST">
-$form.hidden("action", $action)
-$form.hidden("gameid", $game.gameId)
+$form.fixedHidden("action", $action)
+$form.fixedHidden("gameid", "$game.gameId")
 <p><table cellpadding="2" cellspacing="0" border="0">
 
 <tr><td>$i18n.xlate("edit_game.name")</td>
@@ -46,7 +46,7 @@ $form.submit($i18n.xlate("edit_game.update"))
 
 #if ($game.gameId > 0)
 <form enctype="multipart/form-data" action="upload_jar.wm" method="POST">
-$form.hidden("gameid", $game.gameId)
+$form.fixedHidden("gameid", "$game.gameId")
 $i18n.xlate("edit_game.upload.file") <input name="jar" TYPE="file">
 $form.submit($i18n.xlate("edit_game.upload.submit"))
 </form>
