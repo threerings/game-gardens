@@ -22,6 +22,7 @@
 package com.threerings.toybox.server.persist;
 
 import java.io.StringReader;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 
 import com.samskivert.util.StringUtil;
@@ -40,7 +41,7 @@ import static com.threerings.toybox.Log.log;
 public class Game
 {
     /** Defines the possible values for {@link #status}. */
-    public enum Status { UNKNOWN, PENDING, PUBLISHED, DISABLED };
+    public enum Status { UNKNOWN, PENDING, READY, DISABLED };
 
     /** A unique integer identifier for this game. */
     public int gameId;
@@ -70,6 +71,9 @@ public class Game
 
     /** Brief instructions on how to play the game. */
     public String instructions;
+
+    /** The time at which the jar file was last updated. */
+    public Timestamp lastUpdated;
 
     /** Returns the status of this game. */
     public Status getStatus ()

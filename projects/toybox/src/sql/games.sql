@@ -11,46 +11,33 @@ drop table if exists GAMES;
  */
 CREATE TABLE GAMES
 (
-    /**
-     * A unique integer identifier for this game.
-     */
+    /** A unique integer identifier for this game. */
     GAME_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 
-    /**
-     * The user id of the maintainer.
-     */
+    /** The user id of the maintainer. */
     MAINTAINER_ID INTEGER UNSIGNED NOT NULL,
 
-    /**
-     * The status of this game (whether or not it should be published, if
-     * it is flagged for review, etc.).
-     */
+    /** The status of this game (whether or not it should be published, if
+     * it is flagged for review, etc.). */
     STATUS VARCHAR(255) NOT NULL,
 
-    /** 
-     * The server on which this game is hosted.
-     */
+    /** The server on which this game is hosted. */
     HOST VARCHAR(255) NOT NULL,
 
-    /** 
-     * The current version's XML definition.
-     */
+    /** The current version's XML definition. */
     DEFINITION TEXT NOT NULL,
 
-    /** 
-     * The MD5 digest of the game jar file.
-     */
-    DIGEST VARCHAR(255) NOT NULL,
-
-    /** 
-     * A short description of the game.
-     */
+    /** A short description of the game. */
     DESCRIPTION TEXT NOT NULL,
 
-    /** 
-     * Brief instructions on how to play the game.
-     */
+    /** Brief instructions on how to play the game. */
     INSTRUCTIONS TEXT NOT NULL,
+
+    /** The MD5 digest of the game jar file. */
+    DIGEST VARCHAR(255) NOT NULL,
+
+    /** The last update time of the game's jar file. */
+    LAST_UPDATE DATETIME NOT NULL,
 
     /**
      * Define our table keys.

@@ -8,9 +8,6 @@
 <a href="view_game.wm?gameid=$game.gameId">$game.name</a>
 </td><td class="small">
 [<a href="game_jnlp.wm?gameid=$game.gameId">$i18n.xlate("browse.play")</a>]
-#if ($user && $user.userId == $game.maintainerId)
-[<a href="edit_game.wm?gameid=$game.gameId">$i18n.xlate("browse.edit")</a>]
-#end
 </td></tr>
 #end
 </table>

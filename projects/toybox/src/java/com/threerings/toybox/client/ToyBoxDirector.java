@@ -243,6 +243,7 @@ public class ToyBoxDirector extends BasicDirector
         }
 
         synchronized (_pending) {
+            // TODO: put game jars in gameId subdirectories
             // check whether the files exist and match their checksums
             Resource rsrc = checkResource(
                 gamedef.getJarName(), gamedef.getJarName(), md, gamedef.digest);

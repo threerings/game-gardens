@@ -5,7 +5,9 @@ package com.threerings.gardens.logic;
 
 import java.io.File;
 import java.security.MessageDigest;
+import java.sql.Timestamp;
 import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.samskivert.servlet.user.User;
@@ -66,11 +68,11 @@ public class upload_jar extends UserLogic
             throw new FriendlyException("error.no_such_game");
         }
 
-        // TODO: version the game jar file?
-
         // get a handle on the game definition
         GameDefinition gamedef = game.parseGameDefinition();
         MessageDigest md = MessageDigest.getInstance("MD5");
+
+        // TODO: put game jars in gameId subdirectories
 
         // determine where we will be uploading the jar file
         File gdir = ToyBoxConfig.getResourceDir();
@@ -89,10 +91,18 @@ public class upload_jar extends UserLogic
         Log.info("Wrote " + jar + ".");
 
         // compute the digest
-        game.digest = Resource.computeDigest(jar, md, null);
-
-        // finally update the game record
-        app.getToyBoxRepository().updateGame(game);
+        String digest = Resource.computeDigest(jar, md, null);
+        if (!digest.equals(game.digest)) {
+            game.digest = digest;
+            game.lastUpdated = new Timestamp(System.currentTimeMillis());
+            // if the game was pending upgrade it to ready now that it has
+            // a jar file
+            if (game.getStatus() == Game.Status.PENDING) {
+                game.setStatus(Game.Status.READY);
+            }
+            // finally update the game record
+            app.getToyBoxRepository().updateGame(game);
+        }
 
         ctx.put("status", "upload_jar.updated");
     }
