@@ -46,7 +46,9 @@ import com.samskivert.swing.SimpleSlider;
 import com.threerings.util.MessageBundle;
 
 import com.threerings.parlor.client.GameConfigurator;
+import com.threerings.parlor.game.data.GameAI;
 
+import com.threerings.toybox.data.AIParameter;
 import com.threerings.toybox.data.ChoiceParameter;
 import com.threerings.toybox.data.FileParameter;
 import com.threerings.toybox.data.GameDefinition;
@@ -83,8 +85,6 @@ public class ToyBoxGameConfigurator extends GameConfigurator
 
         // create our parameter editors
         if (_editors == null) {
-            // TODO: make sure this works when we're in the real
-            // dynamically loaded toybox environment
             MessageBundle msgs = ctx.getMessageManager().getBundle(
                 config.getBundleName());
             _editors = new ParamEditor[gamedef.params.length];
@@ -115,7 +115,9 @@ public class ToyBoxGameConfigurator extends GameConfigurator
     protected ParamEditor createEditor (
         ToyBoxContext ctx, MessageBundle msgs, Parameter param)
     {
-        if (param instanceof RangeParameter) {
+        if (param instanceof AIParameter) {
+            return new AIEditor(msgs, (AIParameter)param);
+        } else if (param instanceof RangeParameter) {
             return new RangeEditor(msgs, (RangeParameter)param);
         } else if (param instanceof ToggleParameter) {
             return new ToggleEditor(msgs, (ToggleParameter)param);
@@ -273,8 +275,8 @@ public class ToyBoxGameConfigurator extends GameConfigurator
 
                     try {
                         if (_param.binary) {
-                            _data = IOUtils.toByteArray(new FileInputStream(file));
-                            log.info("File became " + ((byte[])_data).length + " bytes of data.");
+                            _data = IOUtils.toByteArray(
+                                new FileInputStream(file));
                         } else {
                             _data = IOUtils.toString(new FileReader(file));
                         }
@@ -297,6 +299,28 @@ public class ToyBoxGameConfigurator extends GameConfigurator
         protected JButton _show;
         protected JFileChooser _chooser;
         protected Object _data;
+    }
+
+    protected class AIEditor extends SimpleSlider implements ParamEditor
+    {
+        public AIEditor (MessageBundle msgs, AIParameter param)
+        {
+            super(msgs.get("m.ai_" + param.ident), 0, param.maximum, 0);
+        }
+
+        public void readParameter (Parameter param, ToyBoxGameConfig config)
+        {
+            setValue((config.ais == null) ? 0 : config.ais.length);
+        }
+
+        public void writeParameter (Parameter param, ToyBoxGameConfig config)
+        {
+            config.ais = new GameAI[getValue()];
+            for (int ii = 0; ii < config.ais.length; ii++) {
+                // TODO: allow specification of difficulty and personality
+                config.ais[ii] = new GameAI(0, 0);
+            }
+        }
     }
 
     protected ParamEditor[] _editors;

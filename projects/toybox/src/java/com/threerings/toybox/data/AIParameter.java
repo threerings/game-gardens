@@ -2,7 +2,7 @@
 // $Id$
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005 Three Rings Design, Inc., All Rights Reserved
 // http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -22,23 +22,19 @@
 package com.threerings.toybox.data;
 
 /**
- * Models a parameter that can contain an integer value in a specified
- * range.
+ * Models a parameter that is used to configure AIs.
  */
-public class RangeParameter extends Parameter
+public class AIParameter extends Parameter
 {
-    /** The minimum value of this parameter. */
-    public int minimum;
-
-    /** The maximum value of this parameter. */
+    /** Indicates the maximum number of AIs in the game. */
     public int maximum;
 
-    /** The starting value for this parameter. */
-    public int start;
+    // TODO: allow specification of difficulty range
+    // TODO: allow specification of personality types
 
     /** Returns the default value of this parameter. */
     public Object getDefaultValue ()
     {
-        return start;
+        return 0;
     }
 }

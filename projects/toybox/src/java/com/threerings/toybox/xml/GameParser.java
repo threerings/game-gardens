@@ -45,6 +45,7 @@ import com.threerings.toybox.data.FileParameter;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.Library;
 import com.threerings.toybox.data.MatchConfig;
+import com.threerings.toybox.data.AIParameter;
 import com.threerings.toybox.data.RangeParameter;
 import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.data.ToggleParameter;
@@ -86,6 +87,7 @@ public class GameParser
         _digester.addRule("game/params", new ObjectCreateRule(ArrayList.class));
         _digester.addSetNext("game/params", "setParams",
                              ArrayList.class.getName());
+        addParameter("game/params/ai", AIParameter.class);
         addParameter("game/params/range", RangeParameter.class);
         addParameter("game/params/choice", ChoiceParameter.class);
         addParameter("game/params/toggle", ToggleParameter.class);
