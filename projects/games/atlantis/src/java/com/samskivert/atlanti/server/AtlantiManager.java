@@ -312,7 +312,7 @@ public class AtlantiManager extends GameManager
                     // tally, we score it
                     if (score > 0 || finalTally) {
                         String qual = (score > 0) ?
-                            "m.complete" : "m.incomplete";
+                            "m.completed" : "m.incomplete";
 
                         // coerce the score into positive land
                         score = Math.abs(score);

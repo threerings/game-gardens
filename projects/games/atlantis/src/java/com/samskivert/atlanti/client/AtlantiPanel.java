@@ -77,7 +77,7 @@ public class AtlantiPanel extends JPanel
         JPanel sidePanel = new JPanel(sgl);
 
         MessageBundle msgs =
-            _ctx.getMessageManager().getBundle(ATLANTI_MESSAGE_BUNDLE);
+            ctx.getMessageManager().getBundle(ATLANTI_MESSAGE_BUNDLE);
 
         // add a big fat label because we love it!
         MultiLineLabel vlabel = new MultiLineLabel(msgs.get("m.title"));
@@ -86,15 +86,15 @@ public class AtlantiPanel extends JPanel
         sidePanel.add(vlabel, VGroupLayout.FIXED);
 
         // add a player info view to the side panel
-        sidePanel.add(new JLabel("Scores:"), VGroupLayout.FIXED);
+        sidePanel.add(new JLabel(msgs.get("m.scores")), VGroupLayout.FIXED);
         sidePanel.add(new PlayerInfoView(), VGroupLayout.FIXED);
 
         // add a turn indicator to the side panel
-        sidePanel.add(new JLabel("Current turn:"), VGroupLayout.FIXED);
+        sidePanel.add(new JLabel(msgs.get("m.turn")), VGroupLayout.FIXED);
         sidePanel.add(new TurnIndicatorView(), VGroupLayout.FIXED);
 
         // add a "place nothing" button
-        noplace = new JButton("Place nothing");
+        noplace = new JButton(msgs.get("m.place_nothing"));
         noplace.setEnabled(false);
         noplace.setActionCommand(PLACE_NOTHING);
         noplace.addActionListener(Controller.DISPATCHER);
@@ -111,8 +111,7 @@ public class AtlantiPanel extends JPanel
         sidePanel.add(chat);
 
         // add a "back" button
-        JButton back = new JButton(
-            ctx.xlate(ATLANTI_MESSAGE_BUNDLE, "m.back_to_lobby"));
+        JButton back = new JButton(msgs.get("m.back_to_lobby"));
         back.setActionCommand(BACK_TO_LOBBY);
         back.addActionListener(Controller.DISPATCHER);
         sidePanel.add(HGroupLayout.makeButtonBox(HGroupLayout.RIGHT, back),
