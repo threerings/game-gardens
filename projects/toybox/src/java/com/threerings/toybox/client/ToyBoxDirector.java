@@ -26,6 +26,7 @@ import java.security.MessageDigest;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 
@@ -105,8 +106,12 @@ public class ToyBoxDirector extends BasicDirector
         // configure our custom classloader (TODO: fire up a whole
         // separate connection to the game server and configure that with
         // the classloader when we're in "production" mode)
-        _gameLoader = ToyBoxUtil.createClassLoader(
-            _cacheDir, config.getGameDefinition());
+        GameDefinition gamedef = config.getGameDefinition();
+        _gameLoader = _cache.get(gamedef.ident);
+        if (_gameLoader == null) {
+            _gameLoader = ToyBoxUtil.createClassLoader(_cacheDir, gamedef);
+            _cache.put(gamedef.ident, _gameLoader);
+        }
 
         // create a resource manager that the game can use to load its
         // custom resources; this must be done here as the game code does
@@ -339,4 +344,10 @@ public class ToyBoxDirector extends BasicDirector
     /** Contains an entry for all resources in the process of being
      * downloaded. */
     protected HashSet<File> _pending = new HashSet<File>();
+
+    /** We have to cache our classloaders as we must preserve the same
+     * classloader for the lifetime of the session so that the class cache
+     * held by the ObjectInputStream remains valid. */
+    protected HashMap<String,ClassLoader> _cache =
+        new HashMap<String,ClassLoader>();
 }

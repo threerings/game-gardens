@@ -23,7 +23,6 @@ package com.threerings.toybox.util;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import java.net.URL;
 
@@ -43,14 +42,9 @@ public class ToyBoxUtil
      * game definition. Those jar files will be assumed to live relative
      * to the specified root directory.
      */
-    public static ClassLoader createClassLoader (
+    public static ToyBoxClassLoader createClassLoader (
         File root, GameDefinition gamedef)
     {
-        ClassLoader loader = _cache.get(gamedef.ident);
-        if (loader != null) {
-            return loader;
-        }
-
         ArrayList<URL> ulist = new ArrayList<URL>();
         String path = "";
         try {
@@ -71,20 +65,6 @@ public class ToyBoxUtil
                         ", error=" + e + "].");
         }
 
-        // create and cache our new class loader
-        _cache.put(gamedef.ident, loader = new ToyBoxClassLoader(
-                       ulist.toArray(new URL[ulist.size()])));
-        return loader;
+        return new ToyBoxClassLoader(ulist.toArray(new URL[ulist.size()]));
     }
-
-    /** We have to cache our classloaders on the client as we must
-     * preserve the same classloader for the lifetime of the session so
-     * that the class cache held by the ObjectInputStream remains
-     * valid. On the server it is also useful as a single instance will
-     * run multiple copies of the same game which might as well all use
-     * the same copies of the code. We may end up changing this to allow
-     * newer versions of the game to simultaneously exist with older
-     * versions (on the same server). */
-    protected static HashMap<String,ClassLoader> _cache =
-        new HashMap<String,ClassLoader>();
 }

@@ -59,6 +59,7 @@ import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.server.persist.Game.Status;
 import com.threerings.toybox.server.persist.Game;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
+import com.threerings.toybox.util.ToyBoxClassLoader;
 import com.threerings.toybox.util.ToyBoxUtil;
 
 import static com.threerings.toybox.Log.log;
@@ -156,8 +157,10 @@ public class ToyBoxManager
         if (config instanceof ToyBoxGameConfig) {
             ToyBoxGameConfig tconfig = (ToyBoxGameConfig)config;
             String ident = tconfig.getManagerClassName();
-            ClassLoader loader = (ClassLoader)_loaders.get(ident);
-            if (loader == null) {
+            ToyBoxClassLoader loader = _loaders.get(ident);
+            // create a classloader if we haven't yet, or if our
+            // underlying jar files have changed since we created one
+            if (loader == null || !loader.isUpToDate()) {
                 loader = ToyBoxUtil.createClassLoader(
                     ToyBoxConfig.getResourceDir(),
                     tconfig.getGameDefinition());
@@ -334,8 +337,8 @@ public class ToyBoxManager
 
     /** Maps game identifiers to custom class loaders. In general this
      * will only have one mapping, but we'll be general just in case.  */
-    protected HashMap<String,ClassLoader> _loaders =
-        new HashMap<String,ClassLoader>();
+    protected HashMap<String,ToyBoxClassLoader> _loaders =
+        new HashMap<String,ToyBoxClassLoader>();
 
     /** One minute in milliseconds. */
     protected static final long ONE_MINUTE = 60 * 1000L;
