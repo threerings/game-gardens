@@ -23,6 +23,7 @@ package com.threerings.toybox.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import java.net.URL;
 
@@ -53,16 +54,17 @@ public class ToyBoxUtil
             ulist.add(new URL(path));
 
             // enumerate the paths to the game's jar files
-            for (int ii = 0; ii < gamedef.libs.length; ii++) {
-                Library lib = gamedef.libs[ii];
-                path = "file:" + root + "/" + lib.getURLPath();
-                ulist.add(new URL(path));
+            if (gamedef.libs != null) {
+                for (int ii = 0; ii < gamedef.libs.length; ii++) {
+                    Library lib = gamedef.libs[ii];
+                    path = "file:" + root + "/" + lib.getURLPath();
+                    ulist.add(new URL(path));
+                }
             }
 
         } catch (Exception e) {
-            log.warning("Failed to create URL for class loader " +
-                        "[root=" + root + ", path=" + path +
-                        ", error=" + e + "].");
+            log.log(Level.WARNING, "Failed to create URL for class loader " +
+                    "[root=" + root + ", path=" + path + "].", e);
         }
 
         return new ToyBoxClassLoader(ulist.toArray(new URL[ulist.size()]));
