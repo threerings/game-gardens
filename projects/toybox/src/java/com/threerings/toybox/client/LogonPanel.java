@@ -112,7 +112,7 @@ public class LogonPanel extends JPanel
         // try obtaining our title text from a system property
         String tstr = null;
         try {
-            tstr = System.getProperty("game.name");
+            tstr = System.getProperty("game_name");
         } catch (Throwable t) {
         }
         if (tstr == null) {
