@@ -113,7 +113,6 @@ public class LogonPanel extends JPanel
         String tstr = null;
         try {
             tstr = System.getProperty("game.name");
-            tstr = "Dugi";
         } catch (Throwable t) {
         }
         if (tstr == null) {
