@@ -164,9 +164,6 @@ public class AtlantiManager extends GameManager
             return;
         }
 
-        // count how many piecens we have in play
-        int pcount = TileUtil.countPiecens(_atlobj.piecens, pidx);
-
         // select a random position for our tile and place it
         tile = (AtlantiTile)RandomUtil.pickRandom(moves);
         if (placeTile(pidx, tile)) {
@@ -175,10 +172,10 @@ public class AtlantiManager extends GameManager
 
         // can and do we want to place a piecen?
         int uc = tile.getUnclaimedCount();
-        if (pcount >= PIECENS_PER_PLAYER || uc == 0 ||
-            RandomUtil.getInt(100) > 45) {
+        if (RandomUtil.getInt(100) > 45) {
             // just end our turn
             _delegate.endTurn();
+            return;
         }
 
         // place a piecen on the piece we just placed
