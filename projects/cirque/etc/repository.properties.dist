@@ -1,7 +1,7 @@
 #
-# $Id: repository.properties.dist,v 1.1 2004/01/20 14:35:13 mdb Exp $
+# $Id$
 #
-# Game Table webapp database configuration
+# Cirque De Jeu webapp database configuration
 
 default.driver = org.gjt.mm.mysql.Driver
 default.username = USERNAME
