@@ -8,7 +8,7 @@
 <head>
 <title>$i18n.xlate("header.combined_title", $i18n.xlate("app_name"), $title)</title>
 <link rel="stylesheet" type="text/css" href="/style.css">
-<!--<link rel="SHORTCUT ICON" href="/favicon.ico">-->
+<link rel="SHORTCUT ICON" href="/favicon.ico">
 </head>
 
 <body>
