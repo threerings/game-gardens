@@ -21,13 +21,22 @@
 
 package com.threerings.toybox.util;
 
+import java.awt.Image;
+
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import com.threerings.media.FrameManager;
 import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageBundle;
 import com.threerings.util.MessageManager;
 
+import com.threerings.media.image.ImageUtil;
+
 import com.threerings.parlor.util.ParlorContext;
 
+import com.threerings.toybox.Log;
 import com.threerings.toybox.client.ToyBoxDirector;
 
 /**
@@ -63,5 +72,24 @@ public abstract class ToyBoxContext implements ParlorContext
     {
         MessageBundle mb = getMessageManager().getBundle(bundle);
         return (mb == null) ? message : mb.xlate(message);
+    }
+
+    /**
+     * Convenience method to load an image from our resource bundles.
+     */
+    public Image loadImage (String rsrcPath)
+    {
+        ToyBoxDirector tbd = getToyBoxDirector();
+        try {
+            return ImageIO.read(
+                tbd.getResourceManager().getImageResource(rsrcPath));
+
+        } catch (IOException ioe) {
+            Log.log.warning("Unable to load image resource. [path=" + rsrcPath +
+                ", cause=" + ioe + "].");
+            //Log.logStackTrace(ioe);
+            // return a default-size error image
+            return ImageUtil.createErrorImage(50, 50);
+        }
     }
 }
