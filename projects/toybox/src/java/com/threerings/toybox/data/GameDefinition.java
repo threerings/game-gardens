@@ -58,10 +58,14 @@ public class GameDefinition implements Streamable
 
     /**
      * Provides the name of the jar file associated with this game.
+     *
+     * @param gameId the unique id of the game provided when this game
+     * definition was registered with the system, or -1 if we're running
+     * in test mode.
      */
-    public String getJarName ()
+    public String getJarName (int gameId)
     {
-        return ident + ".jar";
+        return (gameId == -1) ? ident + ".jar" : ident + "-" + gameId + ".jar";
     }
 
     /** Called when parsing a game definition from XML. */

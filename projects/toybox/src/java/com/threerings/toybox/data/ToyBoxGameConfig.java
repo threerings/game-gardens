@@ -52,8 +52,9 @@ public class ToyBoxGameConfig extends GameConfig
     }
 
     /** Constructs a game config based on the supplied game definition. */
-    public ToyBoxGameConfig (GameDefinition gamedef)
+    public ToyBoxGameConfig (int gameId, GameDefinition gamedef)
     {
+        _gameId = gameId;
         _gamedef = gamedef;
         // set the default values for our parameters
         params.put("seats", ((TableMatchConfig)_gamedef.match).startSeats);
@@ -147,13 +148,20 @@ public class ToyBoxGameConfig extends GameConfig
         _isPrivate = privateTable;
     }
 
-    /**
-     * Returns the game definition associated with this config instance.
-     */
+    /** Returns the id of the game associated with this config instance. */
+    public int getGameId ()
+    {
+        return _gameId;
+    }
+
+    /** Returns the game definition associated with this config instance. */
     public GameDefinition getGameDefinition ()
     {
         return _gamedef;
     }
+
+    /** Our game's unique id. */
+    protected int _gameId;
 
     /** Our game definition. */
     protected GameDefinition _gamedef;

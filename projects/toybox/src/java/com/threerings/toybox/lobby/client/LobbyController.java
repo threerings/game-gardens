@@ -82,7 +82,7 @@ public class LobbyController extends PlaceController
             }
         };
         _ctx.getToyBoxDirector().resolveResources(
-            _config.getGameDefinition(), obs);
+            _config.getGameId(), _config.getGameDefinition(), obs);
     }
 
     // documentation inherited

@@ -108,7 +108,7 @@ public class ToyBoxManager
         Game game = new Game();
         GameDefinition gamedef = null;
         try {
-            game.gameId = 1;
+            game.gameId = -1;
             game.name = "test";
             game.maintainerId = 1;
             game.setStatus(Status.READY);
@@ -117,7 +117,7 @@ public class ToyBoxManager
             // compute the digests of all the files
             gamedef = game.parseGameDefinition();
             File jar = new File(ToyBoxConfig.getResourceDir(),
-                                gamedef.getJarName());
+                                gamedef.getJarName(game.gameId));
             log.info("Reading " + jar + "...");
             MessageDigest md = MessageDigest.getInstance("MD5");
             game.digest = Resource.computeDigest(jar, md, null);
@@ -183,7 +183,7 @@ public class ToyBoxManager
             // underlying jar files have changed since we created one
             if (loader == null || !loader.isUpToDate()) {
                 loader = ToyBoxUtil.createClassLoader(
-                    ToyBoxConfig.getResourceDir(),
+                    ToyBoxConfig.getResourceDir(), tconfig.getGameId(),
                     tconfig.getGameDefinition());
                 _loaders.put(ident, loader);
             }
@@ -322,7 +322,7 @@ public class ToyBoxManager
         };
         try {
             ToyBoxServer.plreg.createPlace(
-                new LobbyConfig(game.parseGameDefinition()), obs);
+                new LobbyConfig(game.gameId, game.parseGameDefinition()), obs);
         } catch (InstantiationException e) {
             log.log(Level.WARNING, "Failed to create game lobby " +
                     "[game=" + game.which() + "]", e);

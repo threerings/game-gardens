@@ -138,7 +138,8 @@ public class LobbyPanel extends JPanel
         ToyBoxContext ctx, LobbyConfig config)
     {
         GameDefinition gamedef = config.getGameDefinition();
-        ToyBoxGameConfig gconfig = new ToyBoxGameConfig(gamedef);
+        ToyBoxGameConfig gconfig = new ToyBoxGameConfig(
+            config.getGameId(), gamedef);
 
         // we avoid putting this code into MatchConfig itself as that
         // introduces dependencies to all sorts of client side

@@ -42,8 +42,9 @@ public class LobbyConfig extends PlaceConfig
      * Creates the config for a new lobby that will match-make games with
      * the specified configuration.
      */
-    public LobbyConfig (GameDefinition gamedef)
+    public LobbyConfig (int gameId, GameDefinition gamedef)
     {
+        _gameId = gameId;
         _gamedef = gamedef;
     }
 
@@ -57,6 +58,14 @@ public class LobbyConfig extends PlaceConfig
     public String getManagerClassName ()
     {
         return "com.threerings.toybox.lobby.server.LobbyManager";
+    }
+
+    /**
+     * Returns this game's unique identifier.
+     */
+    public int getGameId ()
+    {
+        return _gameId;
     }
 
     /**
@@ -76,6 +85,9 @@ public class LobbyConfig extends PlaceConfig
         }
         buf.append("gamedef=").append(_gamedef);
     }
+
+    /** The unique id for the game we'll be matchmaking. */
+    protected int _gameId;
 
     /** The definition for the game we'll be matchmaking. */
     protected GameDefinition _gamedef;

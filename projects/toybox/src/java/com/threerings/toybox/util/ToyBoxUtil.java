@@ -44,13 +44,13 @@ public class ToyBoxUtil
      * to the specified root directory.
      */
     public static ToyBoxClassLoader createClassLoader (
-        File root, GameDefinition gamedef)
+        File root, int gameId, GameDefinition gamedef)
     {
         ArrayList<URL> ulist = new ArrayList<URL>();
         String path = "";
         try {
             // add the game jar file
-            path = "file:" + root + "/" + gamedef.getJarName();
+            path = "file:" + root + "/" + gamedef.getJarName(gameId);
             ulist.add(new URL(path));
 
             // enumerate the paths to the game's jar files

@@ -106,11 +106,14 @@ public class ToyBoxDirector extends BasicDirector
         // configure our custom classloader (TODO: fire up a whole
         // separate connection to the game server and configure that with
         // the classloader when we're in "production" mode)
+        int gameId = config.getGameId();
         GameDefinition gamedef = config.getGameDefinition();
-        _gameLoader = _cache.get(gamedef.ident);
+        String ident = gamedef.ident + "-" + gameId;
+        _gameLoader = _cache.get(ident);
         if (_gameLoader == null) {
-            _gameLoader = ToyBoxUtil.createClassLoader(_cacheDir, gamedef);
-            _cache.put(gamedef.ident, _gameLoader);
+            _gameLoader = ToyBoxUtil.createClassLoader(
+                _cacheDir, gameId, gamedef);
+            _cache.put(ident, _gameLoader);
         }
 
         // create a resource manager that the game can use to load its
@@ -152,7 +155,7 @@ public class ToyBoxDirector extends BasicDirector
         }
 
         // determine which lobby we are to enter...
-        int gameId = 1;
+        int gameId = -1;
         String idstr = System.getProperty("game_id");
         try {
             // if none is specified, we're in testing mode and we assume 1
@@ -192,8 +195,8 @@ public class ToyBoxDirector extends BasicDirector
      * Ensures that the resources for the specified game definition are
      * resolved.
      */
-    public void resolveResources (
-        final GameDefinition gamedef, final Downloader.Observer obs)
+    public void resolveResources (final int gameId, final GameDefinition gamedef,
+                                  final Downloader.Observer obs)
     {
         // if our resource URL is a file: URL, we can ignore this whole
         // process as we're running in testing mode and needn't worry
@@ -206,7 +209,7 @@ public class ToyBoxDirector extends BasicDirector
         // have to some MD5 grindy grindy if not some downloading
         Thread t = new Thread() {
             public void run () {
-                resolveResourcesAsync(gamedef, obs);
+                resolveResourcesAsync(gameId, gamedef, obs);
             }
         };
         t.start();
@@ -245,7 +248,7 @@ public class ToyBoxDirector extends BasicDirector
      * anything foolish.
      */
     protected void resolveResourcesAsync (
-        GameDefinition gamedef, Downloader.Observer obs)
+        int gameId, GameDefinition gamedef, Downloader.Observer obs)
     {
         // determine whether the game's libraries, or its game jar file
         // need to be downloaded
@@ -260,10 +263,10 @@ public class ToyBoxDirector extends BasicDirector
         }
 
         synchronized (_pending) {
-            // TODO: put game jars in gameId subdirectories
             // check whether the files exist and match their checksums
-            Resource rsrc = checkResource(
-                gamedef.getJarName(), gamedef.getJarName(), md, gamedef.digest);
+            Resource rsrc = checkResource(gamedef.getJarName(gameId),
+                                          gamedef.getJarName(gameId), md,
+                                          gamedef.digest);
             if (rsrc != null) {
                 rsrcs.add(rsrc);
             }
