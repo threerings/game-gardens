@@ -9,13 +9,11 @@
   <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
   <property name="install.dir"    value="${base.dir}/webapps"/>
   <property name="dist.war"       value="${app.name}.war"/>
-  <property name="java.libraries" value="${base.dir}/lib"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
     <pathelement location="${deploy.dir}/WEB-INF/classes"/>
     <fileset dir="lib" includes="**/*.jar"/>
-    <fileset dir="${java.libraries}" includes="**/*.jar"/>
   </path>
 
   <!-- prepares the application directories -->
@@ -33,7 +31,7 @@
     <mkdir dir="${deploy.dir}/WEB-INF/lib"/>
     <!-- copy the library jar files -->
     <copy todir="${deploy.dir}/WEB-INF/lib">
-      <fileset dir="${java.libraries}" includesfile="lib/LIBS"/>
+      <fileset dir="lib" includesfile="lib/LIBS"/>
     </copy>
   </target>
 
