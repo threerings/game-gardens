@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# $Id$
+#
+# Command line launcher for the ToyBox client
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 username"
+    exit -1
+fi
+
+CLASS=com.threerings.toybox.client.ToyBoxApp
+`dirname $0`/runjava $CLASS localhost 4007 $1 secret

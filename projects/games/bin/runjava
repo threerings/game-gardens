@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# $Id$
+#
+# Invokes java with proper classpath and arguments
+
+ROOT=`dirname $0`/..
+
+# Parse our command line arguments
+JAVA_ARGS=""
+ARGS=""
+while [ ! -z "$1" ] ; do
+    case $1 in
+    -D*)
+        JAVA_ARGS="$JAVA_ARGS $1"
+        shift
+        ;;
+    *)
+        ARGS="$ARGS $1"
+        shift
+        ;;
+    esac
+done
+
+# Set up our classpath
+CLASSPATH=$JAVA_HOME/jre/lib/rt.jar:$ROOT
+for jar in $ROOT/lib/*.jar; do
+    if [ -e $jar ]; then
+        CLASSPATH=$jar:$CLASSPATH
+    fi
+done
+export CLASSPATH
+
+$JAVA_HOME/bin/java $JAVA_ARGS $CLASS $ARGS
