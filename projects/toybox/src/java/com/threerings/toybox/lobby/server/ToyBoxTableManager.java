@@ -49,7 +49,8 @@ public class ToyBoxTableManager extends TableManager
     protected void createGame (final Table table)
         throws InvocationException
     {
-        // TODO: a great deal of classloader magic
+        // TODO: various complicated bits to pass this request off to the
+        // standalone game server
         PlaceRegistry.CreationObserver obs =
             new PlaceRegistry.CreationObserver() {
             public void placeCreated (PlaceObject plobj, PlaceManager pmgr) {

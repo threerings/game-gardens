@@ -79,7 +79,7 @@ public class ToyBoxGameConfig extends GameConfig
     public Class getControllerClass ()
     {
         try {
-            return _loader.loadClass(_gamedef.controller);
+            return Class.forName(_gamedef.controller, true, _loader);
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to instantiate game controller " +
                     "[class=" + _gamedef.controller + "]", e);

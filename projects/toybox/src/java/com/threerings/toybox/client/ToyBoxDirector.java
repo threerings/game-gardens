@@ -24,7 +24,6 @@ package com.threerings.toybox.client;
 import java.io.File;
 import java.security.MessageDigest;
 import java.net.URL;
-import java.net.URLClassLoader;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,6 +43,7 @@ import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.client.GameReadyObserver;
 
+import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 
 import com.threerings.toybox.data.GameDefinition;
@@ -51,6 +51,7 @@ import com.threerings.toybox.data.Library;
 import com.threerings.toybox.data.ToyBoxBootstrapData;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
+import com.threerings.toybox.util.ToyBoxUtil;
 
 import static com.threerings.toybox.Log.log;
 import static com.threerings.toybox.data.ToyBoxCodes.*;
@@ -77,31 +78,25 @@ public class ToyBoxDirector extends BasicDirector
     public ClassLoader getClassLoader (PlaceConfig config)
     {
         if (config instanceof ToyBoxGameConfig) {
-            ToyBoxGameConfig gconfig = (ToyBoxGameConfig)config;
-            GameDefinition gamedef = gconfig.getGameDefinition();
-
-            ArrayList<URL> ulist = new ArrayList<URL>();
-            String path = "";
-            try {
-                // add the game jar file
-                path = "file://" + _cacheDir + "/" + gamedef.getJarName();
-                ulist.add(new URL(path));
-                // enumerate the paths to the game's jar files
-                for (int ii = 0; ii < gamedef.libs.length; ii++) {
-                    Library lib = gamedef.libs[ii];
-                    path = "file://" + _cacheDir + "/" + lib.getURLPath();
-                    ulist.add(new URL(path));
-                }
-
-            } catch (Exception e) {
-                log.warning("Failed to create URL for class loader " +
-                            "[cache=" + _cacheDir + ", path=" + path +
-                            ", error=" + e + "].");
-            }
-
-            return new URLClassLoader(ulist.toArray(new URL[ulist.size()]));
+            // return our already configured class loader as we're in
+            // development mode and set it up when we entered the lobby
+            return _gameLoader;
         }
         return null;
+    }
+
+    /**
+     * This is called by a lobby controller when we have arrived safely
+     * and soundly in our desired lobby.
+     */
+    public void enteredLobby (LobbyConfig config)
+    {
+        // configure our custom classloader (TODO: fire up a whole
+        // separate connection to the game server and configure that with
+        // the classloader when we're in "production" mode)
+        _gameLoader = ToyBoxUtil.createClassLoader(
+            _cacheDir, config.getGameDefinition());
+        _ctx.getClient().setClassLoader(_gameLoader);
     }
 
     // documentation inherited
@@ -300,6 +295,8 @@ public class ToyBoxDirector extends BasicDirector
 
     protected URL _resourceURL;
     protected File _cacheDir;
+
+    protected ClassLoader _gameLoader;
 
     /** Contains an entry for all resources in the process of being
      * downloaded. */

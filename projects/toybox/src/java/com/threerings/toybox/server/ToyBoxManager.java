@@ -40,6 +40,7 @@ import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationManager;
 import com.threerings.presents.util.ResultAdapter;
 
+import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;
@@ -48,9 +49,11 @@ import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.server.LobbyManager;
 
 import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.server.persist.Game.Status;
 import com.threerings.toybox.server.persist.Game;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
+import com.threerings.toybox.util.ToyBoxUtil;
 
 import static com.threerings.toybox.Log.log;
 import static com.threerings.toybox.data.ToyBoxCodes.*;
@@ -125,6 +128,29 @@ public class ToyBoxManager
     public ToyBoxRepository getToyBoxRepository ()
     {
         return _toyrepo;
+    }
+
+    /**
+     * Returns the custom class loader that should be used for the
+     * specified place.
+     */
+    public ClassLoader getClassLoader (PlaceConfig config)
+    {
+        if (config instanceof ToyBoxGameConfig) {
+            ToyBoxGameConfig tconfig = (ToyBoxGameConfig)config;
+            String name = tconfig.getGameName();
+            ClassLoader loader = (ClassLoader)_loaders.get(name);
+            if (loader == null) {
+                loader = ToyBoxUtil.createClassLoader(
+                    ToyBoxConfig.getResourceDir(),
+                    tconfig.getGameDefinition());
+                _loaders.put(name, loader);
+            }
+            return loader;
+
+        } else {
+            return null;
+        }
     }
 
     // documentation inherited from interface
@@ -204,4 +230,9 @@ public class ToyBoxManager
      * lobbies that have been resolved. */
     protected HashMap<String,Integer> _lobbyOids =
         new HashMap<String,Integer>();
+
+    /** Maps game identifiers to custom class loaders. In general this
+     * will only have one mapping, but we'll be general just in case.  */
+    protected HashMap<String,ClassLoader> _loaders =
+        new HashMap<String,ClassLoader>();
 }

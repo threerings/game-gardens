@@ -29,9 +29,14 @@ import com.samskivert.jdbc.StaticConnectionProvider;
 import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.StringUtil;
 
+import com.threerings.presents.client.Client;
+import com.threerings.presents.dobj.RootDObjectManager;
+import com.threerings.presents.server.InvocationManager;
+
+import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdClient;
 import com.threerings.crowd.server.CrowdServer;
-import com.threerings.presents.client.Client;
+import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.server.ParlorManager;
 
@@ -95,6 +100,18 @@ public class ToyBoxServer extends CrowdServer
         } catch (Exception e) {
         }
         return port;
+    }
+
+    // documentation inherited
+    protected PlaceRegistry createPlaceRegistry (
+        InvocationManager invmgr, RootDObjectManager omgr)
+    {
+        return new PlaceRegistry(invmgr, omgr) {
+            protected ClassLoader getClassLoader (PlaceConfig config) {
+                ClassLoader loader = toymgr.getClassLoader(config);
+                return (loader == null) ? super.getClassLoader(config) : loader;
+            }
+        };
     }
 
     public static void main (String[] args)

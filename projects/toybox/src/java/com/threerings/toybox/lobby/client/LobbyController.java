@@ -50,6 +50,9 @@ public class LobbyController extends PlaceController
     {
         super.willEnterPlace(plobj);
 
+        // let the toybox director know that we're in
+        _ctx.getToyBoxDirector().enteredLobby(_config);
+
         // have the toybox director download this game's jar files
         _ctx.getToyBoxDirector().resolveResources(
             // TODO: wire up a fancy display in the lobby panel
