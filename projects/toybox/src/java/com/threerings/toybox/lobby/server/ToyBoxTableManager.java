@@ -30,8 +30,8 @@ import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.data.Table;
-import com.threerings.parlor.game.GameManager;
-import com.threerings.parlor.game.GameManagerDelegate;
+import com.threerings.parlor.game.server.GameManager;
+import com.threerings.parlor.game.server.GameManagerDelegate;
 import com.threerings.parlor.server.TableManager;
 
 import com.threerings.toybox.server.ToyBoxServer;

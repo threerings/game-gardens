@@ -27,7 +27,7 @@ import com.threerings.util.StreamableHashMap;
 
 import com.threerings.parlor.client.GameConfigurator;
 import com.threerings.parlor.data.TableConfig;
-import com.threerings.parlor.game.GameConfig;
+import com.threerings.parlor.game.data.GameConfig;
 
 import com.threerings.toybox.client.ToyBoxGameConfigurator;
 
