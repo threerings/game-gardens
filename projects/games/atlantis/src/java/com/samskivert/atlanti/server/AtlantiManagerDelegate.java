@@ -3,7 +3,7 @@
 
 package com.samskivert.atlanti.server;
 
-import com.threerings.parlor.turn.TurnGameManagerDelegate;
+import com.threerings.parlor.turn.server.TurnGameManagerDelegate;
 
 import com.samskivert.atlanti.data.AtlantiCodes;
 

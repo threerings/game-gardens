@@ -16,6 +16,7 @@ import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
+import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.media.SafeScrollPane;
 import com.threerings.media.image.ImageManager;
@@ -40,7 +41,7 @@ public class AtlantiPanel extends JPanel
     implements PlaceView, ControllerProvider, AtlantiCodes
 {
     /** A reference to the board that is accessible to the controller. */
-    public AtlantiBoard board;
+    public AtlantiBoardView board;
 
     /** A reference to our _noplace button. */
     public JButton noplace;
@@ -58,7 +59,7 @@ public class AtlantiPanel extends JPanel
 	setLayout(gl);
 
         // create the board
-        board = new AtlantiBoard();
+        board = new AtlantiBoardView();
 
         // create a scroll area to contain the board
         SafeScrollPane scrolly = new SafeScrollPane(board);
@@ -72,6 +73,7 @@ public class AtlantiPanel extends JPanel
 
         // add a big fat label because we love it!
         JLabel vlabel = new JLabel(ctx.xlate(ATLANTI_MESSAGE_BUNDLE, "m.title"));
+        vlabel.setHorizontalAlignment(JLabel.CENTER);
         vlabel.setFont(new Font("Helvetica", Font.BOLD, 24));
         vlabel.setForeground(Color.black);
         sidePanel.add(vlabel, VGroupLayout.FIXED);
@@ -105,6 +107,10 @@ public class AtlantiPanel extends JPanel
 
         // add our side panel to the main display
         add(sidePanel, HGroupLayout.FIXED);
+
+        SwingUtil.setOpaque(this, false);
+        setOpaque(true);
+        setBackground(new Color(0x2222EE));
 
         // we'll need these later
         _controller = controller;

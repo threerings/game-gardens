@@ -77,12 +77,19 @@
     </javadoc>
   </target>
 
+  <!-- removes unneeded code and generates one big jar file -->
+  <target name="proguard" depends="dist">
+    <taskdef resource="proguard/ant/task.properties"
+             classpath="../lib/proguard.jar"/>
+    <proguard configuration="lib/${app.name}.pro"/>
+  </target>
+
   <!-- a target for rebuilding everything -->
   <target name="all" depends="clean,prepare,compile,javadoc,dist"/>
 
   <!-- builds our distribution files (war and jar) -->
   <target name="dist" depends="prepare,compile">
-    <jar file="${deploy.dir}/${dist.jar}"
+    <jar file="${deploy.dir}/just-${dist.jar}"
          basedir="${deploy.dir}/classes"/>
   </target>
 

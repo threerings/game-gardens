@@ -28,8 +28,8 @@ import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.PlaceManager;
 
-import com.threerings.parlor.game.GameManager;
-import com.threerings.parlor.turn.TurnGameManager;
+import com.threerings.parlor.game.server.GameManager;
+import com.threerings.parlor.turn.server.TurnGameManager;
 
 import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;

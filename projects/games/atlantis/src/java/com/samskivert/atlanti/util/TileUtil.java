@@ -21,6 +21,9 @@ import com.samskivert.atlanti.data.TileCodes;
  */
 public class TileUtil implements TileCodes
 {
+    /** Enable to use smaller tileset when testing. */
+    public static final boolean TESTING = false;
+
     /**
      * Returns an instance of the starting tile (properly cloned so that
      * it can be messed with by the server).
@@ -40,13 +43,13 @@ public class TileUtil implements TileCodes
         // we need to deep copy the default tile set, so we can't just use
         // clone
         List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
-// when testing; we prune out most of the tiles to make games quicker
-//         int tsize = TILE_SET.size();
-//         for (int i = 0; i < tsize; i++) {
-//             if (com.threerings.util.RandomUtil.getInt(10) > 7) {
-//                 tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
-//             }
-//         }
+        int tsize = TILE_SET.size();
+        for (int i = 0; i < tsize; i++) {
+            // when testing, we prune out most tiles to make games quicker
+            if (!TESTING || com.threerings.util.RandomUtil.getInt(10) > 7) {
+                tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
+            }
+        }
         return tiles;
     }
 

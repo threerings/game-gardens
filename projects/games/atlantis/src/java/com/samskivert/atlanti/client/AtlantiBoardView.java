@@ -28,24 +28,24 @@ import com.samskivert.atlanti.util.TileUtil;
 /**
  * Displays the tiles that make up the board.
  */
-public class AtlantiBoard extends JPanel
+public class AtlantiBoardView extends JPanel
     implements TileCodes, AtlantiCodes
 {
     /**
      * Constructs a board.
      */
-    public AtlantiBoard ()
+    public AtlantiBoardView ()
     {
         // create mouse adapters that will let us know when interesting
         // mouse events happen
         addMouseListener(new MouseAdapter() {
             public void mouseClicked (MouseEvent evt) {
-                AtlantiBoard.this.mouseClicked(evt);
+                AtlantiBoardView.this.mouseClicked(evt);
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseMoved (MouseEvent evt) {
-                AtlantiBoard.this.mouseMoved(evt);
+                AtlantiBoardView.this.mouseMoved(evt);
             }
         });
     }
@@ -605,7 +605,7 @@ public class AtlantiBoard extends JPanel
     {
         JFrame frame = new JFrame("Board test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        AtlantiBoard board = new AtlantiBoard();
+        AtlantiBoardView board = new AtlantiBoardView();
 
         TestDSet set = new TestDSet();
         set.addTile(new AtlantiTile(CITY_TWO, true, WEST, 0, 0));

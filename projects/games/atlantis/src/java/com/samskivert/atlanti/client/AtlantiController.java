@@ -20,9 +20,9 @@ import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.client.PlaceView;
 
-import com.threerings.parlor.game.GameController;
-import com.threerings.parlor.turn.TurnGameController;
-import com.threerings.parlor.turn.TurnGameControllerDelegate;
+import com.threerings.parlor.game.client.GameController;
+import com.threerings.parlor.turn.client.TurnGameController;
+import com.threerings.parlor.turn.client.TurnGameControllerDelegate;
 
 import com.threerings.toybox.util.ToyBoxContext;
 

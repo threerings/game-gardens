@@ -6,8 +6,8 @@ package com.samskivert.atlanti.data;
 import com.threerings.util.Name;
 import com.threerings.presents.dobj.DSet;
 
-import com.threerings.parlor.game.GameObject;
-import com.threerings.parlor.turn.TurnGameObject;
+import com.threerings.parlor.game.data.GameObject;
+import com.threerings.parlor.turn.data.TurnGameObject;
 
 /**
  * The distributed object used to maintain state for the game.
