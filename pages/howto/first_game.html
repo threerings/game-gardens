@@ -3,15 +3,19 @@
 
 <p><b>Creating Your Own Game</b><br>
 
-The first thing you should do is read through the code for the existing
-sample games as that will give you a good idea of how the toolkit works
-under normal circumstances. We have also provided a "sample" game which is
-really more of a template which you can copy and change the names to start
-yourself off with all the necessary bits in place. This sample game is
-located in the <code>sample</code> directory of the sample games archive
-(should I say sample one more time just for good measure?).
+The first thing you should do is read through the code for the included
+games as that will give you a good idea of how the toolkit works under
+normal circumstances. We have also provided a game which is nothing more
+than a template that you can copy and change the names to start yourself
+off with all the necessary bits in place. This template game is located in
+the <code>sample</code> directory of the games archive.
 
-<p> Now we will look at each of the elements of the sample game in turn:
+<p> It should be noted that the architecture of the sample game is not the
+only way to make games with the toolkit. However, much of this structure
+is useful for nearly all simple multiplayer games and it is certainly a
+good place to start until you are more familiar with the functionality
+available. That said, let us look at each of the elements of the sample
+game in turn:
 
 <p><b>SampleObject</b><br>
 This class extends 
@@ -44,6 +48,12 @@ incremented. This allows tracking of results across multiple games and is
 useful when you want to ensure that moves are associated with the proper
 round (lag can sometimes result in move submissions arriving fantastically
 later than expected).  </ul>
+
+<p> Additional information specific to your game would also be contained
+in this object. For example, one might have an object representing the
+board and a distributed set containing the pieces that are on the
+board. Perhaps an array defining the scores for each player. Again, refer
+to the included games for ideas and examples of how to structure things.
 
 <p><b>SampleManager</b><br>
 
@@ -133,8 +143,238 @@ and manages the flow of the game on the client. It acts as the controller
 in the standard model/view/controller paradigm where the model in this
 case is the <code>SampleObject</code> and the view will be explained
 momentarily. As the controller, it reacts to changes in the model and to
-user input...
+user input. Like in the manager, there are calldown methods provided to
+allow the controller to take action when the game state changes:
 
-<p> To be continued...
+<ul>
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameController.html#gameDidStart()">gameDidStart()</a></code><br>
+This is called when the client receives notification from the server that
+the game has started. This is the place where the user interface would be
+enabled and the client would prepare for play.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameController.html#gameDidEnd()">gameDidEnd()</a></code><br>
+This is called when the client receives notification from the server that
+the game has ended. Here the user interface would likely be disabled and
+any appropriate game over messages (like the winner, etc.) would be
+displayed.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameController.html#gameWasCancelled()">gameWasCancelled()</a></code><br>
+If the game was cancelled rather than ended through normal play, this
+method will be called. The client may wish to display a special cancelled
+message and otherwise do the same cleanup it would do during normal game
+ending.<br><br>
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameController.html#resetGame()">resetGame()</a></code><br>
+
+This is a less commonly used method designed to allow the client to behave
+fluidly in the face of network latency. Frequently, when a game uses
+resetting, the client knows that the game will reset (perhaps the user
+made the request to reset the game) before the server does and it is
+useful to temporarily disable the user interface and otherwise behave as
+if the game has ended until a new game start notification is received from
+the server (which will result in <code>gameDidStart</code> being called
+again). In such cases, the client can call <code>resetGame()</code> which
+will result in a call to <code>gameWillReset()</code> which they can
+override and clear things out in preparation for the new game.<br><br>
+
+<em>Note:</em> the <code>resetGame()</code> method does not actually send
+a request to the server to reset the game. It is assumed that the server
+either knows the game will reset through the normal operation of the game
+or that the client explicitly requested a reset (through some
+game-specific mechanism) prior to calling reset game. For example, perhaps
+a client submits a request for each move, then it computes the available
+moves for the next turn and if the player has run out of moves, the game
+is reset (rather than ended) and they start over. The client would submit
+a move to the server in the normal course of play, and the game manager
+would know after it received that move that the player had no moves left
+and that the game needed to be reset, so it would call
+<code>resetGame()</code> on the server. Meanwhile, the client, after
+submitting its move, also determines that there are no moves left to play,
+so it calls <code>resetGame()</code> on the client which results in the
+interface being reset immediately rather than waiting for a round-trip to
+the server to hear what it already knows.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameController.html#gameWillReset()">gameWillReset()</a></code><br>
+This is the calldown method that a game controller would override to reset
+things in preparation for the game to restart.
+</ul>
+
+<p> The controller also handles input from the user which is generally
+first processed by the view and converted into actions that are meaningful
+in the context of the game. For example, the view might allow the player
+to place pieces on a board, in which case it would process mouse movement
+and mouse click events and eventually communicate to the controller a
+request like "place piece P at coordinates C".
+
+<p> Most likely the view will simply maintain a reference to the
+controller and call methods on it, but a mechanism is also provided to
+package up those requests and deliver them as events on the AWT thread to
+be handled by the controller in the same stream as the network events
+(which are also dispatched on the AWT thread). This is particularly useful
+if the event comes as a result of, say, a timer expiring rather than some
+underlying AWT event like a mouse click. To find out more about this
+mechanism take a look at
+<code><a href="http://samskivert.com/code/samskivert/samskivert/docs/api/com/samskivert/swing/Controller.html">Controller</a></code>
+and specifically
+<code><a href="http://samskivert.com/code/samskivert/samskivert/docs/api/com/samskivert/swing/Controller.html#handleAction(java.awt.event.ActionEvent)">handleAction()</a></code>.
+
+<p><b>SamplePanel</b><br>
+
+This panel contains the various interface elements used by the game. It
+usually doesn't do much except combine all the needed elements into a
+single display that can be easily instantiated by the controller.
+
+<p><b>SampleBoardView</b><br>
+
+This interface element does the main work of displaying the game and
+collecting user input and communicating it in a meaningful way to the
+controller. In the sample game, there's not much to do, but look at the
+code for the other included games to see the sorts of things done by the
+view.
+
+<p> The board view, like any other user interface element that wishes to
+display distributed object state associated with the game "room",
+implements
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/crowd/client/PlaceView.html">PlaceView</a></code>.
+By implementing this interface, it will automatically be notified when the
+client has "entered" the game room and later when it has left. That is
+accomplished with the following methods:
+
+<ul>
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/crowd/client/PlaceView.html#willEnterPlace(com.threerings.crowd.data.PlaceObject)">willEnterPlace()</a></code><br>
+
+This is called once we have subscribed to the game object (it is passed as
+a <code>PlaceObject</code> reference but it is indeed your game object and
+can be casted appropriately), and is a good place to add listeners to the
+game object and initialize the user interface based on information
+therein.
+
+<p><em>Note:</em> if the view wants to respond to changes in the game
+state, there are a couple of options. It might add itself as an
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/presents/dobj/AttributeChangeListener.html">AttributeChangeListener</a></code>
+and respond to changes to the
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html#state">GameObject.state</a></code>
+attribute, or the game controller can call down to the view to let it know
+when the game starts or ends or whatever it needs to communicate. It is
+pretty likely that the view will need to listen to the game object to hear
+about game-specific changes, so additional handling of changes to the
+<code>state</code> attribute are pretty easy to incorporate.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/crowd/client/PlaceView.html#didLeavePlace(com.threerings.crowd.data.PlaceObject)">didLeavePlace()</a></code><br>
+
+This is called when the client has left the game room (generally a player
+is not forced out of the room when the game ends, so this will generally
+happen when the player clicks a "Back to lobby" button or something
+similar and the client requests to leave the game room and head back to
+the lobby room). Here any listeners added to the game object should be
+removed and any other cleanup that is desired can be performed.
+</ul>
+
+<p><b>sample.xml</b><br>
+In addition to your game code, you will need to create a game definition
+file which is what the Game Gardens system will use to match-make and
+start your game. Here is the sample configuration:
+
+<pre class="example">
+&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;game&gt;
+  &lt;!-- the string identifier for this game; this is used to name our jar --&gt;
+  &lt;!-- file and to name other internal bits --&gt;
+  &lt;ident&gt;<b>sample</b>&lt;/ident&gt;
+
+  &lt;!-- The controller and manager used for our game. --&gt;
+  &lt;controller&gt;<b>com.whomever.sample.client.SampleController</b>&lt;/controller&gt;
+  &lt;manager&gt;<b>com.whomever.sample.server.SampleManager</b>&lt;/manager&gt;
+
+  &lt;!-- Herein we define how the game is matchmade and configured. --&gt;
+  &lt;match type="table"&gt;
+    &lt;!-- Properties configure the match maker, in this case: table. --&gt;
+    &lt;min_seats&gt;2&lt;/min_seats&gt;
+    &lt;max_seats&gt;4&lt;/max_seats&gt;
+    &lt;start_seats&gt;2&lt;/start_seats&gt;
+  &lt;/match&gt;
+
+  &lt;!-- Parameters define values that the user can customize when --&gt;
+  &lt;!-- creating a game and which are passed on to the game itself --&gt;
+  &lt;!-- to customize the gameplay. --&gt;
+  &lt;params&gt;
+    &lt;range ident="board_size" minimum="16" maximum="48" start="32"/&gt;
+    &lt;!--
+    &lt;choice ident="rules" choices="standard,hand_of_three" start="standard"/&gt;
+    &lt;toggle ident="monkeys" start="false"/&gt;
+    --&gt;
+  &lt;/params&gt;
+&lt;/game&gt;
+</pre>
+
+<p> It is mainly self-explanatory with the items in bold being the things
+that absolutely must be customized. The match-making configuration also
+requires a bit more explanation. Each entry in the
+<code>&lt;params&gt;</code> section provides a configurable parameter to
+the person creating your game. Three types of parameters are currently
+provided:
+
+<ul>
+<li><code>range</code>: allows an integer value to be chosen from a
+specified range.
+<li><code>choice</code>: allows a single choice to be selected from a list
+of choices.
+<li><code>toggle</code>: a simple on/off boolean toggle.
+</ul>
+
+<p> The values chosen by the player during the match-making phase are
+communicated to the game code via the <code>ToyBoxGameConfig</code>
+class. Here's an excerpt from <code>SkirmishManager</code> to show how
+this is used:
+
+<pre class="example">
+    // documentation inherited
+    protected void gameWillStart ()
+    {
+        super.gameWillStart();
+
+        // get a casted reference to our game configuration
+        _skonfig = (ToyBoxGameConfig)_config;
+
+        // generate the game board
+        int size = (Integer)_skonfig.params.get("board_size");
+        int featureDensity = (Integer)_skonfig.params.get("feature_density");
+        _skobj.setBoard(SkirmishBoard.generateBoard(
+                            size, size, featureDensity));
+
+        // start the vessels in the center of the "board"
+        int dx = size/2-3, dy = size/2-3;
+
+        // ...
+    }
+</pre>
+
+<p> As you can see, the configuration values will never be null. They will
+either be the default value provided in your game configuration or some
+customized value provided by the user when configuring your game. This
+allows you to avoid duplicating the default values from your game
+configuration in your game manager.
+
+<p><b>Running your game</b><br>
+If you develop your game in the same directory as the sample games, you
+can use the provided scripts to run your game during testing. In the
+following examples <code>sample</code> should be replaced with the
+identifier you choose for your game.
+
+<pre class="example">
+# On Unix/MacOS X
+
+  # Running the server
+  ./bin/toyserver sample
+
+  # Running the client (must be done after the server is started and you can
+  # run as many as you like as long as they have different usernames)
+  ./bin/toyclient username
+
+
+# On Windows
+
+  # coming soon... :)
+</pre>
 
 <!--#include virtual="/footer.html" -->

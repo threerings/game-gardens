@@ -7,7 +7,7 @@ th, td, center, div { /* ns 4 */
 }
 
 pre {
-  font-family: Courier;
+  font-family: Courier New, monospace
 }
 
 .big { font-size: x-large }
