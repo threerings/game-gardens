@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 
 import com.samskivert.jdbc.StaticConnectionProvider;
@@ -47,15 +49,15 @@ public class UpdateSnapshots
             path = docroot + File.separator + "most_popular_incl.html";
             writeGameList(toyrepo.loadPopularGames(9), new File(path));
 
-            path = docroot + File.separator + "many_popular_incl.html";
-            writeExtGameList(toyrepo.loadPopularGames(50), new File(path));
+            path = docroot + File.separator + "all_games_incl.html";
+            writeExtGameList(toyrepo.loadGames(), new File(path));
 
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
     }
 
-    protected static void writeGameList (ArrayList games, File target)
+    protected static void writeGameList (ArrayList<Game> games, File target)
     {
         try {
             PrintWriter out = new PrintWriter(
@@ -73,8 +75,15 @@ public class UpdateSnapshots
         }
     }
 
-    protected static void writeExtGameList (ArrayList games, File target)
+    protected static void writeExtGameList (ArrayList<Game> games, File target)
     {
+        // sort them by name
+        Collections.sort(games, new Comparator<Game>() {
+            public int compare (Game g1, Game g2) {
+                return g1.name.compareTo(g2.name);
+            }
+        });
+
         try {
             PrintWriter out = new PrintWriter(
                 new BufferedWriter(new FileWriter(target)));
