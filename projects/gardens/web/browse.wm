@@ -1,36 +1,55 @@
 #set ($title = $i18n.xlate("browse.title"))
 #import ("/header.wm")
 
-#if ($category)
-$i18n.xlate("browse.${category}.intro")
+#set ($cats = ["card", "classic", "party", "strategy", "word", "other", "all"])
+
+<p> $i18n.xlate("browse.categories")
+#foreach ($cat in $cats)
+#if ($cat == $category || ($cat == "all" && !$category))
+<b>$i18n.xlate("category.$cat")</b>
+#else
+#if ($cat == "all")
+<a href="browse.wm">
+#else
+<a href="browse.wm?category=$cat">
+#end
+$i18n.xlate("category.$cat")</a>
+#end
+&nbsp;&nbsp;
 #end
 
+<p>
+#if ($category)
+$i18n.xlate("browse.${category}.intro")
+#else
+$i18n.xlate("browse.all.intro")
+#end
+
+<p><table width="768">
+<tr style="border-bottom: 1px solid"><td>$i18n.xlate("browse.header.game")</td>
+#if (!$category)
+<td>$i18n.xlate("browse.header.category")</td>
+#end
+<td>$i18n.xlate("browse.header.description")</td>
+<td>&nbsp;</td></tr>
+
 #if ($games.size() > 0)
-<p><table>
 #foreach ($game in $games)
 <tr><td>
 <a href="view_game.wm?gameid=$game.gameId">$game.name</a>
-</td><td class="small">
+</td>
+#if (!$category)
+<td>$i18n.xlate("category.$game.category")</td>
+#end
+<td>$string.truncate($game.description, 200, "...")</td>
+<td class="small">
 [<a href="game_${game.gameId}.jnlp">$i18n.xlate("browse.play")</a>]
 </td></tr>
 #end
-</table>
 #else
-<p> $i18n.xlate("browse.no_games")
+<tr><td colspan="3">$i18n.xlate("browse.no_games")</td></tr>
 #end
-
-<p> $i18n.xlate("browse.other_cats")
-<span class="catbox"><a href="browse.wm?category=card">
-$i18n.xlate("category.card")</a></span>&nbsp;&nbsp;
-<span class="catbox"><a href="browse.wm?category=classic">
-$i18n.xlate("category.classic")</a></span>&nbsp;&nbsp;
-<span class="catbox"><a href="browse.wm?category=party">
-$i18n.xlate("category.party")</a></span>&nbsp;&nbsp;
-<span class="catbox"><a href="browse.wm?category=strategy">
-$i18n.xlate("category.strategy")</a></span>&nbsp;&nbsp;
-<span class="catbox"><a href="browse.wm?category=word">
-$i18n.xlate("category.word")</a></span>&nbsp;&nbsp;
-<span class="catbox"><a href="browse.wm?category=other">
-$i18n.xlate("category.other")</a></span>
+</table>
+<br><br>
 
 #import ("/footer.wm")

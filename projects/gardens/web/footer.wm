@@ -10,7 +10,7 @@
 | <a href="/discussion/mvnforum/listforums">$i18n.xlate("footer.forums")</a>
 | <a href="/howto/">$i18n.xlate("footer.howto")</a>
 </td>
-<td align="right">&copy;2005
+<td align="right">$i18n.xlate("footer.copy") &copy;2005
 <a href="mailto:gardens@threerings.net">$i18n.xlate("footer.ooo")</a></td>
 </table>
 

@@ -5,24 +5,33 @@
 #import ("/header.wm")
 
 #if ($game)
-<h1>$game.name</h1>
+<table cellpadding="0" cellspacing="0" border="0" width="768">
+<tr><td><h1>$game.name</h1></td></tr>
+<tr><td><a href="game_${game.gameId}.jnlp">
+$i18n.xlate("view_game.play")</a></td>
 
-<p><i>$i18n.xlate("view_game.description")</i><br>
+<td align="right">
+#if ($user && $user.userId == $game.maintainerId)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="edit_game.wm?gameid=$game.gameId">$i18n.xlate("view_game.edit")</a>
+#end
+</td>
+</tr>
+</table>
+
+<p><u>$i18n.xlate("view_game.description")</u><br>
 $string.parafy($game.description)
 
-<p><i>$i18n.xlate("view_game.instructions")</i><br>
+<p><u>$i18n.xlate("view_game.instructions")</u><br>
 $string.parafy($game.instructions)
+
+<p><u>$i18n.xlate("view_game.credits")</u><br>
+$string.delineate($game.credits)
 
 <p><i>$i18n.xlate("view_game.created")</i>
 $i18n.mediumDate($game.created)<br>
 <i>$i18n.xlate("view_game.last_updated")</i>
 $i18n.mediumDate($game.lastUpdated)<br>
-
-<p><a href="game_${game.gameId}.jnlp">$i18n.xlate("view_game.play")</a>
-
-#if ($user && $user.userId == $game.maintainerId)
-<p><a href="edit_game.wm?gameid=$game.gameId">$i18n.xlate("view_game.edit")</a>
-#end
 #end
 
 #import ("/footer.wm")

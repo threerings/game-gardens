@@ -64,7 +64,7 @@ public class GardensApp extends Application
     protected void configureVelocity (ServletConfig config, Properties props)
     {
         String ipath = config.getServletContext().getRealPath("/");
-        if (new File(ipath).exists()) {
+        if (ipath.indexOf("cache") == -1 && new File(ipath).exists()) {
             props.setProperty("file.resource.loader.path", ipath);
             log.info("Velocity loading directly from " + ipath + ".");
         }

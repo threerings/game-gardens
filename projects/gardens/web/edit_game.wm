@@ -7,33 +7,36 @@ $form.fixedHidden("action", $action)
 $form.fixedHidden("gameid", "$game.gameId")
 <p><table cellpadding="2" cellspacing="0" border="0">
 
-<tr><td>$i18n.xlate("edit_game.name")</td>
-<td>$form.text("name", "size='40'", $game.name)</td></tr>
+<tr><td>$i18n.xlate("edit_game.name")
+$form.text("name", "size='20'", $game.name)</td>
 
-<tr><td>$i18n.xlate("edit_game.category")</td>
-<td><select name="category">
+<td>$i18n.xlate("edit_game.category") <select name="category">
 $form.option("category", "other", $i18n.xlate("category.other"), $game.category)
 $form.option("category", "strategy", $i18n.xlate("category.strategy"), $game.category)
 $form.option("category", "classic", $i18n.xlate("category.classic"), $game.category)
 $form.option("category", "card", $i18n.xlate("category.card"), $game.category)
 $form.option("category", "word", $i18n.xlate("category.word"), $game.category)
 $form.option("category", "party", $i18n.xlate("category.party"), $game.category)
-</select></td></tr>
+</select></td>
 
-<tr><td colspan=2>&nbsp;</td></tr>
+<td><a href="view_game.wm?gameid=$game.gameId">
+$i18n.xlate("edit_game.to_game_info")</a></td></tr>
+
+<tr><td colspan="3">&nbsp;</td></tr>
 
 #macro (tinput $name $rows $defvalue)
-<tr><td colspan="2">$i18n.xlate("edit_game.$name")<br>
+<tr><td colspan="3">$i18n.xlate("edit_game.$name")<br>
 $form.textarea($name, "rows='$rows' cols='80'", $defvalue)
 </td></tr>
-<tr><td colspan=2>&nbsp;</td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
 #end
 
-#tinput("description" 10 $game.description)
-#tinput("instructions" 10 $game.instructions)
-#tinput("definition" 15 $game.definition)
+#tinput("description" 2 $game.description)
+#tinput("instructions" 7 $game.instructions)
+#tinput("credits" 5 $game.credits)
+#tinput("definition" 10 $game.definition)
 
-<tr><td colspan="2" align="right">
+<tr><td colspan="3" align="right">
 #if ($action == "create")
 $form.submit($i18n.xlate("edit_game.create"))
 #else
@@ -47,7 +50,7 @@ $form.submit($i18n.xlate("edit_game.update"))
 #if ($game.gameId > 0)
 <form enctype="multipart/form-data" action="upload_jar.wm" method="POST">
 $form.fixedHidden("gameid", "$game.gameId")
-$i18n.xlate("edit_game.upload.file") <input name="jar" TYPE="file">
+$i18n.xlate("edit_game.upload.file") <input name="jar" type="file">
 $form.submit($i18n.xlate("edit_game.upload.submit"))
 </form>
 #end

@@ -2,16 +2,30 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+table {
+  border-collapse: collapse;
+  border-width: 0;
+}
+
 th, td, center, div { /* ns 4 */
   font-family: Arial, Helvetica, sans-serif;
 }
 
 pre {
-  font-family: Courier;
+  font-family: Courier New, monospace;
 }
 
 .big { font-size: x-large }
 .small { font-size: small }
+
+a:link { color: #053381 }
+a:visited { color: #053381 }
+a:hover { color: #8c1d12 }
+a:active { color: #8c1d12 }
+
+h1, h2, h3, h4 { 
+   font-family: Arial, Helvetica, sans-serif;
+}
 
 .catbox {
   padding-top: 2px;
