@@ -193,6 +193,7 @@ public class ToyBoxDirector extends BasicDirector
         // if our resource URL is a file: URL, we can ignore this whole
         // process as we're running in testing mode and needn't worry
         if (_resourceURL.getProtocol().equals("file")) {
+            obs.downloadProgress(100, 0L);
             return;
         }
 
