@@ -1,0 +1,10 @@
+//
+// $Id$
+//
+// The security policy used by the Game Gardens server
+
+keystore "file:KEYSTORE_PATH";
+
+grant signedBy "KEYSTORE_IDENT" {
+    permission java.security.AllPermission;
+};
