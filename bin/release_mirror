@@ -18,14 +18,14 @@ while [ ! -z "$1" ]; do
     shift
 done
 
-# mirror the library files
-echo "** Mirroring external library jars..."
-$MIRROR $VERBOSE $ROOT/lib/*.jar
+# first update the signed libraries
+echo "*** Updating signed libraries..."
+cd $ROOT
+ant
 
-# mirror the project jar files
-echo "** Mirroring project library jars..."
-$MIRROR $VERBOSE $ROOT/projects/*/dist/*.jar \
-    $ROOT/projects/*/dist/lib/*/*.so
+# mirror the library files
+echo "** Mirroring server jars..."
+$MIRROR $VERBOSE $ROOT/seclib/*.jar
 
 # mirror the configuration files
 echo "** Mirroring configuration files..."
