@@ -49,6 +49,9 @@ public class ToyBoxTableManager extends TableManager
     protected void createGame (final Table table)
         throws InvocationException
     {
+        // fill the players array into the game config
+        table.config.players = table.getPlayers();
+
         // TODO: various complicated bits to pass this request off to the
         // standalone game server
         PlaceRegistry.CreationObserver obs =
