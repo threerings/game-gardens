@@ -118,15 +118,25 @@ public class AtlantiTile
     }
 
     /**
-     * Returns true if this tile has at leats one unclaimed feature.
+     * Returns true if this tile has at least one unclaimed feature.
      */
     public boolean hasUnclaimedFeature ()
     {
-        boolean unclaimed = false;
-        for (int i = 0; i < claims.length; i++) {
-            unclaimed = (unclaimed || (claims[i] == 0));
+        return (getUnclaimedCount() > 0);
+    }
+
+    /**
+     * Returns the count of unclaimed features on this tile.
+     */
+    public int getUnclaimedCount ()
+    {
+        int count = 0;
+        for (int ii = 0; ii < claims.length; ii++) {
+            if (claims[ii] == 0) {
+                count++;
+            }
         }
-        return unclaimed;
+        return count;
     }
 
     /**
@@ -238,16 +248,17 @@ public class AtlantiTile
         // we want to inherit the claim number (this could happen when we
         // show up in an in progress game)
         if (claims[piecen.featureIndex] != 0) {
-            Log.info("Requested to add a piecen to a feature " +
-                     "that has already been claimed [tile=" + this +
-                     ", piecen=" + piecen + "]. Inheriting.");
+            Log.warning("Requested to add a piecen to a feature " +
+                        "that has already been claimed [tile=" + this +
+                        ", piecen=" + piecen + "]. Inheriting.");
             claimGroup = claims[piecen.featureIndex];
 
         } else {
             // otherwise we generate a new claim group
             claimGroup = TileUtil.nextClaimGroup();
-            Log.info("Creating claim group [cgroup=" + claimGroup +
-                     ", tile=" + this + ", fidx=" + piecen.featureIndex + "].");
+            Log.debug("Creating claim group [cgroup=" + claimGroup +
+                      ", tile=" + this +
+                      ", fidx=" + piecen.featureIndex + "].");
         }
 
         // keep a reference to this piecen and configure its position
@@ -394,7 +405,7 @@ public class AtlantiTile
     // documentation inherited
     public Comparable getKey ()
     {
-        // our key is our coordinates conflated into one integer
+        // a key is the coordinates conflated into one integer
         return new Integer((x + 128) * 256 + y + 128);
     }
 

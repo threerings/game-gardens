@@ -20,7 +20,8 @@
   <!-- creating a game and which are passed on to the game itself -->
   <!-- to customize the gameplay. -->
   <params>
-    <choice ident="rules" choices="standard,hand_of_three" start="standard"/>
+    <ai ident="aicount" maximum="3"/>
+<!--    <choice ident="rules" choices="standard,hand_of_three" start="standard"/>-->
   </params>
 
   <!-- Here the library version dependencies are enumerated. -->

@@ -412,9 +412,9 @@ public class TileUtil implements TileCodes
                         TileFeature feat = flist.get(t);
                         feat.tile.claims[feat.featureIndex] = claimGroup;
                         if (t == 0) {
-                            Log.info("Claiming complete city " +
-                                     "[claim=" + feat.tile.claims[
-                                         feat.featureIndex] + "].");
+                            Log.debug("Claiming complete city " +
+                                      "[claim=" + feat.tile.claims[
+                                          feat.featureIndex] + "].");
                         }
                     }
 
@@ -424,9 +424,9 @@ public class TileUtil implements TileCodes
                     for (int t = 0; t < flist.size(); t++) {
                         TileFeature feat = flist.get(t);
                         if (t == 0) {
-                            Log.info("Clearing incomplete city " +
-                                     "[claim=" + feat.tile.claims[
-                                         feat.featureIndex] + "].");
+                            Log.debug("Clearing incomplete city " +
+                                      "[claim=" + feat.tile.claims[
+                                          feat.featureIndex] + "].");
                         }
                         feat.tile.claims[feat.featureIndex] = 0;
                     }
