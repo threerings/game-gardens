@@ -55,13 +55,13 @@ public class ToyBoxUtil
         String path = "";
         try {
             // add the game jar file
-            path = "file://" + root + "/" + gamedef.getJarName();
+            path = "file:" + root + "/" + gamedef.getJarName();
             ulist.add(new URL(path));
 
             // enumerate the paths to the game's jar files
             for (int ii = 0; ii < gamedef.libs.length; ii++) {
                 Library lib = gamedef.libs[ii];
-                path = "file://" + root + "/" + lib.getURLPath();
+                path = "file:" + root + "/" + lib.getURLPath();
                 ulist.add(new URL(path));
             }
 
