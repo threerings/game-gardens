@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# $Id$
+#
+# Mirrors the Game Gardens code and game server configuration files from
+# our development system to the live system.
+
+
+MIRROR="/export/tools/bin/mirror"
+ROOT=`dirname $0`/..
+VERBOSE="-q"
+
+# "parse" our arguments
+while [ ! -z "$1" ]; do
+    if [ "$1" == "-v" ]; then
+        VERBOSE="-v"
+    fi
+    shift
+done
+
+# mirror the library files
+echo "** Mirroring external library jars..."
+$MIRROR $VERBOSE $ROOT/lib/*.jar
+
+# mirror the project jar files
+echo "** Mirroring project library jars..."
+$MIRROR $VERBOSE $ROOT/projects/*/dist/*.jar \
+    $ROOT/projects/*/dist/lib/*/*.so
+
+# mirror the configuration files
+echo "** Mirroring configuration files..."
+$MIRROR $VERBOSE $ROOT/gardens.conf \
+    $ROOT/toybox.properties \
+    $ROOT/projects/toybox/src/sql/*.sql
+
+# mirror the server scripts
+echo "** Mirroring scripts..."
+$MIRROR $VERBOSE `find $ROOT/bin -perm 0775 -a -type f | grep -v .svn`
+
+# mirror the web war file
+echo "** Mirroring webapps..."
+$MIRROR $VERBOSE $ROOT/webapps/*.war
+
+# mirror the web site files
+echo "** Mirroring web site..."
+find $ROOT/pages -type f | grep -v .svn | \
+    grep -v pages/gardens | \
+    grep -v pages/account | \
+    grep -v pages/discussion | \
+    grep -v pages/most_popular | \
+    grep -v pages/recently_added | \
+    grep -v pages/recently_updated | \
+    egrep -v "pages/games/[^/]*.jar" | \
+    xargs $MIRROR $VERBOSE
