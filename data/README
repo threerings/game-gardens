@@ -1,0 +1,4 @@
+This directory contains the 'mvnforum' data directory. The 'mvnForumHome'
+directory will need to be copied here (as 'mvnforum'), given the proper
+permissions and mvnforum should be configured to reference that directory
+as its data directory.
