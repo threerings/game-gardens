@@ -80,16 +80,21 @@ public class ToyBoxRepository extends JORARepository
      * Loads information on a single game from the repository. Returns
      * null if no game exists with the specifed id.
      */
-    public Game loadGame (final int gameId)
+    public Game loadGame (int gameId)
         throws PersistenceException
     {
-        return (Game)execute(new Operation() {
-            public Object invoke (Connection conn, DatabaseLiaison liaison)
-                throws SQLException, PersistenceException
-            {
-                return (Game)_gtable.select("where GAME_ID = " + gameId).next();
-            }
-        });
+        return loadGameBy("where GAME_ID = " + gameId);
+    }
+
+    /**
+     * Loads information on a single game from the repository. Returns
+     * null if no game exists with the specifed id.
+     */
+    public Game loadGame (String gameIdent)
+        throws PersistenceException
+    {
+        gameIdent = gameIdent.replaceAll("[^a-zA-Z]*", "");
+        return loadGameBy("where IDENT = '" + gameIdent + "'");
     }
 
     /**
@@ -134,6 +139,22 @@ public class ToyBoxRepository extends JORARepository
             }
         });
         return rv.booleanValue();
+    }
+
+    /**
+     * Helper function for the {@link #loadGame(int)} and {@link
+     * #loadGame(String)}.
+     */
+    protected Game loadGameBy (final String query)
+        throws PersistenceException
+    {
+        return (Game)execute(new Operation() {
+            public Object invoke (Connection conn, DatabaseLiaison liaison)
+                throws SQLException, PersistenceException
+            {
+                return (Game)_gtable.select(query).next();
+            }
+        });
     }
 
     // documentation inherited

@@ -32,8 +32,9 @@ import java.util.List;
 import java.util.logging.Level;
 
 import com.samskivert.io.PersistenceException;
-import com.samskivert.util.ResultListenerList;
 import com.samskivert.jdbc.ConnectionProvider;
+import com.samskivert.util.Invoker;
+import com.samskivert.util.ResultListenerList;
 
 import org.apache.commons.io.IOUtils;
 
@@ -168,8 +169,8 @@ public class ToyBoxManager
     }
 
     // documentation inherited from interface
-    public void getLobbyOid (ClientObject caller, String gameIdent,
-                             ResultListener rl)
+    public void getLobbyOid (ClientObject caller, final String gameIdent,
+                             final ResultListener rl)
         throws InvocationException
     {
         // look to see if we have already resolved a lobby for this game
@@ -187,13 +188,46 @@ public class ToyBoxManager
             return;
         }
 
-        // otherwise we will need to load the game information from the
-        // repository and resolve a lobby for that game
+        // load the game information from the database
+        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+            public boolean invoke () {
+                try {
+                    _game = _toyrepo.loadGame(gameIdent);
+                } catch (PersistenceException pe) {
+                    log.log(Level.WARNING, "Failed to load game " +
+                            "[ident=" + gameIdent + "].", pe);
+                }
+                return true;
+            }
 
-        // TODO: look up the game from the repository, then:
-        // - add the ResultListener to _penders
-        // - call resolveLobby(game);
-        throw new InvocationException(INTERNAL_ERROR);
+            public void handleResult () {
+                // if we failed to load the game, stop now
+                if (_game == null) {
+                    rl.requestFailed(INTERNAL_ERROR);
+                    return;
+                }
+
+                try {
+                    // make sure we've got a valid game definition
+                    GameDefinition gamedef = _game.parseGameDefinition();
+
+                    // start the lobby resolution. if this fails we will
+                    // catch the failure and report it to the caller
+                    resolveLobby(gamedef);
+
+                    // otherwise we're safe to finally map our result
+                    // listener into a listener list
+                    ResultListenerList rls = new ResultListenerList();
+                    rls.add(new ResultAdapter(rl));
+                    _penders.put(gameIdent, rls);
+
+                } catch (InvocationException ie) {
+                    rl.requestFailed(ie.getMessage());
+                }
+            }
+
+            protected Game _game;
+        });
     }
 
     /**
