@@ -4,6 +4,7 @@
 package com.threerings.gardens.logic;
 
 import java.io.File;
+import java.security.MessageDigest;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +16,9 @@ import com.samskivert.velocity.InvocationContext;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 
+import com.threerings.getdown.data.Resource;
+
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.Game;
 
@@ -62,11 +66,15 @@ public class upload_jar extends UserLogic
             throw new FriendlyException("error.no_such_game");
         }
 
+        // TODO: version the game jar file?
+
+        // get a handle on the game definition
+        GameDefinition gamedef = game.parseGameDefinition();
+        MessageDigest md = MessageDigest.getInstance("MD5");
+
         // determine where we will be uploading the jar file
         File gdir = ToyBoxConfig.getResourceDir();
         Log.info("Uploading jar for '" + game.ident + "'.");
-
-        // TODO: get a version number from the game record
 
         // the next item should be the jar file itself
         item = (FileItem)iter.next();
@@ -76,11 +84,15 @@ public class upload_jar extends UserLogic
             throw new FriendlyException("error.internal_error");
         }
 
-        File jar = new File(gdir, "game.jar");
+        File jar = new File(gdir, gamedef.getJarName());
         item.write(jar);
         Log.info("Wrote " + jar + ".");
 
-        // TODO: update the version number and game record
+        // compute the digest
+        game.digest = Resource.computeDigest(jar, md, null);
+
+        // finally update the game record
+        app.getToyBoxRepository().updateGame(game);
 
         ctx.put("status", "upload_jar.updated");
     }
