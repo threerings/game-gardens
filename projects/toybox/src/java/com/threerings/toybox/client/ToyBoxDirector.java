@@ -107,12 +107,17 @@ public class ToyBoxDirector extends BasicDirector
         // the classloader when we're in "production" mode)
         _gameLoader = ToyBoxUtil.createClassLoader(
             _cacheDir, config.getGameDefinition());
+
         // create a resource manager that the game can use to load its
         // custom resources; this must be done here as the game code does
         // not have the necessary access privileges to run a resource
         // manager
         _gameResource = new ResourceManager("rsrc", _gameLoader);
         _ctx.getClient().setClassLoader(_gameLoader);
+
+        // configure our message manager with this class loader so that we
+        // can obtain translation resources from the game message bundles
+        _ctx.getMessageManager().setClassLoader(_gameLoader);
     }
 
     // documentation inherited

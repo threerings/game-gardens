@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import com.samskivert.swing.GroupLayout;
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
+import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
@@ -43,6 +44,7 @@ import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
+import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.lobby.table.TableListView;
 
 /**
@@ -55,8 +57,10 @@ public class LobbyPanel extends JPanel
      * Constructs a new lobby panel and the associated user interface
      * elements.
      */
-    public LobbyPanel (ToyBoxContext ctx, LobbyConfig config)
+    public LobbyPanel (ToyBoxContext ctx)
     {
+        _ctx = ctx;
+
         // we want a five pixel border around everything
     	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -72,13 +76,7 @@ public class LobbyPanel extends JPanel
         gl.setOffAxisPolicy(GroupLayout.STRETCH);
         _main = new JPanel(gl);
 
-        // create our match-making view
-        JComponent matchView = createMatchMakingView(ctx, config);
-        if (matchView != null) {
-            _main.add(matchView);
-        }
-
-        // create a chat box and stick that in as well
+        // create a chat box and stick that in
         _main.add(new ChatPanel(ctx));
 
         // now add the main panel into the mix
@@ -104,9 +102,28 @@ public class LobbyPanel extends JPanel
         add(sidePanel, GroupLayout.FIXED);
     }
 
+    /**
+     * Instructs the panel to create and display the match making view.
+     */
+    public void showMatchMakingView (LobbyConfig config)
+    {
+        // create our match-making view
+        JComponent matchView = createMatchMakingView(_ctx, config);
+        if (matchView != null) {
+            _main.add(matchView, 0);
+            if (matchView instanceof PlaceView) {
+                // because we're adding our match making view after we've
+                // already entered our place, we need to fake an entry
+                ((PlaceView)matchView).willEnterPlace(_lobj);
+            }
+            SwingUtil.refresh(_main);
+        }
+    }
+
     // documentation inherited
     public void willEnterPlace (PlaceObject plobj)
     {
+        _lobj = (LobbyObject)plobj;
     }
 
     // documentation inherited
@@ -135,8 +152,14 @@ public class LobbyPanel extends JPanel
         }
     }
 
+    /** Giver of life and services. */
+    protected ToyBoxContext _ctx;
+
     /** Contains the match-making view and the chatbox. */
     protected JPanel _main;
+
+    /** Our lobby distributed object. */
+    protected LobbyObject _lobj;
 
     /** Our occupant list display. */
     protected OccupantList _occupants;

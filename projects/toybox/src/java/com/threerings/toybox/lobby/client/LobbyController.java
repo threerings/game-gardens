@@ -21,6 +21,9 @@
 
 package com.threerings.toybox.lobby.client;
 
+import com.threerings.getdown.data.Resource;
+import com.threerings.getdown.launcher.Downloader;
+
 import com.threerings.crowd.client.PlaceController;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceConfig;
@@ -29,6 +32,8 @@ import com.threerings.crowd.util.CrowdContext;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.util.ToyBoxContext;
+
+import static com.threerings.toybox.lobby.Log.log;
 
 /**
  * Handles the client side of the ToyBox match-making interface.
@@ -53,18 +58,40 @@ public class LobbyController extends PlaceController
         // let the toybox director know that we're in
         _ctx.getToyBoxDirector().enteredLobby(_config);
 
+        // TODO: hold off on creating the match making interface until the
+        // resources are downloaded (indeed show the download progress in
+        // that same location)
+
         // have the toybox director download this game's jar files
+        Downloader.Observer obs = new Downloader.Observer() {
+            public void resolvingDownloads () {
+                log.info("Resolving downloads...");
+                // TODO: show download progress
+            }
+            public void downloadProgress (int percent, long remaining) {
+                log.info("Download progress: " + percent);
+                if (percent == 100) {
+                    _panel.showMatchMakingView(_config);
+                } else {
+                    // TODO: show download progress
+                }
+            }
+            public void downloadFailed (Resource rsrc, Exception e) {
+                log.info("Download failed [rsrc=" + rsrc + ", e=" + e + "].");
+                // TODO: report warning
+            }
+        };
         _ctx.getToyBoxDirector().resolveResources(
-            // TODO: wire up a fancy display in the lobby panel
-            _config.getGameDefinition(), null);
+            _config.getGameDefinition(), obs);
     }
 
     // documentation inherited
     protected PlaceView createPlaceView ()
     {
-        return new LobbyPanel(_ctx, _config);
+        return (_panel = new LobbyPanel(_ctx));
     }
 
     protected ToyBoxContext _ctx;
     protected LobbyConfig _config;
+    protected LobbyPanel _panel;
 }
