@@ -578,7 +578,7 @@ public class TileUtil implements TileCodes
     public static int countPiecens (DSet piecens, int playerIndex)
     {
         int count = 0;
-        Iterator iter = piecens.entries();
+        Iterator iter = piecens.iterator();
         while (iter.hasNext()) {
             if (((Piecen)iter.next()).owner == playerIndex) {
                 count++;

@@ -72,7 +72,7 @@ public class AtlantiBoardView extends JPanel
         _tiles.clear();
 
         // copy the tiles from the set into our local list
-        CollectionUtil.addAll(_tiles, tset.entries());
+        CollectionUtil.addAll(_tiles, tset.iterator());
 
         // sort the list
         Collections.sort(_tiles);
@@ -91,7 +91,7 @@ public class AtlantiBoardView extends JPanel
     public void setPiecens (DSet piecens)
     {
         //  just iterate over the set placing each of the piecens in turn
-        Iterator iter = piecens.entries();
+        Iterator iter = piecens.iterator();
         while (iter.hasNext()) {
             placePiecen((Piecen)iter.next());
         }
@@ -627,7 +627,7 @@ public class AtlantiBoardView extends JPanel
 
         // set a feature group to test propagation
         List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
-        CollectionUtil.addAll(tiles, set.entries());
+        CollectionUtil.addAll(tiles, set.iterator());
         Collections.sort(tiles);
 
         zero.setPiecen(new Piecen(Piecen.GREEN, 0, 0, 2), tiles);

@@ -164,6 +164,9 @@ public class AtlantiManager extends GameManager
             return;
         }
 
+        // count how many piecens we have in play
+        int pcount = TileUtil.countPiecens(_atlobj.piecens, pidx);
+
         // select a random position for our tile and place it
         tile = (AtlantiTile)RandomUtil.pickRandom(moves);
         if (placeTile(pidx, tile)) {
@@ -172,11 +175,12 @@ public class AtlantiManager extends GameManager
 
         // can and do we want to place a piecen?
         int uc = tile.getUnclaimedCount();
-        if (uc == 0 && RandomUtil.getInt(100) > 45) {
+        if (pcount >= PIECENS_PER_PLAYER || uc == 0 ||
+            RandomUtil.getInt(100) > 45) {
             // just end our turn
             _delegate.endTurn();
         }
-        
+
         // place a piecen on the piece we just placed
         int skip = RandomUtil.getInt(uc);
         for (int ii = 0; ii < tile.claims.length; ii++) {
@@ -214,7 +218,7 @@ public class AtlantiManager extends GameManager
         // compute the final scores by iterating over each tile and
         // scoring its features
         Piecen[] piecens = getPiecens();
-        Iterator iter = _atlobj.tiles.entries();
+        Iterator iter = _atlobj.tiles.iterator();
         while (iter.hasNext()) {
             AtlantiTile tile = (AtlantiTile)iter.next();
             scoreFeatures(tile, piecens, true);
@@ -232,7 +236,7 @@ public class AtlantiManager extends GameManager
     {
         // determine the extent of the board
         int minx = 0, miny = 0, maxx = 0, maxy = 0;
-        for (Iterator iter = _atlobj.tiles.entries(); iter.hasNext(); ) {
+        for (Iterator iter = _atlobj.tiles.iterator(); iter.hasNext(); ) {
             AtlantiTile ptile = (AtlantiTile)iter.next();
             if (ptile.x < minx) {
                 minx = ptile.x;
@@ -279,7 +283,7 @@ public class AtlantiManager extends GameManager
     {
         // create a piecen array that we can manipulate while scoring
         Piecen[] piecens = new Piecen[_atlobj.piecens.size()];
-        Iterator iter = _atlobj.piecens.entries();
+        Iterator iter = _atlobj.piecens.iterator();
         for (int i = 0; iter.hasNext(); i++) {
             piecens[i] = (Piecen)iter.next();
         }
@@ -534,7 +538,7 @@ public class AtlantiManager extends GameManager
             int[] pcount = new int[getPlayerCount()];
             int max = 0;
 
-            Iterator piter = _atlobj.piecens.entries();
+            Iterator piter = _atlobj.piecens.iterator();
             while (piter.hasNext()) {
                 Piecen p = (Piecen)piter.next();
                 // see if the piecen is on any of the farms
