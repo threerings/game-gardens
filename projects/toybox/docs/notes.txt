@@ -70,3 +70,50 @@ some set of "premium" games.
 - Game info page
 - Game creation/edit page: edit metadata, manage/upload jar files
 - Game launch applet (constructs JNLP file on the fly)
+
+* Handling "quarantined" code
+** Server side
+- A separate process will be spawned off for each game that will host all
+  instances of that game
+- A client connection will be established from the main server to the game
+  server
+- The main server will make use of a small set of invocation services:
+  - starting a new game and obtaining its oid
+  - pinging the game server to confirm that it is alive
+- The game server will load all game code from a sandboxed JVM, preventing
+  unauthorized activity by game code
+- If the game server fails to respond to pings from the main server, its
+  process will be killed to recover from infinite looping or other
+  (intentional or accidental) "DOS" attacks made by the game code
+
+** Client side
+- The client will connect to the main server and game server with
+  completely separate client sessions; this allows the main server to
+  avoid ever running any game code (which would be necessary if it even
+  unserialized classes that were owned by a game in the process of passing
+  events back and forth between the game server and client)
+- The game code will be loaded from a sandboxed JVM to avoid unauthorized
+  activity by the game code
+- Infinite looping or other "DOS" attacks on the client are not a concern
+  as the user can simply kill the process as they would any other failed
+  application
+- The ChatManager/ChatBox will have to do some magic to unify chat on the
+  main server with chat on the game server (should we opt to host a "chat"
+  object on the main server for each game instance to simplify things and
+  to allow clients to continue to communicate even if a game server has
+  hung?)
+
+** Avoiding port explosion
+- Each game server will be required to listen on a unique port for client
+  connections which will potentially cause problems for people with
+  firewalls
+- Instead we can operate a routing server on port 80 which listens to
+  incoming requests and routes them to one of either:
+  + the web server
+  + the main server
+  + the appropriate game server
+  based on the data at the beginning of the stream
+- This server will have to copy all data back and forth between the two
+  processes which will put additional strain on the server but if we host
+  all web services on a separate machine it will at least be restricted to
+  traffic back and forth to the main and game servers which is small
