@@ -313,7 +313,7 @@ public class ToyBoxRepository extends JORARepository
         now.clear();
         now.set(Calendar.YEAR, year);
         now.set(Calendar.WEEK_OF_YEAR, week);
-        now.roll(Calendar.WEEK_OF_YEAR, offset);
+        now.add(Calendar.WEEK_OF_YEAR, offset);
         return new Date(now.getTimeInMillis());
     }
 

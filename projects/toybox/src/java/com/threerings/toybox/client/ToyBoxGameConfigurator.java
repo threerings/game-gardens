@@ -21,10 +21,24 @@
 
 package com.threerings.toybox.client;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+
+import java.util.logging.Level;
+
+import org.apache.commons.io.IOUtils;
 
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.SimpleSlider;
@@ -34,10 +48,12 @@ import com.threerings.util.MessageBundle;
 import com.threerings.parlor.client.GameConfigurator;
 
 import com.threerings.toybox.data.ChoiceParameter;
+import com.threerings.toybox.data.FileParameter;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.Parameter;
 import com.threerings.toybox.data.RangeParameter;
 import com.threerings.toybox.data.ToggleParameter;
+import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -73,7 +89,7 @@ public class ToyBoxGameConfigurator extends GameConfigurator
                 config.getBundleName());
             _editors = new ParamEditor[gamedef.params.length];
             for (int ii = 0; ii < _editors.length; ii++) {
-                _editors[ii] = createEditor(msgs, gamedef.params[ii]);
+                _editors[ii] = createEditor(ctx, msgs, gamedef.params[ii]);
                 add((JPanel)_editors[ii]);
             }
         }
@@ -96,7 +112,8 @@ public class ToyBoxGameConfigurator extends GameConfigurator
         }
     }
 
-    protected ParamEditor createEditor (MessageBundle msgs, Parameter param)
+    protected ParamEditor createEditor (
+        ToyBoxContext ctx, MessageBundle msgs, Parameter param)
     {
         if (param instanceof RangeParameter) {
             return new RangeEditor(msgs, (RangeParameter)param);
@@ -104,6 +121,8 @@ public class ToyBoxGameConfigurator extends GameConfigurator
             return new ToggleEditor(msgs, (ToggleParameter)param);
         } else if (param instanceof ChoiceParameter) {
             return new ChoiceEditor(msgs, (ChoiceParameter)param);
+        } else if (param instanceof FileParameter) {
+            return new FileEditor(ctx, msgs, (FileParameter)param);
         } else {
             log.warning("Unknown parameter type! " + param + ".");
             return null;
@@ -211,6 +230,73 @@ public class ToyBoxGameConfigurator extends GameConfigurator
         public String toString () {
             return label;
         }
+    }
+
+    protected class FileEditor extends JPanel
+        implements ParamEditor, ActionListener
+    {
+        public FileEditor (
+            ToyBoxContext ctx, MessageBundle msgs, FileParameter param)
+        {
+            _ctx = ctx;
+            _param = param;
+            setLayout(new HGroupLayout(HGroupLayout.NONE,
+                                       HGroupLayout.LEFT));
+            add(new JLabel(msgs.get("m.file_" + param.ident)));
+            String label = ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.file_unset");
+            add(_show = new JButton(label));
+            _show.addActionListener(this);
+        }
+
+        public void readParameter (Parameter param, ToyBoxGameConfig config)
+        {
+            // nothing doing
+        }
+
+        public void writeParameter (Parameter param, ToyBoxGameConfig config)
+        {
+            if (_data != null) {
+                config.params.put(param.ident, _data);
+            }
+        }
+
+        public void actionPerformed (ActionEvent event)
+        {
+            if (event.getSource() == _show) {
+                if (_chooser == null) {
+                    _chooser = new JFileChooser();
+                }
+
+                int rv = _chooser.showOpenDialog(this);
+                if (rv == JFileChooser.APPROVE_OPTION) {
+                    File file = _chooser.getSelectedFile();
+
+                    try {
+                        if (_param.binary) {
+                            _data = IOUtils.toByteArray(new FileInputStream(file));
+                            log.info("File became " + ((byte[])_data).length + " bytes of data.");
+                        } else {
+                            _data = IOUtils.toString(new FileReader(file));
+                        }
+                        _show.setText(file.getName());
+
+                    } catch (IOException ioe) {
+                        String msg = MessageBundle.tcompose(
+                            "m.file_read_failure", ioe.getMessage());
+                        _ctx.getChatDirector().displayFeedback(
+                            ToyBoxCodes.TOYBOX_MSGS, msg);
+                        log.warning("Failed to read '" + file + "': " +
+                                    ioe.getMessage());
+                    }
+                }
+            }
+        }
+
+        protected ToyBoxContext _ctx;
+        protected FileParameter _param;
+        protected JButton _show;
+        protected JFileChooser _chooser;
+        protected Object _data;
     }
 
     protected ParamEditor[] _editors;

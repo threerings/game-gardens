@@ -41,6 +41,7 @@ import com.samskivert.xml.SetNextFieldRule;
 import com.samskivert.xml.SetPropertyFieldsRule;
 
 import com.threerings.toybox.data.ChoiceParameter;
+import com.threerings.toybox.data.FileParameter;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.Library;
 import com.threerings.toybox.data.MatchConfig;
@@ -85,24 +86,10 @@ public class GameParser
         _digester.addRule("game/params", new ObjectCreateRule(ArrayList.class));
         _digester.addSetNext("game/params", "setParams",
                              ArrayList.class.getName());
-
-        _digester.addRule("game/params/range",
-                          new ObjectCreateRule(RangeParameter.class));
-        _digester.addRule("game/params/range", new SetPropertyFieldsRule());
-        _digester.addSetNext("game/params/range",
-                             "add", Object.class.getName());
-
-        _digester.addRule("game/params/choice",
-                          new ObjectCreateRule(ChoiceParameter.class));
-        _digester.addRule("game/params/choice", new SetPropertyFieldsRule());
-        _digester.addSetNext("game/params/choice",
-                             "add", Object.class.getName());
-
-        _digester.addRule("game/params/toggle",
-                          new ObjectCreateRule(ToggleParameter.class));
-        _digester.addRule("game/params/toggle", new SetPropertyFieldsRule());
-        _digester.addSetNext("game/params/toggle",
-                             "add", Object.class.getName());
+        addParameter("game/params/range", RangeParameter.class);
+        addParameter("game/params/choice", ChoiceParameter.class);
+        addParameter("game/params/toggle", ToggleParameter.class);
+        addParameter("game/params/file", FileParameter.class);
 
         // these rules parse the library dependencies
         _digester.addRule("game/libs", new ObjectCreateRule(ArrayList.class));
@@ -115,6 +102,13 @@ public class GameParser
 
         // add a rule to put the parsed definition onto our list
         _digester.addSetNext("game", "add", Object.class.getName());
+    }
+
+    protected void addParameter (String path, Class pclass)
+    {
+        _digester.addRule(path, new ObjectCreateRule(pclass));
+        _digester.addRule(path, new SetPropertyFieldsRule());
+        _digester.addSetNext(path, "add", Object.class.getName());
     }
 
     /**
