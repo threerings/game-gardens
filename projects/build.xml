@@ -1,0 +1,26 @@
+<?xml version="1.0" standalone="yes"?>
+<project name="gamedist" default="dist" basedir=".">
+  <property name="dist.name" value="game-gardens"/>
+
+  <target name="dist">
+    <!-- build the tar distribution file -->
+    <tar destfile="${dist.name}.tar.gz" compression="gzip">
+      <tarfileset dir="." username="nobody" group="nobody" mode="0664">
+        <include name="games/**/*"/>
+        <exclude name="**/.svn"/>
+        <exclude name="**/.findclass.path"/>
+        <exclude name="**/code/**"/>
+      </tarfileset>
+    </tar>
+
+    <!-- build the zip distribution file -->
+    <zip destfile="${dist.name}.zip">
+      <fileset dir=".">
+        <include name="games/**/*"/>
+        <exclude name="**/.svn"/>
+        <exclude name="**/.findclass.path"/>
+        <exclude name="**/code/**"/>
+      </fileset>
+    </zip>
+  </target>
+</project>
