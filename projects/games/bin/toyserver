@@ -29,9 +29,12 @@ echo "resource_url = file://$ROOT/lib" >> $ROOT/toybox.properties
 
 # Make sure our jar file is symlinked
 ln -sf ../$GAMEID/dist/$GAMEID.jar $ROOT/lib/$GAMEID.jar
+ln -sf ../$GAMEID/dist/$GAMEID.jar $ROOT/client/gg-game.jar
 
 CLASS=com.threerings.toybox.server.ToyBoxServer
 $ROOT/bin/runjava -Dgame_conf=$GAMEDEF $CLASS
 
-# clean up our toybox.properties
+# clean up after ourselves
 rm -f $ROOT/toybox.properties
+rm $ROOT/lib/$GAMEID.jar
+rm $ROOT/client/gg-game.jar

@@ -17,6 +17,8 @@
     <proguard configuration="lib/gg-client.pro"/>
     <mkdir dir="${deploy.dir}"/>
     <copy todir="${deploy.dir}" file="gg-client.jar"/>
+    <!-- also copy the client jar into the game development directory -->
+    <copy todir="../games/client" file="gg-client.jar"/>
   </target>
 
   <!-- signs the client jar files -->

@@ -4,10 +4,17 @@
 #
 # Command line launcher for the ToyBox client
 
+ROOT=`dirname $0`/..
+
 if [ -z "$1" ]; then
     echo "Usage: $0 username"
     exit -1
 fi
 
+# Set up our classpath
+CLASSPATH=$JAVA_HOME/jre/lib/rt.jar:$ROOT
+CLASSPATH=$CLASSPATH:$ROOT/client/gg-client.jar:$ROOT/client/gg-game.jar
+export CLASSPATH
+
 CLASS=com.threerings.toybox.client.ToyBoxApp
-`dirname $0`/runjava $CLASS localhost 4007 $1 secret
+$JAVA_HOME/bin/java $CLASS localhost 4007 $1 secret

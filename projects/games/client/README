@@ -1,0 +1,4 @@
+This directory contains the dead-code-removed client jar file and a
+symlink to your game jar file for use during testing. To reduce the size
+of the client, it is only shipped with the necessary code from the Narya
+libraries and the code it directly relies upon.
