@@ -45,25 +45,8 @@ public class ToyBoxApp
         // create a frame
         _frame = new ToyBoxFrame();
 
-        // create our client instance
-        String cclass = null;
-        try {
-            cclass = System.getProperty("client");
-        } catch (Throwable t) {
-            // security manager in effect, no problem
-        }
-        if (cclass == null) {
-            cclass = ToyBoxClient.class.getName();
-        }
-
-        try {
-            _client = (ToyBoxClient)Class.forName(cclass).newInstance();
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Unable to instantiate client class " +
-                    "[cclass=" + cclass + "].", e);
-        }
-
-        // initialize our client instance
+        // create and initialize our client instance
+        _client = new ToyBoxClient();
         _client.init(_frame);
     }
 

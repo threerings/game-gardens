@@ -126,6 +126,7 @@ public class ToyBoxClient
         _occdir = new OccupantDirector(_ctx);
         _chatdir = new ChatDirector(_ctx, _msgmgr, "global");
         _pardtr = new ParlorDirector(_ctx);
+        _toydtr = new ToyBoxDirector(_ctx);
     }
 
     // documentation inherited
@@ -213,11 +214,13 @@ public class ToyBoxClient
     protected Config _config = new Config("toybox");
 
     protected Client _client;
+    protected MessageManager _msgmgr;
+
     protected LocationDirector _locdir;
     protected OccupantDirector _occdir;
     protected ChatDirector _chatdir;
     protected ParlorDirector _pardtr;
-    protected MessageManager _msgmgr;
+    protected ToyBoxDirector _toydtr;
 
     /** The prefix prepended to localization bundle names before looking
      * them up in the classpath. */

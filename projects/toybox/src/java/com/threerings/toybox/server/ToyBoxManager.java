@@ -149,6 +149,7 @@ public class ToyBoxManager
         // TODO: look up the game from the repository, then:
         // - add the ResultListener to _penders
         // - call resolveLobby(game);
+        throw new InvocationException(INTERNAL_ERROR);
     }
 
     /**
@@ -161,7 +162,7 @@ public class ToyBoxManager
     public void resolveLobby (final Game game)
         throws InvocationException
     {
-        GameDefinition gdef = game.parseGameDefinition();
+        final GameDefinition gdef = game.parseGameDefinition();
         log.info("Resolving " + gdef + ".");
 
         PlaceRegistry.CreationObserver obs =
@@ -169,6 +170,8 @@ public class ToyBoxManager
             public void placeCreated (PlaceObject place, PlaceManager pmgr) {
                 // let the lobby manager know about the game record
                 ((LobbyManager)pmgr).setGame(game);
+                // register ourselves in the lobby table
+                _lobbyOids.put(gdef.ident, place.getOid());
                 // inform any resolution penders of the lobby oid
                 List<ResultListener> listeners = _penders.remove(game.ident);
                 if (listeners != null) {
