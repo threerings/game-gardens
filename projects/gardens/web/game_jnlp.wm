@@ -12,11 +12,11 @@
      download and install the Sun JRE from http://java.sun.com/j2se/ -->
 
 <jnlp spec="1.0+" codebase="$codebase"
-      href="$base_path/game_jnlp.wm?gameid=$game.gameId">
+      href="$base_path/game_${game.gameId}.jnlp">
   <information>
     <title>$game.name</title>
     <vendor>Three Rings Design, Inc.</vendor>
-    <homepage href="$base_path/game.wm?gameid=$game.gameId"/>
+    <homepage href="$base_path/view_game.wm?gameid=$game.gameId"/>
     <!--<icon kind="splash" href="images/splash.gif"/>-->
     <!--<icon href="images/yohoho.gif"/>-->
 <!--    <description kind="short">

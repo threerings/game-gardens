@@ -18,7 +18,7 @@ $i18n.mediumDate($game.created)<br>
 <i>$i18n.xlate("view_game.last_updated")</i>
 $i18n.mediumDate($game.lastUpdated)<br>
 
-<p><a href="game_jnlp.wm?gameid=$game.gameId">$i18n.xlate("view_game.play")</a>
+<p><a href="game_${game.gameId}.jnlp">$i18n.xlate("view_game.play")</a>
 
 #if ($user && $user.userId == $game.maintainerId)
 <p><a href="edit_game.wm?gameid=$game.gameId">$i18n.xlate("view_game.edit")</a>

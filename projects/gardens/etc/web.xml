@@ -7,7 +7,7 @@
 <web-app>
   <servlet>
     <servlet-name>dispatcher</servlet-name>
-    <servlet-class>com.samskivert.velocity.DispatcherServlet</servlet-class>
+    <servlet-class>com.threerings.gardens.GardensDispatcher</servlet-class>
     <init-param>
       <param-name>properties</param-name>
       <param-value>/velocity.properties</param-value>
@@ -33,6 +33,11 @@
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>*.wm</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>*.jnlp</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

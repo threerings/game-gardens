@@ -3,8 +3,11 @@
 
 package com.threerings.gardens.logic;
 
-import java.net.URL;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 
 import com.samskivert.servlet.user.User;
@@ -35,9 +38,21 @@ public class game_jnlp implements Logic
         GardensApp gtapp = (GardensApp)app;
         HttpServletRequest req = ctx.getRequest();
 
+        // we get our game id from the path
+        int gameId = -1;
+        String rpath = req.getServletPath();
+        Matcher m = _jnlppat.matcher(rpath);
+        if (m.matches()) {
+            try {
+                gameId = Integer.parseInt(m.group(1));
+            } catch (Exception e) {
+            }
+        }
+        if (gameId < 0) {
+            throw new FriendlyException("error.invalid_gameid");
+        }
+
         // load up the game
-        int gameId = ParameterUtil.requireIntParameter(
-            req, "gameid", "error.invalid_gameid");
         Game game = gtapp.getToyBoxRepository().loadGame(gameId);
         if (game == null) {
             throw new FriendlyException("error.no_such_game");
@@ -62,6 +77,8 @@ public class game_jnlp implements Logic
 
         ctx.getResponse().setContentType("application/x-java-jnlp-file");
     }
+
+    protected Pattern _jnlppat = Pattern.compile("/game_([0-9]+).jnlp");
 
     protected static final String CLIENT_PATH = "/client";
 }
