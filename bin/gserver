@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+# $Id: rungardens 260 2004-12-03 17:55:21Z mdb $
+#
+# A script to invoke the Game Gardens server "interactively" while developing.
+
+GARDENS_HOME=`dirname $0`/..
+GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
+
+# Load settings with those from gardens.conf
+if [ -f $GARDENS_HOME/gardens.conf ]; then
+    . $GARDENS_HOME/gardens.conf
+else
+    echo "Can't load '$GARDENS_HOME/gardens.conf'; can't run server."
+    exit 255
+fi
+
+CLASS=com.threerings.toybox.server.ToyBoxServer
+JAVA_ARGS="-server -Dlog_level=$LOGLEVEL"
+umask 002
+
+JAVA_VM="$JAVA_HOME/bin/java"
+if [ ! -e $JAVA_VM ]; then
+    echo "$0: Cannot find JVM in $JAVA_HOME. Exiting."
+    exit 255
+fi
+
+# Start with the standard Java classes
+CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
+
+# Make sure our jar files are available
+for archive in `cat $GARDENS_HOME/lib/GARDENS_LIBS` ; do
+    if [ ! -f $GARDENS_HOME/lib/$archive ]; then
+        echo "$0: Missing $archive in $GARDENS_HOME/lib"
+        exit -1
+    fi
+done
+
+# Add all JAR files in $GARDENS_HOME/lib to the CLASSPATH
+for jar in $GARDENS_HOME/lib/*.jar; do
+    if [ -e $jar ]; then
+        CLASSPATH=$jar:$CLASSPATH
+    fi
+done
+
+# Add the main directory to the CLASSPATH
+CLASSPATH=$GARDENS_HOME:$CLASSPATH
+export CLASSPATH
+
+# Set up the LD_LIBRARY_PATH to include our shared libraries
+LD_LIBRARY_PATH=$GARDENS_HOME/lib/i686-Linux
+export LD_LIBRARY_PATH
+
+# Start up the server
+echo "Running Game Gardens server:"
+echo "    Gardens root: $GARDENS_HOME"
+echo "         Java VM: $JAVA_VM"
+echo "       Java args: $JAVA_ARGS"
+echo "    Server class: $CLASS"
+
+$JAVA_VM $JAVA_ARGS $CLASS
+exit $?
