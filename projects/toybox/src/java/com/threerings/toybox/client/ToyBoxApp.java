@@ -38,12 +38,11 @@ import static com.threerings.toybox.Log.log;
  */
 public class ToyBoxApp
 {
-    public void init (String username)
+    public void init (String username, String gameId)
         throws IOException
     {
         // create a frame
-        _frame = new ToyBoxFrame(
-            "...", System.getProperty("game_id"), username);
+        _frame = new ToyBoxFrame("...", gameId, username);
         _framemgr = FrameManager.newInstance(_frame);
 
         // create and initialize our client instance
@@ -73,12 +72,29 @@ public class ToyBoxApp
         _framemgr.start();
     }
 
-    public static void main (String[] args)
+    /**
+     * Performs the standard setup and starts the ToyBox client application.
+     */
+    public static void start (ToyBoxApp app, String server, int port,
+                              String username, String password)
     {
         // set up the proper logging services
         com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
         OneLineLogFormatter.configureDefaultHandler();
 
+        try {
+            // initialize the app
+            app.init(username, System.getProperty("game_id"));
+        } catch (IOException ioe) {
+            log.log(Level.WARNING, "Error initializing application.", ioe);
+        }
+
+        // and run it
+        app.run(server, port, username, password);
+    }
+
+    public static void main (String[] args)
+    {
         String server = "localhost";
         if (args.length > 0) {
             server = args[0];
@@ -89,23 +105,15 @@ public class ToyBoxApp
             try {
                 port = Integer.parseInt(args[1]);
             } catch (NumberFormatException nfe) {
-                log.warning("Invalid port specification '" + args[1] + "'.");
+                System.err.println(
+                    "Invalid port specification '" + args[1] + "'.");
             }
         }
 
         String username = (args.length > 2) ? args[2] : null;
         String password = (args.length > 3) ? args[3] : null;
 
-        ToyBoxApp app = new ToyBoxApp();
-        try {
-            // initialize the app
-            app.init(username);
-        } catch (IOException ioe) {
-            log.log(Level.WARNING, "Error initializing application.", ioe);
-        }
-
-        // and run it
-        app.run(server, port, username, password);
+        start(new ToyBoxApp(), server, port, username, password);
     }
 
     protected ToyBoxClient _client;
