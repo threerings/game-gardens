@@ -48,8 +48,9 @@ public class ToyBoxUI
 
         // try to load our fancy font
         try {
-            InputStream in = ToyBoxUI.class.getClassLoader().getResourceAsStream(
-                "rsrc/media/porc.ttf");
+            InputStream in =
+                ToyBoxUI.class.getClassLoader().getResourceAsStream(
+                    "rsrc/media/porc.ttf");
             fancyFont = Font.createFont(Font.TRUETYPE_FONT, in);
             fancyFont = fancyFont.deriveFont(Font.PLAIN, 52);
             in.close();
