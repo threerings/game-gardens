@@ -126,11 +126,13 @@ public class ToyBoxRepository extends JORARepository
                 }
 
                 // next load those games from the database
-                HashMap<Integer,Game> games = new HashMap<Integer,Game>();
-                Cursor c = _gtable.select("where GAME_ID in (" + buf + ")");
                 Game game = null;
-                while ((game = (Game)c.next()) != null) {
-                    games.put(game.gameId, game);
+                HashMap<Integer,Game> games = new HashMap<Integer,Game>();
+                if (buf.length() > 0) {
+                    Cursor c = _gtable.select("where GAME_ID in (" + buf + ")");
+                    while ((game = (Game)c.next()) != null) {
+                        games.put(game.gameId, game);
+                    }
                 }
 
                 // finally arrange them into a list in the proper order
