@@ -187,6 +187,7 @@ public class AtlantiManager extends GameManager
             if (tile.claims[ii] == 0) {
                 if (skip == 0) {
                     Piecen p = new Piecen();
+                    p.owner = pidx;
                     p.x = tile.x;
                     p.y = tile.y;
                     p.featureIndex = ii;
