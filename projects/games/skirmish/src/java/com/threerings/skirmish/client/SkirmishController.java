@@ -16,6 +16,7 @@ import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.game.client.GameController;
 import com.threerings.toybox.data.ToyBoxGameConfig;
+import com.threerings.toybox.util.ToyBoxContext;
 
 import com.threerings.skirmish.Log;
 import com.threerings.skirmish.data.SkirmishAction;
@@ -54,7 +55,8 @@ public class SkirmishController extends GameController
     // documentation inherited
     protected PlaceView createPlaceView ()
     {
-        _panel = new SkirmishPanel(_ctx, (ToyBoxGameConfig)_config, this);
+        _panel = new SkirmishPanel(
+            (ToyBoxContext)_ctx, (ToyBoxGameConfig)_config, this);
         return _panel;
     }
 

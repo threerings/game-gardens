@@ -14,10 +14,10 @@ import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
 
 import com.threerings.crowd.client.PlacePanel;
-import com.threerings.parlor.util.ParlorContext;
-import com.threerings.toybox.data.ToyBoxGameConfig;
 
-import com.threerings.micasa.client.ChatPanel;
+import com.threerings.toybox.client.ChatPanel;
+import com.threerings.toybox.data.ToyBoxGameConfig;
+import com.threerings.toybox.util.ToyBoxContext;
 
 /**
  * Contains the primary client interface for a Skirmish game.
@@ -30,7 +30,7 @@ public class SkirmishPanel extends PlacePanel
     /**
      * Creates a skirmish panel and its associated interface components.
      */
-    public SkirmishPanel (ParlorContext ctx, ToyBoxGameConfig config,
+    public SkirmishPanel (ToyBoxContext ctx, ToyBoxGameConfig config,
                           SkirmishController ctrl)
     {
         super(ctrl);
@@ -95,7 +95,7 @@ public class SkirmishPanel extends PlacePanel
     }
 
     /** Provides access to global client services. */
-    protected ParlorContext _ctx;
+    protected ToyBoxContext _ctx;
 
     /** The board view. */
     protected SkirmishBoardView _bview;
