@@ -1,5 +1,9 @@
 <?xml version="1.0" standalone="yes"?>
 <game>
+  <!-- the string identifier for this game; this is used to name our jar -->
+  <!-- file and to name other internal bits -->
+  <ident>atlantis</ident>
+
   <!-- The controller and manager used for our game. -->
   <controller>com.samskivert.atlanti.client.AtlantiController</controller>
   <manager>com.samskivert.atlanti.server.AtlantiManager</manager>
