@@ -3,7 +3,7 @@
 -injars ../../lib/narya-base.jar(!**/tools/**,!**/server/**)
 -injars ../../lib/narya-distrib.jar(!**/tools/**,!**/server/**)
 -injars ../../lib/narya-media.jar(!**/tools/**,!**/server/**)
--injars ../../lib/narya-parlor.jar(!**/tools/**,!**/server/**,!**GameManager**,!**GameWatcher**,!**GameProvider**,!**GameDispatcher**)
+-injars ../../lib/narya-parlor.jar(!**/tools/**,!**/server/**)
 -injars ../../lib/samskivert.jar(!**/velocity/**,!**/xml/**)
 -injars ../../lib/toybox.jar(!**/tools/**,!**/server/**,!**/xml/**)
 
