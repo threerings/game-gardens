@@ -21,12 +21,9 @@
 
 package com.threerings.toybox.util;
 
-import java.awt.Image;
-
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import java.util.logging.Level;
-
 import javax.imageio.ImageIO;
 
 import com.threerings.media.FrameManager;
@@ -80,7 +77,7 @@ public abstract class ToyBoxContext implements ParlorContext
     /**
      * Convenience method to load an image from our resource bundles.
      */
-    public Image loadImage (String rsrcPath)
+    public BufferedImage loadImage (String rsrcPath)
     {
         ToyBoxDirector tbd = getToyBoxDirector();
         try {
