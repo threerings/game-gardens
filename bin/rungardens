@@ -40,14 +40,14 @@ CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
 
 # Make sure our jar files are available
 for archive in `cat $GARDENS_HOME/lib/GARDENS_LIBS` ; do
-    if [ ! -f $GARDENS_HOME/lib/$archive ]; then
+    if [ ! -f $GARDENS_HOME/seclib/$archive ]; then
         echo "$0: Missing $archive in $GARDENS_HOME/lib"
         exit -1
     fi
 done
 
 # Add all JAR files in $GARDENS_HOME/lib to the CLASSPATH
-for jar in $GARDENS_HOME/lib/*.jar; do
+for jar in $GARDENS_HOME/seclib/*.jar; do
     if [ -e $jar ]; then
         CLASSPATH=$jar:$CLASSPATH
     fi
