@@ -10,10 +10,13 @@ pre {
   font-family: Courier;
 }
 
-a:link {color: #053381 }
-a:visited {color: #053381 }
-a:hover {color: #8c1d12 }
-a:active {color: #8c1d12 }
+.big { font-size: x-large }
+.small { font-size: small }
+
+a:link { color: #053381 }
+a:visited { color: #053381 }
+a:hover { color: #8c1d12 }
+a:active { color: #8c1d12 }
 
 h1, h2, h3, h4 { 
    font-family: Arial, Helvetica, sans-serif;
@@ -24,13 +27,9 @@ h1, h2, h3, h4 {
   border-collapse: collapse;
 } */
 
-.big { font-size: x-large }
-.small { font-size: small }
-
 .headlink { 
   color: #fff88e;
   font-family:  Arial, Helvetica, sans-serif;
-  font-size: 10pt;
 }
 
 a.headlink:link { color: #fff88e }
