@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Frame;
 
 import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JTabbedPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -28,6 +30,7 @@ import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.client.PlaceView;
 
 import com.threerings.toybox.client.ChatPanel;
+import com.threerings.toybox.client.OccupantList;
 import com.threerings.toybox.client.ToyBoxUI;
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -105,10 +108,23 @@ public class AtlantiPanel extends JPanel
         setOpaque(true);
         setBackground(new Color(0xDAEB9C));
 
+        JTabbedPane pane = new JTabbedPane();
+        pane.setBackground(new Color(0xDAEB9C));
+        sidePanel.add(pane);
+
         // add a chat box
         ChatPanel chat = new ChatPanel(ctx);
         chat.removeSendButton();
-        sidePanel.add(chat);
+        chat.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        pane.addTab(msgs.get("m.chat_header"), chat);
+
+        // add a room occupants list
+        OccupantList occs = new OccupantList(ctx);
+        occs.setBorder(BorderFactory.createCompoundBorder(
+                           BorderFactory.createEmptyBorder(2, 2, 2, 2),
+                           occs.getBorder()));
+        occs.setBackground(ToyBoxUI.LIGHT_BLUE);
+        pane.addTab(msgs.get("m.who_header"), occs);
 
         // add a "back" button
         JButton back = new JButton(msgs.get("m.back_to_lobby"));
