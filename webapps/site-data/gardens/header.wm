@@ -11,10 +11,13 @@
 <link rel="SHORTCUT ICON" href="/favicon.ico">
 </head>
 
-<body>
+<body marginwidth=0 marginheight=0 class="normal_body">
 <!-- main structural table -->
-<table class="header_table" cellpadding="0" width="785">
-<tr><td width="212" height="98">&nbsp;</td>
+<table cellpadding="0" width="785" height="100%">
+<tr><td valign="bottom" width="385" height="110" style="padding-left: 15px">
+#if ($user)
+$i18n.xlate("header.whoami") <b>$user.username</b>
+#end</td>
 <td class="ftable" valign="bottom">
 <a href="/">$i18n.xlate("footer.home")</a>
 | <a href="/about.html">$i18n.xlate("footer.about")</a>
@@ -22,12 +25,8 @@
 | <a href="/discussion/mvnforum/listforums">$i18n.xlate("footer.forums")</a>
 | <a href="/gardens/browse.wm">$i18n.xlate("footer.games")</a>
 
-#if ($user)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-$i18n.xlate("header.whoami") <b>$user.username</b>
-#end
 </td></tr>
-<tr><td colspan="2" style="padding-left: 5px; padding-right: 5px; padding-top: 15px">
+<tr><td colspan="2" valign="top" height="100%" style="padding-left: 15px; padding-top: 15px">
 
 #if ($error)
 <p>

@@ -5,19 +5,17 @@ body {
   color: #4b6419;
 }
 
+.main_body {
+  background: #a2d8d8 url(/images/main_background.png) no-repeat;
+}
+
+.normal_body {
+  background: #a2d8d8 url(/images/header_background.png) no-repeat;
+}
+
 a:link, a:visited { color: #4b6419 }
 a:hover { color: #8c1d12 }
 a:active { color: #8c1d12 }
-
-.main_table {
-  background: #a2d8d8 url(/images/main_background.png) no-repeat;
-  border: 1px solid black;
-}
-
-.header_table {
-  background: #a2d8d8 url(/images/header_background.png) no-repeat;
-  border: 1px solid black;
-}
 
 table {
   border-collapse: collapse;
@@ -26,10 +24,6 @@ table {
 
 th, td, center, div { /* ns 4 */
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.ftable td {
-//  border: 1px solid black;
 }
 
 pre {
