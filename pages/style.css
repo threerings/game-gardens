@@ -2,12 +2,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+table {
+  border-collapse: collapse;
+  border-width: 0;
+}
+
 th, td, center, div { /* ns 4 */
   font-family: Arial, Helvetica, sans-serif;
 }
 
 pre {
-  font-family: Courier New, monospace
+  font-family: Courier New, monospace;
 }
 
 .big { font-size: x-large }
@@ -21,10 +26,6 @@ a:active { color: #8c1d12 }
 h1, h2, h3, h4 { 
    font-family: Arial, Helvetica, sans-serif;
 }
-
-/* table {
-  border-collapse: collapse;
-} */
 
 .headlink { 
   color: #fff88e;
