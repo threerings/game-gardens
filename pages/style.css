@@ -1,5 +1,22 @@
 body { 
   font-family: Arial, Helvetica, sans-serif;
+  padding-top: 0;
+  padding-left: 0;
+  color: #4b6419;
+}
+
+a:link, a:visited { color: #4b6419 }
+a:hover { color: #8c1d12 }
+a:active { color: #8c1d12 }
+
+.main_table {
+  background: #a2d8d8 url(/images/main_background.png) no-repeat;
+  border: 1px solid black;
+}
+
+.header_table {
+  background: #a2d8d8 url(/images/header_background.png) no-repeat;
+  border: 1px solid black;
 }
 
 table {
@@ -11,6 +28,10 @@ th, td, center, div { /* ns 4 */
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.ftable td {
+//  border: 1px solid black;
+}
+
 pre {
   font-family: Courier New, monospace;
 }
@@ -18,32 +39,35 @@ pre {
 .big { font-size: x-large }
 .small { font-size: small }
 
-a:link { color: #053381 }
-a:visited { color: #053381 }
-a:hover { color: #8c1d12 }
-a:active { color: #8c1d12 }
-
 h1, h2, h3, h4 { 
    font-family: Arial, Helvetica, sans-serif;
 }
 
-.headlink { 
-  color: #fff88e;
-  font-family:  Arial, Helvetica, sans-serif;
+.mptd {
+  font-family: Courier New, monospace;
+  font-size: large;
+  border-left: 1px solid #679b02;
+  border-right: 1px solid #679b02;
+  padding-top: 2px;
+  background-color: #76ce5a;
+  vertical-align: top;
+  color: #ffffff
+}
+.mptd a { color: #ffffff }
+.mptd a:hover { color: #8c1d12 }
+
+.cattd {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+  color: #52b234;
+  padding-bottom: 10px
 }
 
-a.headlink:link { color: #fff88e }
-a.headlink:hover { color: #ffffff; text-decoration: none }
-a.headlink:visited { color: #e4c686 }
-a:headlink:active { color: #8c1d12 }
-
-.mptd {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 1px solid black;
-  background-color: #CCCCCC
+a.cath {
+  font-family: Courier New, monospace;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: medium;
 }
 
 .example {
@@ -55,4 +79,20 @@ a:headlink:active { color: #8c1d12 }
   margin-right: 20px;
   border: 1px solid black;
   background-color: #CCCCCC
+}
+
+.ftable {
+  color: #4b6419;
+  font-weight: bold;
+  font-size: small;
+}
+
+.ftable td {
+  vertical-align: bottom;
+}
+
+.ftable a {
+  color: #4b6419;
+  font-weight: bold;
+  font-size: small;
 }
