@@ -1,0 +1,140 @@
+<!--#set var="title" value="Tutorial: Creating Your Own Game"-->
+<!--#include virtual="/header.html" -->
+
+<p><b>Creating Your Own Game</b><br>
+
+The first thing you should do is read through the code for the existing
+sample games as that will give you a good idea of how the toolkit works
+under normal circumstances. We have also provided a "sample" game which is
+really more of a template which you can copy and change the names to start
+yourself off with all the necessary bits in place. This sample game is
+located in the <code>sample</code> directory of the sample games archive
+(should I say sample one more time just for good measure?).
+
+<p> Now we will look at each of the elements of the sample game in turn:
+
+<p><b>SampleObject</b><br>
+This class extends 
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html">GameObject</a></code>
+and defines the data that will be shared between the clients and server
+when playing your game. The standard game object defines a few pieces of
+information which are used to manage the flow of the game.
+
+<ul>
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html#state">GameObject.state</a></code><br>
+This transitions from <code>AWAITING_PLAYERS</code> to
+<code>IN_PLAY</code> and then to either <code>GAME_OVER</code> or
+<code>CANCELLED</code>. As the events arrive indicating a change in this
+attribute, the game manager and controller call methods appropriate to
+each state (which will become apparent as you read about that below).
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html#players">GameObject.players</a></code><br>
+This is an array that contains the usernames of all of the players in the
+game. This is generally used to ensure that events received are in fact
+received from game participants and at the right times (in the case of
+turn-based games, for example) and not malicious users who hack their
+client and try to do funny things. The client user interface generally
+also uses this to display the names of the players and configure the UI
+depending on whether or not the client is a player or is just watching.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html#roundId">GameObject.roundId</a></code><br>
+If multiple games are played by the same participants (rather than leaving
+and matchmaking a new game), as each new game begins, the round id is
+incremented. This allows tracking of results across multiple games and is
+useful when you want to ensure that moves are associated with the proper
+round (lag can sometimes result in move submissions arriving fantastically
+later than expected).  </ul>
+
+<p><b>SampleManager</b><br>
+
+This class extends
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html">GameManager</a></code>
+and is the main entity that lives on the server and manages your game's
+state. It interacts with the players by making changes to the game object
+and it manages the flow of the game. The following methods are called as
+the game procedes through its normal lifetime:
+
+<ul><li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#startGame()">startGame()</a></code><br>
+This is called automatically when all of the players have arrived in the
+game "room" and it triggers the normal starting procedure.
+
+<ul>
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#gameWillStart()">gameWillStart()</a></code><br>
+This is the method you would override to make modifications to the game
+object prior to the game being started. This might include generating a
+new board and setting it in the game object or resetting the player's
+scores to zero or whatever is appropriate to your game.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#gameDidStart()">gameDidStart()</a></code><br>
+This is called after the game starting events have been dispatched to the
+clients. If your game involved taking turns or reacting to a timer or
+some other periodic in-game activity, this is where you would begin that
+process. Indeed the <code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/turn/TurnGameManager.html">TurnGameManager</a></code>
+(which we don't document here but is useful for turn-based games) makes
+use of this method to start the turn-taking process.
+</ul>
+<br>
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#endGame()">endGame()</a></code><br>
+This method is called by your code when some game-ending condition has
+taken place. Perhaps all the cards or tiles were used up, or maybe a timer
+has finally expired. Whatever the case, your code calls this method which
+triggers the standard game ending process.
+
+<ul>
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#gameWillEnd()">gameWillEnd()</a></code><br>
+This is a method you can override to take care of any final processing
+before the game transitions to the
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html#GAME_OVER">GameObject.GAME_OVER</a></code>
+state. In general, this method is used less often than
+<code>gameDidEnd()</code> (documented next) as that's where you would
+unregister timers and do whatever other cleanup that might need to be done
+after the game ends. However, for completeness and in the off chance that
+something needs to be done before the game actually ends, this method exists.
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#gameDidEnd()">gameDidEnd()</a></code><br>
+This method is called after the event has been dispatched to the client
+letting them know that the game is over. This is a good place to compute
+final scores, assign a winner and generally wrap the game up.
+</ul>
+
+<p> It should be noted that it is possible for <code>gameWillEnd()</code>
+and <code>gameDidEnd()</code> to be called even though your code did not
+call <code>endGame()</code> explicitly. If all players involved in the
+game leave the game room, the game will be cancelled (it will transition
+to the <code>CANCELLED</code> state instead of the <code>GAME_OVER</code>
+state) and the normal game-ending callbacks will be called to clean up
+after the game. Your game ending code should check the
+<code>GameObject.state</code> when being called and avoid doing things
+like computing scores and whatnot if the game was cancelled.
+<br>
+
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#resetGame()">resetGame()</a></code><br>
+In the event that you wish to restart a game without actually ending it
+and triggering the standard ending procedures, it is possible to "reset" a
+game which transitions through the start-up process again
+(<code>gameWillStart()</code> and <code>gameDidStart()</code> will be
+called as in a normal startup, but <code>gameWillEnd()</code> and
+<code>gameDidEnd()</code> will <em>not</em> be called).
+
+<ul>
+<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameManager.html#gameWillReset()">gameWillReset()</a></code><br>
+This is the method you would override to clear anything out that needed to
+be cleared out before your game was restarted if you want to make use of
+the game "reset" mechanism.
+</ul>
+</ul>
+
+<p><b>SampleController</b><br>
+
+This class extends 
+<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameController.html">GameController</a></code>
+and manages the flow of the game on the client. It acts as the controller
+in the standard model/view/controller paradigm where the model in this
+case is the <code>SampleObject</code> and the view will be explained
+momentarily. As the controller, it reacts to changes in the model and to
+user input...
+
+<p> To be continued...
+
+<!--#include virtual="/footer.html" -->
