@@ -22,7 +22,11 @@ fi
 
 CLASS=com.threerings.toybox.server.ToyBoxServer
 JAVA_ARGS="-server -Dlog_level=$LOGLEVEL"
-
+SECURITY_POLICY="$GARDENS_HOME/etc/gardens.policy"
+if [ -f $SECURITY_POLICY ]; then
+    JAVA_ARGS="$JAVA_ARG5BS -Djava.security.manager"
+    JAVA_ARGS="$JAVA_ARGS -Djava.security.policy=$SECURITY_POLICY"
+fi
 umask 002
 
 JAVA_VM="$JAVA_HOME/bin/java"
