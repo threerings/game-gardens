@@ -42,6 +42,9 @@ CREATE TABLE GAMES
     /** Brief instructions on how to play the game. */
     INSTRUCTIONS TEXT NOT NULL,
 
+    /** Credits and license information for the game. */
+    CREDITS TEXT NOT NULL,
+
     /** The day on which the game was created. */
     CREATED DATE NOT NULL,
 

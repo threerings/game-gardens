@@ -75,6 +75,9 @@ public class Game
     /** Brief instructions on how to play the game. */
     public String instructions;
 
+    /** Credits and license information for the game. */
+    public String credits;
+
     /** The date on which the game was created. */
     public Date created;
 
