@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -46,6 +47,10 @@ import com.samskivert.swing.GroupLayout;
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.MultiLineLabel;
 import com.samskivert.swing.VGroupLayout;
+
+import com.threerings.media.image.BufferedMirage;
+import com.threerings.media.image.ImageUtil;
+import com.threerings.media.image.Mirage;
 
 import com.threerings.util.MessageBundle;
 import com.threerings.util.Name;
@@ -86,11 +91,15 @@ public class LogonPanel extends JPanel
         box.setOpaque(false);
         add(box);
 
-        // load our background image
+        // load our background imagery
         try {
             _bgimg = ImageIO.read(
                 getClass().getClassLoader().getResourceAsStream(
                     "rsrc/media/logon_background.png"));
+            _flowers = new BufferedMirage(
+                ImageIO.read(
+                    getClass().getClassLoader().getResourceAsStream(
+                        "rsrc/media/lobby_background.png")));
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to load background image.", e);
         }
@@ -225,14 +234,18 @@ public class LogonPanel extends JPanel
     protected void paintComponent (Graphics g)
     {
         super.paintComponent(g);
+        int width = getWidth(), height = getHeight();
 
+        // first tile the flowers
+        if (_flowers != null) {
+            Graphics2D gfx = (Graphics2D)g;
+            ImageUtil.tileImage(gfx, _flowers, 0, 0, width, height);
+        }
+
+        // then draw the background image centered on top of that
         if (_bgimg != null) {
-            int width = getWidth(), height = getHeight();
-            int iwidth = _bgimg.getWidth(), iheight = _bgimg.getHeight();
-            int xoff = (width - iwidth)/2, yoff = (height - iheight)/2;
-            g.drawImage(_bgimg, xoff, yoff, null);
-            g.setColor(Color.black);
-            g.drawRect(xoff-1, yoff-1, iwidth+1, iheight+1);
+            g.drawImage(_bgimg, (width - _bgimg.getWidth())/2,
+                        (height - _bgimg.getHeight())/2, null);
         }
     }
 
@@ -281,4 +294,5 @@ public class LogonPanel extends JPanel
     protected MultiLineLabel _status;
 
     protected BufferedImage _bgimg;
+    protected Mirage _flowers;
 }
