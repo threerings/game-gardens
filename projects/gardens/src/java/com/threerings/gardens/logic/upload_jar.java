@@ -93,7 +93,7 @@ public class upload_jar extends UserLogic
             throw new FriendlyException("upload_jar.error.missing_jar");
         }
 
-        File jar = new File(gdir, gamedef.getJarName());
+        File jar = new File(gdir, gamedef.getJarName(gameId));
         item.write(jar);
         log.info("Wrote " + jar + ".");
 
