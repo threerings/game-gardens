@@ -94,7 +94,7 @@
   <target name="compile" depends="prepare">
     <javac srcdir="src/java" destdir="${classes.dir}"
            debug="on" optimize="{$build.optimize}" deprecation="on"
-           includeAntRuntime="no">
+           includeAntRuntime="no" source="1.5">
       <classpath refid="classpath"/>
     </javac>
   </target>
