@@ -19,7 +19,7 @@ import com.threerings.gardens.GardensApp;
 /**
  * Handles the logic behind creating and managing a game's metadata.
  */
-public class view_game extends UserLogic
+public class view_game extends OptionalUserLogic
 {
     // documentation inherited
     public void invoke (InvocationContext ctx, GardensApp app, User user)
