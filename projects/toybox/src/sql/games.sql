@@ -14,6 +14,9 @@ CREATE TABLE GAMES
     /** A unique integer identifier for this game. */
     GAME_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 
+    /** The human readable name of this game. */
+    NAME VARCHAR(255) NOT NULL,
+
     /** The user id of the maintainer. */
     MAINTAINER_ID INTEGER UNSIGNED NOT NULL,
 
@@ -27,17 +30,17 @@ CREATE TABLE GAMES
     /** The current version's XML definition. */
     DEFINITION TEXT NOT NULL,
 
+    /** The MD5 digest of the game jar file. */
+    DIGEST VARCHAR(255) NOT NULL,
+
     /** A short description of the game. */
     DESCRIPTION TEXT NOT NULL,
 
     /** Brief instructions on how to play the game. */
     INSTRUCTIONS TEXT NOT NULL,
 
-    /** The MD5 digest of the game jar file. */
-    DIGEST VARCHAR(255) NOT NULL,
-
     /** The last update time of the game's jar file. */
-    LAST_UPDATE DATETIME NOT NULL,
+    LAST_UPDATED DATETIME NOT NULL,
 
     /**
      * Define our table keys.
