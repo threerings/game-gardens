@@ -4,24 +4,18 @@
   <!-- the base directory from which we get our bundles and jar files -->
   <property name="base.dir" value="../.."/>
 
-  <!-- import local properties -->
-  <property file="build.properties"/>
-
   <!-- the web application name and derived parameters -->
   <property name="app.name"       value="gametable"/>
   <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
   <property name="install.dir"    value="${base.dir}/webapps"/>
   <property name="dist.war"       value="${app.name}.war"/>
+  <property name="java.libraries" value="${base.dir}/lib"/>
 
   <!-- these allow us to reload our webapp on the fly -->
   <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask" />
   <property name="tomcat.url" value="http://localhost/manager"/> 
   <property name="tomcat.user" value="username"/> 
   <property name="tomcat.pass" value="password"/> 
-
-  <!-- we want to access the environment -->
-  <property environment="env"/>
-  <property name="java.libraries" value="${env.JAVA_LIBS}"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -45,7 +39,7 @@
     <mkdir dir="${deploy.dir}/WEB-INF/lib"/>
     <!-- copy the library jar files -->
     <copy todir="${deploy.dir}/WEB-INF/lib">
-      <fileset dir="${java.libraries}" includesfile="lib/USER_LIBS"/>
+      <fileset dir="${java.libraries}" includesfile="lib/LIBS"/>
     </copy>
   </target>
 

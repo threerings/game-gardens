@@ -1,5 +1,5 @@
 //
-// $Id: game_jnlp.java,v 1.1 2004/01/20 14:35:13 mdb Exp $
+// $Id: game_jnlp.java,v 1.2 2004/11/15 01:49:34 mdb Exp $
 
 package com.threerings.gametable.logic;
 
@@ -42,29 +42,20 @@ public class game_jnlp implements Logic
         }
         ctx.put("game", game);
 
-        String requrl = req.getRequestURL().toString();
         String path = gtapp.getProperty("game_data_path");
         URL codebase;
         try {
-            codebase = new URL(new URL(requrl), path);
+            codebase = new URL("http", game.host, 80, path);
         } catch (Exception e) {
-            Log.warning("Error creating codebase URL [req=" + requrl +
+            Log.warning("Error creating codebase URL [ghost=" + game.host +
                         ", path=" + path + ", error=" + e + "].");
             throw new FriendlyException("error.internal_error");
         }
 
+        ctx.put("base_path", req.getContextPath());
         ctx.put("codebase", codebase.toString());
         ctx.put("libs_dir", ToyBoxCodes.LIBRARY_SUBDIR);
-        ctx.put("game_dir", ToyBoxConfig.getGameSubdir(game));
         ctx.put("jre_version", "1.4.2+"); // TODO: allow per game custom.
-    }
-
-    protected String appendToPath (String path, String more)
-    {
-        if (path.endsWith("/") || more.startsWith("/")) {
-            return path + more;
-        } else {
-            return path + "/" + more;
-        }
+        ctx.put("server", game.host);
     }
 }

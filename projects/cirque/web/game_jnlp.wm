@@ -12,11 +12,11 @@
      download and install the Sun JRE from http://java.sun.com/j2se/ -->
 
 <jnlp spec="1.0+" codebase="$codebase"
-      href="/gametable/game_jnlp.wm?gameid=$game.gameId">
+      href="$base_path/game_jnlp.wm?gameid=$game.gameId">
   <information>
     <title>$game.name</title>
     <vendor>Three Rings Design, Inc.</vendor>
-    <homepage href="/gametable/game.wm?gameid=$game.gameId"/>
+    <homepage href="$base_path/game.wm?gameid=$game.gameId"/>
     <!--<icon kind="splash" href="images/splash.gif"/>-->
     <!--<icon href="images/yohoho.gif"/>-->
 <!--    <description kind="short">
@@ -26,12 +26,13 @@
       ...
     </description> -->
   </information>
-<!--  <security>
+  <security>
     <all-permissions/>
-  </security> -->
+  </security>
   <resources>
     <j2se version="$jre_version"
           href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="$libs_dir/toxbox.jar"/>
     <jar href="$libs_dir/narya-micasa.jar"/>
     <jar href="$libs_dir/narya-distrib.jar"/>
     <jar href="$libs_dir/narya-parlor.jar"/>
@@ -39,8 +40,8 @@
     <jar href="$libs_dir/narya-base.jar"/>
     <jar href="$libs_dir/narya-micasa.jar"/>
     <jar href="$libs_dir/samskivert.jar"/>
-    <jar href="$game_dir/game.jar"/>
+    <property name="gameid" value="$game.gameId"/>
   </resources>
-  <application-desc main-class="com.threerings.yohoho.client.YoApp"/>
+  <application-desc main-class="com.threerings.toybox.client.Launcher"/>
 </jnlp>
 #end

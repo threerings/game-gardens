@@ -1,5 +1,5 @@
 //
-// $Id: upload_jar.java,v 1.1 2004/01/20 14:35:13 mdb Exp $
+// $Id: upload_jar.java,v 1.2 2004/11/15 01:49:34 mdb Exp $
 
 package com.threerings.gametable.logic;
 
@@ -32,6 +32,7 @@ public class upload_jar extends UserLogic
     {
         HttpServletRequest req = ctx.getRequest();
 
+        // TODO: check disk usage, set max size to current quota
         DiskFileUpload fu = new DiskFileUpload();
         fu.setSizeMax(MAX_GAME_JAR_SIZE);
         fu.setSizeThreshold(4096); // memory buffer size

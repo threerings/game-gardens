@@ -1,6 +1,16 @@
 #set ($title = $i18n.xlate("edit_game.title"))
 #import ("/header.wm")
 
+#if ($games.size() > 0)
+<table>
+#foreach ($game in $games)
+<tr><td><a href="edit_game.wm?gameid=$game.gameId">$game.name</a></td></tr>
+#end
+</table>
+#else
+$i18n.xlate("browse.no_games")
+#end
+
 #if ($game)
 <form action="edit_game.wm" method="POST">
 $form.hidden("action", $action)
@@ -9,7 +19,7 @@ $form.hidden("gameid", $game.gameId)
 <tr><td>$i18n.xlate("edit_game.meta.name")</td>
 <td>$form.text("name", "", $game.name)</td></tr>
 <tr><td colspan="2">$i18n.xlate("edit_game.meta.definition")<br>
-$form.textarea("definition", "rows='30' cols='80'", $game.definition)
+$form.textarea("definition", "rows='10' cols='80'", $game.definition)
 </td></tr>
 <tr><td colspan="2" align="right">
 #if ($action == "create")

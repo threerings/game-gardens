@@ -1,5 +1,5 @@
 //
-// $Id: edit_game.java,v 1.1 2004/01/20 14:35:13 mdb Exp $
+// $Id: edit_game.java,v 1.2 2004/11/15 01:49:34 mdb Exp $
 
 package com.threerings.gametable.logic;
 
@@ -59,7 +59,8 @@ public class edit_game extends UserLogic
             game = new Game();
             game.status = Game.PENDING;
             game.maintainerId = user.userId;
-            game.host = "baltic.sea.threerings.net";
+            // TODO: get host from ToyBoxConfig?
+            game.host = req.getServerName();
             game.testDefinition = "";
             ctx.put("game", game);
 
