@@ -22,6 +22,8 @@
 package com.threerings.toybox.client;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.samskivert.swing.HGroupLayout;
@@ -121,10 +123,6 @@ public class ToyBoxGameConfigurator extends GameConfigurator
         {
             super(msgs.get("m.range_" + param.ident),
                   param.minimum, param.maximum, param.start);
-
-            getSlider().setPaintTicks(true);
-            int range = param.maximum - param.minimum;
-            getSlider().setMajorTickSpacing(Math.min(10, range));
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
@@ -165,14 +163,53 @@ public class ToyBoxGameConfigurator extends GameConfigurator
     {
         public ChoiceEditor (MessageBundle msgs, ChoiceParameter param)
         {
+            setLayout(new HGroupLayout(HGroupLayout.NONE,
+                                       HGroupLayout.LEFT));
+            Choice[] choices = new Choice[param.choices.length];
+            Choice selection = null;
+            for (int ii = 0; ii < choices.length; ii++) {
+                String choice = param.choices[ii];
+                choices[ii] = new Choice();
+                choices[ii].choice = choice;
+                choices[ii].label = msgs.get("m.choice_" + choice);
+                if (choice.equals(param.start)) {
+                    selection = choices[ii];
+                }
+            }
+            add(new JLabel(msgs.get("m.choice_" + param.ident)));
+            add(_combo = new JComboBox(choices));
+            if (selection != null) {
+                _combo.setSelectedItem(selection);
+            }
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
         {
+            String choice = (String)config.params.get(param.ident);
+            for (int ii = 0; ii < _combo.getItemCount(); ii++) {
+                Choice item = (Choice)_combo.getItemAt(ii);
+                if (item.choice.equals(choice)) {
+                    _combo.setSelectedIndex(ii);
+                    break;
+                }
+            }
         }
 
         public void writeParameter (Parameter param, ToyBoxGameConfig config)
         {
+            config.params.put(
+                param.ident, ((Choice)_combo.getSelectedItem()).choice);
+        }
+
+        protected JComboBox _combo;
+    }
+
+    protected static class Choice
+    {
+        public String choice;
+        public String label;
+        public String toString () {
+            return label;
         }
     }
 
