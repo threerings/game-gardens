@@ -98,7 +98,7 @@ public class ToyBoxRepository extends JORARepository
     {
         final Date thisWeek = getWeek(0);
         final Date lastWeek = getWeek(-1);
-        return (ArrayList)execute(new Operation() {
+        return (ArrayList<Game>)execute(new Operation() {
             public Object invoke (Connection conn, DatabaseLiaison liaison)
                 throws SQLException, PersistenceException
             {
@@ -282,7 +282,7 @@ public class ToyBoxRepository extends JORARepository
         where = StringUtil.blank(where) ? "where " : (where + " and ");
         where = where + "STATUS = '" + Game.Status.READY.toString() + "'";
         final String query = where + " " + extra;
-        return (ArrayList)execute(new Operation() {
+        return (ArrayList<Game>)execute(new Operation() {
             public Object invoke (Connection conn, DatabaseLiaison liaison)
                 throws SQLException, PersistenceException
             {
