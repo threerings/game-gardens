@@ -1,8 +1,8 @@
 <!-- build configuration -->
-<project name="atlanti" default="compile" basedir=".">
+<project name="atlantis" default="compile" basedir=".">
 
   <!-- things you may want to change -->
-  <property name="app.name"         value="atlanti"/>
+  <property name="app.name"         value="atlantis"/>
   <property name="doc.packages"     value="com.samskivert.atlanti.*"/>
   <property name="copy.holder"      value="Michael Bayne"/>
 
