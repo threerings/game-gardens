@@ -25,26 +25,27 @@ $i18n.xlate("browse.${category}.intro")
 $i18n.xlate("browse.all.intro")
 #end
 
-<p><table width="768">
-<tr style="border-bottom: 1px solid"><td>$i18n.xlate("browse.header.game")</td>
+<p><table width="768" cellpadding="2">
+<tr style="border-bottom: 1px solid"><td width="90">$i18n.xlate("browse.header.game")</td>
 #if (!$category)
 <td>$i18n.xlate("browse.header.category")</td>
 #end
-<td>$i18n.xlate("browse.header.description")</td>
-<td>&nbsp;</td></tr>
+<td>&nbsp;</td>
+<td>$i18n.xlate("browse.header.description")</td></tr>
 
 #if ($games.size() > 0)
 #foreach ($game in $games)
-<tr><td>
+<tr valign="top"><td>
 <a href="view_game.wm?gameid=$game.gameId">$game.name</a>
 </td>
 #if (!$category)
 <td>$i18n.xlate("category.$game.category")</td>
 #end
-<td>$string.truncate($game.description, 200, "...")</td>
 <td class="small">
 [<a href="game_${game.gameId}.jnlp">$i18n.xlate("browse.play")</a>]
-</td></tr>
+</td>
+<td>$string.truncate($game.description, 120, "...")</td>
+</tr>
 #end
 #else
 <tr><td colspan="3">$i18n.xlate("browse.no_games")</td></tr>
