@@ -262,7 +262,8 @@ public class ToyBoxDirector extends BasicDirector
             if (rsrc != null) {
                 rsrcs.add(rsrc);
             }
-            for (int ii = 0; ii < gamedef.libs.length; ii++) {
+            int lcount = (gamedef.libs == null) ? 0 : gamedef.libs.length;
+            for (int ii = 0; ii < lcount; ii++) {
                 rsrc = checkResource(gamedef.libs[ii].getFilePath(),
                                      gamedef.libs[ii].getURLPath(),
                                      md, gamedef.libs[ii].digest);
