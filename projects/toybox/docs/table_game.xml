@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- $Id: table_game.xml,v 1.1 2004/01/20 14:44:40 mdb Exp $ -->
+<!-- A sample game definition file for a table game. -->
+<game ident="tabula_rasa">
+  <!-- Herein we define how the game is matchmade and configured. -->
+  <config type="table">
+    <!-- Properties configure the match maker, in this case: table. -->
+    <property name="min_seats" value="2"/>
+    <property name="max_seats" value="4"/>
+
+    <!-- Parameters define values that the user can customize when -->
+    <!-- creating a game and which are passed on to the game itself -->
+    <!-- to customize the gameplay. -->
+    <range name="rounds" minimum="2" maximum="100" default="5"/>
+    <choice name="rules" options="standard,quick,zany" default="standard"/>
+    <toggle name="monkeys" default="true"/>
+  </config>
+
+  <!-- Here the library version dependencies are enumerated. -->
+  <libs>
+    <library name="narya-media" version="1.0"/>
+    <library name="narya-basic" version="1.0"/>
+    <library name="samskivert" version="1.0"/>
+  </libs>
+</game>

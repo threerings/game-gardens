@@ -1,0 +1,72 @@
+Game Table - Free Multiplayer Online Gaming -*- mode: outline -*-
+
+* Summary
+Provide a multiplayer networked game toolkit (written in Java) along with
+well documented example games that demonstrate the functionality provided
+by the toolkit. Allow would-be game developers to create their own games
+and "upload" them to the site where they become playable by anyone who
+happens along in the form of Java Web Start applications.
+
+The toolkit will be structured such that the code can run in a sandbox on
+both the client and server. On the server, only distributed object
+manipulations will be allowed, on the client, the standard set of
+functionality provided to unsigned Java Web Start applications will be
+allowed.
+
+When the library of games becomes sufficiently large, either a
+subscription or micropayment system could be setup to derive revenue from
+some set of "premium" games.
+
+* Development plan
+- Refactor cvs.threerings.net repository to allow anonymous public access
+  to Narya
+- Develop database backed "game registry" and modify basic MiCasa lobby
+  system to interface with it
+- Develop the server-side "sand box" in which games' server code will run,
+  it will need not only to restrict functionality, but also to
+  automatically use the latest .jar file each time a game is started
+- Develop a web application that allows the management of games in the
+  registry by their owners
+  + provide description, documentation
+  + upload/manage .jar files for client and server
+- Wire the system up to a user database (probably OOO's UUDB)
+- Port the various demos, etc. to the system
+
+* Architecture overview
+- Each game server machine runs a lobby JVM to which all clients connect
+- The lobby JVM spawns a game JVM for each game implementation (say
+  someone wrote a game called foo, there would be one JVM that managed all
+  foo games), this allows for minimal resource use while protecting us
+  from poorly implemented code that causes the JVM to go into an infinite
+  loop or similar
+- The lobby JVM connects to these game JVMs as a client and proxies the
+  game object for the actual clients; it then also manages things like
+  presence (updating the game object when clients "enter" and "leave" the
+  game, when they disconnect/reconnect, etc.)
+
+* Technical notes
+- Will require some sort of XML match-making control file to configure
+  game prior to match making because we don't want to run any game code on
+  the lobby server
+
+** Session flow
+- User clicks on a link on the web site indicating that they'd like to
+  play game X
+- Web server dynamically generates JNLP file with appropriate jar file
+  information, codebase, game and server configuration
+- User downloads game code and launches the game
+- Game begins execution in generic lobby code which requests that the user
+  authenticate, then connects to the appropriate server and requests
+  lobbies for the configured game type
+- User enters lobby wherein they can configure games
+- Upon user's entry to lobby, game server ensures that a JVM is running
+  for the game in question
+- User configures game and begins play, standard gameReady code causes
+  game code to be launched
+- Upon completion of the game, user is returned to game lobby
+
+** Web application
+- Game category browser
+- Game info page
+- Game creation/edit page: edit metadata, manage/upload jar files
+- Game launch applet (constructs JNLP file on the fly)
