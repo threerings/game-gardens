@@ -13,9 +13,7 @@ fi
 ROOT=`dirname $0`/..
 LOCKFILE=/tmp/rebuild-gardens.lock
 
-if [ -z "$JAVA_HOME" ]; then
-    export JAVA_HOME=/usr/local/jdk1.5
-fi
+export JAVA_HOME=/usr/local/jdk1.5
 export PATH=$JAVA_HOME/bin:$PATH
 
 # make sure directories are created sanely
