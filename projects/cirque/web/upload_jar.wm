@@ -1,0 +1,4 @@
+#set ($title = $i18n.xlate("upload_jar.title"))
+#import ("/header.wm")
+
+#import ("/footer.wm")

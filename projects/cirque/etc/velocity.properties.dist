@@ -1,0 +1,23 @@
+#
+# $Id: velocity.properties.dist,v 1.1 2004/01/20 14:35:13 mdb Exp $
+#
+# Velocity engine configuration overrides
+
+#
+# Adjust Velocity's default foreach behavior which counts from one and
+# uses an absurdly long loop variable man ($velocityCount).
+
+directive.foreach.counter.name = vidx
+directive.foreach.counter.initial.value = 0
+
+#
+# We don't use velocimacros and don't care to hear Velocity complain about
+# not being able to load the global velocimacro library.
+
+velocimacro.library =
+
+#
+# Uncomment the following and replace the path as appropriate to reference
+# the development web directory directly for testing purposes.
+
+# file.resource.loader.path = /export/gametable/projects/gametable/web

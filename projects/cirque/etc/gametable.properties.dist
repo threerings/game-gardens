@@ -1,0 +1,24 @@
+#
+# $Id: gametable.properties.dist,v 1.1 2004/01/20 14:35:13 mdb Exp $
+#
+# Configuration parameters for the Game Table web appication
+
+#
+# The location in which game jar files are stored. This should live in the
+# web server's document tree and the associated path is used to reference
+# this directory in URLs. In the specified directory, subdirectories for
+# each game will be created.
+
+game_data_dir = /export/gametable/pages/games
+game_data_path = /games
+
+#
+# These are standard configurations that you probably don't want to change
+
+login_url = register.wm?from=%R
+access_denied_url = access_denied.wm
+
+#
+# Whether or not we should strip host.domain.com cookies to .domain.com
+
+auth_cookie.strip_hostname = true

@@ -1,0 +1,9 @@
+#
+# $Id: repository.properties.dist,v 1.1 2004/01/20 14:35:13 mdb Exp $
+#
+# Game Table webapp database configuration
+
+default.driver = org.gjt.mm.mysql.Driver
+default.username = USERNAME
+default.password = PASSWORD
+default.url = jdbc:mysql://DATABASE_HOST:3306/DATABASE_NAME

@@ -1,0 +1,90 @@
+<!-- project build configuration -->
+<project name="Game Table" default="all" basedir=".">
+
+  <!-- the base directory from which we get our bundles and jar files -->
+  <property name="base.dir" value="../.."/>
+
+  <!-- import local properties -->
+  <property file="build.properties"/>
+
+  <!-- the web application name and derived parameters -->
+  <property name="app.name"       value="gametable"/>
+  <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
+  <property name="install.dir"    value="${base.dir}/webapps"/>
+  <property name="dist.war"       value="${app.name}.war"/>
+
+  <!-- these allow us to reload our webapp on the fly -->
+  <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask" />
+  <property name="tomcat.url" value="http://localhost/manager"/> 
+  <property name="tomcat.user" value="username"/> 
+  <property name="tomcat.pass" value="password"/> 
+
+  <!-- we want to access the environment -->
+  <property environment="env"/>
+  <property name="java.libraries" value="${env.JAVA_LIBS}"/>
+
+  <!-- declare our classpath -->
+  <path id="classpath">
+    <pathelement location="${deploy.dir}/WEB-INF/classes"/>
+    <fileset dir="lib" includes="**/*.jar"/>
+    <fileset dir="${java.libraries}" includes="**/*.jar"/>
+  </path>
+
+  <!-- prepares the application directories -->
+  <target name="prepare">
+    <mkdir dir="${deploy.dir}"/>
+    <copy todir="${deploy.dir}">
+      <fileset dir="web" excludes="**/*.in"/>
+    </copy>
+    <mkdir dir="${deploy.dir}/WEB-INF"/>
+    <copy file="etc/web.xml" tofile="${deploy.dir}/WEB-INF/web.xml"/>
+    <copy todir="${deploy.dir}/WEB-INF/classes">
+      <fileset dir="etc" includes="**/*.properties"/>
+    </copy>
+    <mkdir dir="${deploy.dir}/WEB-INF/classes"/>
+    <mkdir dir="${deploy.dir}/WEB-INF/lib"/>
+    <!-- copy the library jar files -->
+    <copy todir="${deploy.dir}/WEB-INF/lib">
+      <fileset dir="${java.libraries}" includesfile="lib/USER_LIBS"/>
+    </copy>
+  </target>
+
+  <!-- build the java class files -->
+  <target name="compile" depends="prepare">
+    <javac srcdir="src" destdir="${deploy.dir}/WEB-INF/classes"
+           debug="on" optimize="${build.optimize}">
+      <classpath refid="classpath"/>
+    </javac>
+    <copy todir="${deploy.dir}/WEB-INF/classes">
+      <fileset dir="src" includes="**/*.properties"/>
+    </copy>
+  </target>
+
+  <!-- cleans out the installed application -->
+  <target name="clean">
+    <delete dir="${deploy.dir}"/>
+  </target>
+
+  <!-- the default target is to rebuild everything -->
+  <target name="all" depends="prepare,compile"/>
+
+  <!-- builds and reloads our webapp -->
+  <target name="reload" depends="prepare,compile">
+    <reload url="${tomcat.url}" path="/${app.name}"
+      username="${tomcat.user}" password="${tomcat.pass}"/> 
+  </target>
+
+  <!-- builds our distribution files (war and jar) -->
+  <target name="dist" depends="all">
+    <!-- update the build timestamp file -->
+    <propertyfile file="${deploy.dir}/WEB-INF/classes/build.properties">
+      <entry key="build.time" type="date" value="now"/>
+    </propertyfile>
+    <jar destfile="${dist.war}" basedir="${deploy.dir}"/>
+  </target>
+
+  <!-- builds the .war file and installs it into the webapp directory -->
+  <target name="install" depends="dist">
+    <copy file="${dist.war}" todir="${install.dir}"/>
+  </target>
+</project>

@@ -1,0 +1,46 @@
+#if ($error || $status)
+#set ($title = $i18n.xlate("game_jnlp.title"))
+#import ("/header.wm")
+
+#import ("/footer.wm")
+#else
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- JNLP File for $game.name -->
+
+<!-- If you're seeing this in your web browser, you probably need to
+     download and install the Sun JRE from http://java.sun.com/j2se/ -->
+
+<jnlp spec="1.0+" codebase="$codebase"
+      href="/gametable/game_jnlp.wm?gameid=$game.gameId">
+  <information>
+    <title>$game.name</title>
+    <vendor>Three Rings Design, Inc.</vendor>
+    <homepage href="/gametable/game.wm?gameid=$game.gameId"/>
+    <!--<icon kind="splash" href="images/splash.gif"/>-->
+    <!--<icon href="images/yohoho.gif"/>-->
+<!--    <description kind="short">
+      ...
+    </description> -->
+<!--    <description>
+      ...
+    </description> -->
+  </information>
+<!--  <security>
+    <all-permissions/>
+  </security> -->
+  <resources>
+    <j2se version="$jre_version"
+          href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="$libs_dir/narya-micasa.jar"/>
+    <jar href="$libs_dir/narya-distrib.jar"/>
+    <jar href="$libs_dir/narya-parlor.jar"/>
+    <jar href="$libs_dir/narya-media.jar"/>
+    <jar href="$libs_dir/narya-base.jar"/>
+    <jar href="$libs_dir/narya-micasa.jar"/>
+    <jar href="$libs_dir/samskivert.jar"/>
+    <jar href="$game_dir/game.jar"/>
+  </resources>
+  <application-desc main-class="com.threerings.yohoho.client.YoApp"/>
+</jnlp>
+#end

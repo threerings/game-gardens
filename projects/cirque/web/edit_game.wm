@@ -1,0 +1,33 @@
+#set ($title = $i18n.xlate("edit_game.title"))
+#import ("/header.wm")
+
+#if ($game)
+<form action="edit_game.wm" method="POST">
+$form.hidden("action", $action)
+$form.hidden("gameid", $game.gameId)
+<table cellpadding="6" cellspacing="0" border="0">
+<tr><td>$i18n.xlate("edit_game.meta.name")</td>
+<td>$form.text("name", "", $game.name)</td></tr>
+<tr><td colspan="2">$i18n.xlate("edit_game.meta.definition")<br>
+$form.textarea("definition", "rows='10' cols='80'", $game.definition)
+</td></tr>
+<tr><td colspan="2" align="right">
+#if ($action == "create")
+$form.submit($i18n.xlate("edit_game.meta.create"))
+#else
+$form.submit($i18n.xlate("edit_game.meta.update"))
+#end
+</td></tr>
+</table>
+</form>
+
+#if ($game.gameId > 0)
+<form enctype="multipart/form-data" action="upload_jar.wm" method="POST">
+$form.hidden("gameid", $game.gameId)
+$i18n.xlate("edit_game.upload.file") <input name="jar" TYPE="file">
+$form.submit($i18n.xlate("edit_game.upload.submit"))
+</form>
+#end
+#end
+
+#import ("/footer.wm")
