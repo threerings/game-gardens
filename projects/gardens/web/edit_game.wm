@@ -9,6 +9,17 @@ $form.hidden("gameid", $game.gameId)
 
 <tr><td>$i18n.xlate("edit_game.name")</td>
 <td>$form.text("name", "size='40'", $game.name)</td></tr>
+
+<tr><td>$i18n.xlate("edit_game.category")</td>
+<td><select name="category">
+$form.option("category", "other", $i18n.xlate("category.other"), $game.category)
+$form.option("category", "strategy", $i18n.xlate("category.strategy"), $game.category)
+$form.option("category", "classic", $i18n.xlate("category.classic"), $game.category)
+$form.option("category", "card", $i18n.xlate("category.card"), $game.category)
+$form.option("category", "word", $i18n.xlate("category.word"), $game.category)
+$form.option("category", "party", $i18n.xlate("category.party"), $game.category)
+</select></td></tr>
+
 <tr><td colspan=2>&nbsp;</td></tr>
 
 #macro (tinput $name $rows $defvalue)

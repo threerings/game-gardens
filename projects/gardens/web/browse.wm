@@ -1,6 +1,10 @@
 #set ($title = $i18n.xlate("browse.title"))
 #import ("/header.wm")
 
+#if ($category)
+$i18n.xlate("browse.${category}.intro")
+#end
+
 #if ($games.size() > 0)
 <p><table>
 #foreach ($game in $games)
@@ -12,7 +16,7 @@
 #end
 </table>
 #else
-$i18n.xlate("browse.no_games")
+<p> $i18n.xlate("browse.no_games")
 #end
 
 #import ("/footer.wm")

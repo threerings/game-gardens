@@ -35,6 +35,7 @@ import com.samskivert.jdbc.jora.Table;
 import com.samskivert.io.PersistenceException;
 import com.samskivert.util.HashIntMap;
 import com.samskivert.util.SortableArrayList;
+import com.samskivert.util.StringUtil;
 
 import static com.threerings.toybox.Log.log;
 
@@ -67,11 +68,29 @@ public class ToyBoxRepository extends JORARepository
     public ArrayList loadGames ()
         throws PersistenceException
     {
+        return loadGamesWhere("");
+    }
+
+    /**
+     * Loads up all of the games in the repository with the specified
+     * category.
+     */
+    public ArrayList loadGames (String category)
+        throws PersistenceException
+    {
+        category = StringUtil.replace(category, "'", "\\'");
+        return loadGamesWhere("where category = '" + category + "'");
+    }
+
+    /** Helper function for the <code>loadGames</code> methods. */
+    protected ArrayList loadGamesWhere (final String query)
+        throws PersistenceException
+    {
         return (ArrayList)execute(new Operation() {
             public Object invoke (Connection conn, DatabaseLiaison liaison)
                 throws SQLException, PersistenceException
             {
-                return _gtable.select("").toArrayList();
+                return _gtable.select(query).toArrayList();
             }
         });
     }

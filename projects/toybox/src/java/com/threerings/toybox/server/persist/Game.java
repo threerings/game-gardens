@@ -46,6 +46,9 @@ public class Game
     /** A unique integer identifier for this game. */
     public int gameId;
 
+    /** A short string indicating the category of this game. */
+    public String category;
+
     /** The human readable name of this game. */
     public String name;
 

@@ -4,6 +4,7 @@
 package com.threerings.gardens.logic;
 
 import com.samskivert.servlet.user.User;
+import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.velocity.InvocationContext;
 
 import com.threerings.gardens.Log;
@@ -18,7 +19,17 @@ public class browse extends OptionalUserLogic
     public void invoke (InvocationContext ctx, GardensApp app, User user)
         throws Exception
     {
-        // load up the metadata for all of our games
-        ctx.put("games", app.getToyBoxRepository().loadGames());
+        String category = ParameterUtil.getParameter(
+            ctx.getRequest(), "category", false);
+
+        if (category.equals("")) {
+            // load up the metadata for all of our games
+            ctx.put("games", app.getToyBoxRepository().loadGames());
+
+        } else {
+            // load up the metadata for the games in this category
+            ctx.put("category", category);
+            ctx.put("games", app.getToyBoxRepository().loadGames(category));
+        }
     }
 }

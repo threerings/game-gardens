@@ -14,6 +14,9 @@ CREATE TABLE GAMES
     /** A unique integer identifier for this game. */
     GAME_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 
+    /** The category of this game (ie. strategy, word, classic, etc.). */
+    CATEGORY VARCHAR(255) NOT NULL,
+
     /** The human readable name of this game. */
     NAME VARCHAR(255) NOT NULL,
 

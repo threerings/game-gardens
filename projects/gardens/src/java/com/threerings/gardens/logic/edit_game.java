@@ -88,7 +88,9 @@ public class edit_game extends UserLogic
 
         } else {
             ctx.put("action", "create");
-            ctx.put("game", new Game());
+            game = new Game();
+            game.category = "other";
+            ctx.put("game", game);
         }
     }
 
@@ -97,6 +99,7 @@ public class edit_game extends UserLogic
     {
         // read in and validate our various bits
         game.name = requireString(req, "name", 50, true);
+        game.category = requireString(req, "category", 255, false);
         game.definition = requireString(req, "definition", 2500, false);
         game.description = requireString(req, "description", 1000, true);
         game.instructions = requireString(req, "instructions", 1000, true);
