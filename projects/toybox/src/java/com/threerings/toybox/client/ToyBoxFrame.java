@@ -93,7 +93,7 @@ public class ToyBoxFrame extends ManagedJFrame
 	getContentPane().add(panel, BorderLayout.CENTER);
         // swing doesn't properly repaint after adding/removing children
         panel.revalidate();
-        repaint();
+        panel.repaint();
     }
 
     /**
