@@ -21,6 +21,7 @@ import com.samskivert.util.ConfigUtil;
 import com.samskivert.util.PropertiesUtil;
 import com.samskivert.util.ServiceUnavailableException;
 
+import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
 
 /**
@@ -64,6 +65,7 @@ public class GardensApp extends Application
 	try {
             // load up our configuration properties
             _config = ToyBoxConfig.config.getSubProperties("web");
+            _config.list(System.out);
 
             // create a static connection provider
             _conprov = new StaticConnectionProvider(
@@ -76,7 +78,7 @@ public class GardensApp extends Application
             // load up our build stamp so that we can report it
             String bstamp = PropertiesUtil.loadAndGet(
                 "build.properties", "build.time");
-	    Log.info("CirqeDeJeu application initialized " +
+	    Log.info("Game Gardens application initialized " +
                      "[built=" + bstamp + "].");
 
 	} catch (Throwable t) {
@@ -90,7 +92,7 @@ public class GardensApp extends Application
     {
 	try {
 	    _usermgr.shutdown();
-	    Log.info("CirqeDeJeu application shutdown.");
+	    Log.info("Game Gardens application shutdown.");
 
 	} catch (Throwable t) {
 	    Log.warning("Error shutting down repository: " + t);
