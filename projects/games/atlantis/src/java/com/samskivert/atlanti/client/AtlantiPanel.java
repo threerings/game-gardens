@@ -71,7 +71,7 @@ public class AtlantiPanel extends JPanel
         JPanel sidePanel = new JPanel(sgl);
 
         // add a big fat label because we love it!
-        JLabel vlabel = new JLabel("Atlantissonne!");
+        JLabel vlabel = new JLabel(ctx.xlate(ATLANTI_MESSAGE_BUNDLE, "m.title"));
         vlabel.setFont(new Font("Helvetica", Font.BOLD, 24));
         vlabel.setForeground(Color.black);
         sidePanel.add(vlabel, VGroupLayout.FIXED);
@@ -97,7 +97,8 @@ public class AtlantiPanel extends JPanel
         sidePanel.add(chat);
 
         // add a "back" button
-        JButton back = new JButton("Back to lobby");
+        JButton back = new JButton(
+            ctx.xlate(ATLANTI_MESSAGE_BUNDLE, "m.back_to_lobby"));
         back.setActionCommand(BACK_TO_LOBBY);
         back.addActionListener(Controller.DISPATCHER);
         sidePanel.add(back, VGroupLayout.FIXED);

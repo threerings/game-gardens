@@ -40,12 +40,13 @@ public class TileUtil implements TileCodes
         // we need to deep copy the default tile set, so we can't just use
         // clone
         List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
-        int tsize = TILE_SET.size();
-        for (int i = 0; i < tsize; i++) {
-            if (com.threerings.util.RandomUtil.getInt(10) > 7) {
-                tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
-            }
-        }
+// when testing; we prune out most of the tiles to make games quicker
+//         int tsize = TILE_SET.size();
+//         for (int i = 0; i < tsize; i++) {
+//             if (com.threerings.util.RandomUtil.getInt(10) > 7) {
+//                 tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
+//             }
+//         }
         return tiles;
     }
 
