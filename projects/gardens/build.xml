@@ -8,7 +8,6 @@
   <property name="app.name"       value="gardens"/>
   <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
   <property name="install.dir"    value="${base.dir}/webapps"/>
-  <property name="dist.war"       value="${app.name}.war"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -50,6 +49,7 @@
   <!-- cleans out the installed application -->
   <target name="clean">
     <delete dir="${deploy.dir}"/>
+    <delete dir="dist"/>
   </target>
 
   <!-- the default target is to rebuild everything -->
@@ -63,15 +63,19 @@
 
   <!-- builds our distribution files (war and jar) -->
   <target name="dist" depends="all">
+    <mkdir dir="dist"/>
     <!-- update the build timestamp file -->
     <propertyfile file="${deploy.dir}/WEB-INF/classes/build.properties">
       <entry key="build.time" type="date" value="now"/>
     </propertyfile>
-    <jar destfile="${dist.war}" basedir="${deploy.dir}"/>
+    <jar destfile="dist/${app.name}.war" basedir="${deploy.dir}"/>
+    <jar destfile="dist/${app.name}.jar"
+         basedir="${deploy.dir}/WEB-INF/classes"
+         excludes="toybox.properties"/>
   </target>
 
   <!-- builds the .war file and installs it into the webapp directory -->
   <target name="install" depends="dist">
-    <copy file="${dist.war}" todir="${install.dir}"/>
+    <copy file="dist/${app.name}.war" todir="${install.dir}"/>
   </target>
 </project>

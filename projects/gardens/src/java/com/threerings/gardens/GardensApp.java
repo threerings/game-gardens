@@ -25,7 +25,7 @@ import com.samskivert.util.ServiceUnavailableException;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
 
-import static com.threerings.toybox.Log.log;
+import static com.threerings.gardens.Log.log;
 
 /**
  * Contains references to application-wide resources (like the database

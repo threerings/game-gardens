@@ -72,7 +72,7 @@ public class ToyBoxRepository extends JORARepository
     public ArrayList loadGames ()
         throws PersistenceException
     {
-        return loadGamesBy("");
+        return loadGamesBy("", "");
     }
 
     /**
@@ -83,7 +83,7 @@ public class ToyBoxRepository extends JORARepository
         throws PersistenceException
     {
         category = StringUtil.replace(category, "'", "\\'");
-        return loadGamesBy("where category = '" + category + "'");
+        return loadGamesBy("where category = '" + category + "'", "");
     }
 
     /**
@@ -101,9 +101,29 @@ public class ToyBoxRepository extends JORARepository
                 throws SQLException, PersistenceException
             {
                 // TODO
-                return null;
+                return new ArrayList();
             }
         });
+    }
+
+    /**
+     * Loads the specified number of the most recently created games in
+     * the system.
+     */
+    public ArrayList loadRecentlyAdded (final int count)
+        throws PersistenceException
+    {
+        return loadGamesBy("", "order by CREATED DESC limit " + count);
+    }
+
+    /**
+     * Loads the specified number of the most recently updated games in
+     * the system.
+     */
+    public ArrayList loadRecentlyUpdated (final int count)
+        throws PersistenceException
+    {
+        return loadGamesBy("", "order by LAST_UPDATED DESC limit " + count);
     }
 
     /**
@@ -206,11 +226,20 @@ public class ToyBoxRepository extends JORARepository
         });
     }
 
-    /** Helper function for {@link #loadGames()} and {@link
-     * #loadGames(String)}. */
-    protected ArrayList loadGamesBy (final String query)
+    /**
+     * Helper function for {@link #loadGames()} and {@link
+     * #loadGames(String)}.
+     *
+     * @param where the where clause to use in our query (or "").
+     * @param extra any extra "order by" or "limit" clauses to append to
+     * the query, or "" if none are needed.
+     */
+    protected ArrayList loadGamesBy (String where, String extra)
         throws PersistenceException
     {
+        where = StringUtil.blank(where) ? "where " : (where + " and ");
+        where = where + "STATUS = '" + Game.Status.READY.toString() + "'";
+        final String query = where + " " + extra;
         return (ArrayList)execute(new Operation() {
             public Object invoke (Connection conn, DatabaseLiaison liaison)
                 throws SQLException, PersistenceException

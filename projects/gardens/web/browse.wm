@@ -19,4 +19,18 @@ $i18n.xlate("browse.${category}.intro")
 <p> $i18n.xlate("browse.no_games")
 #end
 
+<p> $i18n.xlate("browse.other_cats")
+<span class="catbox"><a href="browse.wm?category=card">
+$i18n.xlate("category.card")</a></span>&nbsp;&nbsp;
+<span class="catbox"><a href="browse.wm?category=classic">
+$i18n.xlate("category.classic")</a></span>&nbsp;&nbsp;
+<span class="catbox"><a href="browse.wm?category=party">
+$i18n.xlate("category.party")</a></span>&nbsp;&nbsp;
+<span class="catbox"><a href="browse.wm?category=strategy">
+$i18n.xlate("category.strategy")</a></span>&nbsp;&nbsp;
+<span class="catbox"><a href="browse.wm?category=word">
+$i18n.xlate("category.word")</a></span>&nbsp;&nbsp;
+<span class="catbox"><a href="browse.wm?category=other">
+$i18n.xlate("category.other")</a></span>
+
 #import ("/footer.wm")

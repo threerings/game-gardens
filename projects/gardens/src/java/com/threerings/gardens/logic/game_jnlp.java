@@ -21,7 +21,7 @@ import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.gardens.GardensApp;
 
-import static com.threerings.toybox.Log.log;
+import static com.threerings.gardens.Log.log;
 
 /**
  * Provides a JNLP file for a particular game.

@@ -26,7 +26,7 @@ import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.gardens.GardensApp;
 
-import static com.threerings.toybox.Log.log;
+import static com.threerings.gardens.Log.log;
 
 /**
  * Handles the updating of a game's jar file.
