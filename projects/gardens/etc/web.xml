@@ -18,11 +18,11 @@
     </init-param>
     <init-param>
       <param-name>app_class</param-name>
-      <param-value>com.threerings.cirque.CirqueDeJeuApp</param-value>
+      <param-value>com.threerings.gardens.GardensApp</param-value>
     </init-param>
     <init-param>
       <param-name>logic_package</param-name>
-      <param-value>com.threerings.cirque.logic</param-value>
+      <param-value>com.threerings.gardens.logic</param-value>
     </init-param>
     <init-param>
       <param-name>messages_path</param-name>

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# $Id: runjava,v 1.1 2004/11/15 01:49:34 mdb Exp $
+# $Id$
 #
 # Used to invoke the JVM when running the server and other tools
 

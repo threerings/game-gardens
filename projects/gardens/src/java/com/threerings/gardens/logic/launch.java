@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package com.threerings.cirque.logic;
+package com.threerings.gardens.logic;
 
 /**
  * Does something extraordinary.

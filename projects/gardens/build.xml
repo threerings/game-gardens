@@ -1,11 +1,11 @@
 <!-- project build configuration -->
-<project name="Cirque De Jeu" default="all" basedir=".">
+<project name="Game Gardens" default="all" basedir=".">
 
   <!-- the base directory from which we get our bundles and jar files -->
   <property name="base.dir" value="../.."/>
 
   <!-- the web application name and derived parameters -->
-  <property name="app.name"       value="cirque"/>
+  <property name="app.name"       value="gardens"/>
   <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
   <property name="install.dir"    value="${base.dir}/webapps"/>
   <property name="dist.war"       value="${app.name}.war"/>

@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# Cirque De Jeu webapp database configuration
+# Game Gardens webapp database configuration
 
 default.driver = org.gjt.mm.mysql.Driver
 default.username = USERNAME

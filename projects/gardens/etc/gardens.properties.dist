@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# Configuration parameters for the Cirque De Jeu web appication
+# Configuration parameters for the Game Gardens web appication
 
 #
 # The location in which game jar files are stored. This should live in the
@@ -9,7 +9,7 @@
 # this directory in URLs. In the specified directory, subdirectories for
 # each game will be created.
 
-game_data_dir = /export/cirque/pages/games
+game_data_dir = /export/gardens/pages/games
 game_data_path = /games
 
 #

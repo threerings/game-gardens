@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package com.threerings.cirque;
+package com.threerings.gardens;
 
 import java.io.File;
 import java.util.Properties;
@@ -27,7 +27,7 @@ import com.threerings.toybox.server.persist.ToyBoxRepository;
  * Contains references to application-wide resources (like the database
  * repository) and handles initialization and cleanup for those resources.
  */
-public class CirqueDeJeuApp extends Application
+public class GardensApp extends Application
 {
     /** Returns the connection provider in use by this application. */
     public ConnectionProvider getConnectionProvider ()
@@ -49,7 +49,7 @@ public class CirqueDeJeuApp extends Application
 
     /**
      * Looks up a configuration property in our
-     * <code>cirque.properties</code> application configuration file.
+     * <code>gardens.properties</code> application configuration file.
      */
     public String getProperty (String key)
     {
@@ -66,7 +66,7 @@ public class CirqueDeJeuApp extends Application
             _conprov = new StaticConnectionProvider(CONN_CONFIG);
 
             // load up our configuration properties
-            _config = ConfigUtil.loadProperties(CIRQUE_CONFIG);
+            _config = ConfigUtil.loadProperties(GARDENS_CONFIG);
 
             // create our repositories and managers
 	    _usermgr = new UserManager(_config, _conprov);
@@ -123,5 +123,5 @@ public class CirqueDeJeuApp extends Application
     protected static final String CONN_CONFIG = "repository.properties";
 
     /** The path to our webapp configuration file. */
-    protected static final String CIRQUE_CONFIG = "cirque.properties";
+    protected static final String GARDENS_CONFIG = "gardens.properties";
 }

@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package com.threerings.cirque;
+package com.threerings.gardens;
 
 /**
  * A placeholder class that contains a reference to the log object used by

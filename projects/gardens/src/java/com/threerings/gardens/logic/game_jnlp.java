@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package com.threerings.cirque.logic;
+package com.threerings.gardens.logic;
 
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +18,8 @@ import com.threerings.toybox.data.Game;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.server.ToyBoxConfig;
 
-import com.threerings.cirque.Log;
-import com.threerings.cirque.CirqueDeJeuApp;
+import com.threerings.gardens.Log;
+import com.threerings.gardens.GardensApp;
 
 /**
  * Provides a JNLP file for a particular game.
@@ -30,7 +30,7 @@ public class game_jnlp implements Logic
     public void invoke (Application app, InvocationContext ctx)
         throws Exception
     {
-        CirqueDeJeuApp gtapp = (CirqueDeJeuApp)app;
+        GardensApp gtapp = (GardensApp)app;
         HttpServletRequest req = ctx.getRequest();
 
         // load up the game

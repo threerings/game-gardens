@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package com.threerings.cirque.logic;
+package com.threerings.gardens.logic;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +12,8 @@ import com.samskivert.velocity.InvocationContext;
 
 import com.threerings.toybox.data.Game;
 
-import com.threerings.cirque.Log;
-import com.threerings.cirque.CirqueDeJeuApp;
+import com.threerings.gardens.Log;
+import com.threerings.gardens.GardensApp;
 
 /**
  * Handles the logic behind creating and managing a game's metadata.
@@ -21,7 +21,7 @@ import com.threerings.cirque.CirqueDeJeuApp;
 public class edit_game extends UserLogic
 {
     // documentation inherited
-    public void invoke (InvocationContext ctx, CirqueDeJeuApp app, User user)
+    public void invoke (InvocationContext ctx, GardensApp app, User user)
         throws Exception
     {
         HttpServletRequest req = ctx.getRequest();

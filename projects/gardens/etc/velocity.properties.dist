@@ -20,4 +20,4 @@ velocimacro.library =
 # Uncomment the following and replace the path as appropriate to reference
 # the development web directory directly for testing purposes.
 
-# file.resource.loader.path = /export/cirque/projects/cirque/web
+# file.resource.loader.path = /export/gardens/projects/gardens/web

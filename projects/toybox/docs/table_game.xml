@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="yes"?>
-<!-- $Id: table_game.xml,v 1.1 2004/01/20 14:44:40 mdb Exp $ -->
+<!-- $Id$ -->
 <!-- A sample game definition file for a table game. -->
 <game ident="tabula_rasa">
   <!-- Herein we define how the game is matchmade and configured. -->

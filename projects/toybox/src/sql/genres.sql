@@ -1,5 +1,5 @@
 /**
- * $Id: genres.sql,v 1.1 2004/01/20 14:44:40 mdb Exp $
+ * $Id$
  *
  * Schema for the GENRE_MAP table.
  */
