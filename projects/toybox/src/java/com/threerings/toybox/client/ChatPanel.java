@@ -48,6 +48,7 @@ import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
 import com.samskivert.swing.event.AncestorAdapter;
 
+import com.threerings.util.MessageBundle;
 import com.threerings.util.Name;
 
 import com.threerings.crowd.chat.client.ChatDirector;
@@ -61,17 +62,20 @@ import com.threerings.crowd.client.OccupantObserver;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.OccupantInfo;
 import com.threerings.crowd.data.PlaceObject;
-import com.threerings.crowd.util.CrowdContext;
 
 import com.threerings.media.SafeScrollPane;
 
+import com.threerings.toybox.util.ToyBoxContext;
+
 import static com.threerings.toybox.Log.log;
 
-public class ChatPanel
-    extends JPanel
+public class ChatPanel extends JPanel
     implements ActionListener, ChatDisplay, OccupantObserver, PlaceView
 {
-    public ChatPanel (CrowdContext ctx)
+    /** The message bundle identifier for chat translations. */
+    public static final String CHAT_MSGS = "client.chat";
+
+    public ChatPanel (ToyBoxContext ctx)
     {
         // keep this around for later
         _ctx = ctx;
@@ -205,11 +209,11 @@ public class ChatPanel
 
         // if the message to send begins with /tell then parse it and
         // generate a tell request rather than a speak request
-        if (text.startsWith("/tell")) {
+        if (text.startsWith("/tell ")) {
             StringTokenizer tok = new StringTokenizer(text);
             // there should be at least three tokens: '/tell target word'
             if (tok.countTokens() < 3) {
-                displayError("Usage: /tell username message");
+                displayError("m.usage_tell");
                 return;
             }
 
@@ -228,6 +232,10 @@ public class ChatPanel
         } else if (text.startsWith("/clear")) {
             // clear the chat box
             _chatdtr.clearDisplays();
+
+        } else if (text.startsWith("/broadcast ")) {
+            text = text.substring(11);
+            _chatdtr.requestSpeak(text, ChatCodes.BROADCAST_MODE);
 
         } else {
             // request to send this text as a chat message
@@ -249,13 +257,19 @@ public class ChatPanel
     {
         if (message instanceof UserMessage) {
             UserMessage msg = (UserMessage) message;
+            String type = "m.chat_prefix_" + msg.mode;
+            Style nameStyle = _nameStyle, msgStyle = _msgStyle;
             if (msg.localtype == ChatCodes.USER_CHAT_TYPE) {
-                append("[" + msg.speaker + " whispers] ", _nameStyle);
-                append(msg.message + "\n", _msgStyle);
-            } else {
-                append("<" + msg.speaker + "> ", _nameStyle);
-                append(msg.message + "\n", _msgStyle);
+                type = "m.chat_prefix_tell";
             }
+            if (msg.mode == ChatCodes.BROADCAST_MODE) {
+                nameStyle = _noticeStyle;
+                msgStyle = _noticeStyle;
+            }
+
+            String text = MessageBundle.tcompose(type, msg.speaker);
+            append(_ctx.xlate(CHAT_MSGS, text) + " ", nameStyle);
+            append(msg.message + "\n", msgStyle);
 
         } else if (message instanceof SystemMessage) {
             append(message.message + "\n", _noticeStyle);
@@ -268,7 +282,7 @@ public class ChatPanel
 
     protected void displayError (String message)
     {
-        append(message + "\n", _errStyle);
+        append(_ctx.xlate(CHAT_MSGS, message) + "\n", _errStyle);
     }
 
     /**
@@ -314,7 +328,7 @@ public class ChatPanel
         return size;
     }
 
-    protected CrowdContext _ctx;
+    protected ToyBoxContext _ctx;
     protected ChatDirector _chatdtr;
 
     protected boolean _focus = true;
