@@ -117,3 +117,7 @@ some set of "premium" games.
   processes which will put additional strain on the server but if we host
   all web services on a separate machine it will at least be restricted to
   traffic back and forth to the main and game servers which is small
+- Moreover, we can first attempt to connect directly to the server in
+  question and only use the routing server if the first connection fails
+  (subsequently caching the knowledge that we need to use the routing
+  server to avoid annoyingly lengthy timeouts in the future)
