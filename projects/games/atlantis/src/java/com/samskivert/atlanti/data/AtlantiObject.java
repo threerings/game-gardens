@@ -1,5 +1,5 @@
 //
-// $Id: AtlantiObject.java,v 1.11 2004/08/27 18:56:44 mdb Exp $
+// $Id: AtlantiObject.dobj,v 1.3 2004/08/27 18:56:44 mdb Exp $
 
 package com.samskivert.atlanti.data;
 
@@ -15,6 +15,7 @@ import com.threerings.parlor.turn.TurnGameObject;
 public class AtlantiObject extends GameObject
     implements TurnGameObject
 {
+    // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>turnHolder</code> field. */
     public static final String TURN_HOLDER = "turnHolder";
 
@@ -29,6 +30,7 @@ public class AtlantiObject extends GameObject
 
     /** The field name of the <code>scores</code> field. */
     public static final String SCORES = "scores";
+    // AUTO-GENERATED: FIELDS END
 
     /** The username of the current turn holder. */
     public Name turnHolder;
@@ -66,18 +68,21 @@ public class AtlantiObject extends GameObject
         return turnHolder;
     }
 
+    // AUTO-GENERATED: METHODS START
     /**
-     * Requests that the <code>turnHolder</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>turnHolder</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setTurnHolder (Name turnHolder)
+    public void setTurnHolder (Name value)
     {
-        requestAttributeChange(TURN_HOLDER, turnHolder);
-        this.turnHolder = turnHolder;
+        Name ovalue = this.turnHolder;
+        requestAttributeChange(
+            TURN_HOLDER, value, ovalue);
+        this.turnHolder = value;
     }
 
     /**
@@ -87,7 +92,7 @@ public class AtlantiObject extends GameObject
      */
     public void addToTiles (DSet.Entry elem)
     {
-        requestEntryAdd(TILES, elem);
+        requestEntryAdd(TILES, tiles, elem);
     }
 
     /**
@@ -97,7 +102,7 @@ public class AtlantiObject extends GameObject
      */
     public void removeFromTiles (Comparable key)
     {
-        requestEntryRemove(TILES, key);
+        requestEntryRemove(TILES, tiles, key);
     }
 
     /**
@@ -107,7 +112,7 @@ public class AtlantiObject extends GameObject
      */
     public void updateTiles (DSet.Entry elem)
     {
-        requestEntryUpdate(TILES, elem);
+        requestEntryUpdate(TILES, tiles, elem);
     }
 
     /**
@@ -120,24 +125,26 @@ public class AtlantiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setTiles (DSet tiles)
+    public void setTiles (DSet value)
     {
-        requestAttributeChange(TILES, tiles);
-        this.tiles = tiles;
+        requestAttributeChange(TILES, value, this.tiles);
+        this.tiles = (value == null) ? null : (DSet)value.clone();
     }
 
     /**
-     * Requests that the <code>currentTile</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>currentTile</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setCurrentTile (AtlantiTile currentTile)
+    public void setCurrentTile (AtlantiTile value)
     {
-        requestAttributeChange(CURRENT_TILE, currentTile);
-        this.currentTile = currentTile;
+        AtlantiTile ovalue = this.currentTile;
+        requestAttributeChange(
+            CURRENT_TILE, value, ovalue);
+        this.currentTile = value;
     }
 
     /**
@@ -147,7 +154,7 @@ public class AtlantiObject extends GameObject
      */
     public void addToPiecens (DSet.Entry elem)
     {
-        requestEntryAdd(PIECENS, elem);
+        requestEntryAdd(PIECENS, piecens, elem);
     }
 
     /**
@@ -157,7 +164,7 @@ public class AtlantiObject extends GameObject
      */
     public void removeFromPiecens (Comparable key)
     {
-        requestEntryRemove(PIECENS, key);
+        requestEntryRemove(PIECENS, piecens, key);
     }
 
     /**
@@ -167,7 +174,7 @@ public class AtlantiObject extends GameObject
      */
     public void updatePiecens (DSet.Entry elem)
     {
-        requestEntryUpdate(PIECENS, elem);
+        requestEntryUpdate(PIECENS, piecens, elem);
     }
 
     /**
@@ -180,37 +187,43 @@ public class AtlantiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setPiecens (DSet piecens)
+    public void setPiecens (DSet value)
     {
-        requestAttributeChange(PIECENS, piecens);
-        this.piecens = piecens;
+        requestAttributeChange(PIECENS, value, this.piecens);
+        this.piecens = (value == null) ? null : (DSet)value.clone();
     }
 
     /**
-     * Requests that the <code>scores</code> field be set to the specified
-     * value. The local value will be updated immediately and an event
-     * will be propagated through the system to notify all listeners that
-     * the attribute did change. Proxied copies of this object (on
+     * Requests that the <code>scores</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
-    public void setScores (int[] scores)
+    public void setScores (int[] value)
     {
-        requestAttributeChange(SCORES, scores);
-        this.scores = scores;
+        int[] ovalue = this.scores;
+        requestAttributeChange(
+            SCORES, value, ovalue);
+        this.scores = (value == null) ? null : (int[])value.clone();
     }
 
     /**
      * Requests that the <code>index</code>th element of
-     * <code>scores</code> field be set to the specified value. The local
-     * value will be updated immediately and an event will be propagated
-     * through the system to notify all listeners that the attribute did
-     * change. Proxied copies of this object (on clients) will apply the
-     * value change when they received the attribute changed notification.
+     * <code>scores</code> field be set to the specified value.
+     * The local value will be updated immediately and an event will be
+     * propagated through the system to notify all listeners that the
+     * attribute did change. Proxied copies of this object (on clients)
+     * will apply the value change when they received the attribute
+     * changed notification.
      */
     public void setScoresAt (int value, int index)
     {
-        requestElementUpdate(SCORES, new Integer(value), index);
+        int ovalue = this.scores[index];
+        requestElementUpdate(
+            SCORES, index, new Integer(value), new Integer(ovalue));
         this.scores[index] = value;
     }
+    // AUTO-GENERATED: METHODS END
 }

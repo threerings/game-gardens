@@ -4,7 +4,7 @@
   <!-- things you may want to change -->
   <property name="app.name"         value="atlanti"/>
   <property name="doc.packages"     value="com.samskivert.atlanti.*"/>
-  <property name="copyright.holder" value="Michael Bayne"/>
+  <property name="copy.holder"      value="Michael Bayne"/>
 
   <!-- things you probably don't want to change -->
   <property name="src.dir"      value="src/java"/>
@@ -12,25 +12,31 @@
   <property name="dist.jar"     value="${app.name}.jar"/>
   <property name="javadoc.dir"  value="${deploy.dir}/docs"/>
 
-  <!-- narya bits -->
-  <property name="gendobj.path" value="../bin/gendobj"/>
-
   <!-- declare our classpath -->
   <path id="classpath">
     <fileset dir="../lib" includes="**/*.jar"/>
     <pathelement location="${deploy.dir}/classes"/>
   </path>
 
-  <!-- generates .java files for all .dobj files -->
-  <target name="gendobj">
-    <apply executable="${gendobj.path}" failonerror="true">
-      <srcfile/>
-      <fileset dir="src/java" includes="**/*.dobj"/>
-    </apply>
+  <!-- generates additional methods for distributed object classes -->
+  <target name="gendobj" depends="prepare">
+    <taskdef name="dobj"
+             classname="com.threerings.presents.tools.GenDObjectTask"
+             classpathref="classpath"/>
+    <!-- make sure the dobject class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes"
+           debug="on" optimize="${build.optimize}" deprecation="on">
+      <classpath refid="classpath"/>
+      <include name="**/*Object.java"/>
+    </javac>
+    <!-- now generate the associated files -->
+    <dobj classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Object.java"/>
+    </dobj>
   </target>
 
   <!-- prepares the application directories -->
-  <target name="prepare" depends="gendobj">
+  <target name="prepare">
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/classes"/>
     <mkdir dir="${deploy.dir}/classes/rsrc"/>
@@ -62,7 +68,7 @@
              packagenames="${doc.packages}"
              windowtitle="${app.name} API"
              doctitle="${app.name} API"
-             bottom="Copyright &#169; 2001-2004 ${copyright.holder}. All Rights Reserved."
+             bottom="Copyright &#169; 2005 ${copy.holder}. All Rights Reserved."
              destdir="${javadoc.dir}"
              additionalparam="-breakiterator">
       <classpath refid="classpath"/>
