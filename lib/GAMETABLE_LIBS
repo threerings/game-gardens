@@ -1,5 +1,6 @@
 activation.jar
 commons-beanutils.jar
+commons-collections.jar
 commons-digester.jar
 commons-fileupload-1.0.jar
 commons-io.jar
@@ -9,6 +10,7 @@ mail.jar
 mysql-connector-java-3.0.11-stable-bin.jar
 narya-base.jar
 narya-distrib.jar
+narya-media.jar
 narya-micasa.jar
 narya-parlor.jar
 samskivert.jar
