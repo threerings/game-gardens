@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone="yes"?>
 <project name="gamedist" default="dist" basedir=".">
-  <property name="dist.name" value="game-gardens"/>
+  <property name="dist.name" value="../pages/howto/game-gardens"/>
 
-  <target name="dist">
-    <!-- build the tar distribution file -->
+  <!-- builds the tar distribution file -->
+  <target name="dist-tar">
     <tar destfile="${dist.name}.tar.gz" compression="gzip">
       <tarfileset dir="." username="nobody" group="nobody" mode="0664">
         <include name="games/**/*"/>
@@ -12,8 +12,10 @@
         <exclude name="**/code/**"/>
       </tarfileset>
     </tar>
+  </target>
 
-    <!-- build the zip distribution file -->
+  <!-- builds the zip distribution file -->
+  <target name="dist-zip">
     <zip destfile="${dist.name}.zip">
       <fileset dir=".">
         <include name="games/**/*"/>
@@ -23,4 +25,6 @@
       </fileset>
     </zip>
   </target>
+
+  <target name="dist" depends="dist-zip, dist-tar"/>
 </project>
