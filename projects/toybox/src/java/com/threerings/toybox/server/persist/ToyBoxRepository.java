@@ -71,7 +71,7 @@ public class ToyBoxRepository extends JORARepository
     /**
      * Loads up all of the games in the repository.
      */
-    public ArrayList loadGames ()
+    public ArrayList<Game> loadGames ()
         throws PersistenceException
     {
         return loadGamesBy("", "");
@@ -81,7 +81,7 @@ public class ToyBoxRepository extends JORARepository
      * Loads up all of the games in the repository with the specified
      * category.
      */
-    public ArrayList loadGames (String category)
+    public ArrayList<Game> loadGames (String category)
         throws PersistenceException
     {
         category = StringUtil.replace(category, "'", "\\'");
@@ -93,7 +93,7 @@ public class ToyBoxRepository extends JORARepository
      * by the number of minutes played in those games in the current and
      * previous week.
      */
-    public ArrayList loadPopularGames (final int count)
+    public ArrayList<Game> loadPopularGames (final int count)
         throws PersistenceException
     {
         final Date thisWeek = getWeek(0);
@@ -152,7 +152,7 @@ public class ToyBoxRepository extends JORARepository
      * Loads the specified number of the most recently created games in
      * the system.
      */
-    public ArrayList loadRecentlyAdded (final int count)
+    public ArrayList<Game> loadRecentlyAdded (final int count)
         throws PersistenceException
     {
         return loadGamesBy("", "order by CREATED DESC limit " + count);
@@ -162,7 +162,7 @@ public class ToyBoxRepository extends JORARepository
      * Loads the specified number of the most recently updated games in
      * the system.
      */
-    public ArrayList loadRecentlyUpdated (final int count)
+    public ArrayList<Game> loadRecentlyUpdated (final int count)
         throws PersistenceException
     {
         return loadGamesBy("", "order by LAST_UPDATED DESC limit " + count);
@@ -276,7 +276,7 @@ public class ToyBoxRepository extends JORARepository
      * @param extra any extra "order by" or "limit" clauses to append to
      * the query, or "" if none are needed.
      */
-    protected ArrayList loadGamesBy (String where, String extra)
+    protected ArrayList<Game> loadGamesBy (String where, String extra)
         throws PersistenceException
     {
         where = StringUtil.blank(where) ? "where " : (where + " and ");
