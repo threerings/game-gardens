@@ -22,9 +22,11 @@
 package com.threerings.toybox.server;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
+import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.crowd.server.CrowdClient;
@@ -33,7 +35,7 @@ import com.threerings.presents.client.Client;
 
 import com.threerings.parlor.server.ParlorManager;
 
-import com.threerings.toybox.Log;
+import static com.threerings.toybox.Log.log;
 
 /**
  * The main entry point and general organizer of everything that goes on
@@ -78,7 +80,7 @@ public class ToyBoxServer extends CrowdServer
             toymgr.init(invmgr, new File(gconfig));
         }
 
-        Log.info("ToyBox server initialized.");
+        log.info("ToyBox server initialized.");
     }
 
     /**
@@ -97,12 +99,15 @@ public class ToyBoxServer extends CrowdServer
 
     public static void main (String[] args)
     {
+        // set up the proper logging services
+        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
+
         ToyBoxServer server = new ToyBoxServer();
         try {
             server.init();
             server.run();
         } catch (Exception e) {
-            Log.warning("Unable to initialize server.", e);
+            log.log(Level.WARNING, "Unable to initialize server.", e);
         }
     }
 }

@@ -36,7 +36,7 @@ import com.samskivert.io.PersistenceException;
 import com.samskivert.util.HashIntMap;
 import com.samskivert.util.SortableArrayList;
 
-import com.threerings.toybox.Log;
+import static com.threerings.toybox.Log.log;
 
 /**
  * Provides an interface to our persistent repository of game metadata.
@@ -127,7 +127,7 @@ public class ToyBoxRepository extends JORARepository
                 case 0: return Boolean.FALSE;
                 case 1: return Boolean.TRUE;
                 default:
-                    Log.warning("updateGame() modified more than one row?! " +
+                    log.warning("updateGame() modified more than one row?! " +
                                 "[game=" + game + ", modified=" + mod + "].");
                     return Boolean.TRUE; // something was updated!
                 }

@@ -26,6 +26,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
@@ -45,12 +46,12 @@ import com.threerings.crowd.server.PlaceRegistry;
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.server.LobbyManager;
 
-import com.threerings.toybox.Log;
 import com.threerings.toybox.server.persist.Game.Status;
 import com.threerings.toybox.server.persist.Game;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
 import com.threerings.toybox.xml.GameDefinition;
 
+import static com.threerings.toybox.Log.log;
 import static com.threerings.toybox.data.ToyBoxCodes.*;
 
 /**
@@ -92,15 +93,16 @@ public class ToyBoxManager
             game.status = Status.PUBLISHED;
             game.definition = IOUtils.toString(new FileReader(gameConfig));
         } catch (IOException ioe) {
-            Log.warning("Failed to load game config " +
-                        "[path=" + gameConfig + "].", ioe);
+            log.log(Level.WARNING, "Failed to load game config " +
+                    "[path=" + gameConfig + "].", ioe);
             return;
         }
 
         try {
             resolveLobby(game);
         } catch (InvocationException ie) {
-            Log.warning("Failed to resolve lobby [game=" + game + "].", ie);
+            log.log(Level.WARNING, "Failed to resolve lobby " +
+                    "[game=" + game + "].", ie);
         }
     }
 
@@ -160,7 +162,7 @@ public class ToyBoxManager
         throws InvocationException
     {
         GameDefinition gdef = game.parseGameDefinition();
-        Log.info("Resolving " + gdef + ".");
+        log.info("Resolving " + gdef + ".");
 
         PlaceRegistry.CreationObserver obs =
             new PlaceRegistry.CreationObserver() {
@@ -177,8 +179,8 @@ public class ToyBoxManager
         try {
             ToyBoxServer.plreg.createPlace(new LobbyConfig(gdef), obs);
         } catch (InstantiationException e) {
-            Log.warning("Failed to create game lobby " +
-                        "[game=" + game.gameId + "]", e);
+            log.log(Level.WARNING, "Failed to create game lobby " +
+                    "[game=" + game.gameId + "]", e);
             throw new InvocationException(INTERNAL_ERROR);
         }
     }

@@ -23,8 +23,12 @@ package com.threerings.toybox.lobby.server;
 
 import com.threerings.crowd.server.PlaceManager;
 
-import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.server.persist.Game;
+
+import com.threerings.toybox.lobby.data.LobbyConfig;
+import com.threerings.toybox.lobby.data.LobbyObject;
+
+import static com.threerings.toybox.lobby.Log.log;
 
 /**
  * Takes care of the server side of a particular lobby.
@@ -37,6 +41,16 @@ public class LobbyManager extends PlaceManager
     public void setGame (Game game)
     {
         _game = game;
+        log.info("Lobby up and running for '" +
+                 _lconfig.getGameDefinition().ident + "'.");
+    }
+
+    // documentation inherited
+    protected void didInit ()
+    {
+        super.didInit();
+
+        _lconfig = (LobbyConfig)_config;
     }
 
     // documentation inherited
@@ -44,6 +58,9 @@ public class LobbyManager extends PlaceManager
     {
         return LobbyObject.class;
     }
+
+    /** A casted reference to our place config. */
+    protected LobbyConfig _lconfig;
 
     /** The game record for the game that we're matchmaking. */
     protected Game _game;

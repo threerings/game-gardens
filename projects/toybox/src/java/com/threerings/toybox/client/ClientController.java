@@ -29,8 +29,9 @@ import com.threerings.presents.client.SessionObserver;
 
 import com.threerings.crowd.data.BodyObject;
 
-import com.threerings.toybox.Log;
 import com.threerings.toybox.util.ToyBoxContext;
+
+import static com.threerings.toybox.Log.log;
 
 /**
  * Responsible for top-level control of the client user interface.
@@ -67,14 +68,14 @@ public class ClientController extends Controller
             return true;
         }
 
-        Log.info("Unhandled action: " + action);
+        log.info("Unhandled action: " + action);
         return false;
     }
 
     // documentation inherited
     public void clientDidLogon (Client client)
     {
-        Log.info("Client did logon [client=" + client + "].");
+        log.info("Client did logon [client=" + client + "].");
 
         // keep the body object around for stuff
         _body = (BodyObject)client.getClientObject();
@@ -99,7 +100,7 @@ public class ClientController extends Controller
     // documentation inherited
     public void clientDidLogoff (Client client)
     {
-        Log.info("Client did logoff [client=" + client + "].");
+        log.info("Client did logoff [client=" + client + "].");
 
         // reinstate the logon panel
         _frame.setPanel(_logonPanel);

@@ -22,15 +22,17 @@
 package com.threerings.toybox.server.persist;
 
 import java.io.StringReader;
+import java.util.logging.Level;
 
 import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.threerings.toybox.Log;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.xml.GameDefinition;
 import com.threerings.toybox.xml.GameParser;
+
+import static com.threerings.toybox.Log.log;
 
 /**
  * Contains information about a game registration.
@@ -73,8 +75,8 @@ public class Game
         try {
             return _parser.parseGame(new StringReader(definition));
         } catch (Exception e) {
-            Log.warning("Failed to parse game definition " +
-                        "[ident=" + ident + "]", e);
+            log.log(Level.WARNING, "Failed to parse game definition " +
+                    "[ident=" + ident + "]", e);
             throw new InvocationException(ToyBoxCodes.ERR_MALFORMED_GAMEDEF);
         }
     }

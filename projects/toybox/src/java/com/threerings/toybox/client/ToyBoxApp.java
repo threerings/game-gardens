@@ -22,15 +22,17 @@
 package com.threerings.toybox.client;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 import com.samskivert.swing.util.SwingUtil;
+import com.samskivert.util.LoggingLogProvider;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.net.UsernamePasswordCreds;
 
 import com.threerings.util.Name;
 
-import com.threerings.toybox.Log;
+import static com.threerings.toybox.Log.log;
 
 /**
  * The launcher application for all ToyBox games.
@@ -57,8 +59,8 @@ public class ToyBoxApp
         try {
             _client = (ToyBoxClient)Class.forName(cclass).newInstance();
         } catch (Exception e) {
-            Log.warning("Unable to instantiate client class " +
-                        "[cclass=" + cclass + "].", e);
+            log.log(Level.WARNING, "Unable to instantiate client class " +
+                    "[cclass=" + cclass + "].", e);
         }
 
         // initialize our client instance
@@ -75,7 +77,7 @@ public class ToyBoxApp
         Client client = _client.getContext().getClient();
 
         // pass them on to the client
-        Log.info("Using [server=" + server + ", port=" + port + "].");
+        log.info("Using [server=" + server + ", port=" + port + "].");
         client.setServer(server, port);
 
         // configure the client with some credentials and logon
@@ -89,6 +91,9 @@ public class ToyBoxApp
 
     public static void main (String[] args)
     {
+        // set up the proper logging services
+        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
+
         String server = "localhost";
         if (args.length > 0) {
             server = args[0];
@@ -99,7 +104,7 @@ public class ToyBoxApp
             try {
                 port = Integer.parseInt(args[1]);
             } catch (NumberFormatException nfe) {
-                Log.warning("Invalid port specification '" + args[1] + "'.");
+                log.warning("Invalid port specification '" + args[1] + "'.");
             }
         }
 
@@ -111,7 +116,7 @@ public class ToyBoxApp
             // initialize the app
             app.init();
         } catch (IOException ioe) {
-            Log.warning("Error initializing application.", ioe);
+            log.log(Level.WARNING, "Error initializing application.", ioe);
         }
 
         // and run it

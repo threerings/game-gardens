@@ -26,9 +26,9 @@ import java.util.Properties;
 
 import com.samskivert.util.Config;
 
-import com.threerings.toybox.Log;
 import com.threerings.toybox.server.persist.Game;
 
+import static com.threerings.toybox.Log.log;
 import static com.threerings.toybox.data.ToyBoxCodes.*;
 
 /**
@@ -80,7 +80,7 @@ public class ToyBoxConfig
             gdir.mkdir();
         }
         if (!gdir.isDirectory()) {
-            Log.warning("Unable to create game directory (" + gdir.getPath() +
+            log.warning("Unable to create game directory (" + gdir.getPath() +
                         "). Please check permissions, etc.");
             // nothing else we can do but hope for the best
         }

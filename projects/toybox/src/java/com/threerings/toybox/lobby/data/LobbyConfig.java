@@ -74,6 +74,14 @@ public class LobbyConfig extends PlaceConfig
     }
 
     /**
+     * Returns the definition of the game we're matchmaking in this lobby.
+     */
+    public GameDefinition getGameDefinition ()
+    {
+        return _gameDefinition;
+    }
+
+    /**
      * Instantiates and returns a game config instance using the game
      * config class name provided when this configuration was constructed.
      *

@@ -1,5 +1,5 @@
 //
-// $Id$
+// $Id: Log.java 17 2004-11-27 07:37:58Z mdb $
 //
 // ToyBox library - framework for matchmaking networked games
 // Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
@@ -19,17 +19,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox;
+package com.threerings.toybox.lobby;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * A placeholder class that contains a reference to the log object used by
- * this library.
+ * this package.
  */
 public class Log
 {
     /** We dispatch our log messages through this logger. */
-    public static Logger log = Logger.getLogger("com.threerings.toybox");
+    public static Logger log =
+        Logger.getLogger("com.threerings.toybox.lobby");
 }
