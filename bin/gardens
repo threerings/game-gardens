@@ -19,15 +19,15 @@ fi
 # Let's blow that file descriptor limit wide open baby!
 ulimit -n 4096
 
-DAEMON=$GARDENS_HOME/bin/gardens-respawn
-PIDFILE=/var/run/gardens-respawn.pid
+DAEMON=$GARDENS_HOME/bin/respawn-gardens
+PIDFILE=/var/run/respawn-gardens.pid
 
 # See how we were called
 case "$1" in
   start)
         # Make sure respawn is not currently running
 	if [ -f $PIDFILE ]; then
-	    echo "gardens-respawn appears to be already running."
+	    echo "respawn-gardens appears to be already running."
             echo "Run '$0 stop' to stop it first."
 	    exit 1
 	fi
@@ -54,11 +54,11 @@ case "$1" in
 
   stop)
 	if [ ! -f $PIDFILE ]; then
-	    echo "No $PIDFILE exists. Is gardens-respawn running?"
+	    echo "No $PIDFILE exists. Is respawn-gardens running?"
 	    exit 1
 	fi
         echo -n "Shutting down gardens, "
-        $GARDENS_HOME/bin/gardens-reboot
+        $GARDENS_HOME/bin/reboot-gardens
         echo -n "respawn: "
         kill `cat $PIDFILE`
         echo "stopped."
@@ -67,7 +67,7 @@ case "$1" in
 
   restart)
         echo "Restarting gardens server..."
-        $GARDENS_HOME/bin/gardens-reboot
+        $GARDENS_HOME/bin/reboot-gardens
         ;;
 
   *)
