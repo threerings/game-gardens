@@ -73,6 +73,17 @@ if [ ! -z "$CLIENT" ]; then
     ant
 fi
 
+# rebuild the development packages
+echo "Rebuilding developer packages..."
+cd $ROOT/projects
+rm $ROOT/pages/howto/game-gardens.zip
+zip -q $ROOT/pages/howto/game-gardens.zip `find games \! -type d | grep -v .svn`
+cd /tmp
+rm -rf games
+unzip -q $ROOT/pages/howto/game-gardens.zip
+tar -czf $ROOT/pages/howto/game-gardens.tar.gz games
+rm -rf games
+
 # remove the lockfile
 rm -f $LOCKFILE
 
