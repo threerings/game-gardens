@@ -21,6 +21,7 @@
 
 package com.threerings.toybox.lobby.client;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -86,42 +87,35 @@ public class LobbyPanel extends JPanel
         _msgs = _ctx.getMessageManager().getBundle(LobbyCodes.LOBBY_MSGS);
 
         // we want a five pixel border around everything
-    	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        // create our primary layout which divides the display in two
-        // horizontally
-        GroupLayout gl = new HGroupLayout(GroupLayout.STRETCH);
-        gl.setOffAxisPolicy(GroupLayout.STRETCH);
-        gl.setJustification(GroupLayout.RIGHT);
-        setLayout(gl);
+    	setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        setLayout(new BorderLayout(10, 10));
 
         // create our main panel
-        gl = new VGroupLayout(GroupLayout.STRETCH);
+        GroupLayout gl = new VGroupLayout(
+            GroupLayout.STRETCH, 10, GroupLayout.TOP);
         gl.setOffAxisPolicy(GroupLayout.STRETCH);
         _main = new JPanel(gl);
 
         // create a chat box and stick that in
         _main.add(new ChatPanel(ctx));
 
-        // now add the main panel into the mix
-        add(_main);
+        // set up the title and main panel
+        _title = new MultiLineLabel("", MultiLineLabel.CENTER);
+        _title.setFont(ToyBoxUI.fancyFont);
+        _title.setAntiAliased(true);
+        add(_title, BorderLayout.NORTH);
+        add(_main, BorderLayout.CENTER);
 
         // create our sidebar panel
         gl = new VGroupLayout(GroupLayout.STRETCH);
         JPanel sidePanel = new JPanel(gl);
-
-        _title = new MultiLineLabel("", MultiLineLabel.CENTER);
-        _title.setLayout(MultiLineLabel.HORIZONTAL, 150);
-        _title.setFont(ToyBoxUI.fancyFont);
-        _title.setAntiAliased(true);
-        sidePanel.add(_title, GroupLayout.FIXED);
 
         JLabel label = new JLabel(_msgs.get("m.occupants"));
         sidePanel.add(label, GroupLayout.FIXED);
         sidePanel.add(_occupants = new OccupantList(ctx));
 
         // match the space that shows up below the font
-        sidePanel.add(new Spacer(1, 14), GroupLayout.FIXED);
+        sidePanel.add(new Spacer(1, 15), GroupLayout.FIXED);
 
         JButton logoff = new JButton(_msgs.get("m.logoff"));
         logoff.addActionListener(LobbyController.DISPATCHER);
@@ -129,7 +123,7 @@ public class LobbyPanel extends JPanel
         sidePanel.add(logoff, GroupLayout.FIXED);
 
         // add our sidebar panel into the mix
-        add(sidePanel, GroupLayout.FIXED);
+        add(sidePanel, BorderLayout.EAST);
 
         // load up our background image
         try {
@@ -219,6 +213,7 @@ public class LobbyPanel extends JPanel
                 ((JPanel)comp).setOpaque(false);
             } else if (comp instanceof JSlider) {
                 ((JSlider)comp).setOpaque(false);
+                comp.setForeground(Color.white);
             } else if (comp instanceof JScrollPane) {
                 ((JScrollPane)comp).getViewport().setBackground(
                     ToyBoxUI.LIGHT_BLUE);
