@@ -15,11 +15,9 @@ import com.samskivert.swing.VGroupLayout;
 
 import com.threerings.crowd.client.PlacePanel;
 import com.threerings.parlor.util.ParlorContext;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 
 import com.threerings.micasa.client.ChatPanel;
-import com.threerings.micasa.util.MiCasaContext;
-
-import com.threerings.skirmish.data.SkirmishConfig;
 
 /**
  * Contains the primary client interface for a Skirmish game.
@@ -32,8 +30,8 @@ public class SkirmishPanel extends PlacePanel
     /**
      * Creates a skirmish panel and its associated interface components.
      */
-    public SkirmishPanel (
-        ParlorContext ctx, SkirmishConfig config, SkirmishController ctrl)
+    public SkirmishPanel (ParlorContext ctx, ToyBoxGameConfig config,
+                          SkirmishController ctrl)
     {
         super(ctrl);
 
@@ -46,7 +44,8 @@ public class SkirmishPanel extends PlacePanel
 
         // create our token management interface (we'll add it later, but
         // we need it now to pass it to the pirate panel constructor)
-        tpanel = new TokenPanel(ctx, config);
+        int tokenSpeed = (Integer)config.params.get("token_speed");
+        tpanel = new TokenPanel(ctx, tokenSpeed);
 
         JPanel mpanel = new JPanel(
             new VGroupLayout(VGroupLayout.STRETCH, VGroupLayout.STRETCH,
@@ -55,7 +54,7 @@ public class SkirmishPanel extends PlacePanel
         add(mpanel);
 
         // add a chat box
-        mpanel.add(new ChatPanel((MiCasaContext)_ctx));
+        mpanel.add(new ChatPanel(_ctx));
 
         // create our pirate control panel
         mpanel.add(new PiratePanel(ctrl, tpanel), VGroupLayout.FIXED);
@@ -72,14 +71,16 @@ public class SkirmishPanel extends PlacePanel
         spanel.add(_bview, VGroupLayout.FIXED);
 
         // add a timer view
-        spanel.add(new TimerView(_ctx, ctrl, config), VGroupLayout.FIXED);
+        int turnInterval = (Integer)config.params.get("turn_interval");
+        spanel.add(new TimerView(_ctx, ctrl, turnInterval), VGroupLayout.FIXED);
 
         // add some player views
         spanel.add(new PlayerView(0, _bview), VGroupLayout.FIXED);
         spanel.add(new PlayerView(1, _bview), VGroupLayout.FIXED);
 
         // add a status view
-        spanel.add(new StatusView(config), VGroupLayout.FIXED);
+        int escapeDuration = (Integer)config.params.get("escape_duration");
+        spanel.add(new StatusView(escapeDuration), VGroupLayout.FIXED);
 
         // add the token management interface
         spanel.add(tpanel, VGroupLayout.FIXED);

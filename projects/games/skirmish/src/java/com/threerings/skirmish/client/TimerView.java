@@ -10,7 +10,6 @@ import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.util.ParlorContext;
 
-import com.threerings.skirmish.data.SkirmishConfig;
 import com.threerings.skirmish.data.SkirmishObject;
 
 /**
@@ -19,13 +18,13 @@ import com.threerings.skirmish.data.SkirmishObject;
 public class TimerView extends JProgressBar
     implements PlaceView, SkirmishController.Tickable
 {
-    public TimerView (ParlorContext ctx, SkirmishController ctrl,
-                      SkirmishConfig config)
+    public TimerView (
+        ParlorContext ctx, SkirmishController ctrl, int turnInterval)
     {
         super(0, 100);
 
         _ctx = ctx;
-        _turnInterval = config.turnInterval;
+        _turnInterval = turnInterval;
 
         // register ourselves with the skirmish controller
         ctrl.registerTickable(this);

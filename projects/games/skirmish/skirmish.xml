@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="yes"?>
+<game>
+  <!-- The controller and manager used for our game. -->
+  <controller>com.threerings.skirmish.client.SkirmishController</controller>
+  <manager>com.threerings.skirmish.server.SkirmishManager</manager>
+
+  <!-- Herein we define how the game is matchmade and configured. -->
+  <match type="table">
+    <!-- Properties configure the match maker, in this case: table. -->
+    <min_seats>2</min_seats>
+    <max_seats>2</max_seats>
+    <start_seats>2</start_seats>
+  </match>
+
+  <!-- Parameters define values that the user can customize when -->
+  <!-- creating a game and which are passed on to the game itself -->
+  <!-- to customize the gameplay. -->
+  <params>
+    <range ident="board_size" minimum="16" maximum="48" default="32"/>
+    <range ident="hand_size" minimum="2" maximum="5" default="5"/>
+
+    <!-- The number of seconds allowed for each turn.-->
+    <range ident="turn_interval" minimum="10" maximum="90" default="20"/>
+
+    <!-- The number of turns that must elapse without the attacker hitting -->
+    <!-- any vessel before the skirmish is ended.-->
+    <range ident="escape_turns" minimum="5" maximum="25" default="12"/>
+
+    <!-- A damage handicap that will be applied when starting the -->
+    <!-- game. Negative numbers apply to the attacker, positive the -->
+    <!-- defender. -->
+    <range ident="handicap_turns" minimum="-9" maximum="9" default="0"/>
+
+    <!-- The density of board features.-->
+    <range ident="feature_density" minimum="0" maximum="15" default="7"/>
+
+    <!-- The speed with which tokens are created; 5 is normal, 1 super -->
+    <!-- slow, 10 super fast. -->
+    <range ident="token_speed" minimum="1" maximum="10" default="5"/>
+  </params>
+
+  <!-- Here the library version dependencies are enumerated. -->
+  <libs>
+    <library name="samskivert" version="1.0"/>
+  </libs>
+</game>

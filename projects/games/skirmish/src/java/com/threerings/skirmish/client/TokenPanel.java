@@ -39,7 +39,6 @@ import com.threerings.parlor.util.ParlorContext;
 import com.threerings.skirmish.Log;
 import com.threerings.skirmish.data.SkirmishAction;
 import com.threerings.skirmish.data.SkirmishCodes;
-import com.threerings.skirmish.data.SkirmishConfig;
 import com.threerings.skirmish.data.SkirmishHand;
 import com.threerings.skirmish.data.SkirmishObject;
 
@@ -60,10 +59,10 @@ public class TokenPanel extends JComponent
     /**
      * Creates a token panel and prepares it for operation.
      */
-    public TokenPanel (ParlorContext ctx, SkirmishConfig config)
+    public TokenPanel (ParlorContext ctx, int tokenSpeed)
     {
         _ctx = ctx;
-        _config = config;
+        _tokenSpeed = tokenSpeed;
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -592,7 +591,7 @@ public class TokenPanel extends JComponent
     protected int newTokenAmount (int index)
     {
         float amount = NEW_TOKEN_AMOUNT[index];
-        amount *= _config.tokenSpeed;
+        amount *= _tokenSpeed;
         amount /= 5;
         return (int)amount;
     }
@@ -600,8 +599,8 @@ public class TokenPanel extends JComponent
     /** Provides access to general client services. */
     protected ParlorContext _ctx;
 
-    /** The current game configuration. */
-    protected SkirmishConfig _config;
+    /** The token speed configuration. */
+    protected int _tokenSpeed;
 
     /** A reference to the game object. */
     protected SkirmishObject _skobj;

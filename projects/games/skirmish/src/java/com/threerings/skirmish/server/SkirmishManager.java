@@ -16,12 +16,12 @@ import com.threerings.crowd.server.CrowdServer;
 import com.threerings.crowd.server.PlaceManager;
 
 import com.threerings.parlor.game.GameManager;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 
 import com.threerings.skirmish.Log;
 import com.threerings.skirmish.data.SkirmishAction;
 import com.threerings.skirmish.data.SkirmishBoard;
 import com.threerings.skirmish.data.SkirmishCodes;
-import com.threerings.skirmish.data.SkirmishConfig;
 import com.threerings.skirmish.data.SkirmishHand;
 import com.threerings.skirmish.data.SkirmishObject;
 import com.threerings.skirmish.data.SkirmishVessel;
@@ -63,29 +63,29 @@ public class SkirmishManager extends GameManager
         super.gameWillStart();
 
         // get a casted reference to our game configuration
-        _skonfig = (SkirmishConfig)_config;
+        _skonfig = (ToyBoxGameConfig)_config;
         Log.info("Starting game " + _skonfig + ".");
 
         // generate the game board
+        int size = (Integer)_skonfig.params.get("board_size");
+        int featureDensity = (Integer)_skonfig.params.get("feature_density");
         _skobj.setBoard(SkirmishBoard.generateBoard(
-                            _skonfig.boardWidth, _skonfig.boardHeight,
-                            _skonfig.featureDensity));
+                            size, size, featureDensity));
 
 //         // pick a random 5x5 area in which to start the vessels
-//         int dx = RandomUtil.getInt(_skonfig.boardWidth-5),
-//             dy = RandomUtil.getInt(_skonfig.boardHeight-5);
+//         int dx = RandomUtil.getInt(size-5), dy = RandomUtil.getInt(size-5);
 
         // start the vessels in the center of the "board"
-        int dx = _skonfig.boardWidth/2-3,
-            dy = _skonfig.boardHeight/2-3;
+        int dx = size/2-3, dy = size/2-3;
 
         // generate randomly positioned vessels and blank hands
+        int handSize = (Integer)_skonfig.params.get("hand_size");
         int pcount = getPlayerCount();
         SkirmishHand[] hands = new SkirmishHand[pcount];
         SkirmishVessel[] vessels = new SkirmishVessel[pcount];
         for (int ii = 0; ii < pcount; ii++) {
             // create a blank hand
-            hands[ii] = new SkirmishHand(_skonfig.handSize);
+            hands[ii] = new SkirmishHand(handSize);
 
             // and a randomly positioned vessel
             int col = dx + RandomUtil.getInt(6);
@@ -111,32 +111,33 @@ public class SkirmishManager extends GameManager
         _skobj.setAttackerIndex(attidx);
 
         // set up the initial damage inidcators
+        int handicap = (Integer)_skonfig.params.get("handicap");
         int[] damage = new int[pcount];
-        if (_skonfig.handicap < 0) {
-            damage[attidx] = -_skonfig.handicap;
-        } else if (_skonfig.handicap > 0) {
+        if (handicap < 0) {
+            damage[attidx] = -handicap;
+        } else if (handicap > 0) {
             for (int ii = 0; ii < getPlayerCount(); ii++) {
                 if (ii == attidx) {
                     continue;
                 }
-                damage[ii] = _skonfig.handicap;
+                damage[ii] = handicap;
             }
         }
         // clear out the damage indicators
         _skobj.setDamage(damage);
 
         // start up our turn execution timer
+        int turnInterval = (Integer)_skonfig.params.get("turn_interval");
         SafeInterval eeint = new SafeInterval(CrowdServer.omgr) {
             public void run () {
                 executeTurn();
             }
         };
         _eeid = IntervalManager.register(
-            eeint, _skonfig.turnInterval * 1000L, null, true);
+            eeint, turnInterval * 1000L, null, true);
 
         // update the next turn timer
-        _skobj.setNextTurn(System.currentTimeMillis() +
-                           _skonfig.turnInterval * 1000L);
+        _skobj.setNextTurn(System.currentTimeMillis() + turnInterval * 1000L);
     }
 
     // documentation inherited
@@ -167,7 +168,8 @@ public class SkirmishManager extends GameManager
         // iterate through the hands held by each player, executing the
         // action in the appropriate slot and then effect any actions
         // caused by the vessels' board position
-        for (int ii = 0; ii < _skonfig.handSize; ii++) {
+        int handSize = (Integer)_skonfig.params.get("hand_size");
+        for (int ii = 0; ii < handSize; ii++) {
             // we clone the vessels array so that we can safely update it
             // and broadcast the updates to the users (without overwriting
             // things next time through the loop)
@@ -275,16 +277,18 @@ public class SkirmishManager extends GameManager
 
         // if we've exceeded the requisite number of escape turns, end the
         // game and report that the target has escaped
-        if (_skobj.escapeCounter >= _skonfig.escapeDuration) {
+        int escapeDuration = (Integer)_skonfig.params.get("escape_duration");
+        if (_skobj.escapeCounter >= escapeDuration) {
             String msg = MessageBundle.tcompose(
-                "m.escaped", String.valueOf(_skonfig.escapeDuration));
+                "m.escaped", String.valueOf(escapeDuration));
             SpeakProvider.sendInfo(_skobj, SKIRMISH_MESSAGE_BUNDLE, msg);
             endGame();
 
         } else {
             // update the next turn timer
-            _skobj.setNextTurn(System.currentTimeMillis() +
-                               _skonfig.turnInterval * 1000L);
+            int turnInterval = (Integer)_skonfig.params.get("turn_interval");
+            _skobj.setNextTurn(
+                System.currentTimeMillis() + turnInterval * 1000L);
         }
     }
 
@@ -301,11 +305,11 @@ public class SkirmishManager extends GameManager
         if (vessel.row < 0) {
             vessel.row = 0;
         }
-        if (vessel.column >= _skonfig.boardWidth) {
-            vessel.column = (byte)(_skonfig.boardWidth-1);
+        if (vessel.column >= _skobj.board.width) {
+            vessel.column = (byte)(_skobj.board.width-1);
         }
-        if (vessel.row >= _skonfig.boardHeight) {
-            vessel.row = (byte)(_skonfig.boardHeight-1);
+        if (vessel.row >= _skobj.board.height) {
+            vessel.row = (byte)(_skobj.board.height-1);
         }
     }
 
@@ -461,7 +465,7 @@ public class SkirmishManager extends GameManager
     protected SkirmishObject _skobj;
 
     /** Our game configuration object. */
-    protected SkirmishConfig _skonfig;
+    protected ToyBoxGameConfig _skonfig;
 
     /** The interval id of our turn execution timer. */
     protected int _eeid = -1;

@@ -18,7 +18,6 @@ import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.skirmish.Log;
-import com.threerings.skirmish.data.SkirmishConfig;
 import com.threerings.skirmish.data.SkirmishObject;
 
 /**
@@ -27,9 +26,9 @@ import com.threerings.skirmish.data.SkirmishObject;
 public class StatusView extends JPanel
     implements PlaceView, AttributeChangeListener, ElementUpdateListener
 {
-    public StatusView (SkirmishConfig skonfig)
+    public StatusView (int escapeDuration)
     {
-        _skonfig = skonfig;
+        _escapeDuration = escapeDuration;
         setLayout(new VGroupLayout());
 
         add(_elabel = new JLabel(""));
@@ -72,7 +71,7 @@ public class StatusView extends JPanel
 
     protected void readStatus ()
     {
-        int eturns = (_skonfig.escapeDuration - _skobj.escapeCounter);
+        int eturns = (_escapeDuration - _skobj.escapeCounter);
         if (eturns > 0) {
             _elabel.setText("Escape in " + eturns + " turns.");
         } else {
@@ -80,7 +79,7 @@ public class StatusView extends JPanel
         }
     }
 
-    protected SkirmishConfig _skonfig;
+    protected int _escapeDuration;
     protected SkirmishObject _skobj;
     protected JLabel _elabel;
 }

@@ -17,10 +17,10 @@ import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.game.GameController;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 
 import com.threerings.skirmish.Log;
 import com.threerings.skirmish.data.SkirmishAction;
-import com.threerings.skirmish.data.SkirmishConfig;
 import com.threerings.skirmish.data.SkirmishObject;
 
 /**
@@ -56,7 +56,7 @@ public class SkirmishController extends GameController
     // documentation inherited
     protected PlaceView createPlaceView ()
     {
-        _panel = new SkirmishPanel(_ctx, (SkirmishConfig)_config, this);
+        _panel = new SkirmishPanel(_ctx, (ToyBoxGameConfig)_config, this);
         return _panel;
     }
 
