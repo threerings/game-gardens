@@ -62,8 +62,14 @@ public class Game
     /** The XML game definition associated with this version. */
     public String definition;
 
+    /** The MD5 digest of the game jar file. */
+    public String digest;
+
     /** The XML game definition associated with the test version. */
     public String testDefinition;
+
+    /** The MD5 digest of the test game jar file. */
+    public String testDigest;
 
     /** Returns the status of this game. */
     public Status getStatus ()
@@ -86,8 +92,16 @@ public class Game
         if (_parser == null) {
             _parser = new GameParser();
         }
+
         try {
-            return _parser.parseGame(new StringReader(definition));
+            GameDefinition gamedef = _parser.parseGame(
+                new StringReader(definition));
+
+            // fill in things that only we know
+            gamedef.digest = digest;
+
+            return gamedef;
+
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to parse game definition " +
                     "[ident=" + ident + "]", e);
