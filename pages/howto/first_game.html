@@ -5,10 +5,17 @@
 
 The first thing you should do is read through the code for the included
 games as that will give you a good idea of how the toolkit works under
-normal circumstances. We have also provided a game which is nothing more
-than a template that you can copy and change the names to start yourself
-off with all the necessary bits in place. This template game is located in
-the <code>sample</code> directory of the games archive.
+normal circumstances. At some point you will probably also want to read
+the documentation on the framework used to send data over the network,
+known as
+<a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/presents/package-summary.html#package_description">distributed objects</a>.
+You can get by without it but we may use a few terms in this document that
+are explained in the distributed objects documentation.
+
+<p> As a starting point, we have also provided a game which is nothing
+more than a template that you can copy and change the names to start
+yourself off with all the necessary bits in place. This template game is
+located in the <code>sample</code> directory of the games archive.
 
 <p> It should be noted that the architecture of the sample game is not the
 only way to make games with the toolkit. However, much of this structure
@@ -299,10 +306,8 @@ start your game. Here is the sample configuration:
   &lt;!-- to customize the gameplay. --&gt;
   &lt;params&gt;
     &lt;range ident="board_size" minimum="16" maximum="48" start="32"/&gt;
-    &lt;!--
     &lt;choice ident="rules" choices="standard,hand_of_three" start="standard"/&gt;
     &lt;toggle ident="monkeys" start="false"/&gt;
-    --&gt;
   &lt;/params&gt;
 &lt;/game&gt;
 </pre>
@@ -355,6 +360,32 @@ customized value provided by the user when configuring your game. This
 allows you to avoid duplicating the default values from your game
 configuration in your game manager.
 
+<p><b>sample.properties</b><br>
+The Narya system provides a mechanism for localizing your game that is
+based on Sun's localization facilities. It is not a requirement that you
+use this system except to provide translations for your game configuration
+parameters.
+
+<p> This is accomplished by adding entries to the properties file:
+<code>rsrc/i18n/sample.properties</code>. The configuration shown above
+would use the following translations:
+
+<pre class="example">
+m.range_board_size = Board size:
+
+m.choice_rules = Rules:
+m.choice_standard = Standard
+m.choice_hand_of_three = Hand of three
+
+m.toggle_monkeys = Include Monkeys?
+</pre>
+
+<p> A forthcoming article on how to actually use the localization services
+will explain where to put localized versions of your properties files and
+how to access those translations from within the game. The sample games
+make use of the localization services so in the meanwhile that's a good
+place to look.
+
 <p><b>Running your game</b><br>
 If you develop your game in the same directory as the sample games, you
 can use the provided scripts to run your game during testing. In the
@@ -376,5 +407,9 @@ identifier you choose for your game.
 
   # coming soon... :)
 </pre>
+
+<p> That's about the size of it. Be sure to check out the
+<a href="/discussion/">message boards</a> if you have questions or want to
+talk about game ideas and implementation details.
 
 <!--#include virtual="/footer.html" -->
