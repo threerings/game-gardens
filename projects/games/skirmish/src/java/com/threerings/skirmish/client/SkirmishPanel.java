@@ -79,8 +79,8 @@ public class SkirmishPanel extends PlacePanel
         spanel.add(new PlayerView(1, _bview), VGroupLayout.FIXED);
 
         // add a status view
-        int escapeDuration = (Integer)config.params.get("escape_duration");
-        spanel.add(new StatusView(escapeDuration), VGroupLayout.FIXED);
+        int escapeTurns = (Integer)config.params.get("escape_turns");
+        spanel.add(new StatusView(escapeTurns), VGroupLayout.FIXED);
 
         // add the token management interface
         spanel.add(tpanel, VGroupLayout.FIXED);

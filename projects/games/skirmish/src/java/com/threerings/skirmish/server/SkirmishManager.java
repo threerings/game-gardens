@@ -111,7 +111,7 @@ public class SkirmishManager extends GameManager
         _skobj.setAttackerIndex(attidx);
 
         // set up the initial damage inidcators
-        int handicap = (Integer)_skonfig.params.get("handicap");
+        int handicap = (Integer)_skonfig.params.get("handicap_turns");
         int[] damage = new int[pcount];
         if (handicap < 0) {
             damage[attidx] = -handicap;
@@ -277,7 +277,7 @@ public class SkirmishManager extends GameManager
 
         // if we've exceeded the requisite number of escape turns, end the
         // game and report that the target has escaped
-        int escapeDuration = (Integer)_skonfig.params.get("escape_duration");
+        int escapeDuration = (Integer)_skonfig.params.get("escape_turns");
         if (_skobj.escapeCounter >= escapeDuration) {
             String msg = MessageBundle.tcompose(
                 "m.escaped", String.valueOf(escapeDuration));
