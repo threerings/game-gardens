@@ -65,12 +65,6 @@ public class Game
     /** The MD5 digest of the game jar file. */
     public String digest;
 
-    /** The XML game definition associated with the test version. */
-    public String testDefinition;
-
-    /** The MD5 digest of the test game jar file. */
-    public String testDigest;
-
     /** A brief description of the game. */
     public String description;
 

@@ -70,8 +70,6 @@ public class edit_game extends UserLogic
             // TODO: get host from ToyBoxConfig?
             game.host = req.getServerName();
             game.digest = "";
-            game.testDefinition = "";
-            game.testDigest = "";
             ctx.put("game", game);
 
             // fill in the user supplied information

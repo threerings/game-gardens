@@ -43,16 +43,6 @@ CREATE TABLE GAMES
     DIGEST VARCHAR(255) NOT NULL,
 
     /** 
-     * The current test version's XML definition.
-     */
-    TEST_DEFINITION TEXT NOT NULL,
-
-    /** 
-     * The MD5 digest of the test game jar file.
-     */
-    TEST_DIGEST VARCHAR(255) NOT NULL,
-
-    /** 
      * A short description of the game.
      */
     DESCRIPTION TEXT NOT NULL,
