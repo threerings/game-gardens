@@ -29,6 +29,7 @@
     <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="gg-client.jar"/>
     <property name="game_id" value="$game.gameId"/>
+    <property name="game_name" value="$game.name"/>
   </resources>
   <application-desc main-class="com.threerings.toybox.client.ToyBoxApp">
     <argument>$server</argument>
