@@ -1,18 +1,17 @@
 </td></tr></table>
 
 <p>
+<tr><td colspan=2><img src="/images/shortbar.gif" height=1 width=768></td></tr>
 <table width=768 cellpadding=6 cellspacing=0 border=0 width="100%">
-<tr bgcolor="#CCCCCC">
-<td>
-Game Gardens:
-<a href="/">Home</a>
-| <a href="/about.html">About</a>
-| <a href="/account/">Account</a>
-| <a href="/discussion/mvnforum/listforums">Forums</a>
-| <a href="/howto/">Developers</a>
+<tr><td>Game Gardens:
+<a href="/">$i18n.xlate("footer.home")</a>
+| <a href="/about.html">$i18n.xlate("footer.about")</a>
+| <a href="/account/">$i18n.xlate("footer.account")</a>
+| <a href="/discussion/mvnforum/listforums">$i18n.xlate("footer.forums")</a>
+| <a href="/howto/">$i18n.xlate("footer.howto")</a>
 </td>
 <td align="right">&copy;2005
-<a href="mailto:gardens@threerings.net">Three Rings Design, Inc</a></td>
+<a href="mailto:gardens@threerings.net">$i18n.xlate("footer.ooo")</a></td>
 </table>
 
 </body>
