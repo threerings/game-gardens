@@ -35,9 +35,8 @@ import com.samskivert.swing.util.SwingUtil;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
 
-import com.threerings.micasa.client.OccupantList;
-
 import com.threerings.toybox.client.ChatPanel;
+import com.threerings.toybox.client.OccupantList;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.data.ToyBoxGameConfig;
