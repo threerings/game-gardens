@@ -114,6 +114,9 @@ public class ToyBoxManager
     {
         // register ourselves as providing the toybox service
         invmgr.registerDispatcher(new ToyBoxDispatcher(this), true);
+
+        log.info("ToyBoxManager ready [rsrcdir=" +
+                 ToyBoxConfig.getResourceDir() + "].");
     }
 
     /**

@@ -53,6 +53,17 @@ public class GameDefinition implements Streamable
     /** The libraries required by this game. */
     public Library[] libs;
 
+    /** The MD5 digest of the game jar file. */
+    public String digest;
+
+    /**
+     * Provides the name of the jar file associated with this game.
+     */
+    public String getJarName ()
+    {
+        return ident + ".jar";
+    }
+
     /** Called when parsing a game definition from XML. */
     public void setParams (ArrayList<Parameter> list)
     {

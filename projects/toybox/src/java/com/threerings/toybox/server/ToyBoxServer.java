@@ -63,7 +63,7 @@ public class ToyBoxServer extends CrowdServer
         super.init();
 
         // configure the client manager to use the appropriate client class
-        clmgr.setClientClass(CrowdClient.class);
+        clmgr.setClientClass(ToyBoxClient.class);
 
         // create our database connection provider
         conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());

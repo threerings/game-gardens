@@ -24,6 +24,7 @@ package com.threerings.toybox.client;
 import java.io.File;
 import java.security.MessageDigest;
 import java.net.URL;
+import java.net.URLClassLoader;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ import com.threerings.presents.client.BasicDirector;
 import com.threerings.presents.client.Client;
 
 import com.threerings.crowd.client.LocationAdapter;
+import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.client.GameReadyObserver;
@@ -47,6 +49,7 @@ import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.Library;
 import com.threerings.toybox.data.ToyBoxBootstrapData;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import static com.threerings.toybox.Log.log;
@@ -67,6 +70,40 @@ public class ToyBoxDirector extends BasicDirector
         _ctx.getParlorDirector().addGameReadyObserver(this);
     }
 
+    /**
+     * Our custom location director obtains a special class loader by
+     * calling this method. We use this to run gamecode in a sandbox.
+     */
+    public ClassLoader getClassLoader (PlaceConfig config)
+    {
+        if (config instanceof ToyBoxGameConfig) {
+            ToyBoxGameConfig gconfig = (ToyBoxGameConfig)config;
+            GameDefinition gamedef = gconfig.getGameDefinition();
+
+            ArrayList<URL> ulist = new ArrayList<URL>();
+            String path = "";
+            try {
+                // add the game jar file
+                path = "file://" + _cacheDir + "/" + gamedef.getJarName();
+                ulist.add(new URL(path));
+                // enumerate the paths to the game's jar files
+                for (int ii = 0; ii < gamedef.libs.length; ii++) {
+                    Library lib = gamedef.libs[ii];
+                    path = "file://" + _cacheDir + "/" + lib.getURLPath();
+                    ulist.add(new URL(path));
+                }
+
+            } catch (Exception e) {
+                log.warning("Failed to create URL for class loader " +
+                            "[cache=" + _cacheDir + ", path=" + path +
+                            ", error=" + e + "].");
+            }
+
+            return new URLClassLoader(ulist.toArray(new URL[ulist.size()]));
+        }
+        return null;
+    }
+
     // documentation inherited
     public void clientDidLogon (Client client)
     {
@@ -82,8 +119,16 @@ public class ToyBoxDirector extends BasicDirector
                     "unable to load game code or media.", e);
         }
 
-        // determine our local cache directory
+        // determine our local cache directory and make sure it exists
         _cacheDir = new File(ToyBoxClient.localDataDir("cache"));
+        if (!_cacheDir.exists()) {
+            File libdir = new File(_cacheDir, LIBRARY_DIR);
+            if (!_cacheDir.mkdirs()) {
+                log.warning("Unable to create game cache '" + _cacheDir + "'.");
+            } else if (!libdir.mkdirs()) {
+                log.warning("Unable to create library cache '" + libdir + "'.");
+            }
+        }
 
         // determine which lobby we are to enter...
         final String ident = System.getProperty("game_ident");
@@ -111,7 +156,7 @@ public class ToyBoxDirector extends BasicDirector
     // documentation inherited
     public boolean receivedGameReady (int gameOid)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -128,7 +173,7 @@ public class ToyBoxDirector extends BasicDirector
                 resolveResourcesAsync(gamedef, obs);
             }
         };
-        t.run();
+        t.start();
     }
 
     /** Helper method for entering a lobby and reporting any failure. */
@@ -181,48 +226,18 @@ public class ToyBoxDirector extends BasicDirector
 
         synchronized (_pending) {
             // check whether the files exist and match their checksums
-            for (int ii = 0; ii < gamedef.libs.length; ii++) {
-                Library lib = gamedef.libs[ii];
-                String path = LIBRARY_DIR + File.separator + lib.getFileName();
-                File local = new File(_cacheDir, path);
-
-                // if we're already downloading it, skip it
-                if (_pending.contains(local)) {
-                    continue;
-                }
-
-                // determine the library's remote URL
-                URL remote;
-                try {
-                    remote = new URL(_resourceURL, path);
-                } catch (Exception e) {
-                    log.log(Level.WARNING, "Unable to construct resource URL " +
-                            "for library [lib=" + lib + "].", e);
-                    continue;
-                }
-
-                // create a resource for this library
-                Resource rsrc = new Resource(path, remote, local);
-
-                // if the file already exists, check it's MD5 hash
-                if (rsrc.getLocal().exists()) {
-                    try {
-                        // TODO: display progress!
-                        String digest = rsrc.computeDigest(md, null);
-                        if (digest.equals(lib.digest)) {
-                            log.info("Resource up to date " + rsrc + ".");
-                            continue;
-                        }
-
-                    } catch (Exception e) {
-                        log.info("Failed to compute digest, refetching " +
-                                 "[rsrc=" + rsrc + ", error=" + e + "].");
-                    }
-                }
-
-                // make a note that we'll be downloading this resource
+            Resource rsrc = checkResource(
+                gamedef.getJarName(), gamedef.getJarName(), md, gamedef.digest);
+            if (rsrc != null) {
                 rsrcs.add(rsrc);
-                _pending.add(local);
+            }
+            for (int ii = 0; ii < gamedef.libs.length; ii++) {
+                rsrc = checkResource(gamedef.libs[ii].getFilePath(),
+                                     gamedef.libs[ii].getURLPath(),
+                                     md, gamedef.libs[ii].digest);
+                if (rsrc != null) {
+                    rsrcs.add(rsrc);
+                }
             }
         }
 
@@ -230,7 +245,54 @@ public class ToyBoxDirector extends BasicDirector
         // to download it will just immediately call "downloadComplete()"
         // on the observer
         Downloader dloader = new Downloader(rsrcs, obs);
+        // we're already on our own thread so just run() rather than start()
         dloader.run();
+    }
+
+    /** Helper function for {@link #resolveResourcesAsync}. */
+    protected Resource checkResource (
+        String lpath, String rpath, MessageDigest md, String rdigest)
+    {
+        // if we're already downloading it, skip it
+        File local = new File(_cacheDir, lpath);
+        if (_pending.contains(local)) {
+            return null;
+        }
+
+        // determine the library's remote URL
+        URL remote;
+        try {
+            remote = new URL(_resourceURL, rpath);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Unable to construct URL for resource " +
+                    "[local=" + lpath + ", remote=" + rpath + "].", e);
+            return null;
+        }
+
+        // create a resource which the downloader will need
+        Resource rsrc = new Resource(rpath, remote, local);
+
+        // if the file already exists, check it's MD5 hash
+        if (rsrc.getLocal().exists()) {
+            try {
+                // TODO: display progress!
+                String digest = rsrc.computeDigest(md, null);
+                if (StringUtil.blank(rdigest) ||
+                    digest.equals(rdigest)) {
+                    log.info("Resource up to date " + rsrc +
+                             " (digest " + digest + ").");
+                    return null;
+                }
+
+            } catch (Exception e) {
+                log.info("Failed to compute digest, refetching " +
+                         "[rsrc=" + rsrc + ", error=" + e + "].");
+            }
+        }
+
+        // add it to the pending set and return it to the caller
+        _pending.add(local);
+        return rsrc;
     }
 
     protected ToyBoxContext _ctx;

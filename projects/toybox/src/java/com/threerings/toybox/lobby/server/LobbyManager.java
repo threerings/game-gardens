@@ -73,7 +73,7 @@ public class LobbyManager extends PlaceManager
         // manager
         GameDefinition gdef = _lconfig.getGameDefinition();
         if (gdef.match instanceof TableMatchConfig) {
-            _tablemgr = new TableManager(this);
+            _tablemgr = new ToyBoxTableManager(this);
         }
     }
 

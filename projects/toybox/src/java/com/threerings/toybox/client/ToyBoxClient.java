@@ -38,6 +38,7 @@ import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.DObjectManager;
 
 import com.threerings.crowd.chat.client.ChatDirector;
+import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.client.LocationDirector;
 import com.threerings.crowd.client.OccupantDirector;
 import com.threerings.crowd.client.PlaceView;
@@ -126,7 +127,11 @@ public class ToyBoxClient
         _msgmgr = new MessageManager(MESSAGE_MANAGER_PREFIX);
 
         // create our managers and directors
-        _locdir = new LocationDirector(_ctx);
+        _locdir = new LocationDirector(_ctx) {
+            protected ClassLoader getClassLoader (PlaceConfig config) {
+                return _toydtr.getClassLoader(config);
+            }
+        };
         _occdir = new OccupantDirector(_ctx);
         _chatdir = new ChatDirector(_ctx, _msgmgr, "global");
         _pardtr = new ParlorDirector(_ctx);

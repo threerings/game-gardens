@@ -21,8 +21,9 @@
 
 package com.threerings.toybox.data;
 
-import com.samskivert.util.StringUtil;
+import java.io.File;
 
+import com.samskivert.util.StringUtil;
 import com.threerings.io.Streamable;
 
 /**
@@ -42,9 +43,27 @@ public class Library implements Streamable
     /**
      * Constructs the jar file name from the library name and version.
      */
-    public String getFileName ()
+    public String getJarName ()
     {
         return name + "-" + version + ".jar";
+    }
+
+    /**
+     * Returns the file path relative to the resource root for this
+     * library.
+     */
+    public String getFilePath ()
+    {
+        return ToyBoxCodes.LIBRARY_DIR + File.separator + getJarName();
+    }
+
+    /**
+     * Returns the URL path relative to the resource root for this
+     * library.
+     */
+    public String getURLPath ()
+    {
+        return ToyBoxCodes.LIBRARY_DIR + "/" + getJarName();
     }
 
     /** Generates a string representation of this instance. */
