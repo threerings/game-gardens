@@ -32,6 +32,7 @@ ant
 # mirror the library files
 echo "** Mirroring server jars..."
 $MIRROR $VERBOSE $ROOT/seclib/*.jar
+$MIRROR $VERBOSE $ROOT/projects/*/dist/*.jar
 
 # mirror the server scripts
 echo "** Mirroring scripts..."
