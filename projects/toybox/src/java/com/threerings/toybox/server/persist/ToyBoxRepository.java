@@ -23,10 +23,12 @@ package com.threerings.toybox.server.persist;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.DatabaseLiaison;
@@ -100,8 +102,46 @@ public class ToyBoxRepository extends JORARepository
             public Object invoke (Connection conn, DatabaseLiaison liaison)
                 throws SQLException, PersistenceException
             {
-                // TODO
-                return new ArrayList();
+                // first obtain the game ids of the top N most frequently
+                // played games
+                String query = "select GAME_ID, SUM(PLAYTIME) as MINUTES " +
+                    "from PLAYTIME where PERIOD = '" + thisWeek + "' " +
+                    "or PERIOD = '" + lastWeek + "' group by GAME_ID " +
+                    "order by MINUTES DESC limit " + count;
+                int[] gameIds = new int[count];
+                StringBuffer buf = new StringBuffer();
+                Statement stmt = null;
+                try {
+                    stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+                    for (int ii = 0; rs.next(); ii++) {
+                        gameIds[ii] = rs.getInt(1);
+                        if (buf.length() > 0) {
+                            buf.append(",");
+                        }
+                        buf.append(gameIds[ii]);
+                    }
+                } finally {
+                    JDBCUtil.close(stmt);
+                }
+
+                // next load those games from the database
+                HashMap<Integer,Game> games = new HashMap<Integer,Game>();
+                Cursor c = _gtable.select("where GAME_ID in (" + buf + ")");
+                Game game = null;
+                while ((game = (Game)c.next()) != null) {
+                    games.put(game.gameId, game);
+                }
+
+                // finally arrange them into a list in the proper order
+                ArrayList<Game> glist = new ArrayList<Game>();
+                for (int ii = 0; ii < gameIds.length; ii++) {
+                    game = games.get(gameIds[ii]);
+                    if (game != null) {
+                        glist.add(game);
+                    }
+                }
+                return glist;
             }
         });
     }
