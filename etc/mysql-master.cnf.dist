@@ -8,7 +8,7 @@ port		= 3307 # stock is 3306
 socket		= /var/run/mysqld/gardens-mysqld.sock
 
 [mysqld_safe]
-err-log		= /export/gardens/log/mysql.err
+err-log		= /export/gardens/logs/mysql.err
 socket		= /var/run/mysqld/gardens-mysqld.sock
 
 [mysqld]

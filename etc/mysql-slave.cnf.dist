@@ -14,7 +14,7 @@ port		= PORT # start at 3308 and go up from there
 socket		= /var/run/mysqld/gardens-mysqld.sock
 
 [mysqld_safe]
-err-log		= /export/gardens/log/mysql.err
+err-log		= /export/gardens/logs/mysql.err
 socket		= /var/run/mysqld/gardens-mysqld.sock
 
 [mysqld]
@@ -22,7 +22,7 @@ user		= mysql
 pid-file	= /var/run/mysqld/gardens-mysqld.pid
 socket		= /var/run/mysqld/gardens-mysqld.sock
 port		= PORT
-# log		= /export/gardens/log/mysql.log
+# log		= /export/gardens/logs/mysql.log
 basedir		= /usr
 datadir		= /export/gardens/data/mysql
 tmpdir		= /tmp
