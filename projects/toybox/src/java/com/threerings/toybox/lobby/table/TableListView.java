@@ -30,7 +30,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.SimpleSlider;
@@ -39,6 +38,7 @@ import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
+import com.threerings.media.SafeScrollPane;
 
 import com.threerings.parlor.client.GameConfigurator;
 import com.threerings.parlor.client.SeatednessObserver;
@@ -97,7 +97,7 @@ public class TableListView extends JPanel
         mgl.setJustification(VGroupLayout.TOP);
         _matchList = new JPanel(mgl);
     	_matchList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panel.add(new JScrollPane(_matchList));
+        panel.add(new SafeScrollPane(_matchList));
 
         // create and initialize our configurator interface
         _figger = _config.createConfigurator();
@@ -116,6 +116,12 @@ public class TableListView extends JPanel
         _pslide.setMaximum(config.getMaximumPlayers());
         _pslide.setValue(config.getDesiredPlayers());
 
+        int range = config.getMaximumPlayers() - config.getMinimumPlayers();
+        _pslide.getSlider().setPaintTicks(true);
+        _pslide.getSlider().setMinorTickSpacing(1);
+        _pslide.getSlider().setMajorTickSpacing(range / 2);
+        _pslide.getSlider().setSnapToTicks(true);
+
         // if the min == the max, hide the slider because it's pointless
         _pslide.setVisible(config.getMinimumPlayers() !=
                            config.getMaximumPlayers());
@@ -132,7 +138,7 @@ public class TableListView extends JPanel
 
         _playList = new JPanel(mgl);
     	_playList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panel.add(new JScrollPane(_playList));
+        panel.add(new SafeScrollPane(_playList));
 
         add(panel);
     }
