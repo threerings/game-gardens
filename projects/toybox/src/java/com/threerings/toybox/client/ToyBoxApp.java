@@ -1,5 +1,5 @@
 //
-// $Id: ToyBoxApp.java,v 1.1 2004/11/15 01:48:51 mdb Exp $
+// $Id: ToyBoxApp.java,v 1.2 2004/11/15 22:37:36 mdb Exp $
 
 package com.threerings.toybox.client;
 
@@ -9,9 +9,6 @@ import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.net.UsernamePasswordCreds;
-
-import com.threerings.micasa.client.MiCasaClient;
-import com.threerings.micasa.client.MiCasaFrame;
 
 import com.threerings.util.Name;
 
@@ -26,7 +23,7 @@ public class ToyBoxApp
         throws IOException
     {
         // create a frame
-        _frame = new MiCasaFrame();
+        _frame = new ToyBoxFrame();
 
         // create our client instance
         String cclass = null;
@@ -36,11 +33,11 @@ public class ToyBoxApp
             // security manager in effect, no problem
         }
         if (cclass == null) {
-            cclass = MiCasaClient.class.getName();
+            cclass = ToyBoxClient.class.getName();
         }
 
         try {
-            _client = (MiCasaClient)Class.forName(cclass).newInstance();
+            _client = (ToyBoxClient)Class.forName(cclass).newInstance();
         } catch (Exception e) {
             Log.warning("Unable to instantiate client class " +
                         "[cclass=" + cclass + "].");
@@ -105,6 +102,6 @@ public class ToyBoxApp
         app.run(server, port, username, password);
     }
 
-    protected MiCasaClient _client;
-    protected MiCasaFrame _frame;
+    protected ToyBoxClient _client;
+    protected ToyBoxFrame _frame;
 }
