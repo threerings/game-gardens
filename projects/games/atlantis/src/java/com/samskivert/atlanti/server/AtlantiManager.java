@@ -170,16 +170,17 @@ public class AtlantiManager extends GameManager
             return;
         }
 
-        // can and do we want to place a piecen?
-        int uc = tile.getUnclaimedCount();
-        if (RandomUtil.getInt(100) > 45) {
+        // if placeTile() did not return true, we have piecens remaining
+        // and the tile can be placed upon; however we randomly choose not
+        // to place a piecen 45% of the time
+        if (RandomUtil.getInt(100) > 54) {
             // just end our turn
             _delegate.endTurn();
             return;
         }
 
         // place a piecen on the piece we just placed
-        int skip = RandomUtil.getInt(uc);
+        int skip = RandomUtil.getInt(tile.getUnclaimedCount());
         for (int ii = 0; ii < tile.claims.length; ii++) {
             if (tile.claims[ii] == 0) {
                 if (skip == 0) {
