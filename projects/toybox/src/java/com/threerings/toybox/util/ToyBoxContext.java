@@ -25,6 +25,8 @@ import java.awt.Image;
 
 import java.io.IOException;
 
+import java.util.logging.Level;
+
 import javax.imageio.ImageIO;
 
 import com.threerings.media.FrameManager;
@@ -36,8 +38,9 @@ import com.threerings.media.image.ImageUtil;
 
 import com.threerings.parlor.util.ParlorContext;
 
-import com.threerings.toybox.Log;
 import com.threerings.toybox.client.ToyBoxDirector;
+
+import static com.threerings.toybox.Log.log;
 
 /**
  * Aggregates the various bits that are needed on the ToyBox client.
@@ -85,10 +88,9 @@ public abstract class ToyBoxContext implements ParlorContext
                 tbd.getResourceManager().getImageResource(rsrcPath));
 
         } catch (IOException ioe) {
-            Log.log.warning("Unable to load image resource. [path=" + rsrcPath +
-                ", cause=" + ioe + "].");
-            //Log.logStackTrace(ioe);
-            // return a default-size error image
+            log.log(Level.WARNING,
+                "Unable to load image resource [path=" + rsrcPath + "].", ioe);
+            // cope; return an error image of abitrary size
             return ImageUtil.createErrorImage(50, 50);
         }
     }
