@@ -47,7 +47,7 @@ public class game_jnlp implements Logic
         String path = CLIENT_PATH;
         URL codebase;
         try {
-            codebase = new URL("http", game.host, 80, path);
+            codebase = new URL("http", game.host, path);
         } catch (Exception e) {
             log.log(Level.WARNING, "Error creating codebase URL " +
                     "[ghost=" + game.host + ", path=" + path + "].", e);
