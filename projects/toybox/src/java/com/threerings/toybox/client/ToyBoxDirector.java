@@ -34,6 +34,8 @@ import com.samskivert.util.StringUtil;
 import com.threerings.getdown.data.Resource;
 import com.threerings.getdown.launcher.Downloader;
 
+import com.threerings.resource.ResourceManager;
+
 import com.threerings.presents.client.BasicDirector;
 import com.threerings.presents.client.Client;
 
@@ -86,6 +88,15 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     /**
+     * Returns the resource manager that is usable by the game to load
+     * custom resources from its jar file.
+     */
+    public ResourceManager getResourceManager ()
+    {
+        return _gameResource;
+    }
+
+    /**
      * This is called by a lobby controller when we have arrived safely
      * and soundly in our desired lobby.
      */
@@ -96,6 +107,11 @@ public class ToyBoxDirector extends BasicDirector
         // the classloader when we're in "production" mode)
         _gameLoader = ToyBoxUtil.createClassLoader(
             _cacheDir, config.getGameDefinition());
+        // create a resource manager that the game can use to load its
+        // custom resources; this must be done here as the game code does
+        // not have the necessary access privileges to run a resource
+        // manager
+        _gameResource = new ResourceManager("rsrc", _gameLoader);
         _ctx.getClient().setClassLoader(_gameLoader);
     }
 
@@ -151,6 +167,9 @@ public class ToyBoxDirector extends BasicDirector
     // documentation inherited
     public boolean receivedGameReady (int gameOid)
     {
+        // TODO: fire up a connection to the game server and do all the
+        // custom jockeying to make that work
+        _ctx.getLocationDirector().moveTo(gameOid);
         return true;
     }
 
@@ -267,7 +286,7 @@ public class ToyBoxDirector extends BasicDirector
         // create a resource which the downloader will need
         Resource rsrc = new Resource(rpath, remote, local);
 
-        // if the file already exists, check it's MD5 hash
+        // if the file already exists, check its MD5 hash
         if (rsrc.getLocal().exists()) {
             try {
                 // TODO: display progress!
@@ -297,6 +316,7 @@ public class ToyBoxDirector extends BasicDirector
     protected File _cacheDir;
 
     protected ClassLoader _gameLoader;
+    protected ResourceManager _gameResource;
 
     /** Contains an entry for all resources in the process of being
      * downloaded. */

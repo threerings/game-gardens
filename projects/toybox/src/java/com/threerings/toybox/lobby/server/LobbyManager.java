@@ -40,16 +40,6 @@ import static com.threerings.toybox.lobby.Log.log;
 public class LobbyManager extends PlaceManager
     implements TableManagerProvider
 {
-    /**
-     * Configures this lobby manager with its game record.
-     */
-    public void setGame (Game game)
-    {
-        _game = game;
-        log.info("Lobby up and running for '" +
-                 _lconfig.getGameDefinition().ident + "'.");
-    }
-
     // documentation inherited from interface
     public TableManager getTableManager ()
     {
@@ -85,9 +75,6 @@ public class LobbyManager extends PlaceManager
 
     /** A casted reference to our place config. */
     protected LobbyConfig _lconfig;
-
-    /** The game record for the game that we're matchmaking. */
-    protected Game _game;
 
     /** Our table manager, which is only created if we're using tables to
      * match-make in this lobby. */

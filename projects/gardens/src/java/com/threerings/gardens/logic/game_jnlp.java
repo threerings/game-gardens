@@ -58,6 +58,7 @@ public class game_jnlp implements Logic
         ctx.put("libs_dir", ToyBoxCodes.LIBRARY_DIR);
         ctx.put("jre_version", "1.4.2+"); // TODO: allow per game custom.
         ctx.put("server", game.host);
+        ctx.put("port", 4007); // TODO: specify this somewhere
 
         ctx.getResponse().setContentType("application/x-java-jnlp-file");
     }

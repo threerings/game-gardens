@@ -40,6 +40,9 @@
     <jar href="samskivert.jar"/>
     <property name="game_ident" value="$game.ident"/>
   </resources>
-  <application-desc main-class="com.threerings.toybox.client.ToyBoxApp"/>
+  <application-desc main-class="com.threerings.toybox.client.ToyBoxApp">
+    <argument>$server</argument>
+    <argument>$port</argument>
+  </application-desc>
 </jnlp>
 #end

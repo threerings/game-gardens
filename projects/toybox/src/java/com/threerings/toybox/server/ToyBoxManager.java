@@ -24,6 +24,9 @@ package com.threerings.toybox.server;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import java.security.MessageDigest;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +36,8 @@ import com.samskivert.util.ResultListenerList;
 import com.samskivert.jdbc.ConnectionProvider;
 
 import org.apache.commons.io.IOUtils;
+
+import com.threerings.getdown.data.Resource;
 
 import com.threerings.presents.client.InvocationService.ResultListener;
 import com.threerings.presents.data.ClientObject;
@@ -91,19 +96,28 @@ public class ToyBoxManager
 
         // create a fake game record for this game and resolve its lobby
         Game game = new Game();
+        GameDefinition gamedef = null;
         try {
             game.gameId = 1;
             game.maintainerId = 1;
             game.setStatus(Status.PUBLISHED);
             game.definition = IOUtils.toString(new FileReader(gameConfig));
-        } catch (IOException ioe) {
+
+            // compute the digests of all the files
+            gamedef = game.parseGameDefinition();
+            File jar = new File(ToyBoxConfig.getResourceDir(),
+                                gamedef.getJarName());
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            gamedef.digest = Resource.computeDigest(jar, md, null);
+
+        } catch (Exception e) {
             log.log(Level.WARNING, "Failed to load game config " +
-                    "[path=" + gameConfig + "].", ioe);
+                    "[path=" + gameConfig + "].", e);
             return;
         }
 
         try {
-            resolveLobby(game);
+            resolveLobby(gamedef);
         } catch (InvocationException ie) {
             log.log(Level.WARNING, "Failed to resolve lobby " +
                     "[game=" + game + "].", ie);
@@ -187,23 +201,20 @@ public class ToyBoxManager
      * is fully resolved, all pending listeners will be notified of its
      * creation. See {@link #_penders}.
      *
-     * @param game the metadata for the game whose lobby we will create.
+     * @param gdef the metadata for the game whose lobby we will create.
      */
-    public void resolveLobby (final Game game)
+    public void resolveLobby (final GameDefinition gdef)
         throws InvocationException
     {
-        final GameDefinition gdef = game.parseGameDefinition();
         log.info("Resolving " + gdef + ".");
 
         PlaceRegistry.CreationObserver obs =
             new PlaceRegistry.CreationObserver() {
             public void placeCreated (PlaceObject place, PlaceManager pmgr) {
-                // let the lobby manager know about the game record
-                ((LobbyManager)pmgr).setGame(game);
                 // register ourselves in the lobby table
                 _lobbyOids.put(gdef.ident, place.getOid());
                 // inform any resolution penders of the lobby oid
-                ResultListenerList listeners = _penders.remove(game.ident);
+                ResultListenerList listeners = _penders.remove(gdef.ident);
                 if (listeners != null) {
                     listeners.requestCompleted(place.getOid());
                 }
@@ -213,7 +224,7 @@ public class ToyBoxManager
             ToyBoxServer.plreg.createPlace(new LobbyConfig(gdef), obs);
         } catch (InstantiationException e) {
             log.log(Level.WARNING, "Failed to create game lobby " +
-                    "[game=" + game.gameId + "]", e);
+                    "[game=" + gdef.ident + "]", e);
             throw new InvocationException(INTERNAL_ERROR);
         }
     }
