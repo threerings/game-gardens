@@ -59,6 +59,7 @@
     <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
            debug="on" optimize="off" deprecation="on">
       <classpath refid="classpath"/>
+      <compilerarg value="-Xlint:unchecked"/>
     </javac>
   </target>
 

@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.samskivert.util.IntTuple;
-
 import com.threerings.presents.dobj.DSet;
 
 import com.samskivert.atlanti.Log;
@@ -37,11 +35,11 @@ public class TileUtil implements TileCodes
      * Atlantissonne game. The list is a clone, so it can be bent, folded
      * and modified by the caller.
      */
-    public static List getStandardTileSet ()
+    public static List<AtlantiTile> getStandardTileSet ()
     {
         // we need to deep copy the default tile set, so we can't just use
         // clone
-        List tiles = new ArrayList();
+        List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
         int tsize = TILE_SET.size();
         for (int i = 0; i < tsize; i++) {
             tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
@@ -66,16 +64,13 @@ public class TileUtil implements TileCodes
      * up with the direction constants specified in {@link TileCodes}.
      */
     public static boolean[] computeValidOrients (
-        List tiles, AtlantiTile target)
+        List<AtlantiTile> tiles, AtlantiTile target)
     {
         // this contains a count of tiles that match up with the candidate
         // tile in each of its four orientations
         int[] matches = new int[4];
 
-        int tsize = tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)tiles.get(i);
-
+        for (AtlantiTile tile : tiles) {
             // figure out where this tile is in relation to the candidate
             int xdiff = tile.x - target.x;
             int ydiff = tile.y - target.y;
@@ -138,14 +133,12 @@ public class TileUtil implements TileCodes
      * @return true if the target tile is configured with a valid position
      * and orientation, false if it is not.
      */
-    public static boolean isValidPlacement (List tiles, AtlantiTile target)
+    public static boolean isValidPlacement (
+        List<AtlantiTile> tiles, AtlantiTile target)
     {
         boolean matchedAnEdge = false;
 
-        int tsize = tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)tiles.get(i);
-
+        for (AtlantiTile tile : tiles) {
             // figure out where this tile is in relation to the candidate
             int xdiff = tile.x - target.x;
             int ydiff = tile.y - target.y;
@@ -209,9 +202,9 @@ public class TileUtil implements TileCodes
      * not include the tile whose features are being configured).
      * @param tile the tile whose features should be configured.
      */
-    public static void inheritClaims (List tiles, AtlantiTile tile)
+    public static void inheritClaims (List<AtlantiTile> tiles, AtlantiTile tile)
     {
-        List flist = new ArrayList();
+        List<TileFeature> flist = new ArrayList<TileFeature>();
 
         // for each feature in the tile, load up its claim group and make
         // sure all features in that group (which will include our new
@@ -227,7 +220,7 @@ public class TileUtil implements TileCodes
 
             // find the first non-zero claim number
             for (int t = 0; t < flist.size(); t++) {
-                TileFeature feat = (TileFeature)flist.get(t);
+                TileFeature feat = flist.get(t);
                 int fcg = feat.tile.claims[feat.featureIndex];
                 if (fcg != 0) {
                     claimGroup = fcg;
@@ -245,7 +238,7 @@ public class TileUtil implements TileCodes
             // the group (potentially causing some to inherit the new
             // claim number)
             for (int t = 0; t < flist.size(); t++) {
-                TileFeature feat = (TileFeature)flist.get(t);
+                TileFeature feat = flist.get(t);
                 // set the claim group in the tile
                 feat.tile.claims[feat.featureIndex] = claimGroup;
                 // also set the claim group on the piecen if the tile has
@@ -269,15 +262,16 @@ public class TileUtil implements TileCodes
      * @param claimGroup the claim group value to set.
      */
     public static void setClaimGroup (
-        List tiles, AtlantiTile tile, int featureIndex, int claimGroup)
+        List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex,
+        int claimGroup)
     {
         // load up this feature group
-        List flist = new ArrayList();
+        List<TileFeature> flist = new ArrayList<TileFeature>();
         enumerateGroup(tiles, tile, featureIndex, flist);
 
         // and assign the claim number to all features in the group
         for (int t = 0; t < flist.size(); t++) {
-            TileFeature feat = (TileFeature)flist.get(t);
+            TileFeature feat = flist.get(t);
             feat.tile.claims[feat.featureIndex] = claimGroup;
         }
     }
@@ -297,7 +291,7 @@ public class TileUtil implements TileCodes
      * score for a partial feature group.
      */
     public static int computeFeatureScore (
-        List tiles, AtlantiTile tile, int featureIndex)
+        List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex)
     {
         Feature feature = tile.features[featureIndex];
 
@@ -312,7 +306,7 @@ public class TileUtil implements TileCodes
 
         // if we're here, it's a road or city feature, which we score by
         // loading up the group and counting the number of tiles in it
-        List flist = new ArrayList();
+        List<TileFeature> flist = new ArrayList<TileFeature>();
         boolean complete = enumerateGroup(tiles, tile, featureIndex, flist);
 
         // we sort the group which will order the tile feature objects by
@@ -325,7 +319,7 @@ public class TileUtil implements TileCodes
         AtlantiTile lastTile = null;
         int fsize = flist.size();
         for (int i = 0; i < fsize; i++) {
-            TileFeature feat = (TileFeature)flist.get(i);
+            TileFeature feat = flist.get(i);
             if (feat.tile != lastTile) {
                 score++;
                 lastTile = feat.tile;
@@ -337,7 +331,7 @@ public class TileUtil implements TileCodes
         // complete and larger than two tiles
         if (feature.type == CITY) {
             for (int t = 0; t < flist.size(); t++) {
-                TileFeature feat = (TileFeature)flist.get(t);
+                TileFeature feat = flist.get(t);
                 if (feat.tile.hasShield) {
                     score++;
                 }
@@ -355,7 +349,8 @@ public class TileUtil implements TileCodes
      * A helper function for {@link
      * #computeFeatureScore(List,AtlantiTile,int)}.
      */
-    protected static int computeCloisterScore (List tiles, AtlantiTile tile)
+    protected static int computeCloisterScore (
+        List<AtlantiTile> tiles, AtlantiTile tile)
     {
         int score = 0;
 
@@ -380,15 +375,12 @@ public class TileUtil implements TileCodes
      *
      * @param tiles a sorted list of tiles on the board.
      */
-    public static void prepCitiesForScoring (List tiles)
+    public static void prepCitiesForScoring (List<AtlantiTile> tiles)
     {
-        List flist = new ArrayList();
+        List<TileFeature> flist = new ArrayList<TileFeature>();
 
         // iterate over the tiles, marking every city completed or not
-        int tsize = tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)tiles.get(i);
-
+        for (AtlantiTile tile : tiles) {
             // iterate over each feature on this tile
             for (int f = 0; f < tile.features.length; f++) {
                 // skip non-city features
@@ -411,7 +403,7 @@ public class TileUtil implements TileCodes
                     // assign the claim number to all features in the group
                     int claimGroup = nextClaimGroup();
                     for (int t = 0; t < flist.size(); t++) {
-                        TileFeature feat = (TileFeature)flist.get(t);
+                        TileFeature feat = flist.get(t);
                         feat.tile.claims[feat.featureIndex] = claimGroup;
                         if (t == 0) {
                             Log.info("Claiming complete city " +
@@ -424,7 +416,7 @@ public class TileUtil implements TileCodes
                     // it's incomplete, so we want to clear out the claim
                     // number from all tiles in the group
                     for (int t = 0; t < flist.size(); t++) {
-                        TileFeature feat = (TileFeature)flist.get(t);
+                        TileFeature feat = flist.get(t);
                         if (t == 0) {
                             Log.info("Clearing incomplete city " +
                                      "[claim=" + feat.tile.claims[
@@ -454,7 +446,8 @@ public class TileUtil implements TileCodes
      * features), false if it is not.
      */
     protected static boolean enumerateGroup (
-        List tiles, AtlantiTile tile, int featureIndex, List group)
+        List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex,
+        List<TileFeature> group)
     {
         // create a tilefeature for this feature
         TileFeature feat = new TileFeature(tile, featureIndex);
@@ -536,11 +529,13 @@ public class TileUtil implements TileCodes
      * @return the tile with the requested coordinates or null if no tile
      * exists at those coordinates.
      */
-    public static AtlantiTile findTile (List tiles, int x, int y)
+    public static AtlantiTile findTile (List<AtlantiTile> tiles, int x, int y)
     {
-        IntTuple coord = new IntTuple(x, y);
-        int tidx = Collections.binarySearch(tiles, coord);
-        return (tidx >= 0) ? (AtlantiTile)tiles.get(tidx) : null;
+        AtlantiTile key = new AtlantiTile();
+        key.x = x;
+        key.y = y;
+        int tidx = Collections.binarySearch(tiles, key);
+        return (tidx >= 0) ? tiles.get(tidx) : null;
     }
 
     /**
@@ -553,7 +548,7 @@ public class TileUtil implements TileCodes
      * @param playerIndex the index of the player whose piecen count is
      * desired.
      */
-    public static int countPiecens (List tiles, int playerIndex)
+    public static int countPiecens (List<AtlantiTile> tiles, int playerIndex)
     {
         int count = 0;
         for (int i = 0; i < tiles.size(); i++) {
@@ -610,7 +605,8 @@ public class TileUtil implements TileCodes
     }
 
     /** Used to generate our standard tile set. */
-    protected static void addTiles (int count, List list, AtlantiTile tile)
+    protected static void addTiles (
+        int count, List<AtlantiTile> list, AtlantiTile tile)
     {
         for (int i = 0; i  < count; i++) {
             list.add(tile);
@@ -618,7 +614,8 @@ public class TileUtil implements TileCodes
     }
 
     /** Used to keep track of actual features on tiles. */
-    protected static final class TileFeature implements Comparable
+    protected static final class TileFeature
+        implements Comparable<TileFeature>
     {
         /** The tile that contains the feature. */
         public AtlantiTile tile;
@@ -648,9 +645,9 @@ public class TileUtil implements TileCodes
         }
 
         /** We sort based on our tiles. */
-        public int compareTo (Object other)
+        public int compareTo (TileFeature other)
         {
-            return tile.compareTo(((TileFeature)other).tile);
+            return tile.compareTo(other.tile);
         }
 
         /** Generate a string representation. */
@@ -696,7 +693,8 @@ public class TileUtil implements TileCodes
     };
 
     /** The standard tile set for a game of Atlantissonne. */
-    protected static ArrayList TILE_SET = new ArrayList();
+    protected static ArrayList<AtlantiTile> TILE_SET =
+        new ArrayList<AtlantiTile>();
 
     // create our standard tile set
     static {

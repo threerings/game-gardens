@@ -17,6 +17,7 @@ import com.samskivert.swing.ControllerProvider;
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
 
+import com.threerings.media.SafeScrollPane;
 import com.threerings.media.image.ImageManager;
 import com.threerings.media.tile.TileManager;
 import com.threerings.resource.ResourceManager;
@@ -24,8 +25,8 @@ import com.threerings.resource.ResourceManager;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.client.PlaceView;
 
-import com.threerings.micasa.client.ChatPanel;
 import com.threerings.parlor.util.ParlorContext;
+import com.threerings.toybox.client.ChatPanel;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import com.samskivert.atlanti.Log;
@@ -61,7 +62,7 @@ public class AtlantiPanel extends JPanel
         board = new AtlantiBoard();
 
         // create a scroll area to contain the board
-        JScrollPane scrolly = new JScrollPane(board);
+        SafeScrollPane scrolly = new SafeScrollPane(board);
         add(scrolly);
 
         // create our side panel

@@ -140,9 +140,9 @@ public class AtlantiBoard extends JPanel
         Log.info("Placing " + piecen + ".");
 
         // locate the tile associated with this piecen
-        int tidx = _tiles.indexOf(piecen);
+        int tidx = _tiles.indexOf(new AtlantiTile(piecen.x, piecen.y));
         if (tidx != -1) {
-            AtlantiTile tile = (AtlantiTile)_tiles.get(tidx);
+            AtlantiTile tile = _tiles.get(tidx);
             // set the piecen on the tile (supplying our tile list so that
             // the necessary claim group adjustments can be made)
             tile.setPiecen(piecen, _tiles);
@@ -162,9 +162,7 @@ public class AtlantiBoard extends JPanel
     public void clearPiecen (Object key)
     {
         // locate the tile associated with this piecen key
-        int tsize = _tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)_tiles.get(i);
+        for (AtlantiTile tile : _tiles) {
             if (tile.getKey().equals(key)) {
                 // clear the piecen out of the tile
                 tile.clearPiecen();
@@ -277,9 +275,7 @@ public class AtlantiBoard extends JPanel
 //         }
 
         // iterate over our tiles, painting each of them
-        int tsize = _tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)_tiles.get(i);
+        for (AtlantiTile tile : _tiles) {
             tile.paint(g2, _origX, _origY);
         }
 
@@ -566,9 +562,7 @@ public class AtlantiBoard extends JPanel
         }
 
         // figure out what our boundaries are
-        int tsize = _tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)_tiles.get(i);
+        for (AtlantiTile tile : _tiles) {
             if (tile.x > maxX) {
                 maxX = tile.x;
             } else if (tile.x < minX) {
@@ -632,7 +626,7 @@ public class AtlantiBoard extends JPanel
         board.setTileToBePlaced(placing);
 
         // set a feature group to test propagation
-        List tiles = new ArrayList();
+        List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
         CollectionUtil.addAll(tiles, set.entries());
         Collections.sort(tiles);
 
@@ -664,7 +658,7 @@ public class AtlantiBoard extends JPanel
     }
 
     /** A reference to our tile set. */
-    protected ArrayList _tiles = new ArrayList();
+    protected ArrayList<AtlantiTile> _tiles = new ArrayList<AtlantiTile>();
 
     /** The tile currently being placed by the user. */
     protected AtlantiTile _placingTile;

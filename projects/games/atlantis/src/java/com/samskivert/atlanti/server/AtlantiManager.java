@@ -96,11 +96,6 @@ public class AtlantiManager extends GameManager
         _tilesInBox = TileUtil.getStandardTileSet();
         Collections.shuffle(_tilesInBox);
 
-//          // shave off most of the tiles for the moment
-//          while (_tilesInBox.size() > 15) {
-//              _tilesInBox.remove(0);
-//          }
-
         // clear out our board tiles
         _tiles.clear();
 
@@ -127,7 +122,7 @@ public class AtlantiManager extends GameManager
     {
         // let the players know what the next tile is that should be
         // played
-        AtlantiTile tile = (AtlantiTile)_tilesInBox.remove(0);
+        AtlantiTile tile = _tilesInBox.remove(0);
         _atlobj.setCurrentTile(tile);
     }
 
@@ -358,7 +353,7 @@ public class AtlantiManager extends GameManager
         // do the big process-ola
         int tsize = _tiles.size();
         for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = (AtlantiTile)_tiles.get(i);
+            AtlantiTile tile = _tiles.get(i);
 
             // iterate over all of the city features in this tile
             for (int f = 0; f < tile.features.length; f++) {
@@ -559,12 +554,12 @@ public class AtlantiManager extends GameManager
     protected void removePiecen (Piecen piecen, boolean removeFromPiecens)
     {
         // locate the tile that contains this piecen
-        int tidx = _tiles.indexOf(piecen);
+        int tidx = _tiles.indexOf(new AtlantiTile(piecen.x, piecen.y));
         if (tidx == -1) {
             Log.warning("Requested to remove piecen that is not " +
                         "associated with any tile [piecen=" + piecen + "].");
         } else {
-            AtlantiTile tile = (AtlantiTile)_tiles.get(tidx);
+            AtlantiTile tile = _tiles.get(tidx);
             // and clear the piecen
             tile.clearPiecen();
         }
@@ -758,10 +753,10 @@ public class AtlantiManager extends GameManager
 
     /** The (shuffled) list of tiles remaining to be played in this
      * game. */
-    protected List _tilesInBox;
+    protected List<AtlantiTile> _tilesInBox;
 
     /** A sorted list of the tiles that have been placed on the board. */
-    protected List _tiles = new ArrayList();
+    protected List<AtlantiTile> _tiles = new ArrayList<AtlantiTile>();
 
     /** Used to score features groups. */
     protected int[] _claimGroupVector;

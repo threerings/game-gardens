@@ -16,7 +16,6 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import java.util.List;
-import com.samskivert.util.IntTuple;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.media.image.ImageManager;
@@ -40,7 +39,7 @@ import com.samskivert.atlanti.util.TileUtil;
  * <code>atlanti.client</code> package.
  */
 public class AtlantiTile
-    implements DSet.Entry, TileCodes, Cloneable, Comparable
+    implements DSet.Entry, TileCodes, Cloneable, Comparable<AtlantiTile>
 {
     /** The starting tile. */
     public static final AtlantiTile STARTING_TILE =
@@ -99,6 +98,15 @@ public class AtlantiTile
     public AtlantiTile (int type, boolean hasShield)
     {
         this(type, hasShield, NORTH, 0, 0);
+    }
+
+    /**
+     * Used for making a key when looking up a tile in an index of tiles.
+     */
+    public AtlantiTile (int x, int y)
+    {
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -222,7 +230,7 @@ public class AtlantiTile
      * connected to this newly claimed feature or null if propagation of
      * the claim group is not desired at this time.
      */
-    public void setPiecen (Piecen piecen, List tiles)
+    public void setPiecen (Piecen piecen, List<AtlantiTile> tiles)
     {
         int claimGroup = 0;
 
@@ -359,7 +367,7 @@ public class AtlantiTile
     /**
      * Returns a copy of this tile object.
      */
-    public Object clone ()
+    public AtlantiTile clone ()
     {
         return new AtlantiTile(type, hasShield, orientation, x, y);
     }
@@ -367,35 +375,20 @@ public class AtlantiTile
     /**
      * Used to order tiles (which is done by board position).
      */
-    public int compareTo (Object other)
+    public int compareTo (AtlantiTile tile)
     {
-        // we will either be compared to another tile, to a piecen or to a
-        // coordinate object (int tuple)
-        if (other == null) {
-            return -1;
-
-        } else if (other instanceof AtlantiTile) {
-            AtlantiTile tile = (AtlantiTile)other;
-            return (tile.x == x) ? y - tile.y : x - tile.x;
-
-        } else if (other instanceof IntTuple) {
-            IntTuple coord = (IntTuple)other;
-            return (coord.left == x) ? y - coord.right : x - coord.left;
-
-        } else if (other instanceof Piecen) {
-            Piecen piecen = (Piecen)other;
-            return (piecen.x == x) ? y - piecen.y : x - piecen.x;
-
-        } else {
-            // who knows...
-            return -1;
-        }
+        return (tile == null) ? -1 :
+            ((tile.x == x) ? y - tile.y : x - tile.x);
     }
 
     // documentation inherited
     public boolean equals (Object other)
     {
-        return (compareTo(other) == 0);
+        if (other instanceof AtlantiTile) {
+            return (compareTo((AtlantiTile)other) == 0);
+        } else {
+            return false;
+        }
     }
 
     // documentation inherited
