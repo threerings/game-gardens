@@ -79,15 +79,6 @@ public class ClientController extends Controller
 
         // keep the body object around for stuff
         _body = (BodyObject)client.getClientObject();
-
-        if (_body.location != -1) {
-            // if we were already in a location, go there (this probably
-            // means we are reconnecting to an existing session)
-            _ctx.getLocationDirector().moveTo(_body.location);
-
-        } else {
-            // TODO
-        }
     }
 
     // documentation inherited
