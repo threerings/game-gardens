@@ -38,13 +38,13 @@ public class UpdateSnapshots
                     new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig()));
 
             String path = docroot + File.separator + "recently_added_incl.html";
-            writeGameList(toyrepo.loadRecentlyAdded(10), new File(path));
+            writeGameList(toyrepo.loadRecentlyAdded(9), new File(path));
 
             path = docroot + File.separator + "recently_updated_incl.html";
-            writeGameList(toyrepo.loadRecentlyUpdated(10), new File(path));
+            writeGameList(toyrepo.loadRecentlyUpdated(9), new File(path));
 
             path = docroot + File.separator + "most_popular_incl.html";
-            writeGameList(toyrepo.loadPopularGames(10), new File(path));
+            writeGameList(toyrepo.loadPopularGames(9), new File(path));
 
         } catch (Exception e) {
             e.printStackTrace(System.err);
