@@ -1,0 +1,73 @@
+#!/bin/sh
+#
+# $Id: all_rebuild.sh 18355 2004-12-15 03:55:52Z landonf $
+#
+# Updates the various libraries from the version control repository and
+# rebuilds everything used by the client, game server and web server.
+
+if [ "`whoami`" = "root" ]; then
+    echo "Don't run this script as root. Try www-data."
+    exit 255
+fi
+
+ROOT=`dirname $0`/..
+LOCKFILE=/tmp/rebuild-gardens.lock
+
+if [ -z "$JAVA_HOME" ]; then
+    export JAVA_HOME=/usr/local/jdk1.5
+fi
+export PATH=$JAVA_HOME/bin:$PATH
+
+# make sure directories are created sanely
+umask 002
+
+# "parse" our arguments
+while [ ! -z "$1" ]; do
+    if [ $1 = "--client" ]; then
+        CLIENT=true
+    fi
+    if [ $1 = "--update" ]; then
+        UPDATE=true
+    fi
+    shift
+done
+
+# make sure we only have one script running at a time
+lockfile -r 0 $LOCKFILE
+if [ $? -ne 0 ] ; then
+    echo "Refusing to run because lockfile ($LOCKFILE) exists."
+    echo "Ensure no stale script is running, delete the file and rerun."
+    exit 255
+fi
+
+# bookkeeping
+echo "*** Starting build in $ROOT at " `date`
+
+if [ ! -z "$UPDATE" ]; then
+    # update the whole enchilada
+    echo "Updating everything..."
+    cd $ROOT
+    svn update -q
+fi
+
+# rebuild our libraries
+echo "Rebuilding toybox..."
+cd $ROOT/projects/toybox
+ant clean dist
+ln -sf $ROOT/projects/toybox/dist/toybox.jar $ROOT/lib
+
+# update and rebuild our web applications
+echo "Rebuilding webapps..."
+cd $ROOT/projects/gardens
+ant clean install
+
+if [ ! -z "$CLIENT" ]; then
+    echo "Rebuilding client..."
+    cd $ROOT/projects/client
+    ant
+fi
+
+# remove the lockfile
+rm -f $LOCKFILE
+
+echo "*** Finished build at " `date`
