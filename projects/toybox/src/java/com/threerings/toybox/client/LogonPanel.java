@@ -3,7 +3,7 @@
 //
 // ToyBox library - framework for matchmaking networked games
 // Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
-// http://www.threerings.net/code/narya/
+// http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
