@@ -27,15 +27,7 @@
   </security>
   <resources>
     <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="toybox.jar"/>
-    <jar href="getdown.jar"/>
-    <jar href="narya-base.jar"/>
-    <jar href="narya-distrib.jar"/>
-    <jar href="narya-micasa.jar"/>
-    <jar href="narya-media.jar"/>
-    <jar href="narya-parlor.jar"/>
-    <jar href="samskivert.jar"/>
-    <jar href="commons-io.jar"/>
+    <jar href="gg-client.jar"/>
     <property name="game_id" value="$game.gameId"/>
   </resources>
   <application-desc main-class="com.threerings.toybox.client.ToyBoxApp">
