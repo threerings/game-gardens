@@ -21,20 +21,27 @@
 
 package com.threerings.toybox.server;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import java.security.MessageDigest;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
+import com.samskivert.util.Interval;
 import com.samskivert.util.Invoker;
 import com.samskivert.util.ResultListenerList;
+import com.samskivert.util.StringUtil;
 
 import org.apache.commons.io.IOUtils;
 
@@ -52,6 +59,7 @@ import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
+import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.lobby.server.LobbyManager;
 
 import com.threerings.toybox.data.GameDefinition;
@@ -135,6 +143,19 @@ public class ToyBoxManager
     {
         // register ourselves as providing the toybox service
         invmgr.registerDispatcher(new ToyBoxDispatcher(this), true);
+
+        // if we are configured with a path to a file in which to
+        // periodically dump the number of players online, start up an
+        // interval to actually do so
+        final String path = ToyBoxConfig.config.getValue("occupancy_file", "");
+        if (!StringUtil.blank(path)) {
+            _popval = new Interval(ToyBoxServer.omgr) {
+                public void expired () {
+                    writeOccupancy(path);
+                }
+            };
+            _popval.schedule(60 * 1000L, true);
+        }
 
         log.info("ToyBoxManager ready [rsrcdir=" +
                  ToyBoxConfig.getResourceDir() + "].");
@@ -322,6 +343,68 @@ public class ToyBoxManager
         }
     }
 
+    /**
+     * Writes out a file containing the number of players online in each
+     * game.
+     */
+    protected void writeOccupancy (String path)
+    {
+        String template = ToyBoxConfig.config.getValue("occupancy_template", "");
+        try {
+            ArrayList<GameOccupancy> list = new ArrayList<GameOccupancy>();
+            for (int gameId : _lobbyOids.keySet()) {
+                int lobbyOid = _lobbyOids.get(gameId);
+                LobbyManager lmgr = (LobbyManager)
+                    ToyBoxServer.plreg.getPlaceManager(lobbyOid);
+                if (lmgr == null) {
+                    continue;
+                }
+                LobbyObject lobj = (LobbyObject)lmgr.getPlaceObject();
+                list.add(new GameOccupancy(
+                             gameId, lobj.name, lobj.countOccupants()));
+            }
+            Collections.sort(list);
+
+            PrintWriter pout = new PrintWriter(
+                new BufferedWriter(new FileWriter(path)));
+            for (GameOccupancy occ : list) {
+                String line = StringUtil.replace(
+                    template, "GAME_ID", String.valueOf(occ.gameId));
+                line = StringUtil.replace(
+                    line, "COUNT", String.valueOf(occ.occupancy));
+                line = StringUtil.replace(line, "NAME", occ.name);
+                pout.println(line);
+            }
+            pout.close();
+
+        } catch (IOException ioe) {
+            log.log(Level.WARNING, "Failed to write occupancy file " +
+                    "[path=" + path + "]", ioe);
+        }
+    }
+
+    /** Used to generate an occupancy listing for our games. */
+    protected static class GameOccupancy implements Comparable<GameOccupancy>
+    {
+        public int gameId;
+        public String name;
+        public int occupancy;
+
+        public GameOccupancy (int gameId, String name, int occupancy) {
+            this.gameId = gameId;
+            this.name = name;
+            this.occupancy = occupancy;
+        }
+
+        public int compareTo (GameOccupancy other) {
+            if (occupancy == other.occupancy) {
+                return name.compareTo(other.name);
+            } else {
+                return other.occupancy - occupancy;
+            }
+        }
+    }
+
     /** Our persistent repository. */
     protected ToyBoxRepository _toyrepo;
 
@@ -339,6 +422,10 @@ public class ToyBoxManager
      * will only have one mapping, but we'll be general just in case.  */
     protected HashMap<String,ToyBoxClassLoader> _loaders =
         new HashMap<String,ToyBoxClassLoader>();
+
+    /** Periodically writes out the number of users online in each game to
+     * a file. */
+    protected Interval _popval;
 
     /** One minute in milliseconds. */
     protected static final long ONE_MINUTE = 60 * 1000L;

@@ -57,6 +57,10 @@ public class LobbyManager extends PlaceManager
     public void setGame (Game game)
     {
         _game = game;
+
+        // this happens after we've started up so we configure our lobby
+        // object with the game name now
+        _lobobj.setName(_game.name);
     }
 
     /**

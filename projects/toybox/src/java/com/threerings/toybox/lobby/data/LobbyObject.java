@@ -3,8 +3,11 @@
 
 package com.threerings.toybox.lobby.data;
 
-import com.threerings.presents.dobj.DSet;
+import java.util.Iterator;
 
+import com.samskivert.util.ArrayIntSet;
+
+import com.threerings.presents.dobj.DSet;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.data.Table;
@@ -19,9 +22,15 @@ public class LobbyObject extends PlaceObject
     implements TableLobbyObject
 {
     // AUTO-GENERATED: FIELDS START
+    /** The field name of the <code>name</code> field. */
+    public static final String NAME = "name";
+
     /** The field name of the <code>tableSet</code> field. */
     public static final String TABLE_SET = "tableSet";
     // AUTO-GENERATED: FIELDS END
+
+    /** The name of the game we're match-making in this lobby. */
+    public String name;
 
     /** A set containing all of the tables being managed by this lobby.
      * This may be empty if we're not using tables to match-make. */
@@ -51,7 +60,50 @@ public class LobbyObject extends PlaceObject
         removeFromTableSet(key);
     }
 
+    /**
+     * Counts up the occupants of this lobby and of all games hosted from
+     * this lobby (which we have to do somewhat inaccurately because the
+     * actual games are hosted in an entirely different JVM so we just
+     * assume that if a table says it has four players, that four people
+     * are in the game).
+     */
+    public int countOccupants ()
+    {
+        // add the occupants of the room
+        ArrayIntSet occids = new ArrayIntSet();
+        for (int ii = 0; ii < occupants.size(); ii++) {
+            occids.add(occupants.get(ii));
+        }
+        for (Iterator iter = tableSet.entries(); iter.hasNext(); ) {
+            Table table = (Table)iter.next();
+            if (table.gameOid > 0) {
+                for (int ii = 0; ii < table.bodyOids.length; ii++) {
+                    occids.add(table.bodyOids[ii]);
+                }
+            }
+        }
+        // remove any zeros that got in from a zero bodyOid
+        occids.remove(0);
+        return occids.size();
+    }
+
     // AUTO-GENERATED: METHODS START
+    /**
+     * Requests that the <code>name</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
+     * clients) will apply the value change when they received the
+     * attribute changed notification.
+     */
+    public void setName (String value)
+    {
+        String ovalue = this.name;
+        requestAttributeChange(
+            NAME, value, ovalue);
+        this.name = value;
+    }
+
     /**
      * Requests that the specified entry be added to the
      * <code>tableSet</code> set. The set will not change until the event is
@@ -95,7 +147,7 @@ public class LobbyObject extends PlaceObject
     public void setTableSet (DSet value)
     {
         requestAttributeChange(TABLE_SET, value, this.tableSet);
-        this.tableSet = (DSet)value.clone();
+        this.tableSet = (value == null) ? null : (DSet)value.clone();
     }
     // AUTO-GENERATED: METHODS END
 }
