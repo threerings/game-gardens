@@ -36,6 +36,7 @@
     <jar href="narya-base.jar"/>
     <jar href="narya-distrib.jar"/>
     <jar href="narya-micasa.jar"/>
+    <jar href="narya-media.jar"/>
     <jar href="narya-parlor.jar"/>
     <jar href="samskivert.jar"/>
     <property name="game_id" value="$game.gameId"/>
