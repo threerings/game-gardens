@@ -178,7 +178,7 @@ public class ToyBoxClient
      * The context implementation. This provides access to all of the
      * objects and services that are needed by the operating client.
      */
-    protected class ToyBoxContextImpl implements ToyBoxContext
+    protected class ToyBoxContextImpl extends ToyBoxContext
     {
         /**
          * Apparently the default constructor has default access, rather
