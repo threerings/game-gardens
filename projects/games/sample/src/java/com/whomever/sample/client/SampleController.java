@@ -33,7 +33,10 @@ public class SampleController extends GameController
     // documentation inherited
     protected PlaceView createPlaceView ()
     {
-        _panel = new SamplePanel(_ctx, (ToyBoxGameConfig)_config, this);
+        // this is called in our super class constructor, which means that
+        // our casted _ctx reference is not yet initialized
+        _panel = new SamplePanel((ToyBoxContext)super._ctx,
+                                 (ToyBoxGameConfig)_config, this);
         return _panel;
     }
 
