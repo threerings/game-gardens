@@ -185,6 +185,12 @@ public class ToyBoxDirector extends BasicDirector
     public void resolveResources (
         final GameDefinition gamedef, final Downloader.Observer obs)
     {
+        // if our resource URL is a file: URL, we can ignore this whole
+        // process as we're running in testing mode and needn't worry
+        if (_resourceURL.getProtocol().equals("file")) {
+            return;
+        }
+
         // create a thread that will resolve the resources as we at least
         // have to some MD5 grindy grindy if not some downloading
         Thread t = new Thread() {
