@@ -48,6 +48,8 @@ import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.VGroupLayout;
 import com.samskivert.swing.event.AncestorAdapter;
 
+import com.samskivert.util.StringUtil;
+
 import com.threerings.util.MessageBundle;
 import com.threerings.util.Name;
 
@@ -237,7 +239,7 @@ public class ChatPanel extends JPanel
             text = text.substring(11);
             _chatdtr.requestSpeak(text, ChatCodes.BROADCAST_MODE);
 
-        } else {
+        } else if (!StringUtil.blank(text)) {
             // request to send this text as a chat message
             _chatdtr.requestSpeak(text);
         }
