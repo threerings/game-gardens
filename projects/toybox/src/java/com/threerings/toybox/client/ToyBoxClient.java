@@ -24,13 +24,14 @@ package com.threerings.toybox.client;
 import java.io.File;
 import java.io.IOException;
 
+import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import com.samskivert.util.Config;
+import com.samskivert.util.RunQueue;
 import com.samskivert.util.StringUtil;
 import com.threerings.media.FrameManager;
 import com.threerings.util.MessageManager;
@@ -54,7 +55,7 @@ import com.threerings.toybox.util.ToyBoxContext;
  * the client bootstrapped.
  */
 public class ToyBoxClient
-    implements Client.Invoker
+    implements RunQueue
 {
     /**
      * Initializes a new client and provides it with a frame in which to
@@ -141,11 +142,17 @@ public class ToyBoxClient
         _toydtr = new ToyBoxDirector(_ctx);
     }
 
-    // documentation inherited
-    public void invokeLater (Runnable run)
+    // documentation inherited from interface RunQueue
+    public void postRunnable (Runnable run)
     {
-        // queue it on up on the swing thread
-        SwingUtilities.invokeLater(run);
+        // queue it on up on the awt thread
+        EventQueue.invokeLater(run);
+    }
+
+    // documentation inherited from interface RunQueue
+    public boolean isDispatchThread ()
+    {
+        return EventQueue.isDispatchThread();
     }
 
     /**

@@ -24,7 +24,6 @@ package com.threerings.toybox.client;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import com.samskivert.swing.util.SwingUtil;
 import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.OneLineLogFormatter;
 
@@ -39,11 +38,12 @@ import static com.threerings.toybox.Log.log;
  */
 public class ToyBoxApp
 {
-    public void init ()
+    public void init (String username)
         throws IOException
     {
         // create a frame
-        _frame = new ToyBoxFrame("...");
+        _frame = new ToyBoxFrame(
+            "...", System.getProperty("game_id"), username);
         _framemgr = FrameManager.newInstance(_frame);
 
         // create and initialize our client instance
@@ -53,9 +53,7 @@ public class ToyBoxApp
 
     public void run (String server, int port, String username, String password)
     {
-        // position everything and show the frame
-        _frame.setSize(800, 600);
-        SwingUtil.centerWindow(_frame);
+        // show the frame
         _frame.setVisible(true);
 
         Client client = _client.getContext().getClient();
@@ -101,7 +99,7 @@ public class ToyBoxApp
         ToyBoxApp app = new ToyBoxApp();
         try {
             // initialize the app
-            app.init();
+            app.init(username);
         } catch (IOException ioe) {
             log.log(Level.WARNING, "Error initializing application.", ioe);
         }

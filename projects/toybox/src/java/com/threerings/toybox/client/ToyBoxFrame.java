@@ -22,12 +22,16 @@
 package com.threerings.toybox.client;
 
 import java.awt.BorderLayout;
+import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
+import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.media.ManagedJFrame;
 
@@ -41,12 +45,41 @@ public class ToyBoxFrame extends ManagedJFrame
      * Constructs the top-level ToyBox client frame with the specified
      * window title.
      */
-    public ToyBoxFrame (String title)
+    public ToyBoxFrame (String title, String gameId, String username)
     {
         super(title);
 
+        // we use these to record our frame position and dimensions
+        _gameId = gameId;
+        _username = username;
+
         // we'll handle shutting things down ourselves
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        // set up our initial frame size and position
+        Rectangle bounds = ToyBoxPrefs.getClientBounds(gameId, username);
+        if (bounds != null) {
+            setBounds(bounds);
+        } else {
+            setSize(800, 600);
+            SwingUtil.centerWindow(this);
+        }
+    }
+
+    // documentation inherited
+    public void addNotify ()
+    {
+        super.addNotify();
+
+        // listen for changes in size and position and record them
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized (ComponentEvent e) {
+                ToyBoxPrefs.setClientBounds(_gameId, _username, getBounds());
+            }
+            public void componentMoved (ComponentEvent e) {
+                ToyBoxPrefs.setClientBounds(_gameId, _username, getBounds());
+            }
+        });
     }
 
     /**
@@ -80,4 +113,5 @@ public class ToyBoxFrame extends ManagedJFrame
     }
 
     protected Controller _controller;
+    protected String _gameId, _username;
 }
