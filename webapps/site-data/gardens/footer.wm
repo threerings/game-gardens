@@ -2,13 +2,17 @@
 
 <p>
 <table width=768 cellpadding=6 cellspacing=0 border=0 width="100%">
-<tr bgcolor="$hcolor">
+<tr bgcolor="#CCCCCC">
 <td>
-$i18n.xlate("app_name"):
-<a href="/">$i18n.xlate("footer.home")</a>
+Game Gardens:
+<a href="/">Home</a>
+| <a href="/about.html">About</a>
+| <a href="/account/">Account</a>
+| <a href="/discussion/mvnforum/listforums">Forums</a>
+| <a href="/howto/">Developers</a>
 </td>
-<td align="right">&copy;2004
-<a href="mailto:gardens@threerings.net">$i18n.xlate("footer.ooo")</a></td>
+<td align="right">&copy;2005
+<a href="mailto:gardens@threerings.net">Three Rings Design, Inc</a></td>
 </table>
 
 </body>
