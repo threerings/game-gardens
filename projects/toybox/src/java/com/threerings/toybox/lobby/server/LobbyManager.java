@@ -106,14 +106,19 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    protected long idleUnloadPeriod ()
+    {
+        // unload our lobbies very quickly after they become empty
+        return 15 * 1000L;
+    }
+
+    // documentation inherited
     protected void didShutdown ()
     {
         super.didShutdown();
 
         // unregister with the toybox manager
         ToyBoxServer.toymgr.lobbyDidShutdown(_game);
-
-        // TODO: don't shutdown while tables are in play
     }
 
     // documentation inherited
