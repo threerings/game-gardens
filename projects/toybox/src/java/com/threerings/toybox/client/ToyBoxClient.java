@@ -1,5 +1,23 @@
 //
-// $Id: ToyBoxClient.java,v 1.1 2004/11/15 22:37:36 mdb Exp $
+// $Id$
+//
+// ToyBox library - framework for matchmaking networked games
+// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// http://www.threerings.net/code/narya/
+//
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.toybox.client;
 
@@ -15,6 +33,7 @@ import com.threerings.util.MessageManager;
 import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.DObjectManager;
 
+import com.threerings.crowd.chat.client.ChatDirector;
 import com.threerings.crowd.client.LocationDirector;
 import com.threerings.crowd.client.OccupantDirector;
 import com.threerings.crowd.client.PlaceView;
@@ -99,11 +118,14 @@ public class ToyBoxClient
         // create the handles on our various services
         _client = new Client(null, this);
 
+        // we use this to handle i18n
+        _msgmgr = new MessageManager(MESSAGE_MANAGER_PREFIX);
+
         // create our managers and directors
         _locdir = new LocationDirector(_ctx);
         _occdir = new OccupantDirector(_ctx);
+        _chatdir = new ChatDirector(_ctx, _msgmgr, "global");
         _pardtr = new ParlorDirector(_ctx);
-        _msgmgr = new MessageManager(MESSAGE_MANAGER_PREFIX);
     }
 
     // documentation inherited
@@ -154,6 +176,11 @@ public class ToyBoxClient
             return _occdir;
         }
 
+        public ChatDirector getChatDirector ()
+        {
+            return _chatdir;
+        }
+
         public ParlorDirector getParlorDirector ()
         {
             return _pardtr;
@@ -188,6 +215,7 @@ public class ToyBoxClient
     protected Client _client;
     protected LocationDirector _locdir;
     protected OccupantDirector _occdir;
+    protected ChatDirector _chatdir;
     protected ParlorDirector _pardtr;
     protected MessageManager _msgmgr;
 

@@ -14,8 +14,8 @@
   <!-- derived properties -->  
   <property name="javadoc.home"   value="${deploy.dir}/docs"/>
   <property name="classes.dir"    value="${deploy.dir}/classes"/>
-  <property name="nartool.path"   value="${narya.home}/bin"/>
   <property name="java.libraries" value="${base.dir}/lib"/>
+  <property name="nartool.path"   value="${narya.home}/bin"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -34,41 +34,23 @@
     </apply>
   </target>
 
-  <!-- declare a special classpath for genservice and genreceiver -->
-  <path id="gen.classpath">
-    <pathelement location="${classes.dir}"/>
-    <pathelement location="lib/narya-distrib.jar"/>
-    <pathelement location="lib/narya-base.jar"/>
-    <pathelement location="${java.libraries}/narya-distrib.jar"/>
-    <pathelement location="${java.libraries}/narya-base.jar"/>
-  </path>
-  <property name="genclasspath" refid="gen.classpath"/>
-
   <!-- generates marshaller and dispatcher classes for all invocation -->
   <!-- service declarations -->
-  <target name="genservice">
-    <apply executable="${nartool.path}/genservice"
-      failonerror="true" parallel="true">
-      <arg value="--classpath"/>
-      <arg value="${genclasspath}"/>
-      <arg value="--sourcedir"/>
-      <arg value="src/java"/>
-      <fileset dir="src/java" includes="**/*Service.java"/>
-    </apply>
-  </target>
-
-  <!-- generates sender and decoder classes for all invocation -->
-  <!-- receiver declarations -->
-  <target name="genreceiver">
-    <apply executable="${nartool.path}/genreceiver"
-      failonerror="true" parallel="true">
-      <arg value="--classpath"/>
-      <arg value="${genclasspath}"/>
-      <arg value="--sourcedir"/>
-      <arg value="src/java"/>
-      <fileset dir="src/java" includes="**/*Receiver.java"
-        excludes="**/InvocationReceiver.java"/>
-    </apply>
+  <target name="genservice"> 
+    <!-- make sure the service class files are all compiled -->
+    <javac srcdir="src/java" destdir="${classes.dir}"
+           debug="on" optimize="${build.optimize}" deprecation="on">
+      <classpath refid="classpath"/>
+      <include name="**/*Service.java"/>
+    </javac>
+    <taskdef name="service"
+             classname="com.threerings.presents.tools.GenServiceTask"
+             classpathref="classpath"/>
+    <!-- now generate the associated files -->
+    <service header="lib/SOURCE_HEADER" classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Service.java"
+        excludes="**/InvocationService.java"/>
+    </service>
   </target>
 
   <!-- prepares the application directories -->
@@ -96,6 +78,7 @@
            debug="on" optimize="{$build.optimize}" deprecation="on"
            includeAntRuntime="no" source="1.5">
       <classpath refid="classpath"/>
+      <compilerarg value="-Xlint:unchecked"/>
     </javac>
   </target>
 

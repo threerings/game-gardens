@@ -1,5 +1,5 @@
 /**
- * $Id: games.sql,v 1.1 2004/01/20 14:44:40 mdb Exp $
+ * $Id$
  *
  * Schema for the GAMES table.
  */
@@ -12,9 +12,14 @@ drop table if exists GAMES;
 CREATE TABLE GAMES
 (
     /**
-     * The unique identifier for this game.
+     * A unique integer identifier for this game.
      */
     GAME_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    /** 
+     * A string used to identify this game.
+     */
+    IDENT VARCHAR(255) NOT NULL,
 
     /**
      * The user id of the maintainer.
@@ -31,11 +36,6 @@ CREATE TABLE GAMES
      * The server on which this game is hosted.
      */
     HOST VARCHAR(255) NOT NULL,
-
-    /** 
-     * The human readable name of this game.
-     */
-    NAME VARCHAR(255) NOT NULL,
 
     /** 
      * The current version's XML definition.

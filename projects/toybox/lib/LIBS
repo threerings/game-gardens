@@ -6,3 +6,6 @@ narya-micasa.jar
 commons-digester.jar
 commons-logging.jar
 commons-beanutils.jar
+velocity-1.5-dev.jar
+commons-io.jar
+commons-collections.jar

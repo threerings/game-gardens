@@ -1,5 +1,23 @@
 //
-// $Id: ToyBoxConfig.java,v 1.2 2004/11/15 01:48:51 mdb Exp $
+// $Id$
+//
+// ToyBox library - framework for matchmaking networked games
+// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// http://www.threerings.net/code/narya/
+//
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.toybox.server;
 
@@ -9,8 +27,9 @@ import java.util.Properties;
 import com.samskivert.util.Config;
 
 import com.threerings.toybox.Log;
-import com.threerings.toybox.data.Game;
-import com.threerings.toybox.data.ToyBoxCodes;
+import com.threerings.toybox.server.persist.Game;
+
+import static com.threerings.toybox.data.ToyBoxCodes.*;
 
 /**
  * Provides access to installation specific configuration parameters. Once
@@ -18,7 +37,6 @@ import com.threerings.toybox.data.ToyBoxCodes;
  * initialized and becomes available for use.
  */
 public class ToyBoxConfig
-    implements ToyBoxCodes
 {
     /** Provides access to our config properties. <em>Do not</em> modify
      * these properties! */

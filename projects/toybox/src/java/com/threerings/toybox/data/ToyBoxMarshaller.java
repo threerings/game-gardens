@@ -1,10 +1,28 @@
 //
-// $Id: ToyBoxMarshaller.java,v 1.1 2004/11/15 01:48:51 mdb Exp $
+// $Id$
+//
+// ToyBox library - framework for matchmaking networked games
+// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// http://www.threerings.net/code/narya/
+//
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.toybox.data;
 
 import com.threerings.presents.client.Client;
-import com.threerings.presents.client.InvocationService.ResultListener;
+import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.InvocationMarshaller;
 import com.threerings.presents.dobj.InvocationResponseEvent;
 import com.threerings.toybox.client.ToyBoxService;
@@ -23,12 +41,12 @@ public class ToyBoxMarshaller extends InvocationMarshaller
     public static final int GET_LOBBY_OID = 1;
 
     // documentation inherited from interface
-    public void getLobbyOid (Client arg1, int arg2, ResultListener arg3)
+    public void getLobbyOid (Client arg1, String arg2, InvocationService.ResultListener arg3)
     {
-        ResultMarshaller listener3 = new ResultMarshaller();
+        InvocationMarshaller.ResultMarshaller listener3 = new InvocationMarshaller.ResultMarshaller();
         listener3.listener = arg3;
         sendRequest(arg1, GET_LOBBY_OID, new Object[] {
-            new Integer(arg2), listener3
+            arg2, listener3
         });
     }
 

@@ -1,11 +1,30 @@
 //
 // $Id$
+//
+// ToyBox library - framework for matchmaking networked games
+// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// http://www.threerings.net/code/narya/
+//
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.toybox.xml;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 
 import java.util.ArrayList;
 
@@ -47,7 +66,8 @@ public class GameParser
 
         // these rules handle customization parameters
         _digester.addRule("game/params", new ObjectCreateRule(ArrayList.class));
-        _digester.addRule("game/params", new SetNextFieldRule("params"));
+        _digester.addSetNext("game/params", "setParams",
+                             ArrayList.class.getName());
 
         _digester.addRule("game/params/range",
                           new ObjectCreateRule(RangeParameter.class));
@@ -74,7 +94,7 @@ public class GameParser
         _digester.addRule("game/libs/library", new SetPropertyFieldsRule());
         _digester.addSetNext("game/libs/library",
                              "add", Object.class.getName());
-        _digester.addRule("game/libs", new SetNextFieldRule("libs"));
+        _digester.addSetNext("game/libs", "setLibs", ArrayList.class.getName());
 
         // add a rule to put the parsed definition onto our list
         _digester.addSetNext("game", "add", Object.class.getName());
@@ -89,11 +109,23 @@ public class GameParser
     public GameDefinition parseGame (File source)
         throws IOException, SAXException
     {
+        return parseGame(new FileReader(source));
+    }
+
+    /**
+     * Parses a game definition from the supplied XML source.
+     *
+     * @exception IOException thrown if an error occurs reading the file.
+     * @exception SAXException thrown if an error occurs parsing the XML.
+     */
+    public GameDefinition parseGame (Reader source)
+        throws IOException, SAXException
+    {
         // push an array list on the digester which will receive the
         // parsed game definition
         ArrayList list = new ArrayList();
         _digester.push(list);
-        _digester.parse(new FileInputStream(source));
+        _digester.parse(source);
         return (list.size() > 0) ? (GameDefinition)list.get(0) : null;
     }
 

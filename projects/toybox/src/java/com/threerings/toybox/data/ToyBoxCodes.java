@@ -1,14 +1,48 @@
 //
-// $Id: ToyBoxCodes.java,v 1.1 2004/01/20 14:44:40 mdb Exp $
+// $Id$
+//
+// ToyBox library - framework for matchmaking networked games
+// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// http://www.threerings.net/code/narya/
+//
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published
+// by the Free Software Foundation; either version 2.1 of the License, or
+// (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.toybox.data;
+
+import com.samskivert.text.MessageUtil;
+
+import com.threerings.presents.data.InvocationCodes;
+import com.threerings.toybox.client.ToyBoxService;
 
 /**
  * Codes and constants relating to the Toy Box services.
  */
-public interface ToyBoxCodes
+public class ToyBoxCodes implements InvocationCodes
 {
+    /** Defines the general ToyBox translation message bundle.*/
+    public static final String TOYBOX_MSGS = "toybox";
+
     /** The subdirectory of the game data directory in which our standard
      * libraries are stored. */
     public static final String LIBRARY_SUBDIR = "libs";
+
+    /** An error constant returned by the {@link ToyBoxService}. */
+    public static final String ERR_NO_SUCH_GAME =
+        MessageUtil.qualify(TOYBOX_MSGS, "e.no_such_game");
+
+    /** An error constant indicating a malformed game definition. */
+    public static final String ERR_MALFORMED_GAMEDEF =
+        MessageUtil.qualify(TOYBOX_MSGS, "e.malformed_gamedef");
 }
