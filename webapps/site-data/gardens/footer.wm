@@ -6,10 +6,6 @@
 <td>
 $i18n.xlate("app_name"):
 <a href="/">$i18n.xlate("footer.home")</a>
-| <a href="browse.wm">$i18n.xlate("footer.browse_link")</a>
-#if ($user)
-| <a href="edit_game.wm?mode=new">$i18n.xlate("footer.new_game_link")</a>
-#end
 </td>
 <td align="right">&copy;2004
 <a href="mailto:gardens@threerings.net">$i18n.xlate("footer.ooo")</a></td>
