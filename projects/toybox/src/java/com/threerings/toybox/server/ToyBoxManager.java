@@ -179,6 +179,11 @@ public class ToyBoxManager
      */
     public void recordPlaytime (final Game game, long playtime)
     {
+        // we don't record playtime if we're in development mode
+        if (_toyrepo == null) {
+            return;
+        }
+
         int mins = (int)(playtime / ONE_MINUTE);
         if (mins > ODDLY_LONG) {
             log.warning("Game in play for oddly long time " +
