@@ -69,6 +69,9 @@ public class upload_jar extends UserLogic
             throw new FriendlyException("error.no_such_game");
         }
 
+        // we'll use this later
+        ctx.put("gameid", gameId);
+
         // get a handle on the game definition
         GameDefinition gamedef = game.parseGameDefinition();
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -85,6 +88,9 @@ public class upload_jar extends UserLogic
             log.warning("upload_jar: Invalid second item: " +
                         toString(item) + ".");
             throw new FriendlyException("error.internal_error");
+        }
+        if (item.getSize() == 0) {
+            throw new FriendlyException("upload_jar.error.missing_jar");
         }
 
         File jar = new File(gdir, gamedef.getJarName());
