@@ -1,5 +1,5 @@
 #
-# $Id: velocity.properties.dist,v 1.1 2004/01/20 14:35:13 mdb Exp $
+# $Id$
 #
 # Velocity engine configuration overrides
 
@@ -20,4 +20,4 @@ velocimacro.library =
 # Uncomment the following and replace the path as appropriate to reference
 # the development web directory directly for testing purposes.
 
-# file.resource.loader.path = /export/gametable/projects/gametable/web
+# file.resource.loader.path = /export/cirque/projects/cirque/web

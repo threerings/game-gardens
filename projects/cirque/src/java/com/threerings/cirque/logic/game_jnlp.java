@@ -1,7 +1,7 @@
 //
-// $Id: game_jnlp.java,v 1.2 2004/11/15 01:49:34 mdb Exp $
+// $Id$
 
-package com.threerings.gametable.logic;
+package com.threerings.cirque.logic;
 
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +18,8 @@ import com.threerings.toybox.data.Game;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.server.ToyBoxConfig;
 
-import com.threerings.gametable.Log;
-import com.threerings.gametable.GameTableApp;
+import com.threerings.cirque.Log;
+import com.threerings.cirque.CirqueDeJeuApp;
 
 /**
  * Provides a JNLP file for a particular game.
@@ -30,7 +30,7 @@ public class game_jnlp implements Logic
     public void invoke (Application app, InvocationContext ctx)
         throws Exception
     {
-        GameTableApp gtapp = (GameTableApp)app;
+        CirqueDeJeuApp gtapp = (CirqueDeJeuApp)app;
         HttpServletRequest req = ctx.getRequest();
 
         // load up the game

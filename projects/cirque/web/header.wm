@@ -7,7 +7,7 @@
 <html>
 <head>
 <title>$i18n.xlate("header.combined_title", $i18n.xlate("app_name"), $title)</title>
-<link rel="stylesheet" type="text/css" href="/gametable/style.css">
+<link rel="stylesheet" type="text/css" href="$context_path/style.css">
 </head>
 
 <body bgcolor="#FFFFFF" vlink="#003366">

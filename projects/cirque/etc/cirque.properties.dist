@@ -1,7 +1,7 @@
 #
-# $Id: gametable.properties.dist,v 1.1 2004/01/20 14:35:13 mdb Exp $
+# $Id$
 #
-# Configuration parameters for the Game Table web appication
+# Configuration parameters for the Cirque De Jeu web appication
 
 #
 # The location in which game jar files are stored. This should live in the
@@ -9,7 +9,7 @@
 # this directory in URLs. In the specified directory, subdirectories for
 # each game will be created.
 
-game_data_dir = /export/gametable/pages/games
+game_data_dir = /export/cirque/pages/games
 game_data_path = /games
 
 #

@@ -1,7 +1,7 @@
 //
-// $Id: upload_jar.java,v 1.2 2004/11/15 01:49:34 mdb Exp $
+// $Id$
 
-package com.threerings.gametable.logic;
+package com.threerings.cirque.logic;
 
 import java.io.File;
 import java.util.Iterator;
@@ -18,8 +18,8 @@ import org.apache.commons.fileupload.FileItem;
 import com.threerings.toybox.data.Game;
 import com.threerings.toybox.server.ToyBoxConfig;
 
-import com.threerings.gametable.Log;
-import com.threerings.gametable.GameTableApp;
+import com.threerings.cirque.Log;
+import com.threerings.cirque.CirqueDeJeuApp;
 
 /**
  * Handles the updating of a game's jar file.
@@ -27,7 +27,7 @@ import com.threerings.gametable.GameTableApp;
 public class upload_jar extends UserLogic
 {
     // documentation inherited
-    public void invoke (InvocationContext ctx, GameTableApp app, User user)
+    public void invoke (InvocationContext ctx, CirqueDeJeuApp app, User user)
         throws Exception
     {
         HttpServletRequest req = ctx.getRequest();

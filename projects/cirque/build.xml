@@ -1,21 +1,15 @@
 <!-- project build configuration -->
-<project name="Game Table" default="all" basedir=".">
+<project name="Cirque De Jeu" default="all" basedir=".">
 
   <!-- the base directory from which we get our bundles and jar files -->
   <property name="base.dir" value="../.."/>
 
   <!-- the web application name and derived parameters -->
-  <property name="app.name"       value="gametable"/>
+  <property name="app.name"       value="cirque"/>
   <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
   <property name="install.dir"    value="${base.dir}/webapps"/>
   <property name="dist.war"       value="${app.name}.war"/>
   <property name="java.libraries" value="${base.dir}/lib"/>
-
-  <!-- these allow us to reload our webapp on the fly -->
-  <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask" />
-  <property name="tomcat.url" value="http://localhost/manager"/> 
-  <property name="tomcat.user" value="username"/> 
-  <property name="tomcat.pass" value="password"/> 
 
   <!-- declare our classpath -->
   <path id="classpath">

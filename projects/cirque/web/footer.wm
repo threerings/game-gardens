@@ -2,12 +2,12 @@
 <table cellpadding=6 cellspacing=0 border=0 width="100%">
 <tr bgcolor="$hcolor">
 <td>
-Game Table:
+Cirque De Jeu:
 <a href="browse.wm">$i18n.xlate("footer.browse_link")</a> |
 <a href="edit.wm?mode=new">$i18n.xlate("footer.new_game_link")</a>
 </td>
 <td align="right">&copy;2004
-<a href="mailto:gametable@threerings.net">$i18n.xlate("footer.ooo")</a></td>
+<a href="mailto:cirque@threerings.net">$i18n.xlate("footer.ooo")</a></td>
 </table>
 
 </body>

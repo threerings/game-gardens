@@ -1,7 +1,7 @@
 //
-// $Id: Log.java,v 1.1 2004/01/20 14:35:13 mdb Exp $
+// $Id$
 
-package com.threerings.gametable;
+package com.threerings.cirque;
 
 /**
  * A placeholder class that contains a reference to the log object used by

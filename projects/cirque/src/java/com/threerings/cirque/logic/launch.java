@@ -1,7 +1,7 @@
 //
-// $Id: launch.java,v 1.1 2004/01/20 14:35:13 mdb Exp $
+// $Id$
 
-package com.threerings.gametable.logic;
+package com.threerings.cirque.logic;
 
 /**
  * Does something extraordinary.

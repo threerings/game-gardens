@@ -1,7 +1,7 @@
 //
-// $Id: GameTableApp.java,v 1.1 2004/01/20 14:35:13 mdb Exp $
+// $Id$
 
-package com.threerings.gametable;
+package com.threerings.cirque;
 
 import java.io.File;
 import java.util.Properties;
@@ -21,14 +21,13 @@ import com.samskivert.util.ConfigUtil;
 import com.samskivert.util.PropertiesUtil;
 import com.samskivert.util.ServiceUnavailableException;
 
-import com.threerings.toybox.server.ToyBoxManager;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
 
 /**
  * Contains references to application-wide resources (like the database
  * repository) and handles initialization and cleanup for those resources.
  */
-public class GameTableApp extends Application
+public class CirqueDeJeuApp extends Application
 {
     /** Returns the connection provider in use by this application. */
     public ConnectionProvider getConnectionProvider ()
@@ -42,21 +41,15 @@ public class GameTableApp extends Application
         return _usermgr;
     }
 
-    /** Provides access to the toybox manager. */
-    public ToyBoxManager getToyBoxManager ()
-    {
-        return _tbmgr;
-    }
-
     /** Provides access to the toybox repository. */
     public ToyBoxRepository getToyBoxRepository ()
     {
-        return _tbmgr.getToyBoxRepository();
+        return _tbrepo;
     }
 
     /**
      * Looks up a configuration property in our
-     * <code>gametable.properties</code> application configuration file.
+     * <code>cirque.properties</code> application configuration file.
      */
     public String getProperty (String key)
     {
@@ -73,16 +66,16 @@ public class GameTableApp extends Application
             _conprov = new StaticConnectionProvider(CONN_CONFIG);
 
             // load up our configuration properties
-            _config = ConfigUtil.loadProperties(GAMETABLE_CONFIG);
+            _config = ConfigUtil.loadProperties(CIRQUE_CONFIG);
 
             // create our repositories and managers
 	    _usermgr = new UserManager(_config, _conprov);
-            _tbmgr = new ToyBoxManager(_config, _conprov);
+            _tbrepo = new ToyBoxRepository(_conprov);
 
             // load up our build stamp so that we can report it
             String bstamp = PropertiesUtil.loadAndGet(
                 "build.properties", "build.time");
-	    Log.info("GameTable application initialized " +
+	    Log.info("CirqeDeJeu application initialized " +
                      "[built=" + bstamp + "].");
 
 	} catch (Throwable t) {
@@ -96,7 +89,7 @@ public class GameTableApp extends Application
     {
 	try {
 	    _usermgr.shutdown();
-	    Log.info("GameTable application shutdown.");
+	    Log.info("CirqeDeJeu application shutdown.");
 
 	} catch (Throwable t) {
 	    Log.warning("Error shutting down repository: " + t);
@@ -120,8 +113,8 @@ public class GameTableApp extends Application
     /** A reference to our connection provider. */
     protected ConnectionProvider _conprov;
 
-    /** Manages our repository of game information. */
-    protected ToyBoxManager _tbmgr;
+    /** Our repository of game information. */
+    protected ToyBoxRepository _tbrepo;
 
     /** Our application configuration information. */
     protected Properties _config;
@@ -130,5 +123,5 @@ public class GameTableApp extends Application
     protected static final String CONN_CONFIG = "repository.properties";
 
     /** The path to our webapp configuration file. */
-    protected static final String GAMETABLE_CONFIG = "gametable.properties";
+    protected static final String CIRQUE_CONFIG = "cirque.properties";
 }
