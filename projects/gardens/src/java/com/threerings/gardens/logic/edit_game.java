@@ -10,6 +10,7 @@ import com.samskivert.servlet.util.FriendlyException;
 import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.velocity.InvocationContext;
 
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.persist.Game;
 import com.threerings.toybox.server.persist.Game.Status;
 
@@ -58,7 +59,7 @@ public class edit_game extends UserLogic
         } else if (action.equals("create")) {
             // create a blank game and configure it
             game = new Game();
-            game.status = Status.PENDING;
+            game.setStatus(Status.PENDING);
             game.maintainerId = user.userId;
             // TODO: get host from ToyBoxConfig?
             game.host = req.getServerName();
@@ -78,7 +79,6 @@ public class edit_game extends UserLogic
         } else {
             ctx.put("action", "create");
             game = new Game();
-            game.ident = "";
             game.definition = "";
             game.testDefinition = "";
             ctx.put("game", game);
@@ -88,14 +88,15 @@ public class edit_game extends UserLogic
     protected void populateGame (HttpServletRequest req, Game game)
         throws Exception
     {
-        // read in and validate the identifier
-        game.ident = ParameterUtil.requireParameter(
-            req, "ident", "edit_game.error.missing_ident");
-        // TODO: validate identifier
-
         // read in and validate the definition
         game.definition = ParameterUtil.requireParameter(
             req, "definition", "edit_game.error.missing_definition");
+
+        // fill in the game identifier
+        GameDefinition gamedef = game.parseGameDefinition();
+        game.ident = gamedef.ident;
         // TODO: validate definition
+
+        // TODO: set the status to PUBLISHED if all is groovy?
     }
 }

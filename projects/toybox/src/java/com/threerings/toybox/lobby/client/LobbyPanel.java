@@ -23,6 +23,7 @@ package com.threerings.toybox.lobby.client;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -36,8 +37,13 @@ import com.threerings.crowd.data.PlaceObject;
 import com.threerings.micasa.client.ChatPanel;
 import com.threerings.micasa.client.OccupantList;
 
-import com.threerings.toybox.lobby.data.LobbyConfig;
+import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.TableMatchConfig;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
+
+import com.threerings.toybox.lobby.data.LobbyConfig;
+import com.threerings.toybox.lobby.table.TableListView;
 
 /**
  * Displays the main ToyBox match-making lobby interface.
@@ -67,7 +73,10 @@ public class LobbyPanel extends JPanel
         _main = new JPanel(gl);
 
         // create our match-making view
-        _main.add(config.createMatchMakingView(ctx));
+        JComponent matchView = createMatchMakingView(ctx, config);
+        if (matchView != null) {
+            _main.add(matchView);
+        }
 
         // create a chat box and stick that in as well
         _main.add(new ChatPanel(ctx));
@@ -103,6 +112,27 @@ public class LobbyPanel extends JPanel
     // documentation inherited
     public void didLeavePlace (PlaceObject plobj)
     {
+    }
+
+    /**
+     * Creates a custom view for the game we're match-making in this
+     * lobby.
+     */
+    protected JComponent createMatchMakingView (
+        ToyBoxContext ctx, LobbyConfig config)
+    {
+        GameDefinition gamedef = config.getGameDefinition();
+        ToyBoxGameConfig gconfig = new ToyBoxGameConfig(gamedef);
+
+        // we avoid putting this code into MatchConfig itself as that
+        // introduces dependencies to all sorts of client side
+        // user-interface code for any code that parses game definitions
+        // or otherwise manipulates MatchConfig instances
+        if (gamedef.match instanceof TableMatchConfig) {
+            return new TableListView(ctx, gconfig);
+        } else {
+            return null;
+        }
     }
 
     /** Contains the match-making view and the chatbox. */

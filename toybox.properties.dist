@@ -16,6 +16,13 @@
 # resource_url = 
 
 #
+# Used when signing the Game Gardens client
+
+# sign.keystore = PATH_TO_KEYSTORE
+# sign.alias = ALIAS
+# sign.storepass = PASSWORD
+
+#
 # Database configuration
 
 db.default.driver = com.mysql.jdbc.Driver

@@ -6,8 +6,6 @@
 $form.hidden("action", $action)
 $form.hidden("gameid", $game.gameId)
 <table cellpadding="6" cellspacing="0" border="0">
-<tr><td>$i18n.xlate("edit_game.meta.ident")</td>
-<td>$form.text("ident", "", $game.ident)</td></tr>
 <tr><td colspan="2">$i18n.xlate("edit_game.meta.definition")<br>
 $form.textarea("definition", "rows='30' cols='80'", $game.definition)
 </td></tr>

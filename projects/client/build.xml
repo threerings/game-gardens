@@ -1,0 +1,38 @@
+<!-- project build configuration -->
+<project name="Game Gardens Client" default="all" basedir=".">
+
+  <!-- load up our configuration information -->
+  <property name="base.dir" value="../.."/>
+  <property file="${base.dir}/toybox.properties"/>
+
+  <!-- define the places where we get and put things -->
+  <property name="java.libs"  value="${base.dir}/lib"/>
+  <property name="web.home"   value="${base.dir}/pages"/>
+  <property name="deploy.dir" value="${web.home}/client"/>
+
+  <!-- prepares the application directories -->
+  <target name="prepare">
+    <mkdir dir="${deploy.dir}"/>
+
+    <!-- copy the code jar files into place -->
+    <copy todir="${deploy.dir}">
+      <fileset dir="${base.dir}/lib" includesfile="lib/LIBS"/>
+    </copy>
+  </target>
+
+  <!-- signs the client jar files -->
+  <target name="sign" depends="prepare">
+    <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
+      storepass="${sign.storepass}">
+      <fileset dir="${deploy.dir}" includes="*.jar"/>
+    </signjar>
+  </target>
+
+  <!-- the default target is to install and sign the client -->
+  <target name="all" depends="sign"/>
+
+  <!-- cleans out the installed application -->
+  <target name="clean">
+    <delete dir="${deploy.dir}"/>
+  </target>
+</project>

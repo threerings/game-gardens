@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import com.threerings.resource.ResourceManager;
+
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.Library;
 
@@ -66,6 +68,19 @@ public class ToyBoxUtil
                         ", error=" + e + "].");
         }
 
-        return new URLClassLoader(ulist.toArray(new URL[ulist.size()]));
+        ClassLoader loader = new URLClassLoader(
+            ulist.toArray(new URL[ulist.size()]),
+            ToyBoxUtil.class.getClassLoader());
+        log.info("Created " + loader + " with parent " +
+                 ToyBoxUtil.class.getClassLoader() + ".");
+
+        try {
+            ResourceManager rmgr = new ResourceManager("rsrc", loader);
+            log.info("IR: " + rmgr.getImageResource("media/piecens.png"));
+        } catch (Exception e) {
+            log.warning("Gurk: " + e);
+        }
+
+        return loader;
     }
 }

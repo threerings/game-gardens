@@ -1,0 +1,16 @@
+Game Gardens Webapp -*- mode: outline -*-
+
+* Record person minutes at game completion
+- total and current week
+
+* Main page display:
+- most popular: all time, this week (by person minutes played)
+- recently updated
+- recently created
+
+* On game page:
+- game summary
+- screen shot (offsite?)
+- link to help (offsite?)
+- changelog, news
+- other games by this game's creator

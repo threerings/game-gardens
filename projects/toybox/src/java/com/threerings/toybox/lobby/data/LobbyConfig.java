@@ -21,15 +21,9 @@
 
 package com.threerings.toybox.lobby.data;
 
-import javax.swing.JComponent;
-
 import com.threerings.crowd.data.PlaceConfig;
-import com.threerings.parlor.game.GameConfig;
 
 import com.threerings.toybox.data.GameDefinition;
-import com.threerings.toybox.data.ToyBoxGameConfig;
-import com.threerings.toybox.util.ToyBoxContext;
-
 import com.threerings.toybox.lobby.client.LobbyController;
 
 /**
@@ -63,16 +57,6 @@ public class LobbyConfig extends PlaceConfig
     public String getManagerClassName ()
     {
         return "com.threerings.toybox.lobby.server.LobbyManager";
-    }
-
-    /**
-     * Derived classes override this function and create the appropriate
-     * matchmaking user interface component.
-     */
-    public JComponent createMatchMakingView (ToyBoxContext ctx)
-    {
-        return _gamedef.match.createMatchMakingView(
-            ctx, new ToyBoxGameConfig(_gamedef));
     }
 
     /**

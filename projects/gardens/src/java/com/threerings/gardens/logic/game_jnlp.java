@@ -41,9 +41,9 @@ public class game_jnlp implements Logic
             throw new FriendlyException("error.no_such_game");
         }
         ctx.put("game", game);
+        ctx.put("gamedef", game.parseGameDefinition());
 
-        // TODO: get this from the configuration
-        String path = "/games";
+        String path = CLIENT_PATH;
         URL codebase;
         try {
             codebase = new URL("http", game.host, 80, path);
@@ -58,5 +58,9 @@ public class game_jnlp implements Logic
         ctx.put("libs_dir", ToyBoxCodes.LIBRARY_DIR);
         ctx.put("jre_version", "1.4.2+"); // TODO: allow per game custom.
         ctx.put("server", game.host);
+
+        ctx.getResponse().setContentType("application/x-java-jnlp-file");
     }
+
+    protected static final String CLIENT_PATH = "/client";
 }

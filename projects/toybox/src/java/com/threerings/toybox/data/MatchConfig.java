@@ -21,13 +21,8 @@
 
 package com.threerings.toybox.data;
 
-import javax.swing.JComponent;
-
 import com.samskivert.util.StringUtil;
 import com.threerings.io.Streamable;
-
-import com.threerings.toybox.data.ToyBoxGameConfig;
-import com.threerings.toybox.util.ToyBoxContext;
 
 /**
  * Used to configure the match-making interface for a game. Particular
@@ -36,11 +31,6 @@ import com.threerings.toybox.util.ToyBoxContext;
  */
 public abstract class MatchConfig implements Streamable
 {
-    /** Derived classes override this method and create their match making
-     * view. */
-    public abstract JComponent createMatchMakingView (
-        ToyBoxContext ctx, ToyBoxGameConfig config);
-
     /** Generates a string representation of this instance. */
     public String toString ()
     {

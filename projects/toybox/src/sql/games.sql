@@ -30,7 +30,7 @@ CREATE TABLE GAMES
      * The status of this game (whether or not it should be published, if
      * it is flagged for review, etc.).
      */
-    STATUS INTEGER UNSIGNED NOT NULL,
+    STATUS VARCHAR(255) NOT NULL,
 
     /** 
      * The server on which this game is hosted.

@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
 import com.samskivert.util.LoggingLogProvider;
+import com.samskivert.util.OneLineLogFormatter;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.client.Client;
@@ -118,6 +119,7 @@ public class ToyBoxServer extends CrowdServer
     {
         // set up the proper logging services
         com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
+        OneLineLogFormatter.configureDefaultHandler();
 
         ToyBoxServer server = new ToyBoxServer();
         try {

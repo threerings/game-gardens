@@ -61,6 +61,7 @@ public class GameParser
         // add the rules to parse the GameDefinition and its fields
         _digester.addObjectCreate("game", GameDefinition.class.getName());
         _digester.addRule("game/ident", new SetFieldRule("ident"));
+        _digester.addRule("game/name", new SetFieldRule("name"));
         _digester.addRule("game/controller", new SetFieldRule("controller"));
         _digester.addRule("game/manager", new SetFieldRule("manager"));
 

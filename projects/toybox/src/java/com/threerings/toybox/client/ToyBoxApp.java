@@ -26,6 +26,7 @@ import java.util.logging.Level;
 
 import com.samskivert.swing.util.SwingUtil;
 import com.samskivert.util.LoggingLogProvider;
+import com.samskivert.util.OneLineLogFormatter;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.net.UsernamePasswordCreds;
@@ -76,6 +77,7 @@ public class ToyBoxApp
     {
         // set up the proper logging services
         com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
+        OneLineLogFormatter.configureDefaultHandler();
 
         String server = "localhost";
         if (args.length > 0) {

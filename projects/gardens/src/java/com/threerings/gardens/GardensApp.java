@@ -65,7 +65,6 @@ public class GardensApp extends Application
 	try {
             // load up our configuration properties
             _config = ToyBoxConfig.config.getSubProperties("web");
-            _config.list(System.out);
 
             // create a static connection provider
             _conprov = new StaticConnectionProvider(

@@ -51,8 +51,10 @@ public class Game
     /** The user id of the maintainer of this game. */
     public int maintainerId;
 
-    /** The status of the game. */
-    public Status status;
+    /** The status of the game. We can't use the enumeration directly here
+     * as this class is persisted and JORA doesn't (and can't be made to)
+     * automagically handle enums. */
+    public String status;
 
     /** The server on which this game is hosted. */
     public String host;
@@ -62,6 +64,18 @@ public class Game
 
     /** The XML game definition associated with the test version. */
     public String testDefinition;
+
+    /** Returns the status of this game. */
+    public Status getStatus ()
+    {
+        return Status.valueOf(status);
+    }
+
+    /** Updates the status of this game. */
+    public void setStatus (Status status)
+    {
+        this.status = status.toString();
+    }
 
     /**
      * Parses this game's definition and returns

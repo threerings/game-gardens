@@ -21,12 +21,6 @@
 
 package com.threerings.toybox.data;
 
-import javax.swing.JComponent;
-
-import com.threerings.toybox.data.ToyBoxGameConfig;
-import com.threerings.toybox.lobby.table.TableListView;
-import com.threerings.toybox.util.ToyBoxContext;
-
 /**
  * Extends {@link MatchConfig} with information about match-making in the
  * table style.
@@ -41,11 +35,4 @@ public class TableMatchConfig extends MatchConfig
 
     /** The maximum number of seats at this table. */
     public int maxSeats;
-
-    // documentation inherited
-    public JComponent createMatchMakingView (
-        ToyBoxContext ctx, ToyBoxGameConfig config)
-    {
-        return new TableListView(ctx, config);
-    }
 }

@@ -94,7 +94,7 @@ public class ToyBoxManager
         try {
             game.gameId = 1;
             game.maintainerId = 1;
-            game.status = Status.PUBLISHED;
+            game.setStatus(Status.PUBLISHED);
             game.definition = IOUtils.toString(new FileReader(gameConfig));
         } catch (IOException ioe) {
             log.log(Level.WARNING, "Failed to load game config " +
