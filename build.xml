@@ -6,9 +6,16 @@
 
   <!-- signs the client jar files -->
   <target name="sign">
-    <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
-      storepass="${sign.storepass}">
+    <!-- copy any updated jar files into the seclib directory -->
+    <mkdir dir="seclib"/>
+    <copy todir="seclib">
       <fileset dir="lib" includes="*.jar"/>
+    </copy>
+
+    <!-- now sign them -->
+    <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
+             storepass="${sign.storepass}">
+      <fileset dir="seclib" includes="*.jar"/>
     </signjar>
   </target>
 
