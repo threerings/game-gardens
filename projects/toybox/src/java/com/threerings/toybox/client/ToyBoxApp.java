@@ -29,9 +29,6 @@ import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.OneLineLogFormatter;
 
 import com.threerings.presents.client.Client;
-import com.threerings.presents.net.UsernamePasswordCreds;
-
-import com.threerings.util.Name;
 
 import static com.threerings.toybox.Log.log;
 
@@ -68,7 +65,7 @@ public class ToyBoxApp
         if (username != null && password != null) {
             // create and set our credentials
             client.setCredentials(
-                new UsernamePasswordCreds(new Name(username), password));
+                LogonPanel.createCredentials(username, password));
             client.logon();
         }
     }

@@ -45,8 +45,8 @@ public class Game
     /** A unique integer identifier for this game. */
     public int gameId;
 
-    /** A string used to identify this game. */
-    public String ident;
+    /** The human readable name of this game. */
+    public String name;
 
     /** The user id of the maintainer of this game. */
     public int maintainerId;
@@ -70,6 +70,12 @@ public class Game
 
     /** The MD5 digest of the test game jar file. */
     public String testDigest;
+
+    /** A brief description of the game. */
+    public String description;
+
+    /** Brief instructions on how to play the game. */
+    public String instructions;
 
     /** Returns the status of this game. */
     public Status getStatus ()
@@ -104,9 +110,17 @@ public class Game
 
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to parse game definition " +
-                    "[ident=" + ident + "]", e);
+                    "[game=" + gameId + "]", e);
             throw new InvocationException(ToyBoxCodes.ERR_MALFORMED_GAMEDEF);
         }
+    }
+
+    /**
+     * Returns a brief description of this game.
+     */
+    public String which ()
+    {
+        return name + " (" + gameId + ")";
     }
 
     /**

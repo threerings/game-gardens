@@ -35,4 +35,10 @@ public class RangeParameter extends Parameter
 
     /** The starting value for this parameter. */
     public int start;
+
+    /** Returns the default value of this parameter. */
+    public Object getDefaultValue ()
+    {
+        return start;
+    }
 }

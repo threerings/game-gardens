@@ -13,9 +13,14 @@
 <body bgcolor="#FFFFFF" vlink="#003366">
 
 <table cellpadding="6" cellspacing="0" border="0" width="100%">
-<tr bgcolor="$hcolor"><td align=right>
-<span class="big"><b>$i18n.xlate("header.title", $i18n.xlate("app_name"))</b></span><br>
-$title</td>
+<tr bgcolor="$hcolor"><td align=left>
+<span class="big"><b>$i18n.xlate("header.title", $i18n.xlate("app_name"))</b></span></td>
+<td align=right valign=bottom class="small">
+#if ($user)
+$i18n.xlate("header.whoami") <b>$user.username</b>
+#end
+</td>
+</tr>
 </table>
 
 #if ($error)

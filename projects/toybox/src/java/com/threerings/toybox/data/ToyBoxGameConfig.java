@@ -39,6 +39,11 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxGameConfig extends GameConfig
     implements TableConfig
 {
+    /** Our configuration parameters. These will be seeded with the
+     * defaults from the game definition and then configured by the player
+     * in the lobby. */
+    public StreamableHashMap params = new StreamableHashMap();
+
     /** A zero argument constructor used when unserializing. */
     public ToyBoxGameConfig ()
     {
@@ -48,6 +53,12 @@ public class ToyBoxGameConfig extends GameConfig
     public ToyBoxGameConfig (GameDefinition gamedef)
     {
         _gamedef = gamedef;
+        // set the default values for our parameters
+        params.put("seats", ((TableMatchConfig)_gamedef.match).startSeats);
+        for (int ii = 0; ii < gamedef.params.length; ii++) {
+            params.put(gamedef.params[ii].ident,
+                       gamedef.params[ii].getDefaultValue());
+        }
     }
 
     // documentation inherited
@@ -114,14 +125,13 @@ public class ToyBoxGameConfig extends GameConfig
     // documentation inherited from interface
     public int getDesiredPlayers ()
     {
-        int defval = ((TableMatchConfig)_gamedef.match).startSeats;
-        return ((Integer)getParameter("seats", defval)).intValue();
+        return (Integer)params.get("seats");
     }
 
     // documentation inherited from interface
     public void setDesiredPlayers (int desiredPlayers)
     {
-        setParameter("seats", desiredPlayers);
+        params.put("seats", desiredPlayers);
     }
 
     // documentation inherited from interface
@@ -144,30 +154,9 @@ public class ToyBoxGameConfig extends GameConfig
         return _gamedef;
     }
 
-    /**
-     * Sets a configuration parameter in this game config.
-     */
-    public void setParameter (String key, Object value)
-    {
-        _params.put(key, value);
-    }
-
-    /**
-     * Looks up a configuration parameter in this game config. If no value
-     * has been set, the default value will be returned.
-     */
-    public Object getParameter (String key, Object defval)
-    {
-        Object value = _params.get(key);
-        return (value == null) ? defval : value;
-    }
-
     /** Our game definition. */
     protected GameDefinition _gamedef;
 
     /** Allows creation of private tables. */
     protected boolean _isPrivate;
-
-    /** Our configured parameters. */
-    protected StreamableHashMap _params = new StreamableHashMap();
 }

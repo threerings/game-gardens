@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.samskivert.servlet.user.User;
 import com.samskivert.servlet.util.FriendlyException;
+import com.samskivert.servlet.util.HTMLUtil;
 import com.samskivert.servlet.util.ParameterUtil;
+
+import com.samskivert.text.MessageUtil;
 import com.samskivert.velocity.InvocationContext;
 
 import com.threerings.toybox.data.GameDefinition;
@@ -57,13 +60,18 @@ public class edit_game extends UserLogic
             ctx.put("status", "edit_game.status.updated");
 
         } else if (action.equals("create")) {
+            // we're still creating (just in case things fail)
+            ctx.put("action", "create");
+
             // create a blank game and configure it
             game = new Game();
             game.setStatus(Status.PENDING);
             game.maintainerId = user.userId;
             // TODO: get host from ToyBoxConfig?
             game.host = req.getServerName();
+            game.digest = "";
             game.testDefinition = "";
+            game.testDigest = "";
             ctx.put("game", game);
 
             // fill in the user supplied information
@@ -73,30 +81,47 @@ public class edit_game extends UserLogic
             app.getToyBoxRepository().insertGame(game);
             ctx.put("status", "edit_game.status.created");
 
+            // now we can switch back to update mode
+            ctx.put("action", "update");
+
         }  else if (gameId != 0) {
             // nothing to do, the game is already in the context
 
         } else {
             ctx.put("action", "create");
-            game = new Game();
-            game.definition = "";
-            game.testDefinition = "";
-            ctx.put("game", game);
+            ctx.put("game", new Game());
         }
     }
 
     protected void populateGame (HttpServletRequest req, Game game)
         throws Exception
     {
-        // read in and validate the definition
-        game.definition = ParameterUtil.requireParameter(
-            req, "definition", "edit_game.error.missing_definition");
+        // read in and validate our various bits
+        game.name = requireString(req, "name", 50, true);
+        game.definition = requireString(req, "definition", 2500, false);
+        game.description = requireString(req, "description", 1000, true);
+        game.instructions = requireString(req, "instructions", 1000, true);
 
-        // fill in the game identifier
-        GameDefinition gamedef = game.parseGameDefinition();
-        game.ident = gamedef.ident;
         // TODO: validate definition
+        GameDefinition gamedef = game.parseGameDefinition();
 
         // TODO: set the status to PUBLISHED if all is groovy?
+    }
+
+    protected String requireString (
+        HttpServletRequest req, String name, int maxLength, boolean entify)
+        throws Exception
+    {
+        String err = MessageUtil.compose("error.missing_field", "f." + name);
+        String value = ParameterUtil.requireParameter(req, name, err);
+        if (value.length() > maxLength) {
+            err = MessageUtil.compose("error.field_too_long", "f." + name,
+                                      MessageUtil.taint("" + maxLength));
+            throw new FriendlyException(err);
+        }
+        if (entify) {
+            value = HTMLUtil.entify(value);
+        }
+        return value;
     }
 }

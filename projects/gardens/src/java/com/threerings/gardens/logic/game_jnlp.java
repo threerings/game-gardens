@@ -41,7 +41,6 @@ public class game_jnlp implements Logic
             throw new FriendlyException("error.no_such_game");
         }
         ctx.put("game", game);
-        ctx.put("gamedef", game.parseGameDefinition());
 
         String path = CLIENT_PATH;
         URL codebase;

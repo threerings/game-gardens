@@ -74,7 +74,7 @@ public class upload_jar extends UserLogic
 
         // determine where we will be uploading the jar file
         File gdir = ToyBoxConfig.getResourceDir();
-        Log.info("Uploading jar for '" + game.ident + "'.");
+        Log.info("Uploading jar for '" + gamedef.ident + "'.");
 
         // the next item should be the jar file itself
         item = (FileItem)iter.next();

@@ -41,12 +41,12 @@ public class ToyBoxMarshaller extends InvocationMarshaller
     public static final int GET_LOBBY_OID = 1;
 
     // documentation inherited from interface
-    public void getLobbyOid (Client arg1, String arg2, InvocationService.ResultListener arg3)
+    public void getLobbyOid (Client arg1, int arg2, InvocationService.ResultListener arg3)
     {
         InvocationMarshaller.ResultMarshaller listener3 = new InvocationMarshaller.ResultMarshaller();
         listener3.listener = arg3;
         sendRequest(arg1, GET_LOBBY_OID, new Object[] {
-            arg2, listener3
+            new Integer(arg2), listener3
         });
     }
 

@@ -36,9 +36,6 @@ public class GameDefinition implements Streamable
     /** A string identifier for the game. */
     public String ident;
 
-    /** A human readable name for the game. */
-    public String name;
-
     /** The class name of the <code>GameController</code> derivation that
      * we use to bootstrap on the client. */
     public String controller;

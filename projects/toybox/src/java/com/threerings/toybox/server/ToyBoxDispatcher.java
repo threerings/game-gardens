@@ -59,7 +59,7 @@ public class ToyBoxDispatcher extends InvocationDispatcher
         case ToyBoxMarshaller.GET_LOBBY_OID:
             ((ToyBoxProvider)provider).getLobbyOid(
                 source,
-                (String)args[0], (InvocationService.ResultListener)args[1]
+                ((Integer)args[0]).intValue(), (InvocationService.ResultListener)args[1]
             );
             return;
 

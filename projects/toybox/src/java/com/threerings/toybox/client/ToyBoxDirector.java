@@ -142,26 +142,31 @@ public class ToyBoxDirector extends BasicDirector
         }
 
         // determine which lobby we are to enter...
-        final String ident = System.getProperty("game_ident");
-        if (StringUtil.blank(ident)) {
-            log.warning("Missing 'game_ident' system property.");
-            return;
+        int gameId = 1;
+        String idstr = System.getProperty("game_id");
+        try {
+            // if none is specified, we're in testing mode and we assume 1
+            if (!StringUtil.blank(idstr)) {
+                gameId = Integer.parseInt(idstr);
+            }
+        } catch (Exception e) {
+            log.warning("Invalid game_id property supplied [value=" + idstr +
+                        ", error=" + e + "].");
         }
 
         // ...and issue a request to do so
         ToyBoxService.ResultListener rl = new ToyBoxService.ResultListener() {
             public void requestProcessed (Object result) {
-                enterLobby(ident, (Integer)result);
+                enterLobby((Integer)result);
             }
 
             public void requestFailed (String cause) {
                 // TODO: report this error graphically
-                log.warning("Failed to get lobby oid [game=" + ident +
-                            ", error=" + cause + "].");
+                log.warning("Failed to get lobby oid: " + cause + ".");
             }
         };
-        log.fine("Requesting lobby oid [ident=" + ident + "].");
-        _toysvc.getLobbyOid(client, ident, rl);
+        log.fine("Requesting lobby oid [game=" + gameId + "].");
+        _toysvc.getLobbyOid(client, gameId, rl);
     }
 
     // documentation inherited
@@ -191,9 +196,9 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     /** Helper method for entering a lobby and reporting any failure. */
-    protected void enterLobby (final String ident, int lobbyOid)
+    protected void enterLobby (int lobbyOid)
     {
-        log.fine("Entering lobby [ident=" + ident + ", oid=" + lobbyOid + "].");
+        log.fine("Entering lobby [oid=" + lobbyOid + "].");
 
         // wire up a location observer that can detect if we fail to make
         // it into our requested lobby
@@ -203,8 +208,7 @@ public class ToyBoxDirector extends BasicDirector
             }
             public void locationChangeFailed (int placeId, String reason) {
                 // TODO: report this error graphically
-                log.warning("Failed to enter lobby [game=" + ident +
-                            ", error=" + reason + "].");
+                log.warning("Failed to enter lobby: " + reason + ".");
                 _ctx.getLocationDirector().removeLocationObserver(this);
             }
         };

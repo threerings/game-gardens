@@ -21,12 +21,17 @@
 
 package com.threerings.toybox.lobby.server;
 
+import com.threerings.presents.dobj.EntryRemovedEvent;
+import com.threerings.presents.dobj.SetAdapter;
+
 import com.threerings.crowd.server.PlaceManager;
+
 import com.threerings.parlor.server.TableManager;
 import com.threerings.parlor.server.TableManagerProvider;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.TableMatchConfig;
+import com.threerings.toybox.server.ToyBoxServer;
 import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
@@ -46,6 +51,14 @@ public class LobbyManager extends PlaceManager
         return _tablemgr;
     }
 
+    /**
+     * Provides this lobby manager with a reference to its game.
+     */
+    public void setGame (Game game)
+    {
+        _game = game;
+    }
+
     // documentation inherited
     protected void didInit ()
     {
@@ -59,6 +72,9 @@ public class LobbyManager extends PlaceManager
     {
         super.didStartup();
 
+        _lobobj = (LobbyObject)_plobj;
+        _lobobj.addListener(_emptyListener);
+
         // if we're using the table services to match-make, create a table
         // manager
         GameDefinition gdef = _lconfig.getGameDefinition();
@@ -68,13 +84,53 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    protected void placeBecameEmpty ()
+    {
+        // we don't want to do the standard "became empty" processing
+        // until all of our tables are also empty
+        if (_lobobj.tableSet.size() == 0) {
+            super.placeBecameEmpty();
+        }
+    }
+
+    // documentation inherited
+    protected void didShutdown ()
+    {
+        super.didShutdown();
+
+        // unregister with the toybox manager
+        ToyBoxServer.toymgr.lobbyDidShutdown(_game);
+
+        // TODO: don't shutdown while tables are in play
+    }
+
+    // documentation inherited
     protected Class getPlaceObjectClass ()
     {
         return LobbyObject.class;
     }
 
-    /** A casted reference to our place config. */
+    /** Listens for tables shutting down and reports us as empty if there
+     * are no people in the lobby and our last table went away. */
+    protected SetAdapter _emptyListener = new SetAdapter() {
+        public void entryRemoved (EntryRemovedEvent event) {
+            if (event.getName().equals(LobbyObject.TABLE_SET)) {
+                if (_lobobj.tableSet.size() == 0 &&
+                    _lobobj.occupants.size() == 0) {
+                    placeBecameEmpty();
+                }
+            }
+        }
+    };
+
+    /** The game record associated with our game. */
+    protected Game _game;
+
+    /** A casted reference to our lobby config. */
     protected LobbyConfig _lconfig;
+
+    /** A casted reference to our lobby object. */
+    protected LobbyObject _lobobj;
 
     /** Our table manager, which is only created if we're using tables to
      * match-make in this lobby. */

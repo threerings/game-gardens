@@ -16,11 +16,6 @@ CREATE TABLE GAMES
      */
     GAME_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 
-    /** 
-     * A string used to identify this game.
-     */
-    IDENT VARCHAR(255) NOT NULL,
-
     /**
      * The user id of the maintainer.
      */
@@ -56,6 +51,16 @@ CREATE TABLE GAMES
      * The MD5 digest of the test game jar file.
      */
     TEST_DIGEST VARCHAR(255) NOT NULL,
+
+    /** 
+     * A short description of the game.
+     */
+    DESCRIPTION TEXT NOT NULL,
+
+    /** 
+     * Brief instructions on how to play the game.
+     */
+    INSTRUCTIONS TEXT NOT NULL,
 
     /**
      * Define our table keys.

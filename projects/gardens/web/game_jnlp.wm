@@ -6,7 +6,7 @@
 #else
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- JNLP File for $gamedef.name -->
+<!-- JNLP File for $game.name -->
 
 <!-- If you're seeing this in your web browser, you probably need to
      download and install the Sun JRE from http://java.sun.com/j2se/ -->
@@ -14,7 +14,7 @@
 <jnlp spec="1.0+" codebase="$codebase"
       href="$base_path/game_jnlp.wm?gameid=$game.gameId">
   <information>
-    <title>$gamedef.name</title>
+    <title>$game.name</title>
     <vendor>Three Rings Design, Inc.</vendor>
     <homepage href="$base_path/game.wm?gameid=$game.gameId"/>
     <!--<icon kind="splash" href="images/splash.gif"/>-->
@@ -38,7 +38,7 @@
     <jar href="narya-micasa.jar"/>
     <jar href="narya-parlor.jar"/>
     <jar href="samskivert.jar"/>
-    <property name="game_ident" value="$game.ident"/>
+    <property name="game_id" value="$game.gameId"/>
   </resources>
   <application-desc main-class="com.threerings.toybox.client.ToyBoxApp">
     <argument>$server</argument>

@@ -28,4 +28,10 @@ public class ToggleParameter extends Parameter
 {
     /** The starting state for this parameter. */
     public boolean start;
+
+    /** Returns the default value of this parameter. */
+    public Object getDefaultValue ()
+    {
+        return start;
+    }
 }

@@ -32,4 +32,10 @@ public class ChoiceParameter extends Parameter
 
     /** The starting selection. */
     public String start;
+
+    /** Returns the default value of this parameter. */
+    public Object getDefaultValue ()
+    {
+        return start;
+    }
 }

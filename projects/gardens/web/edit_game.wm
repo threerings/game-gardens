@@ -5,17 +5,31 @@
 <form action="edit_game.wm" method="POST">
 $form.hidden("action", $action)
 $form.hidden("gameid", $game.gameId)
-<table cellpadding="6" cellspacing="0" border="0">
-<tr><td colspan="2">$i18n.xlate("edit_game.meta.definition")<br>
-$form.textarea("definition", "rows='30' cols='80'", $game.definition)
+<p><table cellpadding="2" cellspacing="0" border="0">
+
+<tr><td>$i18n.xlate("edit_game.name")</td>
+<td>$form.text("name", "size='40'", $game.name)</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+
+#macro (tinput $name $rows $defvalue)
+<tr><td colspan="2">$i18n.xlate("edit_game.$name")<br>
+$form.textarea($name, "rows='$rows' cols='80'", $defvalue)
 </td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+#end
+
+#tinput("description" 10 $game.description)
+#tinput("instructions" 10 $game.instructions)
+#tinput("definition" 15 $game.definition)
+
 <tr><td colspan="2" align="right">
 #if ($action == "create")
-$form.submit($i18n.xlate("edit_game.meta.create"))
+$form.submit($i18n.xlate("edit_game.create"))
 #else
-$form.submit($i18n.xlate("edit_game.meta.update"))
+$form.submit($i18n.xlate("edit_game.update"))
 #end
 </td></tr>
+
 </table>
 </form>
 

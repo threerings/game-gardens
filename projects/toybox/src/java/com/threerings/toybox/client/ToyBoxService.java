@@ -31,8 +31,7 @@ public interface ToyBoxService extends InvocationService
 {
     /**
      * Issues a request for the oid of the lobby associated with the
-     * specified game identifier.
+     * specified game.
      */
-    public void getLobbyOid (
-        Client client, String gameIdent, ResultListener rl);
+    public void getLobbyOid (Client client, int gameId, ResultListener rl);
 }

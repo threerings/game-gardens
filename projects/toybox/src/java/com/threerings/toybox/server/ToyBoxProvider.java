@@ -34,7 +34,7 @@ public interface ToyBoxProvider extends InvocationProvider
     /**
      * Handles a {@link ToyBoxService#getLobbyOid} request.
      */
-    public void getLobbyOid (ClientObject caller, String gameIdent,
+    public void getLobbyOid (ClientObject caller, int gameId,
                              InvocationService.ResultListener rl)
         throws InvocationException;
 }

@@ -202,14 +202,8 @@ public class LogonPanel extends JPanel
         // disable further logon attempts until we hear back
         setLogonEnabled(false);
 
-        Name username = new Name(_username.getText().trim());
-        char[] pchars = _password.getPassword();
-        Password password = new Password(
-            username.toString(), new String(pchars).trim());
-        // wipe out the password data in memory now that it's encrypted
-        for (int ii = 0; ii < pchars.length; ii++) {
-            pchars[ii] = '*';
-        }
+        String username = _username.getText().trim();
+        String password = new String(_password.getPassword()).trim();
 
         String server = _ctx.getClient().getHostname();
         int port = _ctx.getClient().getPort();
@@ -218,10 +212,8 @@ public class LogonPanel extends JPanel
         _status.append(_msgs.xlate(msg) + "\n");
 
         // configure the client with some credentials and logon
-        Credentials creds = new UsernamePasswordCreds(
-            username, password.getEncrypted());
         Client client = _ctx.getClient();
-        client.setCredentials(creds);
+        client.setCredentials(createCredentials(username, password));
         client.logon();
     }
 
@@ -230,6 +222,15 @@ public class LogonPanel extends JPanel
         _username.setEnabled(enabled);
         _password.setEnabled(enabled);
         _logon.setEnabled(enabled);
+    }
+
+    /** Creates the appropriate type of credentials from the supplied
+     * username and plaintext password. */
+    public static Credentials createCredentials (
+        String username, String password)
+    {
+        Password pw = new Password(username, password);
+        return new UsernamePasswordCreds(new Name(username), pw.getEncrypted());
     }
 
     protected ToyBoxContext _ctx;

@@ -57,6 +57,16 @@ public class GardensApp extends Application
         return _config.getProperty(key);
     }
 
+    // documentation inherited
+    protected void configureVelocity (ServletConfig config, Properties props)
+    {
+        String ipath = config.getServletContext().getRealPath("/");
+        if (new File(ipath).exists()) {
+            props.setProperty("file.resource.loader.path", ipath);
+            Log.info("Velocity loading directly from " + ipath + ".");
+        }
+    }
+
     /** Initialize the user management application. */
     protected void willInit (ServletConfig config)
     {
@@ -120,4 +130,8 @@ public class GardensApp extends Application
 
     /** Our application configuration information. */
     protected Properties _config;
+
+    /** Used to configure velocity to load files right out of the
+     * development directory. */
+    protected static final String VEL_RELOAD_KEY = "web.velocity_file_loader";
 }

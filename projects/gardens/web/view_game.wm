@@ -1,0 +1,19 @@
+#set ($title = $i18n.xlate("view_game.title"))
+#if ($game)
+#set ($title = "$title: $game.name")
+#end
+#import ("/header.wm")
+
+#if ($game)
+<h1>$game.name</h1>
+
+<p><i>$i18n.xlate("view_game.description")</i><br>
+$string.parafy($game.description)
+
+<p><i>$i18n.xlate("view_game.instructions")</i><br>
+$string.parafy($game.instructions)
+
+<p><a href="game_jnlp.wm?gameid=$game.gameId">$i18n.xlate("view_game.play")</a>
+#end
+
+#import ("/footer.wm")

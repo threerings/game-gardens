@@ -3,9 +3,8 @@
 
 package com.threerings.gardens.logic;
 
-import com.samskivert.velocity.Application;
+import com.samskivert.servlet.user.User;
 import com.samskivert.velocity.InvocationContext;
-import com.samskivert.velocity.Logic;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -13,15 +12,13 @@ import com.threerings.gardens.GardensApp;
 /**
  * Displays a list of all registered games.
  */
-public class browse implements Logic
+public class browse extends OptionalUserLogic
 {
     // documentation inherited
-    public void invoke (Application app, InvocationContext ctx)
+    public void invoke (InvocationContext ctx, GardensApp app, User user)
         throws Exception
     {
-        GardensApp gtapp = (GardensApp)app;
-
         // load up the metadata for all of our games
-        ctx.put("games", gtapp.getToyBoxRepository().loadGames());
+        ctx.put("games", app.getToyBoxRepository().loadGames());
     }
 }

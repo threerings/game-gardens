@@ -100,6 +100,7 @@ public class ToyBoxManager
         GameDefinition gamedef = null;
         try {
             game.gameId = 1;
+            game.name = "test";
             game.maintainerId = 1;
             game.setStatus(Status.PUBLISHED);
             game.definition = IOUtils.toString(new FileReader(gameConfig));
@@ -108,8 +109,9 @@ public class ToyBoxManager
             gamedef = game.parseGameDefinition();
             File jar = new File(ToyBoxConfig.getResourceDir(),
                                 gamedef.getJarName());
+            log.info("Reading " + jar + "...");
             MessageDigest md = MessageDigest.getInstance("MD5");
-            gamedef.digest = Resource.computeDigest(jar, md, null);
+            game.digest = Resource.computeDigest(jar, md, null);
 
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to load game config " +
@@ -118,7 +120,7 @@ public class ToyBoxManager
         }
 
         try {
-            resolveLobby(gamedef);
+            resolveLobby(game);
         } catch (InvocationException ie) {
             log.log(Level.WARNING, "Failed to resolve lobby " +
                     "[game=" + game + "].", ie);
@@ -153,13 +155,13 @@ public class ToyBoxManager
     {
         if (config instanceof ToyBoxGameConfig) {
             ToyBoxGameConfig tconfig = (ToyBoxGameConfig)config;
-            String name = tconfig.getGameName();
-            ClassLoader loader = (ClassLoader)_loaders.get(name);
+            String ident = tconfig.getManagerClassName();
+            ClassLoader loader = (ClassLoader)_loaders.get(ident);
             if (loader == null) {
                 loader = ToyBoxUtil.createClassLoader(
                     ToyBoxConfig.getResourceDir(),
                     tconfig.getGameDefinition());
-                _loaders.put(name, loader);
+                _loaders.put(ident, loader);
             }
             return loader;
 
@@ -169,12 +171,12 @@ public class ToyBoxManager
     }
 
     // documentation inherited from interface
-    public void getLobbyOid (ClientObject caller, final String gameIdent,
+    public void getLobbyOid (ClientObject caller, final int gameId,
                              final ResultListener rl)
         throws InvocationException
     {
         // look to see if we have already resolved a lobby for this game
-        Integer lobbyOid = _lobbyOids.get(gameIdent);
+        Integer lobbyOid = _lobbyOids.get(gameId);
         if (lobbyOid != null) {
             rl.requestProcessed(lobbyOid);
             return;
@@ -182,7 +184,7 @@ public class ToyBoxManager
 
         // if we are currently loading this lobby, add this listener to
         // the list of penders
-        ResultListenerList penders = _penders.get(gameIdent);
+        ResultListenerList penders = _penders.get(gameId);
         if (penders != null) {
             penders.add(new ResultAdapter(rl));
             return;
@@ -192,10 +194,10 @@ public class ToyBoxManager
         ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
             public boolean invoke () {
                 try {
-                    _game = _toyrepo.loadGame(gameIdent);
+                    _game = _toyrepo.loadGame(gameId);
                 } catch (PersistenceException pe) {
                     log.log(Level.WARNING, "Failed to load game " +
-                            "[ident=" + gameIdent + "].", pe);
+                            "[game=" + gameId + "].", pe);
                 }
                 return true;
             }
@@ -208,18 +210,15 @@ public class ToyBoxManager
                 }
 
                 try {
-                    // make sure we've got a valid game definition
-                    GameDefinition gamedef = _game.parseGameDefinition();
-
                     // start the lobby resolution. if this fails we will
                     // catch the failure and report it to the caller
-                    resolveLobby(gamedef);
+                    resolveLobby(_game);
 
                     // otherwise we're safe to finally map our result
                     // listener into a listener list
                     ResultListenerList rls = new ResultListenerList();
                     rls.add(new ResultAdapter(rl));
-                    _penders.put(gameIdent, rls);
+                    _penders.put(gameId, rls);
 
                 } catch (InvocationException ie) {
                     rl.requestFailed(ie.getMessage());
@@ -237,28 +236,29 @@ public class ToyBoxManager
      *
      * @param gdef the metadata for the game whose lobby we will create.
      */
-    public void resolveLobby (final GameDefinition gdef)
+    public void resolveLobby (final Game game)
         throws InvocationException
     {
-        log.info("Resolving " + gdef + ".");
+        log.info("Resolving " + game.which() + ".");
 
         PlaceRegistry.CreationObserver obs =
             new PlaceRegistry.CreationObserver() {
             public void placeCreated (PlaceObject place, PlaceManager pmgr) {
                 // register ourselves in the lobby table
-                _lobbyOids.put(gdef.ident, place.getOid());
+                _lobbyOids.put(game.gameId, place.getOid());
                 // inform any resolution penders of the lobby oid
-                ResultListenerList listeners = _penders.remove(gdef.ident);
+                ResultListenerList listeners = _penders.remove(game.gameId);
                 if (listeners != null) {
                     listeners.requestCompleted(place.getOid());
                 }
             }
         };
         try {
-            ToyBoxServer.plreg.createPlace(new LobbyConfig(gdef), obs);
+            ToyBoxServer.plreg.createPlace(
+                new LobbyConfig(game.parseGameDefinition()), obs);
         } catch (InstantiationException e) {
             log.log(Level.WARNING, "Failed to create game lobby " +
-                    "[game=" + gdef.ident + "]", e);
+                    "[game=" + game.which() + "]", e);
             throw new InvocationException(INTERNAL_ERROR);
         }
     }
@@ -266,15 +266,13 @@ public class ToyBoxManager
     /**
      * Called by the {@link LobbyManager} when it shuts down.
      */
-    public void lobbyDidShutdown (LobbyManager lmgr)
+    public void lobbyDidShutdown (Game game)
     {
-        LobbyConfig lconfig = (LobbyConfig)lmgr.getConfig();
-        String ident = lconfig.getGameDefinition().ident;
-        if (_lobbyOids.remove(ident) == null) {
+        if (_lobbyOids.remove(game.gameId) == null) {
             log.warning("Lobby shut down for which we have no registration " +
-                        "[ident=" + ident + ", lmgr=" + lmgr.where() + "].");
+                        "[game=" + game.which() + "].");
         } else {
-            log.info("Unloading lobby '" + lmgr.where() + "'.");
+            log.info("Unloading lobby '" + game.which() + "'.");
         }
     }
 
@@ -283,13 +281,13 @@ public class ToyBoxManager
 
     /** Contains pending listeners for lobbies in the process of being
      * resolved. */
-    protected HashMap<String,ResultListenerList> _penders =
-        new HashMap<String,ResultListenerList>();
+    protected HashMap<Integer,ResultListenerList> _penders =
+        new HashMap<Integer,ResultListenerList>();
 
     /** Contains a mapping from game identifier strings to lobby oids for
      * lobbies that have been resolved. */
-    protected HashMap<String,Integer> _lobbyOids =
-        new HashMap<String,Integer>();
+    protected HashMap<Integer,Integer> _lobbyOids =
+        new HashMap<Integer,Integer>();
 
     /** Maps game identifiers to custom class loaders. In general this
      * will only have one mapping, but we'll be general just in case.  */

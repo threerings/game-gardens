@@ -1,5 +1,5 @@
 //
-// $Id$
+// $Id: UserLogic.java 31 2004-12-10 05:32:38Z mdb $
 
 package com.threerings.gardens.logic;
 
@@ -13,9 +13,9 @@ import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
 
 /**
- * A base logic class for pages that require an authenticated user.
+ * A base logic class for pages that optionally accept an authenticated user.
  */
-public abstract class UserLogic implements Logic
+public abstract class OptionalUserLogic implements Logic
 {
     /**
      * Logic classes should implement this method to perform their normal
@@ -23,7 +23,8 @@ public abstract class UserLogic implements Logic
      *
      * @param ctx the context in which the request is being invoked.
      * @param app the web application.
-     * @param user the user record for the authenticated user.
+     * @param user the user record for the authenticated user or null if
+     * no user is authenticated.
      */
     public abstract void invoke (
         InvocationContext ctx, GardensApp app, User user)
@@ -34,8 +35,10 @@ public abstract class UserLogic implements Logic
         throws Exception
     {
         GardensApp gtapp = (GardensApp)app;
-        User user = gtapp.getUserManager().requireUser(ctx.getRequest());
-        ctx.put("user", user);
+        User user = gtapp.getUserManager().loadUser(ctx.getRequest());
+        if (user != null) {
+            ctx.put("user", user);
+        }
         invoke(ctx, gtapp, user);
     }
 }
