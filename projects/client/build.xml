@@ -10,26 +10,25 @@
   <property name="web.home"   value="${base.dir}/pages"/>
   <property name="deploy.dir" value="${web.home}/client"/>
 
-  <!-- prepares the application directories -->
-  <target name="prepare">
+  <!-- removes unneeded code and generates one big jar file -->
+  <target name="proguard">
+    <taskdef resource="proguard/ant/task.properties"
+             classpath="lib/proguard.jar"/>
+    <proguard configuration="lib/gg-client.pro"/>
     <mkdir dir="${deploy.dir}"/>
-
-    <!-- copy the code jar files into place -->
-    <copy todir="${deploy.dir}">
-      <fileset dir="${base.dir}/lib" includesfile="lib/LIBS"/>
-    </copy>
+    <copy todir="${deploy.dir}" file="gg-client.jar"/>
   </target>
 
   <!-- signs the client jar files -->
-  <target name="sign" depends="prepare">
+  <target name="sign">
     <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
       storepass="${sign.storepass}">
       <fileset dir="${deploy.dir}" includes="*.jar"/>
     </signjar>
   </target>
 
-  <!-- the default target is to install and sign the client -->
-  <target name="all" depends="sign"/>
+  <!-- the default target is to build, install and sign the client -->
+  <target name="all" depends="proguard,sign"/>
 
   <!-- cleans out the installed application -->
   <target name="clean">
