@@ -36,7 +36,7 @@ public class ToyBoxCodes implements InvocationCodes
 
     /** The subdirectory of the game data directory in which our standard
      * libraries are stored. */
-    public static final String LIBRARY_SUBDIR = "libs";
+    public static final String LIBRARY_DIR = "libs";
 
     /** An error constant returned by the {@link ToyBoxService}. */
     public static final String ERR_NO_SUCH_GAME =

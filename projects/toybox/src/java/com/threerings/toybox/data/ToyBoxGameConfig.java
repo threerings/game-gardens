@@ -79,7 +79,7 @@ public class ToyBoxGameConfig extends GameConfig
     public Class getControllerClass ()
     {
         try {
-            return Class.forName(_gamedef.controller);
+            return _loader.loadClass(_gamedef.controller);
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to instantiate game controller " +
                     "[class=" + _gamedef.controller + "]", e);
@@ -124,6 +124,18 @@ public class ToyBoxGameConfig extends GameConfig
         setParameter("seats", desiredPlayers);
     }
 
+    // documentation inherited from interface
+    public boolean isPrivateTable ()
+    {
+        return _isPrivate;
+    }
+
+    // documentation inherited from interface
+    public void setPrivateTable (boolean privateTable)
+    {
+        _isPrivate = privateTable;
+    }
+
     /**
      * Returns the game definition associated with this config instance.
      */
@@ -152,6 +164,9 @@ public class ToyBoxGameConfig extends GameConfig
 
     /** Our game definition. */
     protected GameDefinition _gamedef;
+
+    /** Allows creation of private tables. */
+    protected boolean _isPrivate;
 
     /** Our configured parameters. */
     protected StreamableHashMap _params = new StreamableHashMap();

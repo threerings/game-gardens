@@ -1,0 +1,16 @@
+#
+# $Id$
+#
+# Documents the customizable parameters for the ToyBox system
+
+#
+# Defines the directory under which all game and library resources will be
+# stored on the server.
+
+# resource_dir = 
+
+#
+# Defines the URL via which all game and library resources will be
+# downloaded by the clients.
+
+# resource_url = 

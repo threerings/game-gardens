@@ -52,13 +52,15 @@ some set of "premium" games.
 ** Session flow
 - User clicks on a link on the web site indicating that they'd like to
   play game X
-- Web server dynamically generates JNLP file with appropriate jar file
-  information, codebase, game and server configuration
-- User downloads game code and launches the game
+- Web server dynamically generates JNLP file with appropriate game_id
+  specified and server configuration
+- User connects to specified game server and enters the game lobby
 - Game begins execution in generic lobby code which requests that the user
   authenticate, then connects to the appropriate server and requests
   lobbies for the configured game type
 - User enters lobby wherein they can configure games
+- Using the game configuration data from the game lobby, they dowload the
+  game code and/or checksum it if it's already downloaded
 - Upon user's entry to lobby, game server ensures that a JVM is running
   for the game in question
 - User configures game and begins play, standard gameReady code causes

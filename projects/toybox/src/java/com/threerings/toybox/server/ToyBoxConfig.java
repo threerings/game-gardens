@@ -25,11 +25,9 @@ import java.io.File;
 import java.util.Properties;
 
 import com.samskivert.util.Config;
-
-import com.threerings.toybox.server.persist.Game;
+import com.samskivert.util.StringUtil;
 
 import static com.threerings.toybox.Log.log;
-import static com.threerings.toybox.data.ToyBoxCodes.*;
 
 /**
  * Provides access to installation specific configuration parameters. Once
@@ -43,48 +41,19 @@ public class ToyBoxConfig
     public static Config config = new Config("toybox");
 
     /**
-     * Returns the directory in which game data is to be stored.
+     * Returns the directory under which all resources are stored.
      */
-    public static File getDataDirectory ()
+    public static File getResourceDir ()
     {
-        return new File(config.getValue("game_data_dir",
-                                        System.getProperty("java.io.tmpdir")));
+        return new File(requireValue("resource_dir"));
     }
 
     /**
-     * Returns the directory in which standard libraries are stored.
+     * Returns the base URL via which all resources are downloaded.
      */
-    public static File getLibraryDirectory ()
+    public static String getResourceURL ()
     {
-        return new File(getDataDirectory(), LIBRARY_SUBDIR);
-    }
-
-    /**
-     * Returns the name of the {@link #getDataDirectory} sub-directory
-     * which contains data for the specified game. <em>Note:</em> this is
-     * not the full path, use {@link #getGameDirectory} for that.
-     */
-    public static String getGameSubdir (Game game)
-    {
-        return "" + game.gameId;
-    }
-
-    /**
-     * Returns the directory in which the resources for the specified game
-     * reside. The directory will be created if it does not yet exist.
-     */
-    public static File getGameDirectory (Game game)
-    {
-        File gdir = new File(getDataDirectory(), getGameSubdir(game));
-        if (!gdir.exists()) {
-            gdir.mkdir();
-        }
-        if (!gdir.isDirectory()) {
-            log.warning("Unable to create game directory (" + gdir.getPath() +
-                        "). Please check permissions, etc.");
-            // nothing else we can do but hope for the best
-        }
-        return gdir;
+        return requireValue("resource_url");
     }
 
     /**
@@ -93,5 +62,15 @@ public class ToyBoxConfig
     public static Properties getJDBCConfig ()
     {
         return config.getSubProperties("db");
+    }
+
+    /** Helper function for warning on undefined config elements. */
+    protected static String requireValue (String key)
+    {
+        String value = config.getValue(key, "");
+        if (StringUtil.blank(value)) {
+            log.warning("Missing required configuration '" + key + "'.");
+        }
+        return value;
     }
 }

@@ -36,6 +36,17 @@ public class Library implements Streamable
     /** The version of the library on which this game depends. */
     public String version;
 
+    /** An MD5 digest computed for this library. */
+    public String digest;
+
+    /**
+     * Constructs the jar file name from the library name and version.
+     */
+    public String getFileName ()
+    {
+        return name + "-" + version + ".jar";
+    }
+
     /** Generates a string representation of this instance. */
     public String toString ()
     {

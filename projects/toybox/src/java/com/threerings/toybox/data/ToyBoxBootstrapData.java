@@ -19,26 +19,15 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.util;
+package com.threerings.toybox.data;
 
-import com.threerings.parlor.util.ParlorContext;
-import com.threerings.util.MessageManager;
-
-import com.threerings.toybox.client.ToyBoxDirector;
+import com.threerings.presents.net.BootstrapData;
 
 /**
- * Aggregates the various bits that are needed on the ToyBox client.
+ * Extends the standard bootstrap data with some ToyBox information.
  */
-public interface ToyBoxContext extends ParlorContext
+public class ToyBoxBootstrapData extends BootstrapData
 {
-    /**
-     * Returns a reference to the message manager used by the client to
-     * generate localized messages.
-     */
-    public MessageManager getMessageManager ();
-
-    /**
-     * Returns a reference to our ToyBox director.
-     */
-    public ToyBoxDirector getToyBoxDirector ();
+    /** The URL from which we download game and library jar files. */
+    public String resourceURL;
 }

@@ -24,6 +24,7 @@ package com.threerings.toybox.lobby.client;
 import com.threerings.crowd.client.PlaceController;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceConfig;
+import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.util.CrowdContext;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
@@ -42,6 +43,17 @@ public class LobbyController extends PlaceController
         _config = (LobbyConfig)config;
 
         super.init(ctx, config);
+    }
+
+    // documentation inherited
+    public void willEnterPlace (PlaceObject plobj)
+    {
+        super.willEnterPlace(plobj);
+
+        // have the toybox director download this game's jar files
+        _ctx.getToyBoxDirector().resolveResources(
+            // TODO: wire up a fancy display in the lobby panel
+            _config.getGameDefinition(), null);
     }
 
     // documentation inherited

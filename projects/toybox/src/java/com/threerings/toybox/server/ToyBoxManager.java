@@ -38,7 +38,6 @@ import com.threerings.presents.client.InvocationService.ResultListener;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationManager;
-import com.threerings.presents.util.InvocationUtil;
 import com.threerings.presents.util.ResultAdapter;
 
 import com.threerings.crowd.data.PlaceObject;

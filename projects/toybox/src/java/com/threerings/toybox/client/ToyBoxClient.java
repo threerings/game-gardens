@@ -21,13 +21,17 @@
 
 package com.threerings.toybox.client;
 
+import java.io.File;
+import java.io.IOException;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.samskivert.util.Config;
+import com.samskivert.util.StringUtil;
 import com.threerings.util.MessageManager;
 
 import com.threerings.presents.client.Client;
@@ -137,6 +141,23 @@ public class ToyBoxClient
     }
 
     /**
+     * Given a subdirectory name (that should correspond to the calling
+     * service), returns a file path that can be used to store local data.
+     */
+    public static String localDataDir (String subdir)
+    {
+        String appdir = System.getProperty("appdir");
+        if (StringUtil.blank(appdir)) {
+            appdir = ".toybox";
+            String home = System.getProperty("user.home");
+            if (!StringUtil.blank(home)) {
+                appdir = home + File.separator + appdir;
+            }
+        }
+        return appdir + File.separator + subdir;
+    }
+
+    /**
      * The context implementation. This provides access to all of the
      * objects and services that are needed by the operating client.
      */
@@ -206,6 +227,11 @@ public class ToyBoxClient
         public MessageManager getMessageManager ()
         {
             return _msgmgr;
+        }
+
+        public ToyBoxDirector getToyBoxDirector ()
+        {
+            return _toydtr;
         }
     }
 
