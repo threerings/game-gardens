@@ -15,18 +15,20 @@ import javax.swing.event.AncestorListener;
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
 import com.samskivert.swing.HGroupLayout;
+import com.samskivert.swing.MultiLineLabel;
 import com.samskivert.swing.VGroupLayout;
 import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.media.SafeScrollPane;
 import com.threerings.media.image.ImageManager;
 import com.threerings.media.tile.TileManager;
-import com.threerings.resource.ResourceManager;
+import com.threerings.util.MessageBundle;
 
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.client.PlaceView;
 
 import com.threerings.toybox.client.ChatPanel;
+import com.threerings.toybox.client.ToyBoxUI;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import com.samskivert.atlanti.Log;
@@ -52,17 +54,20 @@ public class AtlantiPanel extends JPanel
     public AtlantiPanel (ToyBoxContext ctx, AtlantiController controller)
     {
 	// give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+	setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-	HGroupLayout gl = new HGroupLayout(HGroupLayout.STRETCH);
+	HGroupLayout gl = new HGroupLayout(
+            HGroupLayout.STRETCH, 10, HGroupLayout.CENTER);
 	gl.setOffAxisPolicy(HGroupLayout.STRETCH);
 	setLayout(gl);
 
         // create the board
         board = new AtlantiBoardView();
+        board.setOpaque(false);
 
         // create a scroll area to contain the board
         SafeScrollPane scrolly = new SafeScrollPane(board);
+        scrolly.getViewport().setBackground(ToyBoxUI.LIGHT_BLUE);
         add(scrolly);
 
         // create our side panel
@@ -71,11 +76,13 @@ public class AtlantiPanel extends JPanel
         sgl.setJustification(VGroupLayout.TOP);
         JPanel sidePanel = new JPanel(sgl);
 
+        MessageBundle msgs =
+            _ctx.getMessageManager().getBundle(ATLANTI_MESSAGE_BUNDLE);
+
         // add a big fat label because we love it!
-        JLabel vlabel = new JLabel(ctx.xlate(ATLANTI_MESSAGE_BUNDLE, "m.title"));
-        vlabel.setHorizontalAlignment(JLabel.CENTER);
-        vlabel.setFont(new Font("Helvetica", Font.BOLD, 24));
-        vlabel.setForeground(Color.black);
+        MultiLineLabel vlabel = new MultiLineLabel(msgs.get("m.title"));
+        vlabel.setAntiAliased(true);
+        vlabel.setFont(ToyBoxUI.fancyFont);
         sidePanel.add(vlabel, VGroupLayout.FIXED);
 
         // add a player info view to the side panel
@@ -93,6 +100,11 @@ public class AtlantiPanel extends JPanel
         noplace.addActionListener(Controller.DISPATCHER);
         sidePanel.add(noplace, VGroupLayout.FIXED);
 
+        // de-opaquify everything before we add the chat box
+        SwingUtil.setOpaque(sidePanel, false);
+        setOpaque(true);
+        setBackground(new Color(0xDAEB9C));
+
         // add a chat box
         ChatPanel chat = new ChatPanel(ctx);
         chat.removeSendButton();
@@ -103,14 +115,11 @@ public class AtlantiPanel extends JPanel
             ctx.xlate(ATLANTI_MESSAGE_BUNDLE, "m.back_to_lobby"));
         back.setActionCommand(BACK_TO_LOBBY);
         back.addActionListener(Controller.DISPATCHER);
-        sidePanel.add(back, VGroupLayout.FIXED);
+        sidePanel.add(HGroupLayout.makeButtonBox(HGroupLayout.RIGHT, back),
+                      VGroupLayout.FIXED);
 
         // add our side panel to the main display
         add(sidePanel, HGroupLayout.FIXED);
-
-        SwingUtil.setOpaque(this, false);
-        setOpaque(true);
-        setBackground(new Color(0x2222EE));
 
         // we'll need these later
         _controller = controller;
