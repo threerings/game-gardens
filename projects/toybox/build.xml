@@ -94,11 +94,10 @@
     <javadoc sourcepath="src/java"
              packagenames="com.threerings.*"
              destdir="${javadoc.home}"
-             additionalparam="-breakiterator"
-             link="http://dev.threerings.net/devel/docs/toybox/">
+             additionalparam="-breakiterator">
       <classpath refid="classpath"/>
       <link href="http://java.sun.com/j2se/1.4/docs/api/"/>
-      <link href="http://dev.threerings.net/devel/docs/samskivert/"/>
+      <link href="http://samskivert.com/code/samskivert/samskivert/docs/api/"/>
     </javadoc>
     <copy todir="${javadoc.home}">
       <fileset dir="src/java" includes="**/*.png"/>

@@ -59,6 +59,14 @@ public class LobbyManager extends PlaceManager
         _game = game;
     }
 
+    /**
+     * Returns a reference to the game associated with this lobby.
+     */
+    public Game getGame ()
+    {
+        return _game;
+    }
+
     // documentation inherited
     protected void didInit ()
     {

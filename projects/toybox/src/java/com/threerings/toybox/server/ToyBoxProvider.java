@@ -26,6 +26,8 @@ import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationProvider;
 
+import com.threerings.toybox.client.ToyBoxService;
+
 /**
  * Does something extraordinary.
  */

@@ -30,6 +30,8 @@ import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.data.Table;
+import com.threerings.parlor.game.GameManager;
+import com.threerings.parlor.game.GameManagerDelegate;
 import com.threerings.parlor.server.TableManager;
 
 import com.threerings.toybox.server.ToyBoxServer;
@@ -44,8 +46,10 @@ public class ToyBoxTableManager extends TableManager
     public ToyBoxTableManager (LobbyManager lmgr)
     {
         super(lmgr);
+        _lmgr = lmgr;
     }
 
+    // documentation inherited
     protected void createGame (final Table table)
         throws InvocationException
     {
@@ -57,6 +61,19 @@ public class ToyBoxTableManager extends TableManager
         PlaceRegistry.CreationObserver obs =
             new PlaceRegistry.CreationObserver() {
             public void placeCreated (PlaceObject plobj, PlaceManager pmgr) {
+                // add a delegate that will record the game's playtime
+                // upon completion
+                pmgr.addDelegate(new GameManagerDelegate((GameManager)pmgr) {
+                    public void gameWillStart () {
+                        _started = System.currentTimeMillis();
+                    }
+                    public void gameDidEnd () {
+                        long playtime = System.currentTimeMillis() - _started;
+                        ToyBoxServer.toymgr.recordPlaytime(
+                            _lmgr.getGame(), playtime);
+                    }
+                    protected long _started;
+                });
                 gameCreated(table, plobj);
             }
         };
@@ -68,4 +85,7 @@ public class ToyBoxTableManager extends TableManager
             throw new InvocationException(INTERNAL_ERROR);
         }
     }
+
+    /** The lobby manager for which we're working. */
+    protected LobbyManager _lmgr;
 }

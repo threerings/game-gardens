@@ -14,7 +14,7 @@ CREATE TABLE GENRE_MAP
     /**
      * The unique identifier of the game.
      */
-    GAME_ID INTEGER UNSIGNED NOT NULL,
+    GAME_ID INTEGER NOT NULL,
 
     /**
      * The string identifier of the genre.

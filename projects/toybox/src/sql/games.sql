@@ -12,7 +12,7 @@ drop table if exists GAMES;
 CREATE TABLE GAMES
 (
     /** A unique integer identifier for this game. */
-    GAME_ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    GAME_ID INTEGER NOT NULL AUTO_INCREMENT,
 
     /** The category of this game (ie. strategy, word, classic, etc.). */
     CATEGORY VARCHAR(255) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE GAMES
     NAME VARCHAR(255) NOT NULL,
 
     /** The user id of the maintainer. */
-    MAINTAINER_ID INTEGER UNSIGNED NOT NULL,
+    MAINTAINER_ID INTEGER NOT NULL,
 
     /** The status of this game (whether or not it should be published, if
      * it is flagged for review, etc.). */

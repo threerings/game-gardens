@@ -170,6 +170,42 @@ public class ToyBoxManager
         }
     }
 
+    /**
+     * Called to report the total playtime in a particular game. This
+     * records the playtime persistently.
+     *
+     * @param game the game whose time is being reported.
+     * @param playtime the total playtime in milliseconds.
+     */
+    public void recordPlaytime (final Game game, long playtime)
+    {
+        int mins = (int)(playtime / ONE_MINUTE);
+        if (mins > ODDLY_LONG) {
+            log.warning("Game in play for oddly long time " +
+                        "[game=" + game.name + ", mins=" + mins + "].");
+        }
+        mins = Math.min(mins, MAX_PLAYTIME);
+        if (mins <= 0) {
+            return;
+        }
+
+        log.info("Recording playtime [game=" + game.name +
+                 ", mins=" + mins + "].");
+
+        final int fmins = mins;
+        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+            public boolean invoke () {
+                try {
+                    _toyrepo.incrementPlaytime(game.gameId, fmins);
+                } catch (Exception e) {
+                    log.log(Level.WARNING, "Failed to update playtime " +
+                            "[game=" + game.name + ", mins=" + fmins + "].", e);
+                }
+                return false;
+            }
+        });
+    }
+
     // documentation inherited from interface
     public void getLobbyOid (ClientObject caller, final int gameId,
                              final ResultListener rl)
@@ -234,7 +270,7 @@ public class ToyBoxManager
      * is fully resolved, all pending listeners will be notified of its
      * creation. See {@link #_penders}.
      *
-     * @param gdef the metadata for the game whose lobby we will create.
+     * @param game the metadata for the game whose lobby we will create.
      */
     public void resolveLobby (final Game game)
         throws InvocationException
@@ -295,4 +331,15 @@ public class ToyBoxManager
      * will only have one mapping, but we'll be general just in case.  */
     protected HashMap<String,ClassLoader> _loaders =
         new HashMap<String,ClassLoader>();
+
+    /** One minute in milliseconds. */
+    protected static final long ONE_MINUTE = 60 * 1000L;
+
+    /** The maximum playtime we will record for a game, in minutes. (This
+     * is to avoid booching the stats if something goes awry.) */
+    protected static final int MAX_PLAYTIME = 60;
+
+    /** If a game is in play longer than this many minutes, we log a
+     * warning when recording its playtime to catch funny business. */
+    protected static final int ODDLY_LONG = 120;
 }

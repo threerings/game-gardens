@@ -22,11 +22,15 @@
 package com.threerings.toybox.server.persist;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.DatabaseLiaison;
+import com.samskivert.jdbc.JDBCUtil;
 import com.samskivert.jdbc.JORARepository;
 import com.samskivert.jdbc.jora.Cursor;
 import com.samskivert.jdbc.jora.Session;
@@ -68,7 +72,7 @@ public class ToyBoxRepository extends JORARepository
     public ArrayList loadGames ()
         throws PersistenceException
     {
-        return loadGamesWhere("");
+        return loadGamesBy("");
     }
 
     /**
@@ -79,18 +83,25 @@ public class ToyBoxRepository extends JORARepository
         throws PersistenceException
     {
         category = StringUtil.replace(category, "'", "\\'");
-        return loadGamesWhere("where category = '" + category + "'");
+        return loadGamesBy("where category = '" + category + "'");
     }
 
-    /** Helper function for the <code>loadGames</code> methods. */
-    protected ArrayList loadGamesWhere (final String query)
+    /**
+     * Loads the specified number of the most popular games as determined
+     * by the number of minutes played in those games in the current and
+     * previous week.
+     */
+    public ArrayList loadPopularGames (final int count)
         throws PersistenceException
     {
+        final Date thisWeek = getWeek(0);
+        final Date lastWeek = getWeek(-1);
         return (ArrayList)execute(new Operation() {
             public Object invoke (Connection conn, DatabaseLiaison liaison)
                 throws SQLException, PersistenceException
             {
-                return _gtable.select(query).toArrayList();
+                // TODO
+                return null;
             }
         });
     }
@@ -161,9 +172,56 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Helper function for the {@link #loadGame(int)} and {@link
-     * #loadGame(String)}.
+     * Increments the number of minutes played for the specified game in
+     * the current week.
      */
+    public void incrementPlaytime (int gameId, int minutes)
+        throws PersistenceException
+    {
+        Date when = getWeek(0);
+        final String uquery = "update PLAYTIME " +
+            "set PLAYTIME = PLAYTIME + " + minutes + " " +
+            "where GAME_ID = " + gameId + " and PERIOD = '" + when + "'";
+        final String iquery = "insert into PLAYTIME " +
+            "(GAME_ID, PERIOD, PLAYTIME) " +
+            "values(" + gameId + ", '" + when + "', " + minutes + ")";
+        execute(new Operation() {
+            public Object invoke (Connection conn, DatabaseLiaison liaison)
+                throws SQLException, PersistenceException
+            {
+                Statement stmt = null;
+                try {
+                    // first try updating
+                    stmt = conn.createStatement();
+                    if (stmt.executeUpdate(uquery) == 0) {
+                        // if that failed to modify anything, insert
+                        stmt.executeUpdate(iquery);
+                    }
+
+                } finally {
+                    JDBCUtil.close(stmt);
+                }
+                return null;
+            }
+        });
+    }
+
+    /** Helper function for {@link #loadGames()} and {@link
+     * #loadGames(String)}. */
+    protected ArrayList loadGamesBy (final String query)
+        throws PersistenceException
+    {
+        return (ArrayList)execute(new Operation() {
+            public Object invoke (Connection conn, DatabaseLiaison liaison)
+                throws SQLException, PersistenceException
+            {
+                return _gtable.select(query).toArrayList();
+            }
+        });
+    }
+
+    /** Helper function for {@link #loadGame(int)} and {@link
+     * #loadGame(String)}. */
     protected Game loadGameBy (final String query)
         throws PersistenceException
     {
@@ -174,6 +232,20 @@ public class ToyBoxRepository extends JORARepository
                 return (Game)_gtable.select(query).next();
             }
         });
+    }
+
+    /** Returns a {@link Date} instance configured to the beginning of the
+     * current (or current + offset) week. */
+    protected static Date getWeek (int offset)
+    {
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int week = now.get(Calendar.WEEK_OF_YEAR);
+        now.clear();
+        now.set(Calendar.YEAR, year);
+        now.set(Calendar.WEEK_OF_YEAR, week);
+        now.roll(Calendar.WEEK_OF_YEAR, offset);
+        return new Date(now.getTimeInMillis());
     }
 
     // documentation inherited
