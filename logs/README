@@ -1,0 +1,3 @@
+The mvnforum and other servlet container logs are written here. This
+directory will need to be permissioned such that the servlet container can
+write to it.
