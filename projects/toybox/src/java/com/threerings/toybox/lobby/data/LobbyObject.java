@@ -1,5 +1,5 @@
 //
-// $Id: LobbyObject.java,v 1.1 2004/11/15 01:48:51 mdb Exp $
+// $Id$
 
 package com.threerings.toybox.lobby.data;
 
