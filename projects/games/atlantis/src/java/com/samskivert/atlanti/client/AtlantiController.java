@@ -23,7 +23,8 @@ import com.threerings.crowd.client.PlaceView;
 import com.threerings.parlor.game.GameController;
 import com.threerings.parlor.turn.TurnGameController;
 import com.threerings.parlor.turn.TurnGameControllerDelegate;
-import com.threerings.parlor.util.ParlorContext;
+
+import com.threerings.toybox.util.ToyBoxContext;
 
 import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
@@ -59,7 +60,7 @@ public class AtlantiController extends GameController
     // documentation inherited
     protected PlaceView createPlaceView ()
     {
-        _panel = new AtlantiPanel(_ctx, this);
+        _panel = new AtlantiPanel((ToyBoxContext)_ctx, this);
         return _panel;
     }
 

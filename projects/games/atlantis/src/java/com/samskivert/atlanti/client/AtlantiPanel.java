@@ -25,7 +25,6 @@ import com.threerings.resource.ResourceManager;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.client.PlaceView;
 
-import com.threerings.parlor.util.ParlorContext;
 import com.threerings.toybox.client.ChatPanel;
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -49,7 +48,7 @@ public class AtlantiPanel extends JPanel
     /**
      * Constructs a new game display.
      */
-    public AtlantiPanel (ParlorContext ctx, AtlantiController controller)
+    public AtlantiPanel (ToyBoxContext ctx, AtlantiController controller)
     {
 	// give ourselves a wee bit of a border
 	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -108,7 +107,7 @@ public class AtlantiPanel extends JPanel
 
         // we'll need these later
         _controller = controller;
-        _ctx = (ToyBoxContext)ctx;
+        _ctx = ctx;
     }
 
     // documentation inherited
