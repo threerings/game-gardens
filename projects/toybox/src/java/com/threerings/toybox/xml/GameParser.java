@@ -45,6 +45,29 @@ public class GameParser
             }
         });
 
+        // these rules handle customization parameters
+        _digester.addRule("game/params", new ObjectCreateRule(ArrayList.class));
+        _digester.addRule("game/params", new SetNextFieldRule("params"));
+
+        _digester.addRule("game/params/range",
+                          new ObjectCreateRule(RangeParameter.class));
+        _digester.addRule("game/params/range", new SetPropertyFieldsRule());
+        _digester.addSetNext("game/params/range",
+                             "add", Object.class.getName());
+
+        _digester.addRule("game/params/choice",
+                          new ObjectCreateRule(ChoiceParameter.class));
+        _digester.addRule("game/params/choice", new SetPropertyFieldsRule());
+        _digester.addSetNext("game/params/choice",
+                             "add", Object.class.getName());
+
+        _digester.addRule("game/params/toggle",
+                          new ObjectCreateRule(ToggleParameter.class));
+        _digester.addRule("game/params/toggle", new SetPropertyFieldsRule());
+        _digester.addSetNext("game/params/toggle",
+                             "add", Object.class.getName());
+
+        // these rules parse the library dependencies
         _digester.addRule("game/libs", new ObjectCreateRule(ArrayList.class));
         _digester.addRule("game/libs/library",
                           new ObjectCreateRule(Library.class));

@@ -6,7 +6,7 @@ package com.threerings.toybox.xml;
 /**
  * Models a parameter that allows the toggling of a single value.
  */
-public class ToggleParameter
+public class ToggleParameter extends Parameter
 {
     /** The starting state for this parameter. */
     public boolean start;
