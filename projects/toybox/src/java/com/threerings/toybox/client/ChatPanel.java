@@ -31,6 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -169,9 +170,11 @@ public class ChatPanel extends JPanel
 
         // load up our chat background image
         try {
-            _bgimg = ImageIO.read(
-                getClass().getClassLoader().getResourceAsStream(
-                    "rsrc/media/chat_background.png"));
+            InputStream in = getClass().getClassLoader().getResourceAsStream(
+                "rsrc/media/chat_background.png");
+            if (in != null) {
+                _bgimg = ImageIO.read(in);
+            }
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to load background image.", e);
         }
@@ -308,7 +311,7 @@ public class ChatPanel extends JPanel
         } else if (text.startsWith("/who")) {
             // dump the occupants of the room to the chat box
             displayFeedback("m.who_header");
-            Iterator iter = _room.occupantInfo.entries();
+            Iterator iter = _room.occupantInfo.iterator();
             while (iter.hasNext()) {
                 OccupantInfo info = (OccupantInfo)iter.next();
                 String msg = "m.who_active";

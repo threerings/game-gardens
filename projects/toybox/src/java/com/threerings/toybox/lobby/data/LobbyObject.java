@@ -74,7 +74,7 @@ public class LobbyObject extends PlaceObject
         for (int ii = 0; ii < occupants.size(); ii++) {
             occids.add(occupants.get(ii));
         }
-        for (Iterator iter = tableSet.entries(); iter.hasNext(); ) {
+        for (Iterator iter = tableSet.iterator(); iter.hasNext(); ) {
             Table table = (Table)iter.next();
             if (table.gameOid > 0) {
                 for (int ii = 0; ii < table.bodyOids.length; ii++) {

@@ -63,7 +63,7 @@ public class OccupantList extends JList
     public void willEnterPlace (PlaceObject plobj)
     {
         // add all of the occupants of the place to our list
-        Iterator users = plobj.occupantInfo.entries();
+        Iterator users = plobj.occupantInfo.iterator();
         while (users.hasNext()) {
             OccupantInfo info = (OccupantInfo)users.next();
             _model.addElement(info.username);

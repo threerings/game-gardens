@@ -159,7 +159,7 @@ public class TableListView extends JPanel
         // iterate over the tables already active in this lobby and put
         // them in their respective lists
         TableLobbyObject tlobj = (TableLobbyObject)place;
-        Iterator iter = tlobj.getTables().entries();
+        Iterator iter = tlobj.getTables().iterator();
         while (iter.hasNext()) {
             tableAdded((Table)iter.next());
         }
