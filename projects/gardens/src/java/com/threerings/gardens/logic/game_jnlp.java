@@ -3,6 +3,7 @@
 
 package com.threerings.gardens.logic;
 
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +59,24 @@ public class game_jnlp implements Logic
             throw new FriendlyException("error.no_such_game");
         }
         ctx.put("game", game);
+
+        // fake up a last modified header
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR), day = cal.get(Calendar.DAY_OF_YEAR);
+        cal.setTime(game.lastUpdated);
+        // if it was last updated today, use the current time as the last
+        // modification as we don't have finer granularity
+        if (year == cal.get(Calendar.YEAR) &&
+            day == cal.get(Calendar.DAY_OF_YEAR)) {
+            cal = Calendar.getInstance();
+        } else {
+            // otherwise claim last modification at 11:59:59 on the known date
+            cal.set(Calendar.HOUR_OF_DAY, 23);
+            cal.set(Calendar.MINUTE, 59);
+            cal.set(Calendar.SECOND, 59);
+        }
+        long lastModified = cal.getTime().getTime();
+        ctx.getResponse().setDateHeader("Last-Modified", lastModified);
 
         String path = CLIENT_PATH;
         URL codebase;
