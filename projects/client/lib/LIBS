@@ -1,8 +1,9 @@
+commons-io.jar
 getdown.jar
 narya-base.jar
 narya-distrib.jar
-narya-micasa.jar
 narya-media.jar
+narya-micasa.jar
 narya-parlor.jar
 samskivert.jar
 toybox.jar

@@ -39,6 +39,7 @@
     <jar href="narya-media.jar"/>
     <jar href="narya-parlor.jar"/>
     <jar href="samskivert.jar"/>
+    <jar href="commons-io.jar"/>
     <property name="game_id" value="$game.gameId"/>
   </resources>
   <application-desc main-class="com.threerings.toybox.client.ToyBoxApp">
