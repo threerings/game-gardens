@@ -90,8 +90,9 @@ public class UpdateSnapshots
             for (Object obj : games) {
                 Game game = (Game)obj;
                 String desc = StringUtil.truncate(game.description, 80, "...");
-                out.println("<li> <a href=\"http://www.gamegardens.com/" +
-                            "gardens/game_" + game.gameId + ".jnlp\">" +
+                String iurl = "http://www.gamegardens.com/gardens/" +
+                    "view_game.wm?gameid=" + game.gameId;
+                out.println("<li> <a href=\"" + iurl + "\">" +
                             game.name + "</a><br>" + desc);
             }
             out.close();
