@@ -42,7 +42,8 @@ public class game_jnlp implements Logic
         }
         ctx.put("game", game);
 
-        String path = gtapp.getProperty("game_data_path");
+        // TODO: get this from the configuration
+        String path = "/games";
         URL codebase;
         try {
             codebase = new URL("http", game.host, 80, path);

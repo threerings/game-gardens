@@ -14,3 +14,18 @@
 # downloaded by the clients.
 
 # resource_url = 
+
+#
+# Database configuration
+
+db.default.driver = com.mysql.jdbc.Driver
+db.default.username = USERNAME
+db.default.password = PASSWORD
+db.default.url = jdbc:mysql://DATABASE_HOST:3306/DATABASE_NAME
+
+#
+# Various configuration for the Game Gardens web application
+
+web.login_url = register.wm?from=%R
+web.access_denied_url = access_denied.wm
+web.auth_cookie.strip_hostname = true

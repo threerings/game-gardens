@@ -62,11 +62,12 @@ public class GardensApp extends Application
         super.willInit(config);
 
 	try {
-            // create a static connection provider
-            _conprov = new StaticConnectionProvider(CONN_CONFIG);
-
             // load up our configuration properties
-            _config = ConfigUtil.loadProperties(GARDENS_CONFIG);
+            _config = ToyBoxConfig.config.getSubProperties("web");
+
+            // create a static connection provider
+            _conprov = new StaticConnectionProvider(
+                ToyBoxConfig.getJDBCConfig());
 
             // create our repositories and managers
 	    _usermgr = new UserManager(_config, _conprov);
@@ -118,10 +119,4 @@ public class GardensApp extends Application
 
     /** Our application configuration information. */
     protected Properties _config;
-
-    /** The path to our database configuration file. */
-    protected static final String CONN_CONFIG = "repository.properties";
-
-    /** The path to our webapp configuration file. */
-    protected static final String GARDENS_CONFIG = "gardens.properties";
 }
