@@ -16,7 +16,7 @@ if [ ! -f $GARDENS_HOME/gardens.conf ]; then
 fi
 
 # The user as which mysql will run
-MYSQL_USER=msyql
+MYSQL_USER=mysql
 
 # Read in our configuration
 . $GARDENS_HOME/gardens.conf
