@@ -22,14 +22,15 @@
 package com.threerings.toybox.lobby.data;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.parlor.game.GameConfig;
 
-import com.threerings.toybox.lobby.client.LobbyController;
+import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
-import com.threerings.toybox.xml.GameDefinition;
+
+import com.threerings.toybox.lobby.client.LobbyController;
 
 /**
  * Defines the configuration of a ToyBox match-making lobby.
@@ -47,9 +48,9 @@ public class LobbyConfig extends PlaceConfig
      * Creates the config for a new lobby that will match-make games with
      * the specified configuration.
      */
-    public LobbyConfig (GameDefinition gameDefinition)
+    public LobbyConfig (GameDefinition gamedef)
     {
-        _gameDefinition = gameDefinition;
+        _gamedef = gamedef;
     }
 
     // documentation inherited
@@ -70,7 +71,8 @@ public class LobbyConfig extends PlaceConfig
      */
     public JComponent createMatchMakingView (ToyBoxContext ctx)
     {
-        return new JLabel("Match-making view goes here.");
+        return _gamedef.match.createMatchMakingView(
+            ctx, new ToyBoxGameConfig(_gamedef));
     }
 
     /**
@@ -78,20 +80,7 @@ public class LobbyConfig extends PlaceConfig
      */
     public GameDefinition getGameDefinition ()
     {
-        return _gameDefinition;
-    }
-
-    /**
-     * Instantiates and returns a game config instance using the game
-     * config class name provided when this configuration was constructed.
-     *
-     * @exception Exception thrown if a problem occurs loading or
-     * instantiating the class.
-     */
-    public GameConfig getGameConfig ()
-        throws Exception
-    {
-        return (GameConfig)Class.forName(_gameDefinition.config).newInstance();
+        return _gamedef;
     }
 
     // documentation inherited
@@ -101,9 +90,9 @@ public class LobbyConfig extends PlaceConfig
         if (buf.length() > 1) {
             buf.append(", ");
         }
-        buf.append("game_def=").append(_gameDefinition);
+        buf.append("gamedef=").append(_gamedef);
     }
 
     /** The definition for the game we'll be matchmaking. */
-    protected GameDefinition _gameDefinition;
+    protected GameDefinition _gamedef;
 }

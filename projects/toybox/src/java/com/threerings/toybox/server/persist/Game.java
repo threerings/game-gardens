@@ -28,8 +28,8 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
 
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxCodes;
-import com.threerings.toybox.xml.GameDefinition;
 import com.threerings.toybox.xml.GameParser;
 
 import static com.threerings.toybox.Log.log;

@@ -19,22 +19,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.xml;
+package com.threerings.toybox.data;
 
 import com.samskivert.util.StringUtil;
 
 import com.threerings.io.Streamable;
 
 /**
- * Defines a library dependency for a game.
+ * Defines a configuration parameter for a game. Various derived classes
+ * exist that define particular types of configuration parameters
+ * including choices, toggles, ranges, etc.
  */
-public class Library implements Streamable
+public abstract class Parameter implements Streamable
 {
-    /** The name of the library (minus the version and .jar extension). */
-    public String name;
-
-    /** The version of the library on which this game depends. */
-    public String version;
+    /** A string identifier that names this parameter. */
+    public String ident;
 
     /** Generates a string representation of this instance. */
     public String toString ()

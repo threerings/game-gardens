@@ -19,17 +19,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.xml;
+package com.threerings.toybox.data;
 
 /**
- * Models a parameter that allows the selection of one of a list of
- * choices (specified as strings).
+ * Models a paramter that can contain an integer value in a specified
+ * range.
  */
-public class ChoiceParameter extends Parameter
+public class RangeParameter extends Parameter
 {
-    /** The set of choices available for this parameter. */
-    public String[] choices;
+    /** The minimum value of this parameter. */
+    public int minimum;
 
-    /** The starting selection. */
-    public String start;
+    /** The maximum value of this parameter. */
+    public int maximum;
+
+    /** The starting value for this parameter. */
+    public int start;
 }

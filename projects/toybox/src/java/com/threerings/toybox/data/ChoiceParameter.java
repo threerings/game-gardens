@@ -19,22 +19,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.xml;
-
-import com.samskivert.util.StringUtil;
-
-import com.threerings.io.Streamable;
+package com.threerings.toybox.data;
 
 /**
- * Used to configure the match-making interface for a game. Particular
- * match-making mechanisms extend this class and specify their own special
- * configuration parameters.
+ * Models a parameter that allows the selection of one of a list of
+ * choices (specified as strings).
  */
-public abstract class MatchConfig implements Streamable
+public class ChoiceParameter extends Parameter
 {
-    /** Generates a string representation of this instance. */
-    public String toString ()
-    {
-        return StringUtil.fieldsToString(this);
-    }
+    /** The set of choices available for this parameter. */
+    public String[] choices;
+
+    /** The starting selection. */
+    public String start;
 }

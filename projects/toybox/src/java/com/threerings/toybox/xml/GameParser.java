@@ -35,9 +35,18 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.ObjectCreateRule;
 import org.apache.commons.digester.Rule;
 
+import com.samskivert.util.StringUtil;
 import com.samskivert.xml.SetFieldRule;
 import com.samskivert.xml.SetNextFieldRule;
 import com.samskivert.xml.SetPropertyFieldsRule;
+
+import com.threerings.toybox.data.ChoiceParameter;
+import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.Library;
+import com.threerings.toybox.data.MatchConfig;
+import com.threerings.toybox.data.RangeParameter;
+import com.threerings.toybox.data.TableMatchConfig;
+import com.threerings.toybox.data.ToggleParameter;
 
 /**
  * Parses the XML definition of a game.
@@ -51,16 +60,24 @@ public class GameParser
 
         // add the rules to parse the GameDefinition and its fields
         _digester.addObjectCreate("game", GameDefinition.class.getName());
-
         _digester.addRule("game/ident", new SetFieldRule("ident"));
-        _digester.addRule("game/config", new SetFieldRule("config"));
+        _digester.addRule("game/controller", new SetFieldRule("controller"));
+        _digester.addRule("game/manager", new SetFieldRule("manager"));
 
         _digester.addRule("game/match", new Rule() {
             public void begin (String namespace, String name, Attributes attrs)
                 throws Exception {
+                String type = attrs.getValue("type");
+                if (StringUtil.blank("type")) {
+                    String errmsg = "<match> block missing type attribute.";
+                    throw new Exception(errmsg);
+                }
+                addMatchParsingRules(digester, type);
             }
             public void end (String namespace, String name)
                 throws Exception {
+                MatchConfig match = (MatchConfig)digester.pop();
+                ((GameDefinition)digester.peek()).match = match;
             }
         });
 
@@ -127,6 +144,29 @@ public class GameParser
         _digester.push(list);
         _digester.parse(source);
         return (list.size() > 0) ? (GameDefinition)list.get(0) : null;
+    }
+
+    /**
+     * Adds the rules needed to parse a custom match config, as well as
+     * the {@link MatchConfig} derived instance itself, based on the
+     * supplied type.
+     */
+    protected void addMatchParsingRules (Digester digester, String type)
+        throws Exception
+    {
+        if (type.equals("table")) {
+            digester.push(new TableMatchConfig());
+            digester.addRule("game/match/min_seats",
+                             new SetFieldRule("minSeats"));
+            digester.addRule("game/match/max_seats",
+                             new SetFieldRule("maxSeats"));
+            digester.addRule("game/match/start_seats",
+                             new SetFieldRule("startSeats"));
+
+        } else {
+            String errmsg = "Unknown match-making config type '" + type + "'.";
+            throw new Exception(errmsg);
+        }
     }
 
     /**

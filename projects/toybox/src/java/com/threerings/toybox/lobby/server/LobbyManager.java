@@ -22,7 +22,11 @@
 package com.threerings.toybox.lobby.server;
 
 import com.threerings.crowd.server.PlaceManager;
+import com.threerings.parlor.server.TableManager;
+import com.threerings.parlor.server.TableManagerProvider;
 
+import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
@@ -34,6 +38,7 @@ import static com.threerings.toybox.lobby.Log.log;
  * Takes care of the server side of a particular lobby.
  */
 public class LobbyManager extends PlaceManager
+    implements TableManagerProvider
 {
     /**
      * Configures this lobby manager with its game record.
@@ -45,12 +50,31 @@ public class LobbyManager extends PlaceManager
                  _lconfig.getGameDefinition().ident + "'.");
     }
 
+    // documentation inherited from interface
+    public TableManager getTableManager ()
+    {
+        return _tablemgr;
+    }
+
     // documentation inherited
     protected void didInit ()
     {
         super.didInit();
 
         _lconfig = (LobbyConfig)_config;
+    }
+
+    // documentation inherited
+    protected void didStartup ()
+    {
+        super.didStartup();
+
+        // if we're using the table services to match-make, create a table
+        // manager
+        GameDefinition gdef = _lconfig.getGameDefinition();
+        if (gdef.match instanceof TableMatchConfig) {
+            _tablemgr = new TableManager(this);
+        }
     }
 
     // documentation inherited
@@ -64,4 +88,8 @@ public class LobbyManager extends PlaceManager
 
     /** The game record for the game that we're matchmaking. */
     protected Game _game;
+
+    /** Our table manager, which is only created if we're using tables to
+     * match-make in this lobby. */
+    protected TableManager _tablemgr;
 }

@@ -46,10 +46,10 @@ import com.threerings.crowd.server.PlaceRegistry;
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.server.LobbyManager;
 
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.persist.Game.Status;
 import com.threerings.toybox.server.persist.Game;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
-import com.threerings.toybox.xml.GameDefinition;
 
 import static com.threerings.toybox.Log.log;
 import static com.threerings.toybox.data.ToyBoxCodes.*;

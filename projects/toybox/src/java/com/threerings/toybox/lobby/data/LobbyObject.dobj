@@ -1,9 +1,14 @@
 //
-// $Id: LobbyObject.dobj,v 1.1 2004/11/15 01:48:51 mdb Exp $
+// $Id$
 
 package com.threerings.toybox.lobby.data;
 
+import com.threerings.presents.dobj.DSet;
+
 import com.threerings.crowd.data.PlaceObject;
+
+import com.threerings.parlor.data.Table;
+import com.threerings.parlor.data.TableLobbyObject;
 
 /**
  * Presently the lobby object contains nothing specific, but the class
@@ -11,5 +16,33 @@ import com.threerings.crowd.data.PlaceObject;
  * future.
  */
 public class LobbyObject extends PlaceObject
+    implements TableLobbyObject
 {
+    /** A set containing all of the tables being managed by this lobby.
+     * This may be empty if we're not using tables to match-make. */
+    public DSet tableSet = new DSet();
+
+    // documentation inherited
+    public DSet getTables ()
+    {
+        return tableSet;
+    }
+
+    // documentation inherited from interface
+    public void addToTables (Table table)
+    {
+        addToTableSet(table);
+    }
+
+    // documentation inherited from interface
+    public void updateTables (Table table)
+    {
+        updateTableSet(table);
+    }
+
+    // documentation inherited from interface
+    public void removeFromTables (Comparable key)
+    {
+        removeFromTableSet(key);
+    }
 }

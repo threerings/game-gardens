@@ -19,13 +19,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.xml;
+package com.threerings.toybox.data;
+
+import javax.swing.JComponent;
+
+import com.samskivert.util.StringUtil;
+import com.threerings.io.Streamable;
+
+import com.threerings.toybox.data.ToyBoxGameConfig;
+import com.threerings.toybox.util.ToyBoxContext;
 
 /**
- * Models a parameter that allows the toggling of a single value.
+ * Used to configure the match-making interface for a game. Particular
+ * match-making mechanisms extend this class and specify their own special
+ * configuration parameters.
  */
-public class ToggleParameter extends Parameter
+public abstract class MatchConfig implements Streamable
 {
-    /** The starting state for this parameter. */
-    public boolean start;
+    /** Derived classes override this method and create their match making
+     * view. */
+    public abstract JComponent createMatchMakingView (
+        ToyBoxContext ctx, ToyBoxGameConfig config);
+
+    /** Generates a string representation of this instance. */
+    public String toString ()
+    {
+        return StringUtil.fieldsToString(this);
+    }
 }
