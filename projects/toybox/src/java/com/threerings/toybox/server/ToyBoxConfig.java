@@ -23,9 +23,13 @@ package com.threerings.toybox.server;
 
 import java.io.File;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import com.samskivert.util.Config;
 import com.samskivert.util.StringUtil;
+
+import com.threerings.presents.client.Client;
+import com.threerings.presents.server.Authenticator;
 
 import static com.threerings.toybox.Log.log;
 
@@ -39,6 +43,32 @@ public class ToyBoxConfig
     /** Provides access to our config properties. <em>Do not</em> modify
      * these properties! */
     public static Config config = new Config("toybox");
+
+    /**
+     * Returns the port on which our game servers are listening.
+     */
+    public static int getServerPort ()
+    {
+        return config.getValue("server_port", Client.DEFAULT_SERVER_PORT);
+    }
+
+    /**
+     * Instantiates and returns the authenticator to be used by the
+     * server.
+     */
+    public static Authenticator getAuthenticator ()
+    {
+        String authclass = config.getValue("server_auth", "");
+        try {
+            if (!StringUtil.blank(authclass)) {
+                return (Authenticator)Class.forName(authclass).newInstance();
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to instantiate custom " +
+                    "authenticator [class=" + authclass + "]", e);
+        }
+        return null;
+    }
 
     /**
      * Returns the directory under which all resources are stored.

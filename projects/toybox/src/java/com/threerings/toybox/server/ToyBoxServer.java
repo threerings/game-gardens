@@ -32,10 +32,8 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.RootDObjectManager;
+import com.threerings.presents.server.Authenticator;
 import com.threerings.presents.server.InvocationManager;
-
-// // TEMP
-// import com.threerings.toybox.server.ooo.OOOAuthenticator;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdClient;
@@ -77,9 +75,11 @@ public class ToyBoxServer extends CrowdServer
         // create our database connection provider
         conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());
 
-//         // set up our authenticator; TODO: instantiate this from the
-//         // configuration file
-//         conmgr.setAuthenticator(new OOOAuthenticator());
+        // set up our authenticator
+        Authenticator auth = ToyBoxConfig.getAuthenticator();
+        if (auth != null) {
+            conmgr.setAuthenticator(auth);
+        }
 
         // initialize our managers
         parmgr.init(invmgr, plreg);
@@ -102,12 +102,7 @@ public class ToyBoxServer extends CrowdServer
      */
     protected int getListenPort ()
     {
-        int port = Client.DEFAULT_SERVER_PORT;
-        try {
-            port = Integer.parseInt(System.getProperty("port"));
-        } catch (Exception e) {
-        }
-        return port;
+        return ToyBoxConfig.getServerPort();
     }
 
     // documentation inherited

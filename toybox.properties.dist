@@ -16,6 +16,16 @@
 # resource_url = 
 
 #
+# Defines the port on which our game server's listen.
+
+# server_port = 4007
+
+#
+# Defines the client authenticator used by the server.
+
+# server_auth = com.foobar.FoobarAuthenticator
+
+#
 # Used when signing the Game Gardens client
 
 # sign.keystore = PATH_TO_KEYSTORE
