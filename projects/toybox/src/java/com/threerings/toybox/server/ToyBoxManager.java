@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import com.samskivert.io.PersistenceException;
+import com.samskivert.util.ResultListenerList;
 import com.samskivert.jdbc.ConnectionProvider;
 
 import org.apache.commons.io.IOUtils;
@@ -38,6 +39,7 @@ import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationManager;
 import com.threerings.presents.util.InvocationUtil;
+import com.threerings.presents.util.ResultAdapter;
 
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
@@ -137,9 +139,9 @@ public class ToyBoxManager
 
         // if we are currently loading this lobby, add this listener to
         // the list of penders
-        List<ResultListener> penders = _penders.get(gameIdent);
+        ResultListenerList penders = _penders.get(gameIdent);
         if (penders != null) {
-            penders.add(rl);
+            penders.add(new ResultAdapter(rl));
             return;
         }
 
@@ -173,9 +175,9 @@ public class ToyBoxManager
                 // register ourselves in the lobby table
                 _lobbyOids.put(gdef.ident, place.getOid());
                 // inform any resolution penders of the lobby oid
-                List<ResultListener> listeners = _penders.remove(game.ident);
+                ResultListenerList listeners = _penders.remove(game.ident);
                 if (listeners != null) {
-                    InvocationUtil.safeNotify(listeners, place.getOid());
+                    listeners.requestCompleted(place.getOid());
                 }
             }
         };
@@ -193,8 +195,8 @@ public class ToyBoxManager
 
     /** Contains pending listeners for lobbies in the process of being
      * resolved. */
-    protected HashMap<String,List<ResultListener>> _penders =
-        new HashMap<String,List<ResultListener>>();
+    protected HashMap<String,ResultListenerList> _penders =
+        new HashMap<String,ResultListenerList>();
 
     /** Contains a mapping from game identifier strings to lobby oids for
      * lobbies that have been resolved. */
