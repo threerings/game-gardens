@@ -29,8 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import java.io.IOException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 
@@ -92,8 +90,8 @@ public class LogonPanel extends JPanel
             _bgimg = ImageIO.read(
                 getClass().getClassLoader().getResourceAsStream(
                     "rsrc/media/logon_background.png"));
-        } catch (IOException ioe) {
-            log.log(Level.WARNING, "Failed to load background image.", ioe);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to load background image.", e);
         }
 
         // try obtaining our title text from a system property

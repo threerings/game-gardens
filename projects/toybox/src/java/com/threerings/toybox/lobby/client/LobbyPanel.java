@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 
-import java.io.IOException;
 import java.util.logging.Level;
 
 import com.samskivert.swing.GroupLayout;
@@ -138,8 +137,8 @@ public class LobbyPanel extends JPanel
                 ImageIO.read(
                     getClass().getClassLoader().getResourceAsStream(
                         "rsrc/media/lobby_background.png")));
-        } catch (IOException ioe) {
-            log.log(Level.WARNING, "Failed to load background image.", ioe);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to load background image.", e);
         }
 
         // properly configure all of our components
@@ -221,12 +220,13 @@ public class LobbyPanel extends JPanel
             } else if (comp instanceof JSlider) {
                 ((JSlider)comp).setOpaque(false);
             } else if (comp instanceof JScrollPane) {
-                ((JScrollPane)comp).getViewport().setBackground(LIGHT_BLUE);
+                ((JScrollPane)comp).getViewport().setBackground(
+                    ToyBoxUI.LIGHT_BLUE);
             } else if (comp instanceof JLabel) {
                 comp.setForeground(Color.white);
             } else if (comp instanceof JList ||
                        comp instanceof JComboBox) {
-                comp.setBackground(LIGHT_BLUE);
+                comp.setBackground(ToyBoxUI.LIGHT_BLUE);
             }
         }
     };
@@ -251,7 +251,4 @@ public class LobbyPanel extends JPanel
 
     /** Our background image. */
     protected Mirage _bgimg;
-
-    /** The background color we use for scrolly bits. */
-    protected static final Color LIGHT_BLUE = new Color(0xC8E1E9);
 }

@@ -22,18 +22,27 @@
 package com.threerings.toybox.client;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
 
 import javax.swing.event.AncestorEvent;
 
@@ -66,8 +75,6 @@ import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.OccupantInfo;
 import com.threerings.crowd.data.PlaceObject;
 
-import com.threerings.media.SafeScrollPane;
-
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -97,8 +104,42 @@ public class ChatPanel extends JPanel
 
         // create our scrolling chat text display
         _text = new JTextPane();
+        _text.setOpaque(false);
         _text.setEditable(false);
-        add(new SafeScrollPane(_text));
+
+        // we need to create an ultra-custom scroll pane that combines the
+        // safe-scroll-pane stuff with a painted background image
+        add(new JScrollPane(_text) {
+            protected JViewport createViewport ()
+            {
+                JViewport vp = new JViewport() {
+                    public void setViewPosition (Point p) {
+                        super.setViewPosition(p);
+                        // simple scroll mode results in setViewPosition
+                        // causing our view to become invalid, but nothing
+                        // ever happens to queue up a revalidate for said
+                        // view, so we have to do it here
+                        Component c = getView();
+                        if (c instanceof JComponent) {
+                            ((JComponent)c).revalidate();
+                        }
+                    }
+                    public void paintComponent (Graphics g) {
+                        super.paintComponent(g);
+                        // start with the light blue background
+                        g.setColor(ToyBoxUI.LIGHT_BLUE);
+                        g.fillRect(0, 0, getWidth(), getHeight());
+                        // and draw our background image in the lower left
+                        if (_bgimg != null) {
+                            int yoff = getHeight() - _bgimg.getHeight();
+                            g.drawImage(_bgimg, getX(), getY()+yoff, null);
+                        }
+                    }
+                };
+                vp.setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+                return vp;
+            }
+        });
 
         // create our styles and add those to the text pane
         createStyles(_text);
@@ -121,6 +162,15 @@ public class ChatPanel extends JPanel
         _send.setActionCommand("send");
         epanel.add(_send, GroupLayout.FIXED);
         add(epanel, GroupLayout.FIXED);
+
+        // load up our chat background image
+        try {
+            _bgimg = ImageIO.read(
+                getClass().getClassLoader().getResourceAsStream(
+                    "rsrc/media/chat_background.png"));
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to load background image.", e);
+        }
 
         // listen to ancestor events to request focus when added
         addAncestorListener(new AncestorAdapter() {
@@ -362,6 +412,7 @@ public class ChatPanel extends JPanel
     protected JTextPane _text;
     protected JButton _send;
     protected JTextField _entry;
+    protected BufferedImage _bgimg;
 
     protected Style _nameStyle;
     protected Style _msgStyle;

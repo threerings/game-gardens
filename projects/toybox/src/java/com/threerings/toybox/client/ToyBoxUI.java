@@ -21,9 +21,10 @@
 
 package com.threerings.toybox.client;
 
+import java.awt.Color;
 import java.awt.Font;
-import java.io.InputStream;
 
+import java.io.InputStream;
 import java.util.logging.Level;
 
 import com.threerings.toybox.util.ToyBoxContext;
@@ -37,6 +38,9 @@ public class ToyBoxUI
 {
     /** The fancy cursive font we use to display game names. */
     public static Font fancyFont;
+
+    /** The nice blue background we use for scrolly bits. */
+    public static final Color LIGHT_BLUE = new Color(0xC8E1E9);
 
     public static void init (ToyBoxContext ctx)
     {
