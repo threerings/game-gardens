@@ -29,6 +29,8 @@ import com.threerings.parlor.client.GameConfigurator;
 import com.threerings.parlor.data.TableConfig;
 import com.threerings.parlor.game.GameConfig;
 
+import com.threerings.toybox.client.ToyBoxGameConfigurator;
+
 import static com.threerings.toybox.Log.log;
 
 /**
@@ -82,8 +84,7 @@ public class ToyBoxGameConfig extends GameConfig
     // documentation inherited
     public GameConfigurator createConfigurator ()
     {
-        // TODO: sort out
-        return null;
+        return new ToyBoxGameConfigurator();
     }
 
     // documentation inherited

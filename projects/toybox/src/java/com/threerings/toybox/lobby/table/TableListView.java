@@ -51,6 +51,7 @@ import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
+import com.threerings.toybox.lobby.data.LobbyCodes;
 import com.threerings.toybox.lobby.data.LobbyObject;
 
 import static com.threerings.toybox.lobby.Log.log;
@@ -107,8 +108,9 @@ public class TableListView extends JPanel
             panel.add(_figger, VGroupLayout.FIXED);
         }
 
-        // TODO: get a message bundle and translate "Seats"
-        panel.add(_pslide = new SimpleSlider("Seats:", 0, 10, 0),
+        // add the interface for selecting the number of seats at the table
+        String label = ctx.xlate(LobbyCodes.LOBBY_MSGS, "m.seats");
+        panel.add(_pslide = new SimpleSlider(label, 0, 10, 0),
                   VGroupLayout.FIXED);
 
         // configure our slider
