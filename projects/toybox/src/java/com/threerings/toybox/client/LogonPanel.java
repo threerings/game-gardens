@@ -70,6 +70,7 @@ public class LogonPanel extends JPanel
         _msgs = _ctx.getMessageManager().getBundle("client.logon");
 
 	setLayout(new VGroupLayout());
+        setBackground(ToyBoxUI.LIGHT_BLUE);
 
         // stick the logon components into a panel that will stretch them
         // to a sensible width
