@@ -1,0 +1,72 @@
+<!--#set var="title" value="Tutorial: Getting Started"-->
+<!--#include virtual="/header.html" -->
+
+<p><b>Building and Playing the Sample Games</b><br>
+You should have the sample games downloaded and unpacked. If you haven't
+done that yet, you can download the necessaries from <a href="/howto/">the
+main tutorial page</a>. This will be a directory tree looking something
+like the following:
+
+<pre class="example">
+games/bin - various scripts
+games/lib - various jar files
+games/atlantis - one of the sample games
+games/skirmish - another of the sample games
+</pre>
+
+<p> You will need <a href="http://ant.apache.org/">Ant</a> installed to
+build the sample games and, of course,
+<a href="http://java.sun.com/">Java</a> as well. Note that JDK 1.5 is
+required to build and run the games.
+
+<p> From here, there are two sets of instructions on compiling and running
+the sample games:
+
+<ul>
+<li> <a href="#unix">Unix (Linux, MacOS X, etc.)</a>
+<li> <a href="#windows">Windows</a>
+</ul>
+
+<p><b><a name="unix">Getting Started on Unix (Linux, MacOS X, etc.)</a></b><br>
+
+<p> Change into the <code>atlantis</code> directory and build the game:
+
+<pre class="example">
+cd games/atlantis
+ant dist
+</pre>
+
+<p> Now change back into the top-level <code>games</code> directory and
+run the server:
+
+<pre class="example">
+cd ..
+./bin/toyserver atlantis
+</pre>
+
+<p> In another terminal window, run a client as username
+<code>laurel</code> (or pick any username you like, it doesn't matter):
+
+<pre class="example">
+./bin/toyclient laurel
+</pre>
+
+<p> And in yet another terminal window, run a second client:
+
+<pre class="example">
+./bin/toyclient hardy
+</pre>
+
+<p> You should now be logged into your own multiplayer game server with
+two clients and you can create a table and play a fine game of Atlantis
+against yourself.
+
+<p> You can compile the <code>skirmish</code> sample game in the same way
+and run the server with that game to try it out. Simple replace
+<code>atlantis</code> on the command line with <code>skirmish</code> when
+running the server and the run the clients.
+
+<p><b><a name="windows">Getting Started on Windows</a></b><br>
+Coming soon.
+
+<!--#include virtual="/footer.html" -->
