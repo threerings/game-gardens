@@ -26,6 +26,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -101,6 +102,7 @@ public class ChatPanel extends JPanel
         GroupLayout gl = new VGroupLayout(GroupLayout.STRETCH);
 	gl.setOffAxisPolicy(GroupLayout.STRETCH);
 	setLayout(gl);
+        setOpaque(false);
 
         // create our scrolling chat text display
         _text = new JTextPane();
@@ -151,6 +153,7 @@ public class ChatPanel extends JPanel
         // create a horizontal group for the text entry bar
         gl = new HGroupLayout(GroupLayout.STRETCH);
         JPanel epanel = new JPanel(gl);
+        epanel.setOpaque(false);
         epanel.add(_entry = new JTextField());
         _entry.setActionCommand("send");
         _entry.addActionListener(this);
@@ -258,7 +261,7 @@ public class ChatPanel extends JPanel
 
     protected void displayOccupantMessage (String message)
     {
-        append(message + "\n", _noticeStyle);
+        appendAndScroll(message, _noticeStyle);
     }
 
     protected void sendText ()
@@ -326,7 +329,7 @@ public class ChatPanel extends JPanel
         if (message instanceof UserMessage) {
             UserMessage msg = (UserMessage) message;
             String type = "m.chat_prefix_" + msg.mode;
-            Style nameStyle = _nameStyle, msgStyle = _msgStyle;
+            Style msgStyle = _msgStyle;
             if (msg.localtype == ChatCodes.USER_CHAT_TYPE) {
                 type = "m.chat_prefix_tell";
             }
@@ -334,15 +337,15 @@ public class ChatPanel extends JPanel
                 msgStyle = _noticeStyle;
             }
 
-            String text = MessageBundle.tcompose(type, msg.speaker);
-            append(_ctx.xlate(CHAT_MSGS, text) + " ", nameStyle);
-            append(msg.message + "\n", msgStyle);
+            String speaker = MessageBundle.tcompose(type, msg.speaker);
+            speaker = _ctx.xlate(CHAT_MSGS, speaker);
+            appendAndScroll(speaker, msg.message, msgStyle);
 
         } else if (message instanceof SystemMessage) {
-            append(message.message + "\n", _noticeStyle);
+            appendAndScroll(message.message, _noticeStyle);
 
         } else if (message instanceof TellFeedbackMessage) {
-            append(message.message + "\n", _feedbackStyle);
+            appendAndScroll(message.message, _feedbackStyle);
 
         } else {
             log.warning("Received unknown message type [message=" +
@@ -352,12 +355,34 @@ public class ChatPanel extends JPanel
 
     protected void displayFeedback (String message)
     {
-        append(_ctx.xlate(CHAT_MSGS, message) + "\n", _feedbackStyle);
+        appendAndScroll(_ctx.xlate(CHAT_MSGS, message), _feedbackStyle);
     }
 
     protected void displayError (String message)
     {
-        append(_ctx.xlate(CHAT_MSGS, message) + "\n", _errStyle);
+        appendAndScroll(_ctx.xlate(CHAT_MSGS, message), _errStyle);
+    }
+
+    protected void appendAndScroll (String message, Style style)
+    {
+        if (_text.getDocument().getLength() > 0) {
+            message = "\n" + message;
+        }
+        append(message, style);
+        _text.scrollRectToVisible(
+            new Rectangle(0, _text.getHeight(), _text.getWidth(), 1));
+    }
+
+    protected void appendAndScroll (String speaker, String message, Style style)
+    {
+        if (_text.getDocument().getLength() > 0) {
+            speaker = "\n" + speaker;
+        }
+        append(speaker + " ", _nameStyle);
+        append(message, style);
+
+        _text.scrollRectToVisible(
+            new Rectangle(0, _text.getHeight(), _text.getWidth(), 1));
     }
 
     /**
