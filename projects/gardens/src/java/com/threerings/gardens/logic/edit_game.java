@@ -10,7 +10,8 @@ import com.samskivert.servlet.util.FriendlyException;
 import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.velocity.InvocationContext;
 
-import com.threerings.toybox.data.Game;
+import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.Game.Status;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -57,7 +58,7 @@ public class edit_game extends UserLogic
         } else if (action.equals("create")) {
             // create a blank game and configure it
             game = new Game();
-            game.status = Game.PENDING;
+            game.status = Status.PENDING;
             game.maintainerId = user.userId;
             // TODO: get host from ToyBoxConfig?
             game.host = req.getServerName();
@@ -77,7 +78,7 @@ public class edit_game extends UserLogic
         } else {
             ctx.put("action", "create");
             game = new Game();
-            game.name = "";
+            game.ident = "";
             game.definition = "";
             game.testDefinition = "";
             ctx.put("game", game);
@@ -87,10 +88,10 @@ public class edit_game extends UserLogic
     protected void populateGame (HttpServletRequest req, Game game)
         throws Exception
     {
-        // read in and validate the name
-        game.name = ParameterUtil.requireParameter(
-            req, "name", "edit_game.error.missing_name");
-        // TODO: validate name
+        // read in and validate the identifier
+        game.ident = ParameterUtil.requireParameter(
+            req, "ident", "edit_game.error.missing_ident");
+        // TODO: validate identifier
 
         // read in and validate the definition
         game.definition = ParameterUtil.requireParameter(

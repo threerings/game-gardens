@@ -13,7 +13,7 @@
   <!-- declare our classpath -->
   <path id="classpath">
     <pathelement location="${deploy.dir}/WEB-INF/classes"/>
-    <fileset dir="lib" includes="**/*.jar"/>
+    <fileset dir="${base.dir}/lib" includes="**/*.jar"/>
   </path>
 
   <!-- prepares the application directories -->
@@ -31,7 +31,7 @@
     <mkdir dir="${deploy.dir}/WEB-INF/lib"/>
     <!-- copy the library jar files -->
     <copy todir="${deploy.dir}/WEB-INF/lib">
-      <fileset dir="lib" includesfile="lib/LIBS"/>
+      <fileset dir="${base.dir}/lib" includesfile="lib/LIBS"/>
     </copy>
   </target>
 

@@ -15,8 +15,8 @@ import com.samskivert.velocity.InvocationContext;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 
-import com.threerings.toybox.data.Game;
 import com.threerings.toybox.server.ToyBoxConfig;
+import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -63,8 +63,8 @@ public class upload_jar extends UserLogic
         }
 
         // determine where we will be uploading the jar file
-        File gdir = ToyBoxConfig.getGameDirectory(game);
-        Log.info("Uploading jar for '" + game.name + "'.");
+        File gdir = ToyBoxConfig.getResourceDir();
+        Log.info("Uploading jar for '" + game.ident + "'.");
 
         // TODO: get a version number from the game record
 

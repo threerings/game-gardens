@@ -14,9 +14,9 @@ import com.samskivert.velocity.Application;
 import com.samskivert.velocity.InvocationContext;
 import com.samskivert.velocity.Logic;
 
-import com.threerings.toybox.data.Game;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.server.ToyBoxConfig;
+import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -54,7 +54,7 @@ public class game_jnlp implements Logic
 
         ctx.put("base_path", req.getContextPath());
         ctx.put("codebase", codebase.toString());
-        ctx.put("libs_dir", ToyBoxCodes.LIBRARY_SUBDIR);
+        ctx.put("libs_dir", ToyBoxCodes.LIBRARY_DIR);
         ctx.put("jre_version", "1.4.2+"); // TODO: allow per game custom.
         ctx.put("server", game.host);
     }
