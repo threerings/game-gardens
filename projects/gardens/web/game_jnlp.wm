@@ -18,7 +18,7 @@
     <vendor>Three Rings Design, Inc.</vendor>
     <homepage href="$base_path/view_game.wm?gameid=$game.gameId"/>
     <!--<icon kind="splash" href="images/splash.gif"/>-->
-    <!--<icon href="images/yohoho.gif"/>-->
+    <icon href="/images/icon.png"/>
 <!--    <description kind="short">
       ...
     </description> -->
