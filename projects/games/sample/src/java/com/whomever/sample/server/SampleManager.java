@@ -3,7 +3,7 @@
 
 package com.whomever.sample.server;
 
-import com.threerings.parlor.game.GameManager;
+import com.threerings.parlor.game.server.GameManager;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 
 import com.whomever.sample.data.SampleBoard;

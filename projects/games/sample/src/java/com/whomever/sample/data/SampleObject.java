@@ -3,7 +3,7 @@
 
 package com.whomever.sample.data;
 
-import com.threerings.parlor.game.GameObject;
+import com.threerings.parlor.game.data.GameObject;
 
 /**
  * Maintains the board state of a sample game.
