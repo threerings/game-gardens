@@ -22,6 +22,7 @@
 package com.threerings.toybox.util;
 
 import com.threerings.media.FrameManager;
+import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageManager;
 
 import com.threerings.parlor.util.ParlorContext;
@@ -48,4 +49,9 @@ public interface ToyBoxContext extends ParlorContext
      * Returns a reference to our frame manager (used for media services).
      */
     public FrameManager getFrameManager ();
+
+    /**
+     * Returns a reference to our key dispatcher.
+     */
+    public KeyDispatcher getKeyDispatcher ();
 }

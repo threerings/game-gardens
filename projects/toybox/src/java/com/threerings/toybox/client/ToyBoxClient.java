@@ -34,6 +34,7 @@ import com.samskivert.util.Config;
 import com.samskivert.util.RunQueue;
 import com.samskivert.util.StringUtil;
 import com.threerings.media.FrameManager;
+import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageManager;
 
 import com.threerings.presents.client.Client;
@@ -77,6 +78,7 @@ public class ToyBoxClient
         _frame = frame;
         // TODO: set the title from a translated string
         _frame.setTitle("ToyBox");
+        _keydisp = new KeyDispatcher(frame);
 
         // log off when they close the window
         _frame.addWindowListener(new WindowAdapter() {
@@ -253,6 +255,11 @@ public class ToyBoxClient
         {
             return _frame.getFrameManager();
         }
+
+        public KeyDispatcher getKeyDispatcher ()
+        {
+            return _keydisp;
+        }
     }
 
     protected ToyBoxContext _ctx;
@@ -261,6 +268,7 @@ public class ToyBoxClient
 
     protected Client _client;
     protected MessageManager _msgmgr;
+    protected KeyDispatcher _keydisp;
 
     protected LocationDirector _locdir;
     protected OccupantDirector _occdir;
