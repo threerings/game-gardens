@@ -2,7 +2,7 @@
 #import ("/header.wm")
 
 #if ($games.size() > 0)
-<table>
+<p><table>
 #foreach ($game in $games)
 <tr><td><a href="edit_game.wm?gameid=$game.gameId">$game.name</a></td></tr>
 #end
