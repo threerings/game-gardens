@@ -58,6 +58,7 @@ import com.threerings.crowd.chat.client.ChatDisplay;
 import com.threerings.crowd.chat.data.ChatCodes;
 import com.threerings.crowd.chat.data.ChatMessage;
 import com.threerings.crowd.chat.data.SystemMessage;
+import com.threerings.crowd.chat.data.TellFeedbackMessage;
 import com.threerings.crowd.chat.data.UserMessage;
 
 import com.threerings.crowd.client.OccupantObserver;
@@ -83,7 +84,7 @@ public class ChatPanel extends JPanel
         _ctx = ctx;
 
         // create our chat director and register ourselves with it
-        _chatdtr = new ChatDirector(_ctx, null, null);
+        _chatdtr = ctx.getChatDirector();
         _chatdtr.addChatDisplay(this);
 
         // register as an occupant observer
@@ -168,7 +169,10 @@ public class ChatPanel extends JPanel
         StyleConstants.setForeground(_errStyle, Color.red);
 
         _noticeStyle = text.addStyle("notice", defstyle);
-        StyleConstants.setForeground(_noticeStyle, Color.magenta);
+        StyleConstants.setForeground(_noticeStyle, Color.magenta.darker());
+
+        _feedbackStyle = text.addStyle("feedback", defstyle);
+        StyleConstants.setForeground(_feedbackStyle, Color.green.darker());
     }
 
     // documentation inherited
@@ -236,8 +240,18 @@ public class ChatPanel extends JPanel
             _chatdtr.clearDisplays();
 
         } else if (text.startsWith("/broadcast ")) {
-            text = text.substring(11);
-            _chatdtr.requestSpeak(text, ChatCodes.BROADCAST_MODE);
+            text = text.substring(text.indexOf(" ")+1);
+            _chatdtr.requestBroadcast(text);
+
+        } else if (text.startsWith("/help")) {
+            displayFeedback("m.chat_help");
+
+        } else if (text.startsWith("/")) {
+            int sidx = text.indexOf(" ");
+            if (sidx != -1) {
+                text = text.substring(0, sidx);
+            }
+            displayError(MessageBundle.tcompose("m.unknown_command", text));
 
         } else if (!StringUtil.blank(text)) {
             // request to send this text as a chat message
@@ -265,7 +279,6 @@ public class ChatPanel extends JPanel
                 type = "m.chat_prefix_tell";
             }
             if (msg.mode == ChatCodes.BROADCAST_MODE) {
-                nameStyle = _noticeStyle;
                 msgStyle = _noticeStyle;
             }
 
@@ -276,10 +289,18 @@ public class ChatPanel extends JPanel
         } else if (message instanceof SystemMessage) {
             append(message.message + "\n", _noticeStyle);
 
+        } else if (message instanceof TellFeedbackMessage) {
+            append(message.message + "\n", _feedbackStyle);
+
         } else {
             log.warning("Received unknown message type [message=" +
                         message + "].");
         }
+    }
+
+    protected void displayFeedback (String message)
+    {
+        append(_ctx.xlate(CHAT_MSGS, message) + "\n", _feedbackStyle);
     }
 
     protected void displayError (String message)
@@ -344,6 +365,7 @@ public class ChatPanel extends JPanel
     protected Style _msgStyle;
     protected Style _errStyle;
     protected Style _noticeStyle;
+    protected Style _feedbackStyle;
 
     /** A width that isn't so skinny that the text is teeny. */
     protected static final int PREFERRED_WIDTH = 200;

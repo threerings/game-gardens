@@ -39,6 +39,7 @@ import com.threerings.presents.net.UsernamePasswordCreds;
 import com.threerings.presents.server.Authenticator;
 import com.threerings.presents.server.net.AuthingConnection;
 
+import com.threerings.toybox.data.TokenRing;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.ToyBoxServer;
 
@@ -119,6 +120,13 @@ public class OOOAuthenticator extends Authenticator
                 rdata.code = INVALID_PASSWORD;
                 return;
             }
+
+            // configure a token ring for this user
+            int tokens = 0;
+            if (user.holdsToken(OOOUser.ADMIN)) {
+                tokens |= TokenRing.ADMIN;
+            }
+            rsp.authdata = new TokenRing(tokens);
 
             log.info("User logged on [user=" + username + "].");
             rdata.code = AuthResponseData.SUCCESS;

@@ -25,7 +25,9 @@ import com.threerings.presents.net.BootstrapData;
 
 import com.threerings.crowd.server.CrowdClient;
 
+import com.threerings.toybox.data.TokenRing;
 import com.threerings.toybox.data.ToyBoxBootstrapData;
+import com.threerings.toybox.data.ToyBoxUserObject;
 import com.threerings.toybox.server.ToyBoxConfig;
 
 /**
@@ -44,5 +46,26 @@ public class ToyBoxClient extends CrowdClient
     {
         super.populateBootstrapData(data);
         ((ToyBoxBootstrapData)data).resourceURL = ToyBoxConfig.getResourceURL();
+    }
+
+    // documentation inherited
+    protected void sessionWillStart ()
+    {
+        super.sessionWillStart();
+
+        // configure a slightly more lenient access controller in the
+        // user's client object
+        _clobj.setAccessController(ToyBoxObjectAccess.USER);
+
+        // if we have auth data in the form of a token ring, use it (we
+        // can set things directly here rather than use the setter methods
+        // because the user object is not yet out in the wild)
+        ToyBoxUserObject user = (ToyBoxUserObject)_clobj;
+        if (_authdata instanceof TokenRing) {
+            user.tokens = (TokenRing)_authdata;
+        } else {
+            // otherwise give them zero privileges
+            user.tokens = new TokenRing();
+        }
     }
 }

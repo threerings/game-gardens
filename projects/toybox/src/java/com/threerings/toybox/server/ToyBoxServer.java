@@ -72,6 +72,12 @@ public class ToyBoxServer extends CrowdServer
         // configure the client manager to use the appropriate client class
         clmgr.setClientClass(ToyBoxClient.class);
 
+        // configure the client manager to use our resolver
+        clmgr.setClientResolverClass(ToyBoxClientResolver.class);
+
+        // configure the dobject manager with our access controller
+        omgr.setDefaultAccessController(ToyBoxObjectAccess.DEFAULT);
+
         // create our database connection provider
         conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());
 

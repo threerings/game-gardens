@@ -139,7 +139,7 @@ public class ToyBoxClient
             }
         };
         _occdir = new OccupantDirector(_ctx);
-        _chatdir = new ChatDirector(_ctx, _msgmgr, "global");
+        _chatdir = new ChatDirector(_ctx, _msgmgr, ChatPanel.CHAT_MSGS);
         _pardtr = new ParlorDirector(_ctx);
         _toydtr = new ToyBoxDirector(_ctx);
     }
