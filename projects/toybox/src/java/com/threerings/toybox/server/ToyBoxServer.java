@@ -107,7 +107,7 @@ public class ToyBoxServer extends CrowdServer
         InvocationManager invmgr, RootDObjectManager omgr)
     {
         return new PlaceRegistry(invmgr, omgr) {
-            protected ClassLoader getClassLoader (PlaceConfig config) {
+            public ClassLoader getClassLoader (PlaceConfig config) {
                 ClassLoader loader = toymgr.getClassLoader(config);
                 return (loader == null) ? super.getClassLoader(config) : loader;
             }
