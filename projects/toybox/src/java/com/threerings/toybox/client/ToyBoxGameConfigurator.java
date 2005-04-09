@@ -165,6 +165,7 @@ public class ToyBoxGameConfigurator extends GameConfigurator
                                        HGroupLayout.LEFT));
             add(_box = new JCheckBox(
                     msgs.get("m.toggle_" + param.ident), param.start));
+            _box.setOpaque(false);
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
