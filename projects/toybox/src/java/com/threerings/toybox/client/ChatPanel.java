@@ -91,6 +91,11 @@ public class ChatPanel extends JPanel
 
     public ChatPanel (ToyBoxContext ctx)
     {
+        this(ctx, false);
+    }
+
+    public ChatPanel (ToyBoxContext ctx, boolean horizontal)
+    {
         // keep this around for later
         _ctx = ctx;
 
@@ -149,12 +154,17 @@ public class ChatPanel extends JPanel
         createStyles(_text);
 
         // add a label for the text entry stuff
-        add(new JLabel(_ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.chat_help")),
-            GroupLayout.FIXED);
+        String htext = _ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.chat_help");
+        if (!horizontal) {
+            add(new JLabel(htext), GroupLayout.FIXED);
+        }
 
         // create a horizontal group for the text entry bar
         gl = new HGroupLayout(GroupLayout.STRETCH);
         JPanel epanel = new JPanel(gl);
+        if (horizontal) {
+            epanel.add(new JLabel(htext), GroupLayout.FIXED);
+        }
         epanel.setOpaque(false);
         epanel.add(_entry = new JTextField());
         _entry.setActionCommand("send");
@@ -165,7 +175,9 @@ public class ChatPanel extends JPanel
         _send.setEnabled(false);
         _send.addActionListener(this);
         _send.setActionCommand("send");
-        epanel.add(_send, GroupLayout.FIXED);
+        if (horizontal) {
+            epanel.add(_send, GroupLayout.FIXED);
+        }
         add(epanel, GroupLayout.FIXED);
 
         // load up our chat background image
@@ -193,13 +205,13 @@ public class ChatPanel extends JPanel
      * For applications where the chat box has extremely limited space,
      * the send button can be removed to leave more space for the text
      * input box.
+     *
+     * @deprectated Pass non-horizontal to the constructor instead.
      */
     public void removeSendButton ()
     {
-        if (_send.isVisible()) {
-            // _send.getParent().remove(_send);
-            _send.setVisible(false);
-        }
+        // this is now handled by specifying a horizontal or vertical
+        // layout when creating the chat panel
     }
 
     /**

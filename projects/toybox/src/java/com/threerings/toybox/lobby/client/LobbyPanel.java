@@ -24,6 +24,7 @@ package com.threerings.toybox.lobby.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 
@@ -98,7 +99,9 @@ public class LobbyPanel extends JPanel
         _main = new JPanel(gl);
 
         // create a chat box and stick that in
-        _main.add(new ChatPanel(ctx));
+        ChatPanel cp = new ChatPanel(ctx, true);
+        cp.setPreferredSize(new Dimension(100, 200));
+        _main.add(cp, GroupLayout.FIXED);
 
         // set up the title and main panel
         _title = new MultiLineLabel("", MultiLineLabel.CENTER);
@@ -114,9 +117,6 @@ public class LobbyPanel extends JPanel
         JLabel label = new JLabel(_msgs.get("m.occupants"));
         sidePanel.add(label, GroupLayout.FIXED);
         sidePanel.add(_occupants = new OccupantList(ctx));
-
-        // match the space that shows up below the font
-        sidePanel.add(new Spacer(1, 15), GroupLayout.FIXED);
 
         JButton logoff = new JButton(_msgs.get("m.logoff"));
         logoff.addActionListener(LobbyController.DISPATCHER);
