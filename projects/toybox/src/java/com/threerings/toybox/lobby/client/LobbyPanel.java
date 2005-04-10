@@ -31,6 +31,7 @@ import javax.imageio.ImageIO;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -211,6 +212,9 @@ public class LobbyPanel extends JPanel
         public void apply (Component comp) {
             if (comp instanceof JPanel) {
                 ((JPanel)comp).setOpaque(false);
+            } else if (comp instanceof JCheckBox) {
+                ((JCheckBox)comp).setOpaque(false);
+                comp.setForeground(Color.white);
             } else if (comp instanceof JSlider) {
                 ((JSlider)comp).setOpaque(false);
                 comp.setForeground(Color.white);
