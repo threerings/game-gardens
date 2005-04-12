@@ -342,7 +342,7 @@ public class ToyBoxDirector extends BasicDirector
     protected File _cacheDir;
 
     protected ClassLoader _gameLoader;
-    protected ResourceManager _gameResource;
+    protected ResourceManager _gameResource = new ResourceManager("rsrc");
 
     /** Contains an entry for all resources in the process of being
      * downloaded. */
