@@ -68,6 +68,70 @@ public class ToyBoxPrefs
         config.setValue(makeKey(gameId, username), v);
     }
 
+    /**
+     * Returns the user's username.
+     */
+    public static String getUsername ()
+    {
+        return config.getValue(USERNAME_KEY, "");
+    }
+
+    /**
+     * Sets the user's username.
+     */
+    public static void setUsername (String value)
+    {
+        config.setValue(USERNAME_KEY, value);
+    }
+
+    /**
+     * Returns the user's (encrypted) password.
+     */
+    public static String getPassword ()
+    {
+        return config.getValue(PASSWORD_KEY, "");
+    }
+
+    /**
+     * Sets the user's (encrypted) password.
+     */
+    public static void setPassword (String value)
+    {
+        config.setValue(PASSWORD_KEY, value);
+    }
+
+    /**
+     * Gets the length of the unencrypted password.
+     */
+    public static int getPasswordLength ()
+    {
+        return config.getValue(PASSWORD_LEN_KEY, 0);
+    }
+
+    /**
+     * Sets the length of the unencrypted password.
+     */
+    public static void setPasswordLength (int len)
+    {
+        config.setValue(PASSWORD_LEN_KEY, len);
+    }
+
+    /**
+     * Returns whether we're remembering the user's password.
+     */
+    public static boolean getRememberPassword ()
+    {
+        return config.getValue(REMEMBER_PASSWORD_KEY, false);
+    }
+
+    /**
+     * Sets whether we're remembering the user's password.
+     */
+    public static void setRememberPassword (boolean value)
+    {
+        config.setValue(REMEMBER_PASSWORD_KEY, value);
+    }
+
     /** A helper function. */
     protected static String makeKey (String gameId, String username)
     {
@@ -77,4 +141,16 @@ public class ToyBoxPrefs
         }
         return key;
     }
+
+    /** The configuration key for the user's username. */
+    protected static final String USERNAME_KEY = "username";
+
+    /** The configuration key for the user's password. */
+    protected static final String PASSWORD_KEY = "password";
+
+    /** The configuration key for the user's password length. */
+    protected static final String PASSWORD_LEN_KEY = "password_len";
+
+    /** The configuration key for whether the user's password is remembered. */
+    protected static final String REMEMBER_PASSWORD_KEY = "remember_password";
 }

@@ -35,6 +35,7 @@ import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -43,6 +44,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.samskivert.servlet.user.Password;
+import com.samskivert.util.StringUtil;
 import com.samskivert.swing.GroupLayout;
 import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.MultiLineLabel;
@@ -137,6 +139,7 @@ public class LogonPanel extends JPanel
         bar.add(new JLabel(_msgs.get("m.username")));
         bar.setOpaque(false);
         _username = new JTextField();
+        _username.setText(ToyBoxPrefs.getUsername());
         _username.setPreferredSize(new Dimension(100, 20));
         _username.setActionCommand("skipToPassword");
         _username.addActionListener(this);
@@ -157,6 +160,11 @@ public class LogonPanel extends JPanel
         _logon.setActionCommand("logon");
         _logon.addActionListener(this);
         hbox.add(_logon);
+
+        _remember = new JCheckBox(_msgs.get("m.remember_password"));
+        _remember.setOpaque(false);
+        _remember.setSelected(ToyBoxPrefs.getRememberPassword());
+        box.add(_remember);
 
         _status = new MultiLineLabel(_msgs.get("m.please_logon"));
         box.add(_status);
@@ -263,9 +271,28 @@ public class LogonPanel extends JPanel
                                             server, String.valueOf(port));
         _status.setText(_msgs.xlate(msg) + "\n");
 
+        // take care of the password stuff
+        int pwLen = ToyBoxPrefs.getPasswordLength();
+        Password encPw;
+        if (StringUtil.fill('*', pwLen).equals(password)) {
+            // use their stored value
+            encPw = Password.makeFromCrypto(ToyBoxPrefs.getPassword());
+        } else {
+            // use what they typed
+            pwLen = password.length();
+            encPw = Password.makeFromClear(password);
+        }
+
+        // update the logon-related config values
+        ToyBoxPrefs.setUsername(username);
+        boolean remember = _remember.isSelected();
+        ToyBoxPrefs.setPassword(remember ? encPw.getEncrypted() : "");
+        ToyBoxPrefs.setPasswordLength(remember ? pwLen : 0); 
+        ToyBoxPrefs.setRememberPassword(remember);
+
         // configure the client with some credentials and logon
         Client client = _ctx.getClient();
-        client.setCredentials(createCredentials(username, password));
+        client.setCredentials(createCredentials(username, encPw));
         client.logon();
     }
 
@@ -278,10 +305,15 @@ public class LogonPanel extends JPanel
 
     /** Creates the appropriate type of credentials from the supplied
      * username and plaintext password. */
-    public static Credentials createCredentials (
-        String username, String password)
+    public static Credentials createCredentials (String username, String pw)
     {
-        Password pw = Password.makeFromClear(password);
+        return createCredentials(username, Password.makeFromClear(pw));
+    }
+
+    /** Creates the appropriate type of credentials from the supplied
+     * username and encrypted password. */
+    public static Credentials createCredentials (String username, Password pw)
+    {
         return new UsernamePasswordCreds(new Name(username), pw.getEncrypted());
     }
 
@@ -290,6 +322,7 @@ public class LogonPanel extends JPanel
 
     protected JTextField _username;
     protected JPasswordField _password;
+    protected JCheckBox _remember;
     protected JButton _logon;
     protected MultiLineLabel _status;
 
