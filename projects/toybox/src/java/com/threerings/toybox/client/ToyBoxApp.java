@@ -21,7 +21,9 @@
 
 package com.threerings.toybox.client;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.logging.Level;
 
 import com.samskivert.util.LoggingLogProvider;
@@ -78,10 +80,6 @@ public class ToyBoxApp
     public static void start (ToyBoxApp app, String server, int port,
                               String username, String password)
     {
-        // set up the proper logging services
-        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
-        OneLineLogFormatter.configureDefaultHandler();
-
         try {
             // initialize the app
             app.init(username, System.getProperty("game_id"));
@@ -95,6 +93,39 @@ public class ToyBoxApp
 
     public static void main (String[] args)
     {
+        // we do this all in a strange order to avoid logging anything
+        // unti we set up our log formatter but we can't do that until
+        // after we've redirected system out and err
+        String dlog = null;
+        if (System.getProperty("no_log_redir") == null) {
+            dlog = ToyBoxClient.localDataDir("toybox.log");
+            try {
+                PrintStream logOut = new PrintStream(
+                    new FileOutputStream(dlog), true);
+                System.setOut(logOut);
+                System.setErr(logOut);
+
+            } catch (IOException ioe) {
+                log.warning("Failed to open debug log [path=" + dlog +
+                            ", error=" + ioe + "].");
+                dlog = null;
+            }
+        }
+
+        // set up the proper logging services
+        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
+        OneLineLogFormatter.configureDefaultHandler();
+
+        if (dlog != null) {
+            log.info("Opened debug log '" + dlog + "'.");
+        } else {
+            log.info("Logging to console only.");
+        }
+
+        log.info("Java: " + System.getProperty("java.version") +
+                 ", " + System.getProperty("java.vendor") +
+                 " (" + System.getProperty("java.home") + ")");
+
         String server = "localhost";
         if (args.length > 0) {
             server = args[0];
