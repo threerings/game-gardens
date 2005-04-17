@@ -17,4 +17,4 @@ CLASSPATH=$CLASSPATH:$ROOT/client/gg-client.jar:$ROOT/client/gg-game.jar
 export CLASSPATH
 
 CLASS=com.threerings.toybox.client.ToyBoxApp
-$JAVA_HOME/bin/java $CLASS localhost 4007 $1 secret
+$JAVA_HOME/bin/java -Dno_log_redir=true $CLASS localhost 4007 $1 secret
