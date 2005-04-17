@@ -5,6 +5,7 @@ package com.whomever.sample.client;
 
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
+import com.threerings.crowd.util.CrowdContext;
 
 import com.threerings.parlor.game.client.GameController;
 import com.threerings.toybox.data.ToyBoxGameConfig;
@@ -31,11 +32,9 @@ public class SampleController extends GameController
     }
 
     // documentation inherited
-    protected PlaceView createPlaceView ()
+    protected PlaceView createPlaceView (CrowdContext ctx)
     {
-        // this is called in our super class constructor, which means that
-        // our casted _ctx reference is not yet initialized
-        _panel = new SamplePanel((ToyBoxContext)super._ctx,
+        _panel = new SamplePanel((ToyBoxContext)ctx,
                                  (ToyBoxGameConfig)_config, this);
         return _panel;
     }
