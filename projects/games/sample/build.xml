@@ -82,8 +82,38 @@
 
   <!-- builds our distribution files (war and jar) -->
   <target name="dist" depends="prepare,compile">
+    <!-- make sure not to include this file from test server runs -->
+    <delete file="${deploy.dir}/classes/toybox.properties"/>
     <jar file="${deploy.dir}/${dist.jar}"
          basedir="${deploy.dir}/classes"/>
+  </target>
+
+  <!-- a target for running a game client -->
+  <target name="client">
+     <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
+       <classpath>
+         <pathelement location="${deploy.dir}/classes"/>
+         <pathelement location="../client/gg-client.jar"/>
+       </classpath>
+       <sysproperty key="no_log_redir" value="true"/>
+       <arg value="localhost"/>
+       <arg value="4007"/>
+       <arg value="${username}"/>
+       <arg value="secret"/>
+    </java>
+  </target>
+
+  <!-- a target for running the game server -->
+  <target name="server">
+    <propertyfile file="${deploy.dir}/classes/toybox.properties">
+      <entry key="resource_dir" value="dist"/>
+      <entry key="resource_url" value="file://dist"/>
+    </propertyfile>
+    <java classname="com.threerings.toybox.server.ToyBoxServer" fork="true">
+      <jvmarg value="-Dgame_conf=${app.name}.xml"/>
+      <classpath refid="classpath"/>
+    </java>
+    <delete file="${deploy.dir}/classes/toybox.properties"/>
   </target>
 
 </project>
