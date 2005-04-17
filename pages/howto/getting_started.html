@@ -19,16 +19,6 @@ build the sample games and, of course,
 <a href="http://java.sun.com/">Java</a> as well. Note that JDK 1.5 is
 required to build and run the games.
 
-<p> From here, there are two sets of instructions on compiling and running
-the sample games:
-
-<ul>
-<li> <a href="#unix">Unix (Linux, MacOS X, etc.)</a>
-<li> <a href="#windows">Windows</a>
-</ul>
-
-<p><b><a name="unix">Getting Started on Unix (Linux, MacOS X, etc.)</a></b><br>
-
 <p> Change into the <code>atlantis</code> directory and build the game:
 
 <pre class="example">
@@ -36,40 +26,32 @@ cd games/atlantis
 ant dist
 </pre>
 
-<p> Now change back into the top-level <code>games</code> directory and
-run the server:
+<p> The server is also run from ant, like so:
 
 <pre class="example">
-cd ..
-./bin/toyserver atlantis
+ant server
 </pre>
 
 <p> In another terminal window, run a client as username
 <code>laurel</code> (or pick any username you like, it doesn't matter):
 
 <pre class="example">
-./bin/toyclient laurel
+cd games/atlantis
+ant -Dusername=laurel client
 </pre>
 
 <p> And in yet another terminal window, run a second client:
 
 <pre class="example">
-./bin/toyclient hardy
+cd games/atlantis
+ant -Dusername=hardy client
 </pre>
 
 <p> You should now be logged into your own multiplayer game server with
 two clients and you can create a table and play a fine game of Atlantis
 against yourself.
 
-<p> You can compile the <code>skirmish</code> sample game in the same way
-and run the server with that game to try it out. Simple replace
-<code>atlantis</code> on the command line with <code>skirmish</code> when
-running the server and the run the clients.
-
-<p><b><a name="windows">Getting Started on Windows</a></b><br>
-
-<p> Malachid was kind enough to provide some info on getting things up
-and running under Windows which you can
-<a href="/discussion/mvnforum/viewthread?thread=2">read here</a>.
+<p> You can compile and play the <code>skirmish</code> sample game in the
+same way.
 
 <!--#include virtual="/footer.html" -->

@@ -393,19 +393,12 @@ following examples <code>sample</code> should be replaced with the
 identifier you choose for your game.
 
 <pre class="example">
-# On Unix/MacOS X
+# Running the server
+ant server
 
-  # Running the server
-  ./bin/toyserver sample
-
-  # Running the client (must be done after the server is started and you can
-  # run as many as you like as long as they have different usernames)
-  ./bin/toyclient username
-
-
-# On Windows
-
-  Check <a href="/discussion/mvnforum/viewthread?thread=2">this forum post</a>
+# Running the client (must be done after the server is started and you can
+# run as many as you like as long as they have different usernames)
+ant -Dusername=george client
 </pre>
 
 <p><b>Uploading to Game Gardens</b><br>
