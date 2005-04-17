@@ -16,9 +16,10 @@ import com.threerings.presents.dobj.EntryUpdatedEvent;
 import com.threerings.presents.dobj.MessageEvent;
 import com.threerings.presents.dobj.SetListener;
 
+import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
-import com.threerings.crowd.client.PlaceView;
+import com.threerings.crowd.util.CrowdContext;
 
 import com.threerings.parlor.game.client.GameController;
 import com.threerings.parlor.turn.client.TurnGameController;
@@ -58,9 +59,9 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
-    protected PlaceView createPlaceView ()
+    protected PlaceView createPlaceView (CrowdContext ctx)
     {
-        _panel = new AtlantiPanel((ToyBoxContext)_ctx, this);
+        _panel = new AtlantiPanel((ToyBoxContext)ctx, this);
         return _panel;
     }
 
