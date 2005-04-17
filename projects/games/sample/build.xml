@@ -90,16 +90,19 @@
 
   <!-- a target for running a game client -->
   <target name="client">
-     <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
-       <classpath>
-         <pathelement location="${deploy.dir}/classes"/>
-         <pathelement location="../client/gg-client.jar"/>
-       </classpath>
-       <sysproperty key="no_log_redir" value="true"/>
-       <arg value="localhost"/>
-       <arg value="4007"/>
-       <arg value="${username}"/>
-       <arg value="secret"/>
+    <fail unless="username">
+      Please specify a username: ant -Dusername=who client
+    </fail>
+    <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
+      <classpath>
+        <pathelement location="${deploy.dir}/classes"/>
+        <pathelement location="../client/gg-client.jar"/>
+      </classpath>
+      <sysproperty key="no_log_redir" value="true"/>
+      <arg value="localhost"/>
+      <arg value="4007"/>
+      <arg value="${username}"/>
+      <arg value="secret"/>
     </java>
   </target>
 
