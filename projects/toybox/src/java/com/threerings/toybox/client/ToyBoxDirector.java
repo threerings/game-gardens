@@ -116,11 +116,9 @@ public class ToyBoxDirector extends BasicDirector
             _cache.put(ident, _gameLoader);
         }
 
-        // create a resource manager that the game can use to load its
-        // custom resources; this must be done here as the game code does
-        // not have the necessary access privileges to run a resource
-        // manager
-        _gameResource = new ResourceManager("rsrc", _gameLoader);
+        // configure the resource manager to load files from the game's
+        // class loader
+        _gameResource.setClassLoader(_gameLoader);
         _ctx.getClient().setClassLoader(_gameLoader);
 
         // configure our message manager with this class loader so that we
