@@ -2,9 +2,9 @@
 <project name="skirmish" default="compile" basedir=".">
 
   <!-- various settings -->
-  <property name="app.name"         value="skirmish"/>
-  <property name="doc.packages"     value="com.threerings.skirmish.*"/>
-  <property name="copyright.holder" value="Three Rings Design, Inc"/>
+  <property name="app.name"     value="skirmish"/>
+  <property name="doc.packages" value="com.threerings.skirmish.*"/>
+  <property name="copy.holder"  value="Three Rings Design, Inc"/>
   <property name="src.dir"      value="src/java"/>
   <property name="deploy.dir"   value="dist"/>
   <property name="dist.jar"     value="${app.name}.jar"/>
@@ -67,7 +67,7 @@
              windowtitle="${app.name} API"
              doctitle="${app.name} API"
              overview="${src.dir}/${doc.overview}"
-             bottom="Copyright &#169; 2001-2004 ${copyright.holder}. All Rights Reserved."
+             bottom="Copyright &#169; 2001-2004 ${copy.holder}. All Rights Reserved."
              destdir="${javadoc.dir}"
              additionalparam="-breakiterator">
       <classpath refid="classpath"/>
@@ -82,6 +82,37 @@
   <target name="dist" depends="prepare,compile">
     <jar file="${deploy.dir}/${dist.jar}"
          basedir="${deploy.dir}/classes"/>
+  </target>
+
+  <!-- a target for running a game client -->
+  <target name="client">
+    <fail unless="username">
+      Please specify a username: ant -Dusername=who client
+    </fail>
+    <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
+      <classpath>
+        <pathelement location="${deploy.dir}/classes"/>
+        <pathelement location="../client/gg-client.jar"/>
+      </classpath>
+      <sysproperty key="no_log_redir" value="true"/>
+      <arg value="localhost"/>
+      <arg value="4007"/>
+      <arg value="${username}"/>
+      <arg value="secret"/>
+    </java>
+  </target>
+
+  <!-- a target for running the game server -->
+  <target name="server" depends="compile">
+    <propertyfile file="${deploy.dir}/classes/toybox.properties">
+      <entry key="resource_dir" value="dist"/>
+      <entry key="resource_url" value="file://dist"/>
+    </propertyfile>
+    <java classname="com.threerings.toybox.server.ToyBoxServer" fork="true">
+      <jvmarg value="-Dgame_conf=${app.name}.xml"/>
+      <classpath refid="classpath"/>
+    </java>
+    <delete file="${deploy.dir}/classes/toybox.properties"/>
   </target>
 
 </project>
