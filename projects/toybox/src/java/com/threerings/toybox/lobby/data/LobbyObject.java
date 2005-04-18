@@ -8,6 +8,8 @@ import java.util.Iterator;
 import com.samskivert.util.ArrayIntSet;
 
 import com.threerings.presents.dobj.DSet;
+import com.threerings.presents.server.PresentsServer;
+
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.data.Table;
@@ -62,10 +64,7 @@ public class LobbyObject extends PlaceObject
 
     /**
      * Counts up the occupants of this lobby and of all games hosted from
-     * this lobby (which we have to do somewhat inaccurately because the
-     * actual games are hosted in an entirely different JVM so we just
-     * assume that if a table says it has four players, that four people
-     * are in the game).
+     * this lobby.
      */
     public int countOccupants ()
     {
@@ -77,8 +76,13 @@ public class LobbyObject extends PlaceObject
         for (Iterator iter = tableSet.iterator(); iter.hasNext(); ) {
             Table table = (Table)iter.next();
             if (table.gameOid > 0) {
-                for (int ii = 0; ii < table.bodyOids.length; ii++) {
-                    occids.add(table.bodyOids[ii]);
+                // for now we can directly reference the game object
+                Object obj = PresentsServer.omgr.getObject(table.gameOid);
+                if (obj instanceof PlaceObject) {
+                    PlaceObject plobj = (PlaceObject)obj;
+                    for (int ii = 0; ii < plobj.occupants.size(); ii++) {
+                        occids.add(plobj.occupants.get(ii));
+                    }
                 }
             }
         }

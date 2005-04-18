@@ -208,7 +208,7 @@ public class ToyBoxManager
             return;
         }
 
-        int mins = (int)(playtime / ONE_MINUTE);
+        int mins = (int)Math.round(playtime / ONE_MINUTE);
         if (mins > ODDLY_LONG) {
             log.warning("Game in play for oddly long time " +
                         "[game=" + game.name + ", mins=" + mins + "].");
@@ -428,7 +428,7 @@ public class ToyBoxManager
     protected Interval _popval;
 
     /** One minute in milliseconds. */
-    protected static final long ONE_MINUTE = 60 * 1000L;
+    protected static final double ONE_MINUTE = 60 * 1000L;
 
     /** The maximum playtime we will record for a game, in minutes. (This
      * is to avoid booching the stats if something goes awry.) */
