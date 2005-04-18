@@ -142,7 +142,7 @@ public class ToyBoxGameConfigurator extends GameConfigurator
     {
         public RangeEditor (MessageBundle msgs, RangeParameter param)
         {
-            super(msgs.get("m.range_" + param.ident),
+            super(msgs.get(param.getLabel()),
                   param.minimum, param.maximum, param.start);
         }
 
@@ -164,7 +164,7 @@ public class ToyBoxGameConfigurator extends GameConfigurator
             setLayout(new HGroupLayout(HGroupLayout.NONE,
                                        HGroupLayout.LEFT));
             add(_box = new JCheckBox(
-                    msgs.get("m.toggle_" + param.ident), param.start));
+                    msgs.get(param.getLabel()), param.start));
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
@@ -192,12 +192,12 @@ public class ToyBoxGameConfigurator extends GameConfigurator
                 String choice = param.choices[ii];
                 choices[ii] = new Choice();
                 choices[ii].choice = choice;
-                choices[ii].label = msgs.get("m.choice_" + choice);
+                choices[ii].label = msgs.get(param.getChoiceLabel(ii));
                 if (choice.equals(param.start)) {
                     selection = choices[ii];
                 }
             }
-            add(new JLabel(msgs.get("m.choice_" + param.ident)));
+            add(new JLabel(msgs.get(param.getLabel())));
             add(_combo = new JComboBox(choices));
             if (selection != null) {
                 _combo.setSelectedItem(selection);

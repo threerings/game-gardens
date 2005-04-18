@@ -33,7 +33,21 @@ public class ChoiceParameter extends Parameter
     /** The starting selection. */
     public String start;
 
-    /** Returns the default value of this parameter. */
+    /**
+     * Returns the translation key for the specified choice.
+     */
+    public String getChoiceLabel (int index)
+    {
+        return "m.choice_" + choices[index];
+    }
+
+    @Override // documentation inherited
+    public String getLabel ()
+    {
+        return "m.choice_" + ident;
+    }
+
+    @Override // documentation inherited
     public Object getDefaultValue ()
     {
         return start;

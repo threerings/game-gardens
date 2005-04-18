@@ -36,7 +36,13 @@ public class RangeParameter extends Parameter
     /** The starting value for this parameter. */
     public int start;
 
-    /** Returns the default value of this parameter. */
+    @Override // documentation inherited
+    public String getLabel ()
+    {
+        return "m.range_" + ident;
+    }
+
+    @Override // documentation inherited
     public Object getDefaultValue ()
     {
         return start;

@@ -94,15 +94,20 @@ public class TableListView extends JPanel
         // we have two lists of tables, one of tables being matchmade...
         VGroupLayout pgl = new VGroupLayout(VGroupLayout.STRETCH);
         pgl.setOffAxisPolicy(VGroupLayout.STRETCH);
+        pgl.setJustification(VGroupLayout.TOP);
         JPanel panel = new JPanel(pgl);
-        panel.add(new JLabel(msgs.get("m.pending_tables")), VGroupLayout.FIXED);
+        String cmsg = config.isPartyGame() ?
+            "m.create_game" : "m.pending_tables";
+        panel.add(new JLabel(msgs.get(cmsg)), VGroupLayout.FIXED);
 
         VGroupLayout mgl = new VGroupLayout(VGroupLayout.NONE);
         mgl.setOffAxisPolicy(VGroupLayout.STRETCH);
         mgl.setJustification(VGroupLayout.TOP);
         _matchList = new JPanel(mgl);
-    	_matchList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panel.add(new SafeScrollPane(_matchList));
+        if (!config.isPartyGame()) {
+            _matchList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            panel.add(new SafeScrollPane(_matchList));
+        }
 
         // create and initialize our configurator interface
         _figger = _config.createConfigurator();
@@ -131,11 +136,16 @@ public class TableListView extends JPanel
         _pslide.setVisible(config.getMinimumPlayers() !=
                            config.getMaximumPlayers());
 
-        _create = new JButton(msgs.get("m.create_table"));
+        cmsg = config.isPartyGame() ? "m.create_game" : "m.create_table";
+        _create = new JButton(msgs.get(cmsg));
         _create.addActionListener(this);
         JPanel bbox = HGroupLayout.makeButtonBox(HGroupLayout.RIGHT);
         bbox.add(_create);
         panel.add(bbox, VGroupLayout.FIXED);
+
+        if (config.isPartyGame()) {
+            panel.add(new JLabel(msgs.get("m.party_hint")), VGroupLayout.FIXED);
+        }
 
         add(panel);
 

@@ -34,15 +34,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.threerings.util.MessageBundle;
 import com.threerings.util.Name;
 
 import com.threerings.crowd.data.BodyObject;
 
-import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.client.SeatednessObserver;
+import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.data.Table;
-import com.threerings.parlor.data.TableConfig;
+import com.threerings.parlor.game.data.PartyGameConfig;
 
+import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.ToyBoxGameConfig;
+import com.threerings.toybox.lobby.data.LobbyCodes;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import static com.threerings.toybox.lobby.Log.log;
@@ -75,7 +79,7 @@ public class TableItem
         _self = ((BodyObject)ctx.getClient().getClientObject()).username;
 
         // grab the table config reference
-        _tconfig = (TableConfig)table.config;
+        _tconfig = (ToyBoxGameConfig)table.config;
 
         // now create our user interface
     	setBorder(BorderFactory.createLineBorder(Color.black));
@@ -92,6 +96,20 @@ public class TableItem
         int bcount = _tconfig.getDesiredPlayers();
         if (bcount == -1) {
             bcount = _tconfig.getMaximumPlayers();
+        }
+
+        // show the game configuration if this is a party game
+        StringBuffer confdesc = new StringBuffer("<html>");
+        if (_tconfig.isPartyGame()) {
+            MessageBundle msgs = ctx.getMessageManager().getBundle(
+                _tconfig.getBundleName());
+            GameDefinition gdef = _tconfig.getGameDefinition();
+            for (int ii = 0; ii < gdef.params.length; ii++) {
+                confdesc.append(msgs.xlate(gdef.params[ii].getLabel()));
+                confdesc.append(": ");
+                confdesc.append(_tconfig.params.get(gdef.params[ii].ident));
+                confdesc.append("<br>\n");
+            }
         }
 
         // create blank buttons for now and then we'll update everything
@@ -124,12 +142,17 @@ public class TableItem
             }
 
             // and add the button with the configured constraints
-            add(_seats[i], gbc);
+            if (_tconfig.isPartyGame()) {
+                add(new JLabel(confdesc.toString()), gbc);
+            } else {
+                add(_seats[i], gbc);
+            }
 
             // if we just added the first button, add the "go" button
             // right after it
             if (i == 0) {
-                _goButton = new JButton("Go");
+                String msg = _tconfig.isPartyGame() ? "m.join" : "m.watch";
+                _goButton = new JButton(_ctx.xlate(LobbyCodes.LOBBY_MSGS, msg));
                 _goButton.setActionCommand("go");
                 _goButton.addActionListener(this);
                 add(_goButton, gbc);
@@ -245,7 +268,7 @@ public class TableItem
     protected TableDirector _tdtr;
 
     /** A casted reference to our table config object. */
-    protected TableConfig _tconfig;
+    protected ToyBoxGameConfig _tconfig;
 
     /** We have a button for each "seat" at the table. */
     protected JButton[] _seats;

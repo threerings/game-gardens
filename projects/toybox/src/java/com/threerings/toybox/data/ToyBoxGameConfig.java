@@ -26,8 +26,8 @@ import java.util.logging.Level;
 import com.threerings.util.StreamableHashMap;
 
 import com.threerings.parlor.client.GameConfigurator;
-import com.threerings.parlor.data.TableConfig;
 import com.threerings.parlor.game.data.GameConfig;
+import com.threerings.parlor.game.data.PartyGameConfig;
 
 import com.threerings.toybox.client.ToyBoxGameConfigurator;
 
@@ -39,7 +39,7 @@ import static com.threerings.toybox.Log.log;
  * during the match making process.
  */
 public class ToyBoxGameConfig extends GameConfig
-    implements TableConfig
+    implements PartyGameConfig
 {
     /** Our configuration parameters. These will be seeded with the
      * defaults from the game definition and then configured by the player
@@ -56,6 +56,10 @@ public class ToyBoxGameConfig extends GameConfig
     {
         _gameId = gameId;
         _gamedef = gamedef;
+
+        // note whether or not we're a party game
+        _isPartyGame = ((TableMatchConfig)_gamedef.match).isPartyGame;
+
         // set the default values for our parameters
         params.put("seats", ((TableMatchConfig)_gamedef.match).startSeats);
         for (int ii = 0; ii < gamedef.params.length; ii++) {
@@ -112,40 +116,52 @@ public class ToyBoxGameConfig extends GameConfig
         return new String[0];
     }
 
-    // documentation inherited from interface
+    // documentation inherited from interface TableConfig
     public int getMinimumPlayers ()
     {
         return ((TableMatchConfig)_gamedef.match).minSeats;
     }
 
-    // documentation inherited from interface
+    // documentation inherited from interface TableConfig
     public int getMaximumPlayers ()
     {
         return ((TableMatchConfig)_gamedef.match).maxSeats;
     }
 
-    // documentation inherited from interface
+    // documentation inherited from interface TableConfig
     public int getDesiredPlayers ()
     {
         return (Integer)params.get("seats");
     }
 
-    // documentation inherited from interface
+    // documentation inherited from interface TableConfig
     public void setDesiredPlayers (int desiredPlayers)
     {
         params.put("seats", desiredPlayers);
     }
 
-    // documentation inherited from interface
+    // documentation inherited from interface TableConfig
     public boolean isPrivateTable ()
     {
         return _isPrivate;
     }
 
-    // documentation inherited from interface
+    // documentation inherited from interface TableConfig
     public void setPrivateTable (boolean privateTable)
     {
         _isPrivate = privateTable;
+    }
+
+    // documentation inherited from interface PartyGameConfig
+    public boolean isPartyGame ()
+    {
+        return _isPartyGame;
+    }
+
+    // documentation inherited from interface PartyGameConfig
+    public void setPartyGame (boolean isPartyGame)
+    {
+        _isPartyGame = isPartyGame;
     }
 
     /** Returns the id of the game associated with this config instance. */
@@ -168,4 +184,7 @@ public class ToyBoxGameConfig extends GameConfig
 
     /** Allows creation of private tables. */
     protected boolean _isPrivate;
+
+    /** Allows creation of party tables. */
+    protected boolean _isPartyGame;
 }

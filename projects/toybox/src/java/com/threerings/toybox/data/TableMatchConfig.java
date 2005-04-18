@@ -35,4 +35,7 @@ public class TableMatchConfig extends MatchConfig
 
     /** The maximum number of seats at this table. */
     public int maxSeats;
+
+    /** This is set to true if this is a party game. */
+    public boolean isPartyGame;
 }

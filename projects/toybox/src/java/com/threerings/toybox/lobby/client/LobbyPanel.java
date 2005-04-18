@@ -27,6 +27,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -128,10 +129,11 @@ public class LobbyPanel extends JPanel
 
         // load up our background image
         try {
-            _bgimg = new BufferedMirage(
-                ImageIO.read(
-                    getClass().getClassLoader().getResourceAsStream(
-                        "rsrc/media/lobby_background.png")));
+            InputStream bgin = getClass().getClassLoader().getResourceAsStream(
+                "rsrc/media/lobby_background.png");
+            if (bgin != null) {
+                _bgimg = new BufferedMirage(ImageIO.read(bgin));
+            }
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to load background image.", e);
         }
@@ -154,8 +156,11 @@ public class LobbyPanel extends JPanel
                 // already entered our place, we need to fake an entry
                 ((PlaceView)matchView).willEnterPlace(_lobj);
             }
-            // properly configure all of our components
-            SwingUtil.applyToHierarchy(this, _colorizer);
+            // properly configure all of our components (limiting to a
+            // depth of six is a giant hack but I'm too lazy to do the
+            // serious dicking around that is needed to do the "right"
+            // thing; fucking user interfaces)
+            SwingUtil.applyToHierarchy(this, 6, _colorizer);
             SwingUtil.refresh(_main);
         }
     }

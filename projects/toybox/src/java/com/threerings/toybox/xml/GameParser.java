@@ -159,6 +159,13 @@ public class GameParser
             digester.addRule("game/match/start_seats",
                              new SetFieldRule("startSeats"));
 
+        } else if (type.equals("party")) {
+            // party games are handled by a specially configured table
+            TableMatchConfig config = new TableMatchConfig();
+            config.minSeats = config.maxSeats = config.startSeats = 1;
+            config.isPartyGame = true;
+            digester.push(config);
+
         } else {
             String errmsg = "Unknown match-making config type '" + type + "'.";
             throw new Exception(errmsg);

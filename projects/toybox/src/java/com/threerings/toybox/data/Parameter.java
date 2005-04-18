@@ -35,6 +35,9 @@ public abstract class Parameter implements Streamable
     /** A string identifier that names this parameter. */
     public String ident;
 
+    /** Returns the translation key for this parameter's label. */
+    public abstract String getLabel ();
+
     /** Returns the default value of this parameter. */
     public abstract Object getDefaultValue ();
 

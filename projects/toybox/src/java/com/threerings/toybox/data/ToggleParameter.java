@@ -29,7 +29,13 @@ public class ToggleParameter extends Parameter
     /** The starting state for this parameter. */
     public boolean start;
 
-    /** Returns the default value of this parameter. */
+    @Override // documentation inherited
+    public String getLabel ()
+    {
+        return "m.toggle_" + ident;
+    }
+
+    @Override // documentation inherited
     public Object getDefaultValue ()
     {
         return start;
