@@ -244,7 +244,7 @@ public class ToyBoxGameConfigurator extends GameConfigurator
             _param = param;
             setLayout(new HGroupLayout(HGroupLayout.NONE,
                                        HGroupLayout.LEFT));
-            add(new JLabel(msgs.get("m.file_" + param.ident)));
+            add(new JLabel(msgs.get(param.getLabel())));
             String label = ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.file_unset");
             add(_show = new JButton(label));
             _show.addActionListener(this);
@@ -305,7 +305,7 @@ public class ToyBoxGameConfigurator extends GameConfigurator
     {
         public AIEditor (MessageBundle msgs, AIParameter param)
         {
-            super(msgs.get("m.ai_" + param.ident), 0, param.maximum, 0);
+            super(msgs.get(param.getLabel()), 0, param.maximum, 0);
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)

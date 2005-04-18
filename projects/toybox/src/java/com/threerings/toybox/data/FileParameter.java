@@ -32,7 +32,13 @@ public class FileParameter extends Parameter
      * platform default encoding . */
     public boolean binary = false;
 
-    /** Returns the default value of this parameter. */
+    @Override // documentation inherited
+    public String getLabel ()
+    {
+        return "m.file_" + ident;
+    }
+
+    @Override // documentation inherited
     public Object getDefaultValue ()
     {
         if (binary) {

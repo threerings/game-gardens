@@ -43,11 +43,11 @@ public class LobbyController extends PlaceController
     // documentation inherited
     public void init (CrowdContext ctx, PlaceConfig config)
     {
+        super.init(ctx, config);
+
         // cast our references
         _ctx = (ToyBoxContext)ctx;
         _config = (LobbyConfig)config;
-
-        super.init(ctx, config);
     }
 
     // documentation inherited
@@ -86,9 +86,9 @@ public class LobbyController extends PlaceController
     }
 
     // documentation inherited
-    protected PlaceView createPlaceView ()
+    protected PlaceView createPlaceView (CrowdContext ctx)
     {
-        return (_panel = new LobbyPanel(_ctx));
+        return (_panel = new LobbyPanel((ToyBoxContext)ctx));
     }
 
     protected ToyBoxContext _ctx;

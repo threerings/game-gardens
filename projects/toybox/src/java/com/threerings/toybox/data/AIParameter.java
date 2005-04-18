@@ -32,7 +32,13 @@ public class AIParameter extends Parameter
     // TODO: allow specification of difficulty range
     // TODO: allow specification of personality types
 
-    /** Returns the default value of this parameter. */
+    @Override // documentation inherited
+    public String getLabel ()
+    {
+        return "m.ai_" + ident;
+    }
+
+    @Override // documentation inherited
     public Object getDefaultValue ()
     {
         return 0;
