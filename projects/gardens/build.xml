@@ -55,12 +55,6 @@
   <!-- the default target is to rebuild everything -->
   <target name="all" depends="prepare,compile"/>
 
-  <!-- builds and reloads our webapp -->
-  <target name="reload" depends="prepare,compile">
-    <reload url="${tomcat.url}" path="/${app.name}"
-      username="${tomcat.user}" password="${tomcat.pass}"/> 
-  </target>
-
   <!-- builds our distribution files (war and jar) -->
   <target name="dist" depends="all">
     <mkdir dir="dist"/>
