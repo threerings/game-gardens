@@ -46,6 +46,7 @@ import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.client.TableObserver;
 import com.threerings.parlor.data.Table;
+import com.threerings.parlor.data.TableConfig;
 import com.threerings.parlor.data.TableLobbyObject;
 
 import com.threerings.toybox.data.GameDefinition;
@@ -259,7 +260,10 @@ public class TableListView extends JPanel
         // fill in our number of seats configuration
         config.setDesiredPlayers(_pslide.getValue());
 
-        _tdtr.createTable(config);
+        TableConfig tconfig = new TableConfig();
+        tconfig.desiredPlayerCount = _pslide.getValue();
+
+        _tdtr.createTable(tconfig, config);
     }
 
     // documentation inherited

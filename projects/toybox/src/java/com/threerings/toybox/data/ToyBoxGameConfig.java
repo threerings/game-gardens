@@ -21,6 +21,8 @@
 
 package com.threerings.toybox.data;
 
+import java.util.List;
+
 import java.util.logging.Level;
 
 import com.threerings.util.StreamableHashMap;
@@ -111,9 +113,11 @@ public class ToyBoxGameConfig extends GameConfig
     }
 
     // documentation inherited
-    public String[] getDescription ()
+    public List getDescription ()
     {
-        return new String[0];
+        List desc = super.getDescription();
+        // we have nothing to add at the moment
+        return desc;
     }
 
     // documentation inherited from interface TableConfig
