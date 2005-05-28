@@ -53,10 +53,6 @@ public class ToyBoxClient extends CrowdClient
     {
         super.sessionWillStart();
 
-        // configure a slightly more lenient access controller in the
-        // user's client object
-        _clobj.setAccessController(ToyBoxObjectAccess.USER);
-
         // if we have auth data in the form of a token ring, use it (we
         // can set things directly here rather than use the setter methods
         // because the user object is not yet out in the wild)
