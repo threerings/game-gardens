@@ -41,13 +41,15 @@ import com.threerings.crowd.data.PlaceObject;
 import com.threerings.media.SafeScrollPane;
 import com.threerings.util.MessageBundle;
 
-import com.threerings.parlor.client.GameConfigurator;
 import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.client.TableObserver;
 import com.threerings.parlor.data.Table;
 import com.threerings.parlor.data.TableConfig;
 import com.threerings.parlor.data.TableLobbyObject;
+
+import com.threerings.parlor.game.client.GameConfigurator;
+import com.threerings.parlor.game.client.SwingGameConfigurator;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
@@ -115,7 +117,8 @@ public class TableListView extends JPanel
         if (_figger != null) {
             _figger.init(_ctx);
             _figger.setGameConfig(config);
-            panel.add(_figger, VGroupLayout.FIXED);
+            panel.add(((SwingGameConfigurator) _figger).getPanel(),
+                VGroupLayout.FIXED);
         }
 
         // add the interface for selecting the number of seats at the table

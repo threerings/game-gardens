@@ -27,7 +27,7 @@ import java.util.logging.Level;
 
 import com.threerings.util.StreamableHashMap;
 
-import com.threerings.parlor.client.GameConfigurator;
+import com.threerings.parlor.game.client.GameConfigurator;
 import com.threerings.parlor.game.data.GameConfig;
 import com.threerings.parlor.game.data.PartyGameConfig;
 

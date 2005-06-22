@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,7 +46,7 @@ import com.samskivert.swing.SimpleSlider;
 
 import com.threerings.util.MessageBundle;
 
-import com.threerings.parlor.client.GameConfigurator;
+import com.threerings.parlor.game.client.SwingGameConfigurator;
 import com.threerings.parlor.game.data.GameAI;
 
 import com.threerings.toybox.data.AIParameter;
@@ -66,14 +67,8 @@ import static com.threerings.toybox.Log.log;
  * with the {@link ToyBoxGameConfig} to provide a generic mechanism for
  * defining and obtaining game configuration settings.
  */
-public class ToyBoxGameConfigurator extends GameConfigurator
+public class ToyBoxGameConfigurator extends SwingGameConfigurator
 {
-    // documentation inherited
-    protected void createConfigInterface ()
-    {
-        super.createConfigInterface();
-    }
-
     // documentation inherited
     protected void gotGameConfig ()
     {
@@ -90,7 +85,8 @@ public class ToyBoxGameConfigurator extends GameConfigurator
             _editors = new ParamEditor[gamedef.params.length];
             for (int ii = 0; ii < _editors.length; ii++) {
                 _editors[ii] = createEditor(ctx, msgs, gamedef.params[ii]);
-                add((JPanel)_editors[ii]);
+                addControl(new JLabel(msgs.get(gamedef.params[ii].getLabel())),
+                           (JComponent) _editors[ii]);
             }
         }
 
@@ -116,15 +112,15 @@ public class ToyBoxGameConfigurator extends GameConfigurator
         ToyBoxContext ctx, MessageBundle msgs, Parameter param)
     {
         if (param instanceof AIParameter) {
-            return new AIEditor(msgs, (AIParameter)param);
+            return new AIEditor((AIParameter)param);
         } else if (param instanceof RangeParameter) {
-            return new RangeEditor(msgs, (RangeParameter)param);
+            return new RangeEditor((RangeParameter)param);
         } else if (param instanceof ToggleParameter) {
-            return new ToggleEditor(msgs, (ToggleParameter)param);
+            return new ToggleEditor((ToggleParameter)param);
         } else if (param instanceof ChoiceParameter) {
             return new ChoiceEditor(msgs, (ChoiceParameter)param);
         } else if (param instanceof FileParameter) {
-            return new FileEditor(ctx, msgs, (FileParameter)param);
+            return new FileEditor(ctx, (FileParameter)param);
         } else {
             log.warning("Unknown parameter type! " + param + ".");
             return null;
@@ -140,10 +136,9 @@ public class ToyBoxGameConfigurator extends GameConfigurator
 
     protected class RangeEditor extends SimpleSlider implements ParamEditor
     {
-        public RangeEditor (MessageBundle msgs, RangeParameter param)
+        public RangeEditor (RangeParameter param)
         {
-            super(msgs.get(param.getLabel()),
-                  param.minimum, param.maximum, param.start);
+            super(null, param.minimum, param.maximum, param.start);
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
@@ -159,12 +154,11 @@ public class ToyBoxGameConfigurator extends GameConfigurator
 
     protected class ToggleEditor extends JPanel implements ParamEditor
     {
-        public ToggleEditor (MessageBundle msgs, ToggleParameter param)
+        public ToggleEditor (ToggleParameter param)
         {
             setLayout(new HGroupLayout(HGroupLayout.NONE,
                                        HGroupLayout.LEFT));
-            add(_box = new JCheckBox(
-                    msgs.get(param.getLabel()), param.start));
+            add(_box = new JCheckBox(null, null, param.start));
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
@@ -197,7 +191,6 @@ public class ToyBoxGameConfigurator extends GameConfigurator
                     selection = choices[ii];
                 }
             }
-            add(new JLabel(msgs.get(param.getLabel())));
             add(_combo = new JComboBox(choices));
             if (selection != null) {
                 _combo.setSelectedItem(selection);
@@ -206,14 +199,9 @@ public class ToyBoxGameConfigurator extends GameConfigurator
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
         {
-            String choice = (String)config.params.get(param.ident);
-            for (int ii = 0; ii < _combo.getItemCount(); ii++) {
-                Choice item = (Choice)_combo.getItemAt(ii);
-                if (item.choice.equals(choice)) {
-                    _combo.setSelectedIndex(ii);
-                    break;
-                }
-            }
+            Choice selected = new Choice();
+            selected.choice = (String)config.params.get(param.ident);
+            _combo.setSelectedItem(selected);
         }
 
         public void writeParameter (Parameter param, ToyBoxGameConfig config)
@@ -229,22 +217,26 @@ public class ToyBoxGameConfigurator extends GameConfigurator
     {
         public String choice;
         public String label;
+
         public String toString () {
             return label;
+        }
+
+        public boolean equals (Object other) {
+            return (other instanceof Choice) &&
+                choice.equals(((Choice) other).choice);
         }
     }
 
     protected class FileEditor extends JPanel
         implements ParamEditor, ActionListener
     {
-        public FileEditor (
-            ToyBoxContext ctx, MessageBundle msgs, FileParameter param)
+        public FileEditor (ToyBoxContext ctx, FileParameter param)
         {
             _ctx = ctx;
             _param = param;
             setLayout(new HGroupLayout(HGroupLayout.NONE,
                                        HGroupLayout.LEFT));
-            add(new JLabel(msgs.get(param.getLabel())));
             String label = ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.file_unset");
             add(_show = new JButton(label));
             _show.addActionListener(this);
@@ -303,9 +295,9 @@ public class ToyBoxGameConfigurator extends GameConfigurator
 
     protected class AIEditor extends SimpleSlider implements ParamEditor
     {
-        public AIEditor (MessageBundle msgs, AIParameter param)
+        public AIEditor (AIParameter param)
         {
-            super(msgs.get(param.getLabel()), 0, param.maximum, 0);
+            super(null, 0, param.maximum, 0);
         }
 
         public void readParameter (Parameter param, ToyBoxGameConfig config)
