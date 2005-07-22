@@ -1,7 +1,9 @@
 #
-# $Id: robots.txt 242 2003-11-07 18:09:55Z mdb $
+# $Id$
 #
 # Web crawler control file
 
 User-agent: *
+Disallow: /account/
+Disallow: /client/
 Disallow: /images/
