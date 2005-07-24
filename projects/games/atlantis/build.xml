@@ -98,7 +98,7 @@
       </classpath>
       <sysproperty key="no_log_redir" value="true"/>
       <arg value="localhost"/>
-      <arg value="4007"/>
+      <arg value="47624"/>
       <arg value="${username}"/>
       <arg value="secret"/>
     </java>

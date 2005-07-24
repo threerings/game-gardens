@@ -18,7 +18,7 @@
 #
 # Defines the port on which our game server's listen.
 
-# server_port = 4007
+# server_port = 47624
 
 #
 # Defines the client authenticator used by the server.

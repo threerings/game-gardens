@@ -103,9 +103,9 @@ public class ToyBoxServer extends CrowdServer
      * Returns the port on which the connection manager will listen for
      * client connections.
      */
-    protected int getListenPort ()
+    protected int[] getListenPorts ()
     {
-        return ToyBoxConfig.getServerPort();
+        return new int[] { ToyBoxConfig.getServerPort() };
     }
 
     // documentation inherited

@@ -1,1 +1,11 @@
-`dirname $0`/runjava com.threerings.toybox.client.ToyBoxApp localhost 4007 $*
+#!/bin/sh
+
+JAVA_ARGS="-Dno_log_redir=true"
+SECURITY_POLICY="$GARDENS_HOME/etc/gardens.policy"
+if [ -f $SECURITY_POLICY ]; then
+    JAVA_ARGS="$JAVA_ARGS -Djava.security.manager"
+    JAVA_ARGS="$JAVA_ARGS -Djava.security.policy=$SECURITY_POLICY"
+fi
+
+`dirname $0`/runjava -- $JAVA_ARGS com.threerings.toybox.client.ToyBoxApp \
+  localhost 47624 $*
