@@ -27,12 +27,14 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 
 import com.threerings.media.FrameManager;
+import com.threerings.media.image.ImageUtil;
+
 import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageBundle;
 import com.threerings.util.MessageManager;
+import com.threerings.util.Name;
 
-import com.threerings.media.image.ImageUtil;
-
+import com.threerings.crowd.data.BodyObject;
 import com.threerings.parlor.util.ParlorContext;
 
 import com.threerings.toybox.client.ToyBoxDirector;
@@ -72,6 +74,16 @@ public abstract class ToyBoxContext implements ParlorContext
     {
         MessageBundle mb = getMessageManager().getBundle(bundle);
         return (mb == null) ? message : mb.xlate(message);
+    }
+
+    /**
+     * Convenience method to get the username of the currently logged on
+     * user. Returns null when we're not logged on.
+     */
+    public Name getUsername ()
+    {
+        BodyObject bobj = (BodyObject)getClient().getClientObject();
+        return (bobj == null) ? null : bobj.username;
     }
 
     /**
