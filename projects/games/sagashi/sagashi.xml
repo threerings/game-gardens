@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="yes"?>
+<game>
+  <!-- the string identifier for this game; this is used to name our jar -->
+  <!-- file and to name other internal bits -->
+  <ident>sagashi</ident>
+
+  <!-- The controller and manager used for our game. -->
+  <controller>com.samskivert.sagashi.client.SagashiController</controller>
+  <manager>com.samskivert.sagashi.server.SagashiManager</manager>
+
+  <!-- Herein we define how the game is matchmade and configured. -->
+  <match type="party"/>
+
+  <!-- Parameters define values that the user can customize when -->
+  <!-- creating a game and which are passed on to the game itself -->
+  <!-- to customize the gameplay. -->
+  <params>
+    <range ident="board_size" minimum="4" maximum="6" start="5"/>
+    <range ident="min_length" minimum="4" maximum="6" start="4"/>
+    <range ident="duration" minimum="60" maximum="150" start="90"/>
+  </params>
+</game>
