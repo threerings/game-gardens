@@ -84,6 +84,9 @@ public class SagashiManager extends GameManager
     {
         super.didShutdown();
 
+        // unregister our invocation dispatcher
+        PresentsServer.invmgr.clearDispatcher(_sagaobj.service);
+
         // shutdown our ticker
         _ticker.cancel();
     }
