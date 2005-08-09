@@ -21,7 +21,7 @@ $i18n.xlate("category.$game.category")</a>
 $string.parafy($game.description)
 
 <p><i>$i18n.xlate("view_game.instructions")</i><br>
-$string.parafy($game.instructions)
+$string.simpleFormat($game.instructions)
 
 <p><i>$i18n.xlate("view_game.credits")</i><br>
 $string.delineate($game.credits)
