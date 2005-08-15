@@ -104,7 +104,7 @@ public class edit_game extends UserLogic
         game.category = requireString(req, "category", 255, false);
         game.definition = requireString(req, "definition", 2500, false);
         game.description = requireString(req, "description", 1000, true);
-        game.instructions = requireString(req, "instructions", 2500, true);
+        game.instructions = requireString(req, "instructions", 5000, true);
         game.credits = requireString(req, "credits", 1000, true);
 
         // TODO: validate definition
