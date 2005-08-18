@@ -16,8 +16,9 @@
 # resource_url = 
 
 #
-# Defines the port on which our game server's listen.
+# Defines the host and port on which our game server listens.
 
+# server_host = garden1.gamegardens.com
 # server_port = 47624
 
 #

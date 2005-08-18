@@ -15,8 +15,9 @@ import com.samskivert.text.MessageUtil;
 import com.samskivert.velocity.InvocationContext;
 
 import com.threerings.toybox.data.GameDefinition;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.Game.Status;
+import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -68,8 +69,7 @@ public class edit_game extends UserLogic
             game = new Game();
             game.setStatus(Status.PENDING);
             game.maintainerId = user.userId;
-            // TODO: get host from ToyBoxConfig?
-            game.host = req.getServerName();
+            game.host = ToyBoxConfig.getServerHost();
             game.digest = "";
             game.created = new Date(System.currentTimeMillis());
             game.lastUpdated = game.created;

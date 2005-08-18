@@ -68,7 +68,10 @@ case "$1" in
         chown -R $MYSQL_USER $GARDENS_HOME/data/mysql
         # Go ahead and start things up
         echo -n "Starting $DAEMON: "
-        $DAEMON --defaults-file=$MYCNF >>$ERRFILE 2>&1 &
+        $DAEMON --defaults-file=$MYCNF \
+            --default-character-set=utf8 \
+            --default-collation=utf8_general_ci \
+            >>$ERRFILE 2>&1 &
         echo "started."
         ;;
 

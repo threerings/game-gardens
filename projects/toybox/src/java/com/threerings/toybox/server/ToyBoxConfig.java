@@ -45,6 +45,14 @@ public class ToyBoxConfig
     public static Config config = new Config("toybox");
 
     /**
+     * Returns the main lobby server host.
+     */
+    public static String getServerHost ()
+    {
+        return config.getValue("server_host", "localhost");
+    }
+
+    /**
      * Returns the port on which our game servers are listening.
      */
     public static int getServerPort ()

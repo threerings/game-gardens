@@ -47,7 +47,7 @@ case "$1" in
         fi
         # Go ahead and start things up
         echo -n "Starting $DAEMON: "
-        su - $GARDENS_USER -c "$DAEMON" &
+        su - $GARDENS_USER -c "$DAEMON" >/dev/null 2>&1 </dev/null &
 	echo $! > $PIDFILE
         echo "started."
         ;;
