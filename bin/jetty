@@ -63,6 +63,7 @@ then
   JETTY_PID="$JETTY_RUN/jetty-gardens.pid"
 fi
 
+JAVA_HOME=/usr/local/jdk1.5
 JAVA=$JAVA_HOME/bin/java
 JAVA_VERSION=`expr "$($JAVA -version 2>&1 | head -1)" : '.*1\.\([0-9]\)'`
 
