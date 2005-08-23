@@ -28,16 +28,11 @@ public class browse extends OptionalUserLogic
         String category = ParameterUtil.getParameter(
             ctx.getRequest(), "category", false);
 
-        ArrayList<Game> games;
-        if (category.equals("")) {
+        ArrayList<Game> games = category.equals("") ?
             // load up the metadata for all of our games
-            games = app.getToyBoxRepository().loadGames();
-
-        } else {
+            app.getToyBoxRepository().loadGames() :
             // load up the metadata for the games in this category
-            ctx.put("category", category);
-            games = app.getToyBoxRepository().loadGames(category);
-        }
+            app.getToyBoxRepository().loadGames(category);
 
         // sort our games by name
         Collections.sort(games, new Comparator<Game>() {
@@ -46,5 +41,6 @@ public class browse extends OptionalUserLogic
             }
         });
         ctx.put("games", games);
+        ctx.put("category", category);
     }
 }
