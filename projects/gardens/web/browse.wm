@@ -2,7 +2,7 @@
 #import ("/header.wm")
 
 <p>
-#if ($category)
+#if (!$string.blank($category))
 <b>$i18n.xlate("category.$category")</b>: $i18n.xlate("browse.${category}.intro")
 #else
 $i18n.xlate("browse.all.intro")
@@ -11,7 +11,7 @@ $i18n.xlate("browse.all.intro")
 <p><table width="768" cellpadding="2">
 <tr style="border-bottom: 1px solid"><td width="90">
 <b>$i18n.xlate("browse.header.game")</b></td>
-#if (!$category)
+#if ($string.blank($category))
 <td style="padding-right: 10px"><b>$i18n.xlate("browse.header.category")</b></td>
 #end
 <td><b>$i18n.xlate("browse.header.description")</b></td>
@@ -23,7 +23,7 @@ $i18n.xlate("browse.all.intro")
 <tr valign="top"><td>
 <a href="view_game.wm?gameid=$game.gameId">$game.name</a>
 </td>
-#if (!$category)
+#if ($string.blank($category))
 <td><a href="browse.wm?category=$game.category">
 $i18n.xlate("category.$game.category")</a></td>
 #end
@@ -42,7 +42,7 @@ $i18n.xlate("category.$game.category")</a></td>
 
 <p align="center"> $i18n.xlate("browse.categories")
 #foreach ($cat in $cats)
-#if ($cat == $category || ($cat == "all" && !$category))
+#if ($cat == $category || ($cat == "all" && $string.blank($category)))
 <b>$i18n.xlate("category.$cat")</b>
 #else
 #if ($cat == "all")
