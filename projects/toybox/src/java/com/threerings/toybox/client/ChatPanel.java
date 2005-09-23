@@ -318,7 +318,8 @@ public class ChatPanel extends JPanel
                    text.startsWith("/emote ") ||
                    text.startsWith("/me ")) {
             text = text.substring(text.indexOf(" ")+1);
-            _chatdtr.requestSpeak(text, ChatCodes.EMOTE_MODE);
+            _chatdtr.requestSpeak(
+                _room.speakService, text, ChatCodes.EMOTE_MODE);
 
         } else if (text.startsWith("/who")) {
             // dump the occupants of the room to the chat box
@@ -346,7 +347,8 @@ public class ChatPanel extends JPanel
 
         } else if (!StringUtil.blank(text)) {
             // request to send this text as a chat message
-            _chatdtr.requestSpeak(text);
+            _chatdtr.requestSpeak(
+                _room.speakService, text, ChatCodes.DEFAULT_MODE);
         }
 
         // clear out the input because we sent a request
