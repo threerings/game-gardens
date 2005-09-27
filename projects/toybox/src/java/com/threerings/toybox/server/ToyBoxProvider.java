@@ -2,7 +2,7 @@
 // $Id$
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2002-2004 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005 Three Rings Design, Inc., All Rights Reserved
 // http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -21,22 +21,21 @@
 
 package com.threerings.toybox.server;
 
+import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationProvider;
-
 import com.threerings.toybox.client.ToyBoxService;
 
 /**
- * Does something extraordinary.
+ * Defines the server-side of the {@link ToyBoxService}.
  */
 public interface ToyBoxProvider extends InvocationProvider
 {
     /**
      * Handles a {@link ToyBoxService#getLobbyOid} request.
      */
-    public void getLobbyOid (ClientObject caller, int gameId,
-                             InvocationService.ResultListener rl)
+    public void getLobbyOid (ClientObject caller, int arg1, InvocationService.ResultListener arg2)
         throws InvocationException;
 }
