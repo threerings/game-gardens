@@ -95,7 +95,7 @@ public class AtlantiController extends GameController
     public void turnDidChange (Name turnHolder)
     {
         // if it's our turn, set the tile to be placed
-        if (turnHolder.equals(_self.username)) {
+        if (_self.username.equals(turnHolder)) {
             _panel.board.setTileToBePlaced(_venobj.currentTile);
         }
     }
