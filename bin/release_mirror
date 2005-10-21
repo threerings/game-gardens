@@ -8,11 +8,11 @@
 
 MIRROR="/export/tools/bin/mirror"
 ROOT=`dirname $0`/..
-VERBOSE="-q"
+VERBOSE=""
 
 # "parse" our arguments
 while [ ! -z "$1" ]; do
-    if [ "$1" == "-v" ]; then
+    if [ "$1" = "-v" ]; then
         VERBOSE="-v"
     fi
     shift
