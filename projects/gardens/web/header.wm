@@ -21,7 +21,7 @@ $i18n.xlate("header.whoami") <b>$user.username</b>
 <td class="ftable" valign="bottom">
 <a href="/">$i18n.xlate("footer.home")</a>
 | <a href="/about.html">$i18n.xlate("footer.about")</a>
-| <a href="/account/">$i18n.xlate("footer.account")</a>
+| <a href="/register/">$i18n.xlate("footer.account")</a>
 | <a href="http://forums.gamegardens.com/discussion/mvnforum/listforums">$i18n.xlate("footer.forums")</a>
 | <a href="/gardens/browse.wm">$i18n.xlate("footer.games")</a>
 
