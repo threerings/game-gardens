@@ -345,7 +345,7 @@ public class ChatPanel extends JPanel
             }
             displayError(MessageBundle.tcompose("m.unknown_command", text));
 
-        } else if (!StringUtil.blank(text)) {
+        } else if (!StringUtil.isBlank(text)) {
             // request to send this text as a chat message
             _chatdtr.requestSpeak(
                 _room.speakService, text, ChatCodes.DEFAULT_MODE);

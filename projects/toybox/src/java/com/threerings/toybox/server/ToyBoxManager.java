@@ -148,7 +148,7 @@ public class ToyBoxManager
         // periodically dump the number of players online, start up an
         // interval to actually do so
         final String path = ToyBoxConfig.config.getValue("occupancy_file", "");
-        if (!StringUtil.blank(path)) {
+        if (!StringUtil.isBlank(path)) {
             _popval = new Interval(ToyBoxServer.omgr) {
                 public void expired () {
                     writeOccupancy(path);

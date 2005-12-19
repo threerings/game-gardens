@@ -68,7 +68,7 @@ public class ToyBoxConfig
     {
         String authclass = config.getValue("server_auth", "");
         try {
-            if (!StringUtil.blank(authclass)) {
+            if (!StringUtil.isBlank(authclass)) {
                 return (Authenticator)Class.forName(authclass).newInstance();
             }
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class ToyBoxConfig
     protected static String requireValue (String key)
     {
         String value = config.getValue(key, "");
-        if (StringUtil.blank(value)) {
+        if (StringUtil.isBlank(value)) {
             log.warning("Missing required configuration '" + key + "'.");
         }
         return value;

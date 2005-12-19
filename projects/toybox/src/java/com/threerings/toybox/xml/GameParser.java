@@ -70,7 +70,7 @@ public class GameParser
             public void begin (String namespace, String name, Attributes attrs)
                 throws Exception {
                 String type = attrs.getValue("type");
-                if (StringUtil.blank("type")) {
+                if (StringUtil.isBlank("type")) {
                     String errmsg = "<match> block missing type attribute.";
                     throw new Exception(errmsg);
                 }

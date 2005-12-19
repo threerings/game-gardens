@@ -157,7 +157,7 @@ public class ToyBoxDirector extends BasicDirector
         String idstr = System.getProperty("game_id");
         try {
             // if none is specified, we're in testing mode and we assume 1
-            if (!StringUtil.blank(idstr)) {
+            if (!StringUtil.isBlank(idstr)) {
                 gameId = Integer.parseInt(idstr);
             }
         } catch (Exception e) {
@@ -315,7 +315,7 @@ public class ToyBoxDirector extends BasicDirector
             try {
                 // TODO: display progress!
                 String digest = rsrc.computeDigest(md, null);
-                if (StringUtil.blank(rdigest) ||
+                if (StringUtil.isBlank(rdigest) ||
                     digest.equals(rdigest)) {
                     log.info("Resource up to date " + rsrc +
                              " (digest " + digest + ").");

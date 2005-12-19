@@ -136,7 +136,7 @@ public class ToyBoxPrefs
     protected static String makeKey (String gameId, String username)
     {
         String key = "client_bounds." + gameId;
-        if (!StringUtil.blank(username)) {
+        if (!StringUtil.isBlank(username)) {
             key += "." + username;
         }
         return key;

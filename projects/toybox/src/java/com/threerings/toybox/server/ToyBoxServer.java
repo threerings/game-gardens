@@ -90,7 +90,7 @@ public class ToyBoxServer extends CrowdServer
         // determine whether we've been run in test mode with a single
         // game configuration
         String gconfig = System.getProperty("game_conf");
-        if (StringUtil.blank(gconfig)) {
+        if (StringUtil.isBlank(gconfig)) {
             toymgr.init(invmgr, conprov);
         } else {
             toymgr.init(invmgr, new File(gconfig));

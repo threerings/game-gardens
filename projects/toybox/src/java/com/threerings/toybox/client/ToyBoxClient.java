@@ -170,10 +170,10 @@ public class ToyBoxClient
     public static String localDataDir (String subdir)
     {
         String appdir = System.getProperty("appdir");
-        if (StringUtil.blank(appdir)) {
+        if (StringUtil.isBlank(appdir)) {
             appdir = ".toybox";
             String home = System.getProperty("user.home");
-            if (!StringUtil.blank(home)) {
+            if (!StringUtil.isBlank(home)) {
                 appdir = home + File.separator + appdir;
             }
         }

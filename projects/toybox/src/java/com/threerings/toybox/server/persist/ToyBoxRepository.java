@@ -279,7 +279,7 @@ public class ToyBoxRepository extends JORARepository
     protected ArrayList<Game> loadGamesBy (String where, String extra)
         throws PersistenceException
     {
-        where = StringUtil.blank(where) ? "where " : (where + " and ");
+        where = StringUtil.isBlank(where) ? "where " : (where + " and ");
         where = where + "STATUS = '" + Game.Status.READY.toString() + "'";
         final String query = where + " " + extra;
         return (ArrayList<Game>)execute(new Operation() {
