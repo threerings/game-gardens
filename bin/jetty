@@ -83,7 +83,7 @@ fi
 CLASSPATH="$CP"
 
 # Add jetty properties to Java VM options.
-JAVA_OPTIONS="-Djava.awt.headless=true -Djetty.home=$JETTY_HOME -Docean.home=$OCEAN_HOME"
+JAVA_OPTIONS="-Djava.awt.headless=true -Djetty.home=$JETTY_HOME -Dgardens.home=$ROOT"
 
 # This is how the Jetty server will be started
 RUN_CMD="$JAVA $JAVA_OPTIONS -cp $CLASSPATH org.mortbay.jetty.Server $CONFIGS"
