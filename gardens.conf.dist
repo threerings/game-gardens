@@ -19,6 +19,7 @@ GARDENS_USER=gardens
 #
 # The user and password with which we will access the database.
 
+DBSERVER=localhost
 DBUSER=gardens
 DBPASSWD=secret
 
