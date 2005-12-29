@@ -14,6 +14,8 @@ import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.text.MessageUtil;
 import com.samskivert.velocity.InvocationContext;
 
+import com.threerings.presents.server.InvocationException;
+
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.Game.Status;
@@ -108,7 +110,16 @@ public class edit_game extends UserLogic
         game.credits = requireString(req, "credits", 1000, true);
 
         // TODO: validate definition
-        GameDefinition gamedef = game.parseGameDefinition();
+        try {
+            GameDefinition gamedef = game.parseGameDefinition();
+        } catch (InvocationException ie) {
+            String errmsg = "edit_game.error.malformed_definition";
+            Throwable cause;
+            if ((cause = ie.getCause()) != null) {
+                errmsg = MessageUtil.tcompose("edit_game.error.malformed_definition_why", cause.getMessage());
+            }
+            throw new FriendlyException(errmsg);
+        }
 
         // TODO: set the status to PUBLISHED if all is groovy?
     }
