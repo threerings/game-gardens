@@ -134,6 +134,8 @@ public class GameParser
     public GameDefinition parseGame (Reader source)
         throws IOException, SAXException
     {
+        // make sure nothing is lingering on the stack from a previous failure
+        _digester.clear();
         // push an array list on the digester which will receive the
         // parsed game definition
         ArrayList list = new ArrayList();
