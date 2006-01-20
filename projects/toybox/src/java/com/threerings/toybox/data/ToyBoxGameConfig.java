@@ -59,9 +59,6 @@ public class ToyBoxGameConfig extends GameConfig
         _gameId = gameId;
         _gamedef = gamedef;
 
-        // note whether or not we're a party game
-        _isPartyGame = ((TableMatchConfig)_gamedef.match).isPartyGame;
-
         // set the default values for our parameters
         params.put("seats", ((TableMatchConfig)_gamedef.match).startSeats);
         for (int ii = 0; ii < gamedef.params.length; ii++) {
@@ -157,15 +154,16 @@ public class ToyBoxGameConfig extends GameConfig
     }
 
     // documentation inherited from interface PartyGameConfig
-    public boolean isPartyGame ()
+    public byte getPartyGameType ()
     {
-        return _isPartyGame;
+        return ((TableMatchConfig)_gamedef.match).isPartyGame ?
+            FREE_FOR_ALL_PARTY_GAME : NOT_PARTY_GAME;
     }
 
-    // documentation inherited from interface PartyGameConfig
-    public void setPartyGame (boolean isPartyGame)
+    /** Returns true if this is a party game, false otherwise. */
+    public boolean isPartyGame ()
     {
-        _isPartyGame = isPartyGame;
+        return getPartyGameType() != NOT_PARTY_GAME;
     }
 
     /** Returns the id of the game associated with this config instance. */
@@ -188,7 +186,4 @@ public class ToyBoxGameConfig extends GameConfig
 
     /** Allows creation of private tables. */
     protected boolean _isPrivate;
-
-    /** Allows creation of party tables. */
-    protected boolean _isPartyGame;
 }
