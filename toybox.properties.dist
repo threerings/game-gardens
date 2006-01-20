@@ -7,13 +7,19 @@
 # Defines the directory under which all game and library resources will be
 # stored on the server.
 
-# resource_dir = 
+# resource_dir = /export/gardens/pages/games
 
 #
 # Defines the URL via which all game and library resources will be
 # downloaded by the clients.
 
-# resource_url = 
+# resource_url = http://garden1.gamegardens.com/games/
+
+#
+# Defines the directory into which the web application will be installed. (And
+# where the webapps will look for the site-data directory).
+
+# webapp_dir = /export/gardens/webapps
 
 #
 # Defines the host and port on which our game server listens.
