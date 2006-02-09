@@ -92,7 +92,7 @@ public class TurnIndicatorView extends JPanel
     protected void updateGameState ()
     {
         switch (_atlobj.state) {
-        case AtlantiObject.AWAITING_PLAYERS:
+        case AtlantiObject.PRE_GAME:
             _whoLabel.setText("Awaiting players...");
             _tileLabel.setTile(null);
             break;
