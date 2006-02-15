@@ -61,6 +61,13 @@ public class LobbyManager extends PlaceManager
         // this happens after we've started up so we configure our lobby
         // object with the game name now
         _lobobj.setName(_game.name);
+
+        // we don't have a game reference the first time our idle unload
+        // interval is scheduled, so cancel it if we discover that we're in
+        // testing mode and don't ever want to unload
+        if (game.gameId == -1) {
+            cancelShutdowner();
+        }
     }
 
     /**
@@ -108,8 +115,9 @@ public class LobbyManager extends PlaceManager
     // documentation inherited
     protected long idleUnloadPeriod ()
     {
-        // unload our lobbies very quickly after they become empty
-        return 15 * 1000L;
+        // unload our lobbies very quickly after they become empty; unless
+        // we're in testing mode in which case we want to never unload
+        return (_game != null && _game.gameId == -1) ? 0L : 15 * 1000L;
     }
 
     // documentation inherited
