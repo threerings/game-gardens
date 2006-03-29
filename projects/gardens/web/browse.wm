@@ -40,9 +40,13 @@ $i18n.xlate("category.$game.category")</a></td>
 
 #set ($cats = ["card", "classic", "party", "strategy", "word", "other", "all"])
 
+#if ($string.blank($category))
+#set ($category = "all")
+#end
+
 <p align="center"> $i18n.xlate("browse.categories")
 #foreach ($cat in $cats)
-#if ($cat == $category || ($cat == "all" && $string.blank($category)))
+#if ($cat == $category)
 <b>$i18n.xlate("category.$cat")</b>
 #else
 #if ($cat == "all")
