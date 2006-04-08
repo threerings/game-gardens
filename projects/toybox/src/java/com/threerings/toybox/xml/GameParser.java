@@ -28,8 +28,9 @@ import java.io.Reader;
 
 import java.util.ArrayList;
 
-import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.ObjectCreateRule;
@@ -58,7 +59,15 @@ public class GameParser
     public GameParser ()
     {
         // create and configure our digester
-        _digester = new Digester();
+        _digester = new Digester() {
+            public void fatalError (SAXParseException exception)
+                throws SAXException {
+                // the standard digester needlessly logs a fatal warning here
+                if (errorHandler != null) {
+                    errorHandler.fatalError(exception);
+                }
+            }
+        };
 
         // add the rules to parse the GameDefinition and its fields
         _digester.addObjectCreate("game", GameDefinition.class.getName());
