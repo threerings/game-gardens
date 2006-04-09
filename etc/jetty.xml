@@ -41,6 +41,17 @@
   </Call>
 
   <!-- =============================================================== -->
+  <!-- Configure the Console Log                                       -->
+  <!-- =============================================================== -->
+  <Call class="org.mortbay.log.LogFactory" name="getFactory">
+    <Call name="getInstance">
+      <Arg/>
+      <Set name="verbose">-1</Set>
+      <Set name="suppressWarnings">true</Set>
+    </Call>
+  </Call>
+
+  <!-- =============================================================== -->
   <!-- Configure the Request Log                                       -->
   <!-- =============================================================== -->
 <!--
