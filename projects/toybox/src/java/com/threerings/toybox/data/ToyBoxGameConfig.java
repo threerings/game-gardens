@@ -46,7 +46,8 @@ public class ToyBoxGameConfig extends GameConfig
     /** Our configuration parameters. These will be seeded with the
      * defaults from the game definition and then configured by the player
      * in the lobby. */
-    public StreamableHashMap params = new StreamableHashMap();
+    public StreamableHashMap<String,Object> params =
+        new StreamableHashMap<String,Object>();
 
     /** A zero argument constructor used when unserializing. */
     public ToyBoxGameConfig ()
