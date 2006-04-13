@@ -308,7 +308,7 @@ public class ToyBoxDirector extends BasicDirector
         }
 
         // create a resource which the downloader will need
-        Resource rsrc = new Resource(rpath, remote, local);
+        Resource rsrc = new Resource(rpath, remote, local, false);
 
         // if the file already exists, check its MD5 hash
         if (rsrc.getLocal().exists()) {

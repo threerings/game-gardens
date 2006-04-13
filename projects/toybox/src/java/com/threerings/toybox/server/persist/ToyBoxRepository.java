@@ -99,8 +99,8 @@ public class ToyBoxRepository extends JORARepository
         final Date thisWeek = getWeek(0);
         final Date lastWeek = getWeek(-1);
         return execute(new Operation<ArrayList<Game>>() {
-            public ArrayList<Game> invoke (
-                Connection conn, DatabaseLiaison liaison)
+            public ArrayList<Game> invoke (Connection conn,
+                                           DatabaseLiaison liaison)
                 throws SQLException, PersistenceException
             {
                 // first obtain the game ids of the top N most frequently
@@ -198,15 +198,7 @@ public class ToyBoxRepository extends JORARepository
     public void insertGame (final Game game)
         throws PersistenceException
     {
-        execute(new Operation<Object>() {
-            public Object invoke (Connection conn, DatabaseLiaison liaison)
-                throws SQLException, PersistenceException
-            {
-                _gtable.insert(game);
-                game.gameId = liaison.lastInsertedId(conn);
-                return null;
-            }
-        });
+        game.gameId = insert(_gtable, game);
     }
 
     /**
@@ -216,21 +208,15 @@ public class ToyBoxRepository extends JORARepository
     public boolean updateGame (final Game game)
         throws PersistenceException
     {
-        return execute(new Operation<Boolean>() {
-            public Boolean invoke (Connection conn, DatabaseLiaison liaison)
-                throws SQLException, PersistenceException
-            {
-                int mod = _gtable.update(game);
-                switch (mod) {
-                case 0: return Boolean.FALSE;
-                case 1: return Boolean.TRUE;
-                default:
-                    log.warning("updateGame() modified more than one row?! " +
-                                "[game=" + game + ", modified=" + mod + "].");
-                    return Boolean.TRUE; // something was updated!
-                }
-            }
-        });
+        int mod = update(_gtable, game);
+        switch (mod) {
+        case 0: return false;
+        case 1: return true;
+        default:
+            log.warning("updateGame() modified more than one row?! " +
+                        "[game=" + game + ", modified=" + mod + "].");
+            return true; // something was updated!
+        }
     }
 
     /**
@@ -241,31 +227,14 @@ public class ToyBoxRepository extends JORARepository
         throws PersistenceException
     {
         Date when = getWeek(0);
-        final String uquery = "update PLAYTIME " +
-            "set PLAYTIME = PLAYTIME + " + minutes + " " +
-            "where GAME_ID = " + gameId + " and PERIOD = '" + when + "'";
-        final String iquery = "insert into PLAYTIME " +
-            "(GAME_ID, PERIOD, PLAYTIME) " +
-            "values(" + gameId + ", '" + when + "', " + minutes + ")";
-        execute(new Operation<Object>() {
-            public Object invoke (Connection conn, DatabaseLiaison liaison)
-                throws SQLException, PersistenceException
-            {
-                Statement stmt = null;
-                try {
-                    // first try updating
-                    stmt = conn.createStatement();
-                    if (stmt.executeUpdate(uquery) == 0) {
-                        // if that failed to modify anything, insert
-                        stmt.executeUpdate(iquery);
-                    }
-
-                } finally {
-                    JDBCUtil.close(stmt);
-                }
-                return null;
-            }
-        });
+        // first try updating
+        if (update("update PLAYTIME set PLAYTIME = PLAYTIME + " + minutes +
+                   " where GAME_ID = " + gameId +
+                   " and PERIOD = '" + when + "'") == 0) {
+            // if that failed to modify anything, insert
+            update("insert into PLAYTIME (GAME_ID, PERIOD, PLAYTIME) " +
+                   "values(" + gameId + ", '" + when + "', " + minutes + ")");
+        }
     }
 
     /**
@@ -281,15 +250,7 @@ public class ToyBoxRepository extends JORARepository
     {
         where = StringUtil.isBlank(where) ? "where " : (where + " and ");
         where = where + "STATUS = '" + Game.Status.READY.toString() + "'";
-        final String query = where + " " + extra;
-        return execute(new Operation<ArrayList<Game>>() {
-            public ArrayList<Game> invoke (
-                Connection conn, DatabaseLiaison liaison)
-                throws SQLException, PersistenceException
-            {
-                return _gtable.select(query).toArrayList();
-            }
-        });
+        return loadAll(_gtable, where + " " + extra);
     }
 
     /** Helper function for {@link #loadGame(int)} and {@link
@@ -297,13 +258,7 @@ public class ToyBoxRepository extends JORARepository
     protected Game loadGameBy (final String query)
         throws PersistenceException
     {
-        return execute(new Operation<Game>() {
-            public Game invoke (Connection conn, DatabaseLiaison liaison)
-                throws SQLException, PersistenceException
-            {
-                return (Game)_gtable.select(query).next();
-            }
-        });
+        return load(_gtable, query);
     }
 
     /** Returns a {@link Date} instance configured to the beginning of the
