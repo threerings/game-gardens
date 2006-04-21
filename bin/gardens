@@ -6,8 +6,8 @@
 # Debian and Redhat 9.
 
 # Locate our ocean directory
-GARDENS_HOME=`dirname $0`/..
-GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
+GARDENS_HOME=`dirname $0`
+GARDENS_HOME=`cd $GARDENS_HOME/.. ; pwd`
 if [ ! -f $GARDENS_HOME/gardens.conf ]; then
     echo "Misconfigured GARDENS_HOME? Missing: $GARDENS_HOME/gardens.conf"
     exit 1
@@ -21,6 +21,7 @@ ulimit -n 4096
 
 DAEMON=$GARDENS_HOME/bin/respawn-gardens
 PIDFILE=/var/run/respawn-gardens.pid
+LOGFILE=/tmp/respawn-gardens.log
 
 # See how we were called
 case "$1" in
@@ -45,9 +46,12 @@ case "$1" in
             echo "And then rerun this script."
             exit -1
         fi
+        # Create and chown the logfile
+        touch $LOGFILE
+        chown $GARDENS_USER $LOGFILE
         # Go ahead and start things up
         echo -n "Starting $DAEMON: "
-        su - $GARDENS_USER -c "$DAEMON" >/dev/null 2>&1 </dev/null &
+        su - $GARDENS_USER -c "$DAEMON" >$LOGFILE 2>&1 </dev/null &
 	echo $! > $PIDFILE
         echo "started."
         ;;
