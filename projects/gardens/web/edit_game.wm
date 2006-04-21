@@ -48,7 +48,7 @@ $form.submit($i18n.xlate("edit_game.update"))
 </form>
 
 #if ($game.gameId > 0)
-<form enctype="multipart/form-data" action="http://garden1.gamegardens.com/gardens/upload_jar.wm" method="POST">
+<form enctype="multipart/form-data" action="$upload_url" method="POST">
 $form.fixedHidden("gameid", "$game.gameId")
 $i18n.xlate("edit_game.upload.file") <input name="jar" type="file">
 $form.submit($i18n.xlate("edit_game.upload.submit"))

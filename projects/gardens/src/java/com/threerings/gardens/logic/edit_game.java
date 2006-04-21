@@ -3,6 +3,7 @@
 
 package com.threerings.gardens.logic;
 
+import java.net.URL;
 import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,6 +47,12 @@ public class edit_game extends UserLogic
             }
         }
 
+        // determine where uploads should be sent
+        URL rurl = new URL(ToyBoxConfig.getResourceURL());
+        URL upurl = new URL(rurl.getProtocol(), rurl.getHost(),
+                            req.getContextPath() + "/upload_jar.wm");
+        ctx.put("upload_url", upurl);
+        
         // assume we're updating unless later overridden
         ctx.put("action", "update");
 
