@@ -166,6 +166,7 @@ public class ToyBoxDirector extends BasicDirector
         }
 
         // ...and issue a request to do so
+        final int fGameId = gameId;
         ToyBoxService.ResultListener rl = new ToyBoxService.ResultListener() {
             public void requestProcessed (Object result) {
                 enterLobby((Integer)result);
@@ -173,7 +174,8 @@ public class ToyBoxDirector extends BasicDirector
 
             public void requestFailed (String cause) {
                 // TODO: report this error graphically
-                log.warning("Failed to get lobby oid: " + cause + ".");
+                log.warning("Failed to get lobby oid [gameId=" + fGameId +
+                            ", error=" + cause + "].");
             }
         };
         log.fine("Requesting lobby oid [game=" + gameId + "].");

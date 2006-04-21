@@ -283,76 +283,14 @@ public class ChatPanel extends JPanel
     protected void sendText ()
     {
         String text = _entry.getText().trim();
-
-        // if the message to send begins with /tell then parse it and
-        // generate a tell request rather than a speak request
-        if (text.startsWith("/tell ")) {
-            StringTokenizer tok = new StringTokenizer(text);
-            // there should be at least three tokens: '/tell target word'
-            if (tok.countTokens() < 3) {
-                displayError("m.usage_tell");
-                return;
+        if (!StringUtil.isBlank(text)) {
+            String rv = _chatdtr.requestChat(_room.speakService, text, true);
+            if (rv != ChatCodes.SUCCESS) {
+                displayError(rv);
+            } else {
+                _entry.setText("");
             }
-
-            // skip the /tell and grab the username
-            tok.nextToken();
-            String username = tok.nextToken();
-
-            // now strip off everything up to the username to get the
-            // message
-            int uidx = text.indexOf(username);
-            String message = text.substring(uidx + username.length()).trim();
-
-            // request to send this text as a tell message
-            _chatdtr.requestTell(new Name(username), message, null);
-
-        } else if (text.startsWith("/clear")) {
-            // clear the chat box
-            _chatdtr.clearDisplays();
-
-        } else if (text.startsWith("/broadcast ")) {
-            text = text.substring(text.indexOf(" ")+1);
-            _chatdtr.requestBroadcast(text);
-
-        } else if (text.startsWith("/em ") ||
-                   text.startsWith("/emote ") ||
-                   text.startsWith("/me ")) {
-            text = text.substring(text.indexOf(" ")+1);
-            _chatdtr.requestSpeak(
-                _room.speakService, text, ChatCodes.EMOTE_MODE);
-
-        } else if (text.startsWith("/who")) {
-            // dump the occupants of the room to the chat box
-            displayFeedback("m.who_header");
-            Iterator iter = _room.occupantInfo.iterator();
-            while (iter.hasNext()) {
-                OccupantInfo info = (OccupantInfo)iter.next();
-                String msg = "m.who_active";
-                switch (info.status) {
-                case OccupantInfo.IDLE: msg = "m.who_idle"; break;
-                case OccupantInfo.DISCONNECTED: msg = "m.who_discon"; break;
-                }
-                displayFeedback(MessageBundle.tcompose(msg, info.username));
-            }
-
-        } else if (text.startsWith("/help")) {
-            displayFeedback("m.chat_help");
-
-        } else if (text.startsWith("/")) {
-            int sidx = text.indexOf(" ");
-            if (sidx != -1) {
-                text = text.substring(0, sidx);
-            }
-            displayError(MessageBundle.tcompose("m.unknown_command", text));
-
-        } else if (!StringUtil.isBlank(text)) {
-            // request to send this text as a chat message
-            _chatdtr.requestSpeak(
-                _room.speakService, text, ChatCodes.DEFAULT_MODE);
         }
-
-        // clear out the input because we sent a request
-        _entry.setText("");
     }
 
     // documentation inherited from interface ChatDisplay
