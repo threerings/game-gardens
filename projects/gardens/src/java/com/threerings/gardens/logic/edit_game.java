@@ -52,7 +52,7 @@ public class edit_game extends UserLogic
         URL upurl = new URL(rurl.getProtocol(), rurl.getHost(),
                             req.getContextPath() + "/upload_jar.wm");
         ctx.put("upload_url", upurl);
-        
+
         // assume we're updating unless later overridden
         ctx.put("action", "update");
 

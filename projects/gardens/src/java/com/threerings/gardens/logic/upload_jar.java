@@ -39,6 +39,9 @@ public class upload_jar extends UserLogic
     {
         HttpServletRequest req = ctx.getRequest();
 
+        // we'll need this to get back to the main website
+        ctx.put("website_url", ToyBoxConfig.getWebsiteURL());
+
         // TODO: check disk usage, set max size to current quota
         DiskFileUpload fu = new DiskFileUpload();
         fu.setSizeMax(MAX_GAME_JAR_SIZE);

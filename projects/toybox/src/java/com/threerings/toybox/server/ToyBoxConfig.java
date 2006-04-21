@@ -95,6 +95,14 @@ public class ToyBoxConfig
     }
 
     /**
+     * Returns the base URL via which the main website is accessed.
+     */
+    public static String getWebsiteURL ()
+    {
+        return requireValue("website_url");
+    }
+
+    /**
      * Returns the JDBC configuration for this installation.
      */
     public static Properties getJDBCConfig ()

@@ -27,6 +27,8 @@
       storepass="${sign.storepass}">
       <fileset dir="${deploy.dir}" includes="*.jar"/>
     </signjar>
+    <!-- also copy the client jar into the game development directory -->
+    <copy todir="../games/client" file="${deploy.dir}/gg-client.jar"/>
   </target>
 
   <!-- the default target is to build, install and sign the client -->

@@ -93,18 +93,6 @@ public class ToyBoxGameConfig extends GameConfig
     }
 
     // documentation inherited
-    public Class getControllerClass ()
-    {
-        try {
-            return Class.forName(_gamedef.controller, true, _loader);
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to instantiate game controller " +
-                    "[class=" + _gamedef.controller + "]", e);
-            return null;
-        }
-    }
-
-    // documentation inherited
     public String getManagerClassName ()
     {
         return _gamedef.manager;

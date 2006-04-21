@@ -23,6 +23,7 @@ package com.threerings.toybox.client;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
@@ -41,15 +42,19 @@ import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.DObjectManager;
 
 import com.threerings.crowd.chat.client.ChatDirector;
-import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.client.LocationDirector;
 import com.threerings.crowd.client.OccupantDirector;
+import com.threerings.crowd.client.PlaceController;
 import com.threerings.crowd.client.PlaceView;
+import com.threerings.crowd.data.PlaceConfig;
 
 import com.threerings.parlor.client.ParlorDirector;
 
+import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.util.ToyBoxContext;
+
+import static com.threerings.toybox.lobby.Log.log;
 
 /**
  * The ToyBox client takes care of instantiating all of the proper
@@ -140,8 +145,22 @@ public class ToyBoxClient
 
         // create our managers and directors
         _locdir = new LocationDirector(_ctx) {
-            protected ClassLoader getClassLoader (PlaceConfig config) {
-                return _toydtr.getClassLoader(config);
+            protected PlaceController createController (PlaceConfig config) {
+                if (config instanceof ToyBoxGameConfig) {
+                    ToyBoxGameConfig toycfg = (ToyBoxGameConfig)config;
+                    String ccls = toycfg.getGameDefinition().controller;
+                    try {
+                        ClassLoader loader = _toydtr.getClassLoader(config);
+                        return (PlaceController)Class.forName(
+                            ccls, true, loader).newInstance();
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Failed to instantiate game " +
+                                "controller [class=" + ccls + "]", e);
+                        return null;
+                    }
+                } else {
+                    return super.createController(config);
+                }
             }
         };
         _occdir = new OccupantDirector(_ctx);

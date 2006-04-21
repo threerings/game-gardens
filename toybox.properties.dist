@@ -7,25 +7,33 @@
 # Defines the directory under which all game and library resources will be
 # stored on the server.
 
-# resource_dir = /export/gardens/pages/games
+resource_dir = /export/gardens/pages/games
+
+#
+# Defines the URL that users go to browse games and access the website part of
+# Game Gardens (which may differ from the server_host and resource_url which
+# hosts the game jar file downloads and the actual game server). (Does not
+# require a trailing slash.)
+
+website_url = http://www.gamegardens.com
 
 #
 # Defines the URL via which all game and library resources will be
-# downloaded by the clients.
+# downloaded by the clients. (Requires a trailing slash.)
 
-# resource_url = http://garden1.gamegardens.com/games/
+resource_url = http://garden1.gamegardens.com/games/
 
 #
 # Defines the directory into which the web application will be installed. (And
 # where the webapps will look for the site-data directory).
 
-# webapp_dir = /export/gardens/webapps
+webapp_dir = /export/gardens/webapps
 
 #
 # Defines the host and port on which our game server listens.
 
-# server_host = garden1.gamegardens.com
-# server_port = 47624
+server_host = garden1.gamegardens.com
+server_port = 47624
 
 #
 # Defines the client authenticator used by the server.
