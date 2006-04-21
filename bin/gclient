@@ -7,5 +7,10 @@ if [ -f $SECURITY_POLICY ]; then
     JAVA_ARGS="$JAVA_ARGS -Djava.security.policy=$SECURITY_POLICY"
 fi
 
-`dirname $0`/runjava -- $JAVA_ARGS com.threerings.toybox.client.ToyBoxApp \
-  localhost 47624 $*
+if [ -z "$3" ]; then
+    echo "Usage: gclient username password game_id"
+    exit 255
+fi
+
+`dirname $0`/runjava -- $JAVA_ARGS -Dgame_id=$3 \
+  com.threerings.toybox.client.ToyBoxApp localhost 47624 $*
