@@ -35,7 +35,6 @@ import com.samskivert.jdbc.DatabaseLiaison;
 import com.samskivert.jdbc.JDBCUtil;
 import com.samskivert.jdbc.JORARepository;
 import com.samskivert.jdbc.jora.Cursor;
-import com.samskivert.jdbc.jora.Session;
 import com.samskivert.jdbc.jora.Table;
 
 import com.samskivert.io.PersistenceException;
@@ -130,7 +129,8 @@ public class ToyBoxRepository extends JORARepository
                 Game game = null;
                 HashMap<Integer,Game> games = new HashMap<Integer,Game>();
                 if (buf.length() > 0) {
-                    Cursor c = _gtable.select("where GAME_ID in (" + buf + ")");
+                    Cursor c = _gtable.select(
+                        conn, "where GAME_ID in (" + buf + ")");
                     while ((game = (Game)c.next()) != null) {
                         games.put(game.gameId, game);
                     }
@@ -276,10 +276,9 @@ public class ToyBoxRepository extends JORARepository
     }
 
     // documentation inherited
-    protected void createTables (Session session)
+    protected void createTables ()
     {
-	_gtable = new Table<Game>(
-            Game.class, "GAMES", session, "GAME_ID", true);
+	_gtable = new Table<Game>(Game.class, "GAMES", "GAME_ID", true);
     }
 
     /** A wrapper that provides access to the games table. */
