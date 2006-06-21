@@ -249,9 +249,9 @@ public class ToyBoxManager
 
         // if we are currently loading this lobby, add this listener to
         // the list of penders
-        ResultListenerList penders = _penders.get(gameId);
+        ResultListenerList<Integer> penders = _penders.get(gameId);
         if (penders != null) {
-            penders.add(new ResultAdapter(rl));
+            penders.add(new ResultAdapter<Integer>(rl));
             return;
         }
 
@@ -281,8 +281,9 @@ public class ToyBoxManager
 
                     // otherwise we're safe to finally map our result
                     // listener into a listener list
-                    ResultListenerList rls = new ResultListenerList();
-                    rls.add(new ResultAdapter(rl));
+                    ResultListenerList<Integer> rls =
+                        new ResultListenerList<Integer>();
+                    rls.add(new ResultAdapter<Integer>(rl));
                     _penders.put(gameId, rls);
 
                 } catch (InvocationException ie) {
@@ -314,7 +315,8 @@ public class ToyBoxManager
                 // register ourselves in the lobby table
                 _lobbyOids.put(game.gameId, place.getOid());
                 // inform any resolution penders of the lobby oid
-                ResultListenerList listeners = _penders.remove(game.gameId);
+                ResultListenerList<Integer> listeners =
+                    _penders.remove(game.gameId);
                 if (listeners != null) {
                     listeners.requestCompleted(place.getOid());
                 }
@@ -349,7 +351,8 @@ public class ToyBoxManager
      */
     protected void writeOccupancy (String path)
     {
-        String template = ToyBoxConfig.config.getValue("occupancy_template", "");
+        String template =
+            ToyBoxConfig.config.getValue("occupancy_template", "");
         try {
             ArrayList<GameOccupancy> list = new ArrayList<GameOccupancy>();
             for (int gameId : _lobbyOids.keySet()) {
@@ -410,8 +413,8 @@ public class ToyBoxManager
 
     /** Contains pending listeners for lobbies in the process of being
      * resolved. */
-    protected HashMap<Integer,ResultListenerList> _penders =
-        new HashMap<Integer,ResultListenerList>();
+    protected HashMap<Integer,ResultListenerList<Integer>> _penders =
+        new HashMap<Integer,ResultListenerList<Integer>>();
 
     /** Contains a mapping from game identifier strings to lobby oids for
      * lobbies that have been resolved. */

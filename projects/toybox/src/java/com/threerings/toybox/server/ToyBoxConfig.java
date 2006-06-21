@@ -57,7 +57,7 @@ public class ToyBoxConfig
      */
     public static int getServerPort ()
     {
-        return config.getValue("server_port", Client.DEFAULT_SERVER_PORT);
+        return config.getValue("server_port", Client.DEFAULT_SERVER_PORTS[0]);
     }
 
     /**

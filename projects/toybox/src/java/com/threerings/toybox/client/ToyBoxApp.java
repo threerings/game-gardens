@@ -45,7 +45,7 @@ public class ToyBoxApp
     {
         // create a frame
         _frame = new ToyBoxFrame("...", gameId, username);
-        _framemgr = FrameManager.newInstance(_frame);
+        _framemgr = FrameManager.newInstance(_frame, _frame);
 
         // create and initialize our client instance
         _client = new ToyBoxClient();
@@ -61,7 +61,7 @@ public class ToyBoxApp
 
         // pass them on to the client
         log.info("Using [server=" + server + ", port=" + port + "].");
-        client.setServer(server, port);
+        client.setServer(server, new int[] { port });
 
         // configure the client with some credentials and logon
         if (username != null && password != null) {
@@ -131,7 +131,7 @@ public class ToyBoxApp
             server = args[0];
         }
 
-        int port = Client.DEFAULT_SERVER_PORT;
+        int port = Client.DEFAULT_SERVER_PORTS[0];
         if (args.length > 1) {
             try {
                 port = Integer.parseInt(args[1]);

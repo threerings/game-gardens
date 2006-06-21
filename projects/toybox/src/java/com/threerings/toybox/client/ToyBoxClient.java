@@ -35,6 +35,7 @@ import com.samskivert.util.Config;
 import com.samskivert.util.RunQueue;
 import com.samskivert.util.StringUtil;
 import com.threerings.media.FrameManager;
+import com.threerings.util.IdleTracker;
 import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageManager;
 
@@ -42,6 +43,8 @@ import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.DObjectManager;
 
 import com.threerings.crowd.chat.client.ChatDirector;
+import com.threerings.crowd.chat.data.ChatCodes;
+import com.threerings.crowd.client.BodyService;
 import com.threerings.crowd.client.LocationDirector;
 import com.threerings.crowd.client.OccupantDirector;
 import com.threerings.crowd.client.PlaceController;
@@ -50,6 +53,7 @@ import com.threerings.crowd.data.PlaceConfig;
 
 import com.threerings.parlor.client.ParlorDirector;
 
+import com.threerings.toybox.Log;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.util.ToyBoxContext;
@@ -77,9 +81,6 @@ public class ToyBoxClient
         // create the directors/managers/etc. provided by the context
         createContextServices();
 
-        // for test purposes, hardcode the server info
-        _client.setServer("localhost", Client.DEFAULT_SERVER_PORT);
-
         // keep this for later
         _frame = frame;
 
@@ -106,6 +107,34 @@ public class ToyBoxClient
 
         // create our client controller and stick it in the frame
         _frame.setController(new ClientController(_ctx, _frame));
+
+        // start our idle tracker
+        IdleTracker idler =
+            new IdleTracker(ChatCodes.DEFAULT_IDLE_TIME, LOGOFF_DELAY) {
+            protected long getTimeStamp () {
+                return _frame.getFrameManager().getTimeStamp();
+            }
+            protected void idledIn () {
+                updateIdle(false);
+            }
+            protected void idledOut () {
+                updateIdle(true);
+            }
+            protected void updateIdle (boolean isIdle) {
+                if (_ctx.getClient().isLoggedOn()) {
+                    Log.log.info("Setting idle " + isIdle + ".");
+                    BodyService bsvc = (BodyService)
+                        _ctx.getClient().requireService(BodyService.class);
+                    bsvc.setIdle(_ctx.getClient(), isIdle);
+                }
+            }
+            protected void abandonedShip () {
+                if (_client.isLoggedOn()) {
+                    _client.logoff(true);
+                }
+            }
+        };
+        idler.start(null, _ctx.getClient().getRunQueue());
     }
 
     /**
@@ -304,4 +333,7 @@ public class ToyBoxClient
     /** The prefix prepended to localization bundle names before looking
      * them up in the classpath. */
     protected static final String MESSAGE_MANAGER_PREFIX = "rsrc.i18n";
+
+    /** The time in milliseconds after which we log off an idle user. */
+    protected static final long LOGOFF_DELAY = 8L * 60L * 1000L;
 }

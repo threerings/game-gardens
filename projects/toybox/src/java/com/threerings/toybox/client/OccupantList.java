@@ -27,6 +27,8 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
+import com.threerings.util.Name;
+
 import com.threerings.crowd.client.OccupantObserver;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.OccupantInfo;
@@ -94,7 +96,10 @@ public class OccupantList extends JList
     // documentation inherited
     public void occupantUpdated (OccupantInfo oinfo, OccupantInfo info)
     {
-        // nothing doing
+        int idx = _model.indexOf(getName(oinfo.username, oinfo.status));
+        if (idx >= 0) {
+            _model.setElementAt(getName(info.username, info.status), idx);
+        }
     }
 
     // documentation inherited
@@ -103,6 +108,19 @@ public class OccupantList extends JList
         Dimension d = super.getPreferredSize();
         d.width = Math.min(Math.max(d.width, 100), 150);
         return d;
+    }
+
+    protected Name getName (Name username, int status)
+    {
+        switch (status) {
+        case OccupantInfo.IDLE:
+            return new Name("(" + username + ")");
+        case OccupantInfo.DISCONNECTED:
+            return new Name("{" + username + "}");
+        default:
+        case OccupantInfo.ACTIVE:
+            return username;
+        }
     }
 
     /** Our client context. */
