@@ -13,9 +13,8 @@
 -injars ../../lib/toybox.jar(!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**)
 
 -libraryjars <java.home>/lib/rt.jar
-
+-dontskipnonpubliclibraryclasses
 -dontobfuscate
-
 -outjars gg-client.jar
 
 # we need whatever we keep of samskivert to be around in its entirety so
