@@ -100,9 +100,7 @@ public class LobbyPanel extends JPanel
         _main = new JPanel(gl);
 
         // create a chat box and stick that in
-        ChatPanel cp = new ChatPanel(ctx, true);
-        cp.setPreferredSize(new Dimension(100, 200));
-        _main.add(cp, GroupLayout.FIXED);
+        _main.add(new ChatPanel(ctx, true));
 
         // set up the title and main panel
         _title = new MultiLineLabel("", MultiLineLabel.CENTER);
@@ -150,7 +148,7 @@ public class LobbyPanel extends JPanel
         // create our match-making view
         JComponent matchView = createMatchMakingView(_ctx, config);
         if (matchView != null) {
-            _main.add(matchView, 0);
+            _main.add(matchView, GroupLayout.FIXED, 0);
             if (matchView instanceof PlaceView) {
                 // because we're adding our match making view after we've
                 // already entered our place, we need to fake an entry

@@ -109,7 +109,7 @@ public class TableListView extends JPanel
         _matchList = new JPanel(mgl);
         if (!config.isPartyGame()) {
             _matchList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            panel.add(new SafeScrollPane(_matchList));
+            panel.add(new SafeScrollPane(_matchList, 0, 80));
         }
 
         // create and initialize our configurator interface
@@ -159,7 +159,7 @@ public class TableListView extends JPanel
 
         _playList = new JPanel(mgl);
     	_playList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panel.add(new SafeScrollPane(_playList));
+        panel.add(new SafeScrollPane(_playList, 0, 260));
 
         add(panel);
     }
