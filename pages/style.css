@@ -30,6 +30,10 @@ pre {
   font-family: Courier New, monospace;
 }
 
+ul {
+  padding-left: 20px;
+}
+
 .big { font-size: x-large }
 .small { font-size: small }
 
