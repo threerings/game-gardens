@@ -34,6 +34,8 @@ $form.textarea($name, "rows='$rows' cols='80'", $defvalue)
 #tinput("description" 2 $game.description)
 #tinput("instructions" 7 $game.instructions)
 #tinput("credits" 5 $game.credits)
+<tr><td colspan="3" class="small">$i18n.xlate("edit_game.formatting")</td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
 #tinput("definition" 10 $game.definition)
 
 <tr><td colspan="3" align="right">
