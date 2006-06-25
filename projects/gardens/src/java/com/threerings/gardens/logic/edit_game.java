@@ -123,7 +123,9 @@ public class edit_game extends UserLogic
             String errmsg = "edit_game.error.malformed_definition";
             Throwable cause;
             if ((cause = ie.getCause()) != null) {
-                errmsg = MessageUtil.tcompose("edit_game.error.malformed_definition_why", cause.getMessage());
+                errmsg = MessageUtil.tcompose(
+                    "edit_game.error.malformed_definition_why",
+                    cause.getMessage());
             }
             throw new FriendlyException(errmsg);
         }
@@ -143,7 +145,7 @@ public class edit_game extends UserLogic
             throw new FriendlyException(err);
         }
         if (entify) {
-            value = HTMLUtil.entify(value);
+            value = HTMLUtil.restrictHTML(value, true, true, true);
         }
         return value;
     }
