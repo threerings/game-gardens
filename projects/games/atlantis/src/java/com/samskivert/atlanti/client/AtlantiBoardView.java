@@ -66,7 +66,7 @@ public class AtlantiBoardView extends JPanel
      * @param tset the set of {@link AtlantiTile} objects to be displayed
      * by this board.
      */
-    public void setTiles (DSet tset)
+    public void setTiles (DSet<AtlantiTile> tset)
     {
         // clear out our old tiles list
         _tiles.clear();
@@ -88,7 +88,7 @@ public class AtlantiBoardView extends JPanel
      * and subsequent piecen placement should be done via {@link
      * #placePiecen}.
      */
-    public void setPiecens (DSet piecens)
+    public void setPiecens (DSet<Piecen> piecens)
     {
         //  just iterate over the set placing each of the piecens in turn
         Iterator iter = piecens.iterator();
@@ -649,7 +649,7 @@ public class AtlantiBoardView extends JPanel
         frame.setVisible(true);
     }
 
-    protected static class TestDSet extends DSet
+    protected static class TestDSet extends DSet<AtlantiTile>
     {
         public void addTile (AtlantiTile tile)
         {

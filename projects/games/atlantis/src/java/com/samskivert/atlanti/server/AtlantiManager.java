@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.samskivert.util.HashIntMap;
+import com.samskivert.util.RandomUtil;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.dobj.EntryAddedEvent;
@@ -20,7 +21,6 @@ import com.threerings.presents.dobj.SetListener;
 import com.threerings.presents.dobj.MessageEvent;
 
 import com.threerings.util.MessageBundle;
-import com.threerings.util.RandomUtil;
 
 import com.threerings.presents.dobj.MessageEvent;
 
@@ -116,8 +116,8 @@ public class AtlantiManager extends GameManager
         // will already be in the set when the time comes to process the
         // addToTiles() event
         AtlantiTile start = TileUtil.getStartingTile();
-        _atlobj.setTiles(new DSet(new AtlantiTile[] { start }));
-        _atlobj.setPiecens(new DSet());
+        _atlobj.setTiles(new DSet<AtlantiTile>(new AtlantiTile[] { start }));
+        _atlobj.setPiecens(new DSet<Piecen>());
         _tiles.add(start);
     }
 
@@ -458,7 +458,7 @@ public class AtlantiManager extends GameManager
      */
     protected void scoreFarms ()
     {
-        HashIntMap cities = new HashIntMap();
+        HashIntMap<int[]> cities = new HashIntMap<int[]>();
         int[] cityScores = new int[getPlayerCount()];
 
         // clear out the claims for incompleted cities and claim unclaimed
@@ -482,7 +482,7 @@ public class AtlantiManager extends GameManager
                 }
 
                 // get the list associated with this claim group
-                int[] claims = (int[])cities.get(cityClaim);
+                int[] claims = cities.get(cityClaim);
                 if (claims == null) {
                     // create a claim vector if we've not got one.  if a
                     // city had 35 separately claimed farms around it, all

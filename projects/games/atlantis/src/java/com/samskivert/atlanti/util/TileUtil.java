@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import com.samskivert.util.RandomUtil;
+
 import com.threerings.presents.dobj.DSet;
 
 import com.samskivert.atlanti.Log;
@@ -46,7 +48,7 @@ public class TileUtil implements TileCodes
         int tsize = TILE_SET.size();
         for (int i = 0; i < tsize; i++) {
             // when testing, we prune out most tiles to make games quicker
-            if (!TESTING || com.threerings.util.RandomUtil.getInt(10) > 7) {
+            if (!TESTING || RandomUtil.getInt(10) > 7) {
                 tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
             }
         }

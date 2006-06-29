@@ -37,7 +37,7 @@ public class AtlantiObject extends GameObject
 
     /** A set containing all of the tiles that are in play in this
      * game. */
-    public DSet tiles = new DSet();
+    public DSet<AtlantiTile> tiles = new DSet<AtlantiTile>();
 
     /** The tile being placed by the current turn holder. This value is
      * only valid while it is someone's turn. */
@@ -45,7 +45,7 @@ public class AtlantiObject extends GameObject
 
     /** A set containing all of the piecens that are placed on the
      * board. */
-    public DSet piecens = new DSet();
+    public DSet<Piecen> piecens = new DSet<Piecen>();
 
     /** The scores for each player. */
     public int[] scores;
