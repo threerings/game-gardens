@@ -7,9 +7,10 @@ commons-logging.jar
 getdown.jar
 narya-base.jar
 narya-distrib.jar
-narya-media.jar
-narya-micasa.jar
-narya-parlor.jar
+nenya-rsrc.jar
+nenya-media.jar
+vilya-micasa.jar
+vilya-parlor.jar
 samskivert.jar
 threerings.jar
 velocity-1.5-dev.jar
