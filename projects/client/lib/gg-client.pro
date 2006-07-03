@@ -7,8 +7,9 @@
 -injars ../../lib/getdown.jar(!META-INF/*,!**/tools/**)
 -injars ../../lib/narya-base.jar(!META-INF/*,!**/tools/**,!**/server/**)
 -injars ../../lib/narya-distrib.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/narya-media.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/narya-parlor.jar(!META-INF/*,!**/tools/**,!**/server/**)
+-injars ../../lib/nenya-rsrc.jar(!META-INF/*,!**/tools/**,!**/server/**)
+-injars ../../lib/nenya-media.jar(!META-INF/*,!**/tools/**,!**/server/**)
+-injars ../../lib/vilya-parlor.jar(!META-INF/*,!**/tools/**,!**/server/**)
 -injars ../../lib/samskivert.jar(!META-INF/*,!**/velocity/**,!**/xml/**)
 -injars ../../lib/toybox.jar(!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**)
 
