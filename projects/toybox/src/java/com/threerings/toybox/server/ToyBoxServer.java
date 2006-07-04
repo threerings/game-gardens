@@ -30,10 +30,16 @@ import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.OneLineLogFormatter;
 import com.samskivert.util.StringUtil;
 
+import com.threerings.util.Name;
+
 import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.RootDObjectManager;
+import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.Authenticator;
+import com.threerings.presents.server.ClientFactory;
+import com.threerings.presents.server.ClientResolver;
 import com.threerings.presents.server.InvocationManager;
+import com.threerings.presents.server.PresentsClient;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdClient;
@@ -70,10 +76,14 @@ public class ToyBoxServer extends CrowdServer
         super.init();
 
         // configure the client manager to use the appropriate client class
-        clmgr.setClientClass(ToyBoxClient.class);
-
-        // configure the client manager to use our resolver
-        clmgr.setClientResolverClass(ToyBoxClientResolver.class);
+        clmgr.setClientFactory(new ClientFactory() {
+            public PresentsClient createClient (AuthRequest areq) {
+                return new ToyBoxClient();
+            }
+            public ClientResolver createClientResolver (Name username) {
+                return new ToyBoxClientResolver();
+            }
+        });
 
         // create our database connection provider
         conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());
