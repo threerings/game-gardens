@@ -259,10 +259,10 @@ class GameGardensTemplate extends QuickTemplate {
             </ul>
 
 <div class="ggfooter">
-  <a href="/">Game Gardens</a>:
-  <a href="/gardens/browse.wm">Games</a> |
+  <a href="http://www.gamegardens.com/">Game Gardens</a>:
+  <a href="http://www.gamegardens.com/gardens/browse.wm">Games</a> |
   <a href="http://forums.gamegardens.com/discussion/mvnforum/listforums">Forums</a> |
-  <a href="/register/">Account</a>
+  <a href="http://www.gamegardens.com/register/">Account</a>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   &copy;2005-2006 <a href="http://www.threerings.net/">Three Rings Design, Inc</a>
 </div>
