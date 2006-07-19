@@ -21,6 +21,8 @@
 
 package com.threerings.toybox.server;
 
+import com.threerings.presents.data.ClientObject;
+
 import com.threerings.crowd.server.CrowdClientResolver;
 
 import com.threerings.toybox.data.ToyBoxUserObject;
@@ -31,7 +33,7 @@ import com.threerings.toybox.data.ToyBoxUserObject;
 public class ToyBoxClientResolver extends CrowdClientResolver
 {
     // documentation inherited
-    public Class getClientObjectClass ()
+    public Class<? extends ClientObject> getClientObjectClass ()
     {
         return ToyBoxUserObject.class;
     }

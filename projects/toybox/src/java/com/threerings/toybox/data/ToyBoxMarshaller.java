@@ -46,7 +46,7 @@ public class ToyBoxMarshaller extends InvocationMarshaller
         InvocationMarshaller.ResultMarshaller listener3 = new InvocationMarshaller.ResultMarshaller();
         listener3.listener = arg3;
         sendRequest(arg1, GET_LOBBY_OID, new Object[] {
-            new Integer(arg2), listener3
+            Integer.valueOf(arg2), listener3
         });
     }
 

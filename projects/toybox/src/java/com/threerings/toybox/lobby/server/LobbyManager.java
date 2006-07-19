@@ -24,6 +24,7 @@ package com.threerings.toybox.lobby.server;
 import com.threerings.presents.dobj.EntryRemovedEvent;
 import com.threerings.presents.dobj.SetAdapter;
 
+import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
 
 import com.threerings.parlor.server.TableManager;
@@ -130,7 +131,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
-    protected Class getPlaceObjectClass ()
+    protected Class<? extends PlaceObject> getPlaceObjectClass ()
     {
         return LobbyObject.class;
     }
