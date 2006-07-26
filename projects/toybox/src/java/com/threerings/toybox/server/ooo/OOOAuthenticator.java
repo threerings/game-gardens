@@ -65,81 +65,54 @@ public class OOOAuthenticator extends Authenticator
         }
     }
 
-    // documentation inherited
-    public void authenticateConnection (final AuthingConnection conn)
-    {
-        // fire up an invoker unit that will load the user object just to
-        // make sure they exist
-        String name = "auth:" + conn.getAuthRequest().getCredentials();
-        ToyBoxServer.invoker.postUnit(new Invoker.Unit(name) {
-            public boolean invoke () {
-                processAuthentication(conn);
-                return false;
-            }
-        });
-    }
-
-    /**
-     * Here we do the actual authentication processing while running
-     * happily on the invoker thread.
-     */
-    protected void processAuthentication (AuthingConnection conn)
+    // from abstract Authenticator
+    protected void processAuthentication (
+        AuthingConnection conn, AuthResponse rsp)
+        throws PersistenceException
     {
         AuthRequest req = conn.getAuthRequest();
-        AuthResponseData rdata = new AuthResponseData();
-        AuthResponse rsp = new AuthResponse(rdata);
+        AuthResponseData rdata = rsp.getData();
 
-        try {
-            // make sure we were properly initialized
-            if (_authrep == null) {
-                rdata.code = SERVER_ERROR;
-                return;
-            }
-
-            // make sure they've sent valid credentials
-            if (!(req.getCredentials() instanceof UsernamePasswordCreds)) {
-                rdata.code = SERVER_ERROR;
-                log.warning("Invalid credentials: " + req);
-                // note that the finally block will be executed and
-                // communicate our auth response back to the conmgr
-                return;
-            }
-            UsernamePasswordCreds creds = (UsernamePasswordCreds)
-                req.getCredentials();
-            String username = creds.getUsername().toString();
-
-            // load up their user account record
-            OOOUser user = (OOOUser)_authrep.loadUser(username);
-            if (user == null) {
-                rdata.code = NO_SUCH_USER;
-                return;
-            }
-
-            // now check their password
-            if (!user.password.equals(creds.getPassword())) {
-                rdata.code = INVALID_PASSWORD;
-                return;
-            }
-
-            // configure a token ring for this user
-            int tokens = 0;
-            if (user.holdsToken(OOOUser.ADMIN)) {
-                tokens |= TokenRing.ADMIN;
-            }
-            rsp.authdata = new TokenRing(tokens);
-
-            log.info("User logged on [user=" + username + "].");
-            rdata.code = AuthResponseData.SUCCESS;
-
-        } catch (PersistenceException pe) {
-            log.log(Level.WARNING, "Error authenticating user " +
-                    "[areq=" + req + "].", pe);
+        // make sure we were properly initialized
+        if (_authrep == null) {
             rdata.code = SERVER_ERROR;
-
-        } finally {
-            // let the powers that be know that we're done authenticating
-            connectionWasAuthenticated(conn, rsp);
+            return;
         }
+            
+        // make sure they've sent valid credentials
+        if (!(req.getCredentials() instanceof UsernamePasswordCreds)) {
+            rdata.code = SERVER_ERROR;
+            log.warning("Invalid credentials: " + req);
+            // note that the finally block will be executed and
+            // communicate our auth response back to the conmgr
+            return;
+        }
+        UsernamePasswordCreds creds = (UsernamePasswordCreds)
+            req.getCredentials();
+        String username = creds.getUsername().toString();
+
+        // load up their user account record
+        OOOUser user = (OOOUser)_authrep.loadUser(username);
+        if (user == null) {
+            rdata.code = NO_SUCH_USER;
+            return;
+        }
+
+        // now check their password
+        if (!user.password.equals(creds.getPassword())) {
+            rdata.code = INVALID_PASSWORD;
+            return;
+        }
+
+        // configure a token ring for this user
+        int tokens = 0;
+        if (user.holdsToken(OOOUser.ADMIN)) {
+            tokens |= TokenRing.ADMIN;
+        }
+        rsp.authdata = new TokenRing(tokens);
+
+        log.info("User logged on [user=" + username + "].");
+        rdata.code = AuthResponseData.SUCCESS;
     }
 
     protected OOOUserRepository _authrep;
