@@ -90,7 +90,7 @@ public class AtlantiObject extends GameObject
      * <code>tiles</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
-    public void addToTiles (DSet.Entry elem)
+    public void addToTiles (AtlantiTile elem)
     {
         requestEntryAdd(TILES, tiles, elem);
     }
@@ -110,7 +110,7 @@ public class AtlantiObject extends GameObject
      * <code>tiles</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
-    public void updateTiles (DSet.Entry elem)
+    public void updateTiles (AtlantiTile elem)
     {
         requestEntryUpdate(TILES, tiles, elem);
     }
@@ -125,10 +125,10 @@ public class AtlantiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setTiles (DSet value)
+    public void setTiles (DSet<com.samskivert.atlanti.data.AtlantiTile> value)
     {
         requestAttributeChange(TILES, value, this.tiles);
-        this.tiles = (value == null) ? null : (DSet)value.clone();
+        this.tiles = (value == null) ? null : value.typedClone();
     }
 
     /**
@@ -152,7 +152,7 @@ public class AtlantiObject extends GameObject
      * <code>piecens</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
-    public void addToPiecens (DSet.Entry elem)
+    public void addToPiecens (Piecen elem)
     {
         requestEntryAdd(PIECENS, piecens, elem);
     }
@@ -172,7 +172,7 @@ public class AtlantiObject extends GameObject
      * <code>piecens</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
-    public void updatePiecens (DSet.Entry elem)
+    public void updatePiecens (Piecen elem)
     {
         requestEntryUpdate(PIECENS, piecens, elem);
     }
@@ -187,10 +187,10 @@ public class AtlantiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setPiecens (DSet value)
+    public void setPiecens (DSet<com.samskivert.atlanti.data.Piecen> value)
     {
         requestAttributeChange(PIECENS, value, this.piecens);
-        this.piecens = (value == null) ? null : (DSet)value.clone();
+        this.piecens = (value == null) ? null : value.typedClone();
     }
 
     /**
@@ -222,7 +222,7 @@ public class AtlantiObject extends GameObject
     {
         int ovalue = this.scores[index];
         requestElementUpdate(
-            SCORES, index, new Integer(value), new Integer(ovalue));
+            SCORES, index, Integer.valueOf(value), Integer.valueOf(ovalue));
         this.scores[index] = value;
     }
     // AUTO-GENERATED: METHODS END

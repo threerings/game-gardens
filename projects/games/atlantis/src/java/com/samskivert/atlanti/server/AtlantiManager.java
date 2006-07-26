@@ -56,7 +56,7 @@ public class AtlantiManager extends GameManager
     }
 
     // documentation inherited
-    protected Class getPlaceObjectClass ()
+    protected Class<? extends PlaceObject> getPlaceObjectClass ()
     {
         return AtlantiObject.class;
     }
