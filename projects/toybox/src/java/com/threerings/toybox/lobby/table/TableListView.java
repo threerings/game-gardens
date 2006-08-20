@@ -208,7 +208,7 @@ public class TableListView extends JPanel
         log.info("Table updated [table=" + table + "].");
 
         // locate the table item associated with this table
-        TableItem item = getTableItem(table.getTableId());
+        TableItem item = getTableItem(table.tableId);
         if (item == null) {
             log.warning("Received table updated notification for " +
                         "unknown table [table=" + table + "].");
@@ -286,7 +286,7 @@ public class TableListView extends JPanel
         int ccount = _matchList.getComponentCount();
         for (int i = 0; i < ccount; i++) {
             TableItem child = (TableItem)_matchList.getComponent(i);
-            if (child.table.getTableId() == tableId) {
+            if (child.table.tableId == tableId) {
                 return child;
             }
         }
@@ -295,7 +295,7 @@ public class TableListView extends JPanel
         ccount = _playList.getComponentCount();
         for (int i = 0; i < ccount; i++) {
             TableItem child = (TableItem)_playList.getComponent(i);
-            if (child.table.getTableId() == tableId) {
+            if (child.table.tableId == tableId) {
                 return child;
             }
         }
