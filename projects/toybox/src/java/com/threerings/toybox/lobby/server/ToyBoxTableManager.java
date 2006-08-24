@@ -27,9 +27,9 @@ import com.threerings.presents.server.InvocationException;
 
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
-import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.data.Table;
+import com.threerings.parlor.game.data.GameObject;
 import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.game.server.GameManagerDelegate;
 import com.threerings.parlor.server.TableManager;
@@ -50,7 +50,7 @@ public class ToyBoxTableManager extends TableManager
     }
 
     // documentation inherited
-    protected void createGame (final Table table)
+    protected void createGame (Table table)
         throws InvocationException
     {
         // fill the players array into the game config
@@ -58,27 +58,26 @@ public class ToyBoxTableManager extends TableManager
 
         // TODO: various complicated bits to pass this request off to the
         // standalone game server
-        PlaceRegistry.CreationObserver obs =
-            new PlaceRegistry.CreationObserver() {
-            public void placeCreated (PlaceObject plobj, PlaceManager pmgr) {
-                // add a delegate that will record the game's playtime
-                // upon completion
-                pmgr.addDelegate(new GameManagerDelegate((GameManager)pmgr) {
-                    public void gameWillStart () {
-                        _started = System.currentTimeMillis();
-                    }
-                    public void gameDidEnd () {
-                        long playtime = System.currentTimeMillis() - _started;
-                        ToyBoxServer.toymgr.recordPlaytime(
-                            _lmgr.getGame(), playtime);
-                    }
-                    protected long _started;
-                });
-                gameCreated(table, plobj);
-            }
-        };
         try {
-            ToyBoxServer.plreg.createPlace(table.config, obs);
+            PlaceManager pmgr = ToyBoxServer.plreg.createPlace(table.config);
+
+            // add a delegate that will record the game's playtime upon
+            // completion
+            pmgr.addDelegate(new GameManagerDelegate((GameManager)pmgr) {
+                public void gameWillStart () {
+                    _started = System.currentTimeMillis();
+                }
+                public void gameDidEnd () {
+                    long playtime = System.currentTimeMillis() - _started;
+                    ToyBoxServer.toymgr.recordPlaytime(
+                        _lmgr.getGame(), playtime);
+                }
+                protected long _started;
+            });
+
+            // tell the table manager about this game
+            gameCreated(table, (GameObject)pmgr.getPlaceObject());
+
         } catch (InstantiationException ie) {
             log.log(Level.WARNING, "Failed to create manager for game " +
                     "[config=" + table.config + "]", ie);

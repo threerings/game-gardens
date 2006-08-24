@@ -33,8 +33,8 @@ import com.threerings.toybox.data.ToyBoxUserObject;
 public class ToyBoxClientResolver extends CrowdClientResolver
 {
     // documentation inherited
-    public Class<? extends ClientObject> getClientObjectClass ()
+    public ClientObject createClientObject ()
     {
-        return ToyBoxUserObject.class;
+        return new ToyBoxUserObject();
     }
 }

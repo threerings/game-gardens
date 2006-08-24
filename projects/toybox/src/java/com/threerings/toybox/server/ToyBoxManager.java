@@ -56,7 +56,6 @@ import com.threerings.presents.util.ResultAdapter;
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
-import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
@@ -307,24 +306,24 @@ public class ToyBoxManager
     {
         log.info("Resolving " + game.which() + ".");
 
-        PlaceRegistry.CreationObserver obs =
-            new PlaceRegistry.CreationObserver() {
-            public void placeCreated (PlaceObject place, PlaceManager pmgr) {
-                // let our lobby manager know about its game
-                ((LobbyManager)pmgr).setGame(game);
-                // register ourselves in the lobby table
-                _lobbyOids.put(game.gameId, place.getOid());
-                // inform any resolution penders of the lobby oid
-                ResultListenerList<Integer> listeners =
-                    _penders.remove(game.gameId);
-                if (listeners != null) {
-                    listeners.requestCompleted(place.getOid());
-                }
-            }
-        };
         try {
-            ToyBoxServer.plreg.createPlace(
-                new LobbyConfig(game.gameId, game.parseGameDefinition()), obs);
+            PlaceManager pmgr = ToyBoxServer.plreg.createPlace(
+                new LobbyConfig(game.gameId, game.parseGameDefinition()));
+
+            // let our lobby manager know about its game
+            ((LobbyManager)pmgr).setGame(game);
+
+            // register ourselves in the lobby table
+            int ploid = pmgr.getPlaceObject().getOid();
+            _lobbyOids.put(game.gameId, ploid);
+
+            // inform any resolution penders of the lobby oid
+            ResultListenerList<Integer> listeners =
+                _penders.remove(game.gameId);
+            if (listeners != null) {
+                listeners.requestCompleted(ploid);
+            }
+
         } catch (InstantiationException e) {
             log.log(Level.WARNING, "Failed to create game lobby " +
                     "[game=" + game.which() + "]", e);
