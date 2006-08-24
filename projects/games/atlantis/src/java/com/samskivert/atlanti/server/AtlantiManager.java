@@ -16,9 +16,8 @@ import com.samskivert.util.StringUtil;
 import com.threerings.util.MessageBundle;
 
 import com.threerings.presents.dobj.DSet;
-import com.threerings.presents.dobj.EntryAddedEvent;
+import com.threerings.presents.dobj.DynamicListener;
 import com.threerings.presents.dobj.MessageEvent;
-import com.threerings.presents.dobj.SetAdapter;
 
 import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.data.BodyObject;
@@ -146,6 +145,33 @@ public class AtlantiManager extends GameManager
         }
     }
 
+    /**
+     * Called when an entry is added to {@link AtlantiObject#PIECENS}.
+     */
+    public void piecensAdded (Piecen piecen)
+    {
+        // we react to piecen additions by potentially scoring the placed
+        // piecen. we allow the piecen to be added to the piecens set before
+        // scoring so that the players can see the piecen pop up on their
+        // screen and then disappear with a scoring notice rather than never
+        // show up at all; plus it simplifies our code
+
+        // make sure this is a valid placement
+        AtlantiTile tile = _atlobj.tiles.get(piecen.getKey());
+        if (tile == null) {
+            Log.warning("Can't find tile for piecen scoring " +
+                piecen + ".");
+
+        } else {
+            // check to see if we added the piecen to a completed
+            // feature, in which case we score and remove it
+            scoreFeatures(tile, getPiecens(), false);
+        }
+
+        // now that we've scored the piecen, we can end the turn
+        _turndel.endTurn();
+    }
+
     // from interface TurnGameManager
     public void turnWillStart ()
     {
@@ -246,33 +272,8 @@ public class AtlantiManager extends GameManager
         // grab our own casted game object reference
         _atlobj = (AtlantiObject)_gameobj;
 
-        // we react to piecen additions by potentially scoring the placed
-        // piecen. we allow the piecen to be added to the piecens set before
-        // scoring so that the players can see the piecen pop up on their
-        // screen and then disappear with a scoring notice rather than never
-        // show up at all; plus it simplifies our code
-        _atlobj.addListener(new SetAdapter() {
-            public void entryAdded (EntryAddedEvent event) {
-                if (event.getName().equals(AtlantiObject.PIECENS)) {
-                    Piecen piecen = (Piecen)event.getEntry();
-
-                    // make sure this is a valid placement
-                    AtlantiTile tile = _atlobj.tiles.get(piecen.getKey());
-                    if (tile == null) {
-                        Log.warning("Can't find tile for piecen scoring " +
-                            piecen + ".");
-
-                    } else {
-                        // check to see if we added the piecen to a completed
-                        // feature, in which case we score and remove it
-                        scoreFeatures(tile, getPiecens(), false);
-                    }
-
-                    // now that we've scored the piecen, we can end the turn
-                    _turndel.endTurn();
-                }
-            }
-        });
+        // dynamically dispatch events to methods
+        _atlobj.addListener(new DynamicListener(this));
     }
 
     @Override // from GameManager
