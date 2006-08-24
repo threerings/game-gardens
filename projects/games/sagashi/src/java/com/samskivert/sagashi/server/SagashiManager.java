@@ -24,6 +24,7 @@ import com.threerings.presents.server.PresentsServer;
 import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.OccupantInfo;
+import com.threerings.crowd.data.PlaceObject;
 import com.threerings.parlor.game.server.GameManager;
 
 import com.threerings.toybox.data.ToyBoxGameConfig;
@@ -155,9 +156,9 @@ public class SagashiManager extends GameManager
     }
 
     @Override // documentation inherited
-    protected Class getPlaceObjectClass ()
+    protected PlaceObject createPlaceObject ()
     {
-        return SagashiObject.class;
+        return new SagashiObject();
     }
 
     @Override // documentation inherited

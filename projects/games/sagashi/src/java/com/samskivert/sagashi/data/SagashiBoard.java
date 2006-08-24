@@ -4,9 +4,9 @@
 package com.samskivert.sagashi.data;
 
 import com.samskivert.util.ArrayIntSet;
+import com.samskivert.util.RandomUtil;
 
 import com.threerings.io.Streamable;
-import com.threerings.util.RandomUtil;
 
 /**
  * Contains a 2D grid of letters and routines for searching it for words.

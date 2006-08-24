@@ -56,9 +56,9 @@ public class AtlantiManager extends GameManager
     }
 
     // documentation inherited
-    protected Class<? extends PlaceObject> getPlaceObjectClass ()
+    protected PlaceObject createPlaceObject ()
     {
-        return AtlantiObject.class;
+        return new AtlantiObject();
     }
 
     public int getTilesInBox ()
