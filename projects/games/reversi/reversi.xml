@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="yes"?>
+<game>
+  <!-- the string identifier for this game; this is used to name our jar -->
+  <!-- file and to name other internal bits -->
+  <ident>reversi</ident>
+
+  <!-- The controller and manager used for our game -->
+  <controller>com.threerings.reversi.ReversiController</controller>
+  <manager>com.threerings.reversi.ReversiManager</manager>
+
+  <!-- Herein we define how the game is matchmade and configured -->
+  <match type="table">
+    <!-- Properties configure the match maker, in this case: table -->
+    <min_seats>2</min_seats>
+    <max_seats>2</max_seats>
+    <start_seats>2</start_seats>
+  </match>
+
+  <!-- Defines values that the user can customize when creating a game and -->
+  <!-- which are passed on to the game itself to customize the gameplay -->
+  <params>
+<!--    <ai ident="aicount" maximum="3"/> -->
+  </params>
+</game>

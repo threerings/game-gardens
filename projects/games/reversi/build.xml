@@ -1,0 +1,81 @@
+<!-- build configuration -->
+<project name="reversi" default="compile" basedir=".">
+
+  <property name="app.name"   value="reversi"/>
+  <property name="src.dir"    value="src/groovy"/>
+  <property name="deploy.dir" value="dist"/>
+  <property name="dist.jar"   value="${app.name}.jar"/>
+
+  <!-- declare our classpath -->
+  <path id="classpath">
+    <fileset dir="../lib" includes="**/*.jar"/>
+    <pathelement location="${deploy.dir}/classes"/>
+  </path>
+
+  <!-- declare our groovyc task -->
+  <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc"
+    classpathref="classpath"/>
+
+  <!-- prepares the application directories -->
+  <target name="prepare">
+    <mkdir dir="${deploy.dir}"/>
+    <mkdir dir="${deploy.dir}/classes"/>
+    <copy todir="${deploy.dir}/classes">
+      <fileset dir="${src.dir}" includes="**/*.properties"/>
+    </copy>
+  </target>
+
+  <!-- cleans out the installed application -->
+  <target name="clean">
+    <delete dir="${deploy.dir}"/>
+  </target>
+
+  <!-- build the java class files -->
+  <target name="compile" depends="prepare">
+    <groovyc srcdir="${src.dir}" destdir="${deploy.dir}/classes">
+      <classpath refid="classpath"/>
+    </groovyc>
+  </target>
+
+  <!-- a target for rebuilding everything -->
+  <target name="all" depends="clean,prepare,compile,dist"/>
+
+  <!-- builds our distribution files (war and jar) -->
+  <target name="dist" depends="prepare,compile">
+    <jar file="${deploy.dir}/${dist.jar}"
+         basedir="${deploy.dir}/classes"/>
+  </target>
+
+  <!-- a target for running a game client -->
+  <target name="client">
+    <fail unless="username">
+      Please specify a username: ant -Dusername=who client
+    </fail>
+    <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
+      <classpath>
+        <pathelement location="${deploy.dir}/classes"/>
+        <pathelement location="../client/gg-client.jar"/>
+        <pathelement location="../lib/groovy-all-1.0-JSR-06.jar"/>
+      </classpath>
+      <sysproperty key="no_log_redir" value="true"/>
+      <arg value="localhost"/>
+      <arg value="47624"/>
+      <arg value="${username}"/>
+      <arg value="secret"/>
+    </java>
+  </target>
+
+  <!-- a target for running the game server -->
+  <target name="server" depends="compile">
+    <propertyfile file="${deploy.dir}/classes/toybox.properties">
+      <entry key="resource_dir" value="dist"/>
+      <entry key="resource_url" value="file://dist"/>
+    </propertyfile>
+    <java classname="com.threerings.toybox.server.ToyBoxServer" fork="true">
+      <jvmarg value="-Dgame_conf=${app.name}.xml"/>
+      <classpath refid="classpath"/>
+    </java>
+    <delete file="${deploy.dir}/classes/toybox.properties"/>
+  </target>
+
+</project>
