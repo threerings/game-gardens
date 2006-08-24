@@ -34,6 +34,7 @@ import com.threerings.crowd.server.PlaceManager;
 import com.threerings.parlor.game.data.GameAI;
 import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.turn.server.TurnGameManager;
+import com.threerings.parlor.turn.server.TurnGameManagerDelegate;
 
 import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
@@ -53,7 +54,19 @@ public class AtlantiManager extends GameManager
 {
     public AtlantiManager ()
     {
-        addDelegate(_delegate = new AtlantiManagerDelegate(this));
+        // we're a turn based game, so we use a turn game manager delegate
+        addDelegate(_turndel = new TurnGameManagerDelegate(this) {
+            protected void setNextTurnHolder () {
+                // if we have tiles left, we move to the next player as normal
+                if (getTilesInBox() > 0) {
+                    super.setNextTurnHolder();
+                } else {
+                    // if we don't, we ensure that a new turn isn't started by
+                    // setting _turnIdx to -1
+                    _turnIdx = -1;
+                }
+            }
+        });
     }
 
     public int getTilesInBox ()
@@ -71,7 +84,7 @@ public class AtlantiManager extends GameManager
         Log.info("Got place tile request [who=" + player.who() +
             ", tile=" + tile + "].");
 
-        int pidx = _delegate.getTurnHolderIndex();
+        int pidx = _turndel.getTurnHolderIndex();
 
         // make sure it's this player's turn
         if (_playerOids[pidx] != player.getOid()) {
@@ -96,7 +109,7 @@ public class AtlantiManager extends GameManager
      */
     public void placeNothing (BodyObject player)
     {
-        int pidx = _delegate.getTurnHolderIndex();
+        int pidx = _turndel.getTurnHolderIndex();
         if (_playerOids[pidx] != player.getOid()) {
             Log.warning("Requested to place nothing by non-turn holder " +
                 "[who=" + player.who() +
@@ -105,7 +118,7 @@ public class AtlantiManager extends GameManager
         } else {
             // player doesn't want to place anything, so we just end
             // the turn
-            _delegate.endTurn();
+            _turndel.endTurn();
         }
     }
 
@@ -117,7 +130,7 @@ public class AtlantiManager extends GameManager
     public void placePiecen (BodyObject player, Piecen piecen)
     {
         AtlantiTile tile = (AtlantiTile)_atlobj.tiles.get(piecen.getKey());
-        int pidx = _delegate.getTurnHolderIndex();
+        int pidx = _turndel.getTurnHolderIndex();
         int pcount = TileUtil.countPiecens(_atlobj.piecens, pidx);
 
         // make sure it's this player's turn
@@ -221,7 +234,7 @@ public class AtlantiManager extends GameManager
     public void turnDidStart ()
     {
         // if there's no AI in this slot, there's nothing to do here
-        int pidx = _delegate.getTurnHolderIndex();
+        int pidx = _turndel.getTurnHolderIndex();
         GameAI ai = (_AIs == null) ? null : _AIs[pidx];
         if (ai == null) {
             return;
@@ -232,7 +245,7 @@ public class AtlantiManager extends GameManager
         ArrayList<AtlantiTile> moves = enumerateLegalMoves(tile);
         if (moves.size() == 0) {
             Log.warning("Ack! No legal moves!");
-            _delegate.endTurn();
+            _turndel.endTurn();
             return;
         }
 
@@ -247,7 +260,7 @@ public class AtlantiManager extends GameManager
         // to place a piecen 45% of the time
         if (RandomUtil.getInt(100) > 54) {
             // just end our turn
-            _delegate.endTurn();
+            _turndel.endTurn();
             return;
         }
 
@@ -790,7 +803,7 @@ public class AtlantiManager extends GameManager
         // if the player has no free piecens or if there are no unclaimed
         // features on this tile, we end their turn straight away
         if (pcount >= PIECENS_PER_PLAYER || !tile.hasUnclaimedFeature()) {
-            _delegate.endTurn();
+            _turndel.endTurn();
             return true;
         }
 
@@ -836,7 +849,7 @@ public class AtlantiManager extends GameManager
             }
 
             // now that we've scored the piecen, we can end the turn
-            _delegate.endTurn();
+            _turndel.endTurn();
         }
     }
 
@@ -851,7 +864,7 @@ public class AtlantiManager extends GameManager
     }
 
     /** Our turn game delegate. */
-    protected AtlantiManagerDelegate _delegate;
+    protected TurnGameManagerDelegate _turndel;
 
     /** A casted reference to our Atlanti game object. */
     protected AtlantiObject _atlobj;
