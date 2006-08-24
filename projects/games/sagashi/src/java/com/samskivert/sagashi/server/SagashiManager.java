@@ -44,55 +44,7 @@ import static com.samskivert.sagashi.Log.log;
 public class SagashiManager extends GameManager
     implements SagashiCodes, SagashiProvider
 {
-    @Override // documentation inherited
-    public void didInit ()
-    {
-        super.didInit();
-
-        // read info from our configuration
-        ToyBoxGameConfig config = (ToyBoxGameConfig)_config;
-        _minLength = (Integer)config.params.get("min_length");
-        _duration = (Integer)config.params.get("duration");
-    }
-
-    @Override // documentation inherited
-    public void didStartup ()
-    {
-        super.didStartup();
-
-        // grab and set up our game object
-        _sagaobj = (SagashiObject)_gameobj;
-        _sagaobj.setService(
-            (SagashiMarshaller)PresentsServer.invmgr.registerDispatcher(
-                new SagashiDispatcher(this), false));
-        _sagaobj.setScores(new SagashiScore[0]);
-
-        // load up our word list if we haven't already
-        if (_words.size() == 0) {
-            loadWords();
-        }
-
-        // allow 10 seconds to elapse before we start
-        _nextEvent = System.currentTimeMillis() + 10000L;
-        _sagaobj.setSecondsUntil(10);
-
-        // start up our ticker
-        _ticker.schedule(3000L, true);
-    }
-
-    @Override // documentation inherited
-    public void didShutdown ()
-    {
-        super.didShutdown();
-
-        // unregister our invocation dispatcher
-        PresentsServer.invmgr.clearDispatcher(_sagaobj.service);
-
-        // shutdown our ticker
-        _ticker.cancel();
-    }
-
-    // documentation inherited from interface SagashiProvider
+    // from interface SagashiProvider
     public void submitWord (ClientObject caller, String word,
                             SagashiService.ResultListener rl)
         throws InvocationException
@@ -162,6 +114,42 @@ public class SagashiManager extends GameManager
     }
 
     @Override // documentation inherited
+    protected void didInit ()
+    {
+        super.didInit();
+
+        // read info from our configuration
+        ToyBoxGameConfig config = (ToyBoxGameConfig)_config;
+        _minLength = (Integer)config.params.get("min_length");
+        _duration = (Integer)config.params.get("duration");
+    }
+
+    @Override // documentation inherited
+    protected void didStartup ()
+    {
+        super.didStartup();
+
+        // grab and set up our game object
+        _sagaobj = (SagashiObject)_gameobj;
+        _sagaobj.setService(
+            (SagashiMarshaller)PresentsServer.invmgr.registerDispatcher(
+                new SagashiDispatcher(this), false));
+        _sagaobj.setScores(new SagashiScore[0]);
+
+        // load up our word list if we haven't already
+        if (_words.size() == 0) {
+            loadWords();
+        }
+
+        // allow 10 seconds to elapse before we start
+        _nextEvent = System.currentTimeMillis() + 10000L;
+        _sagaobj.setSecondsUntil(10);
+
+        // start up our ticker
+        _ticker.schedule(3000L, true);
+    }
+
+    @Override // documentation inherited
     protected void gameWillStart ()
     {
         super.gameWillStart();
@@ -175,6 +163,63 @@ public class SagashiManager extends GameManager
         ToyBoxGameConfig config = (ToyBoxGameConfig)_config;
         int size = (Integer)config.params.get("board_size");
         _sagaobj.setBoard(new SagashiBoard(size, _frequency));
+    }
+
+    @Override // documentation inherited
+    protected void gameDidEnd ()
+    {
+        super.gameDidEnd();
+
+        // fill in the list of all played words (sorted by longest)
+        String[] allWords = new String[_plays.size()];
+        _plays.keySet().toArray(allWords);
+        Arrays.sort(allWords, new Comparator<String>() {
+            public int compare (String one, String two) {
+                int dl = (two.length() - one.length());
+                return (dl == 0) ? one.compareTo(two) : dl;
+            }
+        });
+        _sagaobj.setAllWords(allWords);
+
+        // figure out who won
+        StringBuffer buf = new StringBuffer();
+        int high = 0;
+        for (int ii = 0; ii < _sagaobj.scores.length; ii++) {
+            SagashiScore score = _sagaobj.scores[ii];
+            OccupantInfo info = (OccupantInfo)_sagaobj.occupantInfo.get(
+                score.userOid);
+            if (info == null) {
+                continue;
+            }
+            if (score.score > high) {
+                buf = new StringBuffer(info.username.toString());
+                high = score.score;
+            } else if (score.score == high) {
+                buf.append(", ").append(info.username);
+            }
+        }
+
+        // and report it to the room
+        String msg;
+        if (buf.length() == 0) {
+            msg = "m.no_winners";
+        } else {
+            msg = buf.indexOf(", ") != -1 ? "m.winners" : "m.winner";
+            msg = MessageBundle.tcompose(msg, buf);
+        }
+        SpeakProvider.sendInfo(_sagaobj, SagashiCodes.SAGASHI_MSG_BUNDLE, msg);
+    }
+
+    @Override // documentation inherited
+    protected void didShutdown ()
+    {
+        super.didShutdown();
+
+        // unregister our invocation dispatcher
+        PresentsServer.invmgr.clearDispatcher(_sagaobj.service);
+
+        // shutdown our ticker
+        _ticker.cancel();
     }
 
     /** Called every three seconds. */
@@ -222,51 +267,6 @@ public class SagashiManager extends GameManager
         _scores.values().toArray(scores);
         Arrays.sort(scores);
         _sagaobj.setScores(scores);
-    }
-
-    @Override // documentation inherited
-    protected void gameDidEnd ()
-    {
-        super.gameDidEnd();
-
-        // fill in the list of all played words (sorted by longest)
-        String[] allWords = new String[_plays.size()];
-        _plays.keySet().toArray(allWords);
-        Arrays.sort(allWords, new Comparator<String>() {
-            public int compare (String one, String two) {
-                int dl = (two.length() - one.length());
-                return (dl == 0) ? one.compareTo(two) : dl;
-            }
-        });
-        _sagaobj.setAllWords(allWords);
-
-        // figure out who won
-        StringBuffer buf = new StringBuffer();
-        int high = 0;
-        for (int ii = 0; ii < _sagaobj.scores.length; ii++) {
-            SagashiScore score = _sagaobj.scores[ii];
-            OccupantInfo info = (OccupantInfo)_sagaobj.occupantInfo.get(
-                score.userOid);
-            if (info == null) {
-                continue;
-            }
-            if (score.score > high) {
-                buf = new StringBuffer(info.username.toString());
-                high = score.score;
-            } else if (score.score == high) {
-                buf.append(", ").append(info.username);
-            }
-        }
-
-        // and report it to the room
-        String msg;
-        if (buf.length() == 0) {
-            msg = "m.no_winners";
-        } else {
-            msg = buf.indexOf(", ") != -1 ? "m.winners" : "m.winner";
-            msg = MessageBundle.tcompose(msg, buf);
-        }
-        SpeakProvider.sendInfo(_sagaobj, SagashiCodes.SAGASHI_MSG_BUNDLE, msg);
     }
 
     /** Loads up our words list. */

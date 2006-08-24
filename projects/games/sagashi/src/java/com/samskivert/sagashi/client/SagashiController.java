@@ -21,32 +21,16 @@ import com.samskivert.sagashi.data.SagashiObject;
 public class SagashiController extends GameController
 {
     /** A command that requests that a word be submitted for scoring. */
-    public static final String SUBMIT_WORD = "SubmitWord";
+    public static final String SUBMIT_WORD = "submitWord";
 
-    /** The name of the command posted by the "Back to lobby" button in
-     * the side bar. */
-    public static final String BACK_TO_LOBBY = "BackToLobby";
-
-    @Override // documentation inherited
-    public void willEnterPlace (PlaceObject plobj)
-    {
-        super.willEnterPlace(plobj);
-
-        // get a casted reference to our game object
-        _sagaobj = (SagashiObject)plobj;
-    }
-
-    // documentation inherited
-    public void didLeavePlace (PlaceObject plobj)
-    {
-        super.didLeavePlace(plobj);
-        _sagaobj = null;
-    }
+    /** The name of the command posted by the "Back to lobby" button in the
+     * side bar. */
+    public static final String BACK_TO_LOBBY = "backToLobby";
 
     /**
      * Requests to submit the specified word.
      */
-    public void handleSubmitWord (Object source, final String word)
+    public void submitWord (Object source, final String word)
     {
         SagashiService.ResultListener rl = new SagashiService.ResultListener() {
             public void requestProcessed (Object result) {
@@ -63,14 +47,29 @@ public class SagashiController extends GameController
     }
 
     /**
-     * This method is called automatically by the controller system when
-     * the player clicks the button that was configured with the {@link
-     * #BACK_TO_LOBBY} action and the special {@link #DISPATCHER} which
-     * does the necessary reflection magic.
+     * This method is called automatically by the controller system when the
+     * player clicks the button that was configured with the {@link
+     * #BACK_TO_LOBBY} action.
      */
-    public void handleBackToLobby (Object source)
+    public void backToLobby (Object source)
     {
         _ctx.getLocationDirector().moveBack();
+    }
+
+    @Override // from GameController
+    public void willEnterPlace (PlaceObject plobj)
+    {
+        super.willEnterPlace(plobj);
+
+        // get a casted reference to our game object
+        _sagaobj = (SagashiObject)plobj;
+    }
+
+    @Override // from GameController
+    public void didLeavePlace (PlaceObject plobj)
+    {
+        super.didLeavePlace(plobj);
+        _sagaobj = null;
     }
 
     @Override // documentation inherited
