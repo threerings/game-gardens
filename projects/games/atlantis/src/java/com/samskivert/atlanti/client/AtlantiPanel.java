@@ -65,7 +65,7 @@ public class AtlantiPanel extends JPanel
 	setLayout(gl);
 
         // create the board
-        board = new AtlantiBoardView();
+        board = new AtlantiBoardView(controller);
         board.setOpaque(false);
 
         // create a scroll area to contain the board
@@ -99,7 +99,7 @@ public class AtlantiPanel extends JPanel
         // add a "place nothing" button
         noplace = new JButton(msgs.get("m.place_nothing"));
         noplace.setEnabled(false);
-        noplace.setActionCommand(PLACE_NOTHING);
+        noplace.setActionCommand("placeNothing");
         noplace.addActionListener(Controller.DISPATCHER);
         sidePanel.add(noplace, VGroupLayout.FIXED);
 
@@ -128,7 +128,7 @@ public class AtlantiPanel extends JPanel
 
         // add a "back" button
         JButton back = new JButton(msgs.get("m.back_to_lobby"));
-        back.setActionCommand(BACK_TO_LOBBY);
+        back.setActionCommand("backToLobby");
         back.addActionListener(Controller.DISPATCHER);
         sidePanel.add(HGroupLayout.makeButtonBox(HGroupLayout.RIGHT, back),
                       VGroupLayout.FIXED);

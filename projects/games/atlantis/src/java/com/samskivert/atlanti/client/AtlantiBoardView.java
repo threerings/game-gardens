@@ -34,8 +34,10 @@ public class AtlantiBoardView extends JPanel
     /**
      * Constructs a board.
      */
-    public AtlantiBoardView ()
+    public AtlantiBoardView (AtlantiController ctrl)
     {
+        _ctrl = ctrl;
+
         // create mouse adapters that will let us know when interesting
         // mouse events happen
         addMouseListener(new MouseAdapter() {
@@ -59,14 +61,10 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Sets the tiles to be displayed by this board. Any previous tiles
-     * are forgotten and the new tiles are initialized according to their
-     * geometry to set up initial claim groups.
-     *
-     * @param tset the set of {@link AtlantiTile} objects to be displayed
-     * by this board.
+     * Called when we first enter the game room and subsequently if {@link
+     * AtlantiObject#TILES} is set.
      */
-    public void setTiles (DSet<AtlantiTile> tset)
+    public void tilesChanged (DSet<AtlantiTile> tset)
     {
         // clear out our old tiles list
         _tiles.clear();
@@ -83,25 +81,21 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Sets the piecens to be placed on the appropriate tiles of the
-     * board. This should only be done when first entering the game room
-     * and subsequent piecen placement should be done via {@link
-     * #placePiecen}.
+     * Called when we first enter the game room and subsequently if {@link
+     * AtlantiObject#PIECENS} is set.
      */
-    public void setPiecens (DSet<Piecen> piecens)
+    public void piecensChanged (DSet<Piecen> piecens)
     {
         //  just iterate over the set placing each of the piecens in turn
-        Iterator iter = piecens.iterator();
-        while (iter.hasNext()) {
-            placePiecen((Piecen)iter.next());
+        for (Piecen piecen : piecens) {
+            piecensAdded(piecen);
         }
     }
 
     /**
-     * Instructs the board to add the specified tile to the display. The
-     * tile will have its claims inherited accordingly.
+     * Called when an entry is added to {@link AtlantiObject#TILES}.
      */
-    public void addTile (AtlantiTile tile)
+    public void tilesAdded (AtlantiTile tile)
     {
         Log.info("Adding tile to board " + tile + ".");
 
@@ -129,10 +123,9 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Places the specified piecen on the appropriate tile and updates
-     * claim groups as necessary.
+     * Called when an entry is added to {@link AtlantiObject#PIECENS}.
      */
-    public void placePiecen (Piecen piecen)
+    public void piecensAdded (Piecen piecen)
     {
         // if we still have a placed tile, we get rid of it
         _placedTile = null;
@@ -156,10 +149,9 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * When a piecen is removed (after scoring it), this method should be
-     * called to update the board display.
+     * Called when an entry is removed from {@link AtlantiObject#PIECENS}.
      */
-    public void clearPiecen (Object key)
+    public void piecensRemoved (Object key)
     {
         // locate the tile associated with this piecen key
         for (AtlantiTile tile : _tiles) {
@@ -199,19 +191,17 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Sets the tile to be placed on the board. The tile will be displayed
-     * in the square under the mouse cursor where it can be legally placed
-     * and its orientation will be determined based on the pointer's
-     * proximity to the edges of the target square. When the user clicks
-     * the mouse while the tile is in a placeable position, a
-     * <code>TILE_PLACED</code> command will be dispatched to the
-     * controller in scope. The coordinates and orientation of the tile
+     * Sets the tile to be placed on the board. The tile will be displayed in
+     * the square under the mouse cursor where it can be legally placed and its
+     * orientation will be determined based on the pointer's proximity to the
+     * edges of the target square. When the user clicks the mouse while the
+     * tile is in a placeable position, a {@link AtlantiController#tilePlaced}
+     * command will be dispatched. The coordinates and orientation of the tile
      * will be available by fetching the tile back via {@link
-     * #getPlacedTile}. The tile provided to this method will not be
-     * modified.
+     * #getPlacedTile}. The tile provided to this method will not be modified.
      *
-     * @param tile the new tile to be placed or null if no tile is to
-     * currently be placed.
+     * @param tile the new tile to be placed or null if no tile is to currently
+     * be placed.
      */
     public void setTileToBePlaced (AtlantiTile tile)
     {
@@ -385,8 +375,8 @@ public class AtlantiBoardView extends JPanel
                 _placedTile.piecen = null;
                 repaintTile(_placedTile);
             }
-            // post the action
-            Controller.postAction(this, PLACE_NOTHING);
+            // tell the controller we're done
+            _ctrl.placeNothing();
 
         } else {
             // ignore non-button one presses other than cancel piecen
@@ -408,7 +398,7 @@ public class AtlantiBoardView extends JPanel
             TileUtil.inheritClaims(_tiles, _placedTile);
 
             // post the action
-            Controller.postAction(this, TILE_PLACED);
+            _ctrl.tilePlaced(_placedTile);
 
             // move into placing piecen mode
             _placingPiecen = true;
@@ -417,16 +407,13 @@ public class AtlantiBoardView extends JPanel
             computeDimensions();
         }
 
-        // if we're placing a piecen and the piecen is in a valid
-        // position, we want to dispatch an action letting the controller
-        // know that the user placed it
+        // if we're placing a piecen and the piecen is in a valid position, we
+        // want to let the controller know that the user placed it
         if (_placingPiecen && _placedTile != null &&
             _placedTile.piecen != null) {
+            _ctrl.piecenPlaced(_placedTile.piecen);
             // clear out placing piecen mode
             _placingPiecen = false;
-
-            // post the action
-            Controller.postAction(this, PIECEN_PLACED);
         }
     }
 
@@ -605,7 +592,7 @@ public class AtlantiBoardView extends JPanel
     {
         JFrame frame = new JFrame("Board test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        AtlantiBoardView board = new AtlantiBoardView();
+        AtlantiBoardView board = new AtlantiBoardView(null);
 
         TestDSet set = new TestDSet();
         set.addTile(new AtlantiTile(CITY_TWO, true, WEST, 0, 0));
@@ -620,7 +607,7 @@ public class AtlantiBoardView extends JPanel
         set.addTile(new AtlantiTile(CITY_THREE, false, NORTH, -1, 0));
         AtlantiTile two = new AtlantiTile(CITY_ONE, false, EAST, -2, 0);
         set.addTile(two);
-        board.setTiles(set);
+        board.tilesChanged(set);
 
         AtlantiTile placing = new AtlantiTile(CITY_TWO, false, NORTH, 0, 0);
         board.setTileToBePlaced(placing);
@@ -656,6 +643,9 @@ public class AtlantiBoardView extends JPanel
             add(tile);
         }
     }
+
+    /** The controller to which we dispatch commands. */
+    protected AtlantiController _ctrl;
 
     /** A reference to our tile set. */
     protected ArrayList<AtlantiTile> _tiles = new ArrayList<AtlantiTile>();
