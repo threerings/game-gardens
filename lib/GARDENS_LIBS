@@ -10,10 +10,10 @@ mail.jar
 mysql-connector-java-3.0.11-stable-bin.jar
 narya-base.jar
 narya-distrib.jar
-narya-media.jar
-narya-micasa.jar
-narya-parlor.jar
+nenya-media.jar
 samskivert.jar
 servlet-2.3.jar
 toybox.jar
 velocity-1.5-dev.jar
+vilya-micasa.jar
+vilya-parlor.jar
