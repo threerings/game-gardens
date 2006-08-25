@@ -32,8 +32,6 @@ import java.awt.Window;
 
 import javax.swing.JPanel;
 
-import groovy.lang.GroovyClassLoader;
-
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
 import com.samskivert.util.Config;
