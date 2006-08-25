@@ -29,8 +29,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
 
@@ -90,6 +88,9 @@ public class ToyBoxClient
 
         /** Configures our content pane. */
         public void setContentPane (Container root);
+
+        /** Instructs the shell to wire up logoff when it is closed. */
+        public void bindCloseAction (ToyBoxClient client);
     }
 
     /**
@@ -112,22 +113,15 @@ public class ToyBoxClient
         ToyBoxUI.init(_ctx);
 
         // use the game name as our title if we have one
-        String title = System.getProperty(
-            "game_name", _ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.app_title"));
+        String title = _ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.app_title");
+        try {
+            title = System.getProperty("game_name", title);
+        } catch (SecurityException se) {
+            // alas
+        }
         _shell.setTitle(title);
+        _shell.bindCloseAction(this);
         _keydisp = new KeyDispatcher(_shell.getWindow());
-
-        // log off when they close the window
-        _shell.getWindow().addWindowListener(new WindowAdapter() {
-            public void windowClosing (WindowEvent evt) {
-                // if we're logged on, log off
-                if (_client.isLoggedOn()) {
-                    _client.logoff(true);
-                }
-                // and get the heck out
-                System.exit(0);
-            }
-        });
 
         // create our client controller
         _cctrl = new ClientController(_ctx, this);
@@ -161,7 +155,7 @@ public class ToyBoxClient
                 }
             }
         };
-        idler.start(null, _ctx.getClient().getRunQueue());
+        idler.start(null, _shell.getWindow(), _ctx.getClient().getRunQueue());
     }
 
     /**

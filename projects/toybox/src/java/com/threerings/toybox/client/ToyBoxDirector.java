@@ -126,6 +126,14 @@ public class ToyBoxDirector extends BasicDirector
         _ctx.getMessageManager().setClassLoader(_gameLoader);
     }
 
+    /**
+     * Configures the id of the game we're playing.
+     */
+    public void setGameId (int gameId)
+    {
+        _gameId = gameId;
+    }
+
     // documentation inherited
     public void clientDidLogon (Client client)
     {
@@ -152,34 +160,19 @@ public class ToyBoxDirector extends BasicDirector
             }
         }
 
-        // determine which lobby we are to enter...
-        int gameId = -1;
-        String idstr = System.getProperty("game_id");
-        try {
-            // if none is specified, we're in testing mode and we assume 1
-            if (!StringUtil.isBlank(idstr)) {
-                gameId = Integer.parseInt(idstr);
-            }
-        } catch (Exception e) {
-            log.warning("Invalid game_id property supplied [value=" + idstr +
-                        ", error=" + e + "].");
-        }
-
-        // ...and issue a request to do so
-        final int fGameId = gameId;
+        // issue a request to enter our game lobby
         ToyBoxService.ResultListener rl = new ToyBoxService.ResultListener() {
             public void requestProcessed (Object result) {
                 enterLobby((Integer)result);
             }
-
             public void requestFailed (String cause) {
                 // TODO: report this error graphically
-                log.warning("Failed to get lobby oid [gameId=" + fGameId +
+                log.warning("Failed to get lobby oid [gameId=" + _gameId +
                             ", error=" + cause + "].");
             }
         };
-        log.fine("Requesting lobby oid [game=" + gameId + "].");
-        _toysvc.getLobbyOid(client, gameId, rl);
+        log.fine("Requesting lobby oid [game=" + _gameId + "].");
+        _toysvc.getLobbyOid(client, _gameId, rl);
     }
 
     // documentation inherited
@@ -195,8 +188,9 @@ public class ToyBoxDirector extends BasicDirector
      * Ensures that the resources for the specified game definition are
      * resolved.
      */
-    public void resolveResources (final int gameId, final GameDefinition gamedef,
-                                  final Downloader.Observer obs)
+    public void resolveResources (
+        final int gameId, final GameDefinition gamedef,
+        final Downloader.Observer obs)
     {
         // if our resource URL is a file: URL, we can ignore this whole
         // process as we're running in testing mode and needn't worry
@@ -338,6 +332,7 @@ public class ToyBoxDirector extends BasicDirector
     protected ToyBoxContext _ctx;
     protected ToyBoxService _toysvc;
 
+    protected int _gameId = -1;
     protected URL _resourceURL;
     protected File _cacheDir;
 

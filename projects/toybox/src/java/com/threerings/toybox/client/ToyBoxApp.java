@@ -50,6 +50,15 @@ public class ToyBoxApp
         // create and initialize our client instance
         _client = new ToyBoxClient();
         _client.init(_frame);
+
+        // configure our game id
+        try {
+            _client.getContext().getToyBoxDirector().setGameId(
+                Integer.parseInt(gameId));
+        } catch (Exception e) {
+            log.warning("Invalid game_id property supplied '" +
+                gameId + "': " + e + ".");
+        }
     }
 
     public void run (String server, int port, String username, String password)
@@ -81,7 +90,7 @@ public class ToyBoxApp
     {
         try {
             // initialize the app
-            app.init(username, System.getProperty("game_id"));
+            app.init(username, System.getProperty("game_id", "1"));
         } catch (IOException ioe) {
             log.log(Level.WARNING, "Error initializing application.", ioe);
         }

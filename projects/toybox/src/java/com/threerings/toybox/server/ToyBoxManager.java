@@ -128,7 +128,7 @@ public class ToyBoxManager
         }
 
         try {
-            resolveLobby(game);
+            resolveLobby(game, null);
         } catch (InvocationException ie) {
             log.log(Level.WARNING, "Failed to resolve lobby " +
                     "[game=" + game + "].", ie);
@@ -276,14 +276,7 @@ public class ToyBoxManager
                 try {
                     // start the lobby resolution. if this fails we will
                     // catch the failure and report it to the caller
-                    resolveLobby(_game);
-
-                    // otherwise we're safe to finally map our result
-                    // listener into a listener list
-                    ResultListenerList<Integer> rls =
-                        new ResultListenerList<Integer>();
-                    rls.add(new ResultAdapter<Integer>(rl));
-                    _penders.put(gameId, rls);
+                    resolveLobby(_game, rl);
 
                 } catch (InvocationException ie) {
                     rl.requestFailed(ie.getMessage());
@@ -301,7 +294,7 @@ public class ToyBoxManager
      *
      * @param game the metadata for the game whose lobby we will create.
      */
-    public void resolveLobby (final Game game)
+    public void resolveLobby (final Game game, ResultListener rl)
         throws InvocationException
     {
         log.info("Resolving " + game.which() + ".");
@@ -322,6 +315,11 @@ public class ToyBoxManager
                 _penders.remove(game.gameId);
             if (listeners != null) {
                 listeners.requestCompleted(ploid);
+            }
+
+            // and inform the calling resolver if there was one
+            if (rl != null) {
+                rl.requestProcessed(ploid);
             }
 
         } catch (InstantiationException e) {

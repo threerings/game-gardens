@@ -24,6 +24,8 @@ package com.threerings.toybox.client;
 import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import com.samskivert.swing.util.SwingUtil;
 
@@ -72,6 +74,22 @@ public class ToyBoxFrame extends ManagedJFrame
             }
             public void componentMoved (ComponentEvent e) {
                 ToyBoxPrefs.setClientBounds(_gameId, _username, getBounds());
+            }
+        });
+    }
+
+    // from interface ToyBoxClient.Shell
+    public void bindCloseAction (final ToyBoxClient client)
+    {
+        // log off when they close the window
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing (WindowEvent evt) {
+                // if we're logged on, log off
+                if (client.getContext().getClient().isLoggedOn()) {
+                    client.getContext().getClient().logoff(true);
+                }
+                // and get the heck out
+                System.exit(0);
             }
         });
     }

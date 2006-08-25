@@ -46,6 +46,12 @@ public class ToyBoxApplet extends ManagedJApplet
         // TODO
     }
 
+    // from interface ToyBoxClient.Shell
+    public void bindCloseAction (ToyBoxClient client)
+    {
+        // no need to do anything here
+    }
+
     @Override // from Applet
     public void init ()
     {
@@ -54,8 +60,7 @@ public class ToyBoxApplet extends ManagedJApplet
         OneLineLogFormatter.configureDefaultHandler();
 
         log.info("Java: " + System.getProperty("java.version") +
-            ", " + System.getProperty("java.vendor") +
-            " (" + System.getProperty("java.home") + ")");
+            ", " + System.getProperty("java.vendor") + ")");
 
         // create our frame manager
         _framemgr = FrameManager.newInstance(this);
@@ -86,6 +91,16 @@ public class ToyBoxApplet extends ManagedJApplet
         Client client = _client.getContext().getClient();
         log.info("Using [server=" + server + ", port=" + port + "].");
         client.setServer(server, new int[] { port });
+
+        // and our game id
+        String idstr = getParameter("game_id");
+        try {
+            _client.getContext().getToyBoxDirector().setGameId(
+                Integer.parseInt(idstr));
+        } catch (Exception e) {
+            log.warning("Invalid game_id property supplied '" +
+                idstr + "': " + e + ".");
+        }
     }
 
     @Override // from Applet
