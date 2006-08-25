@@ -1,0 +1,27 @@
+#set ($title = $i18n.xlate("play_game.title"))
+#if ($game)
+#set ($title = "$title $game.name")
+#end
+#import ("/header.wm")
+
+#if ($game)
+<!--[if !IE]>-->
+<object classid="java:com.threerings.toybox.client.ToyBoxApplet.class" type="application/x-java-applet" archive="/client/gg-client.jar" width="800" height="600">
+<param name="server" value="$game.host"/>
+<param name="port" value="$port"/>
+<param name="game_id" value="$game.gameId"/>
+<!--<![endif]-->
+<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" width="800" height="600" codebase="http://java.sun.com/update/1.5.0/jinstall-1_5-windows-i586.cab#Version=5,0,0,5\"> 
+<param name="code" value="com.threerings.toybox.client.ToyBoxApplet"/>
+<param name="archive" value="/client/gg-client.jar"/>
+<param name="server" value="$game.host"/>
+<param name="port" value="$port"/>
+<param name="game_id" value="$game.gameId"/>
+Install the Javer.
+</object> 
+<!--[if !IE]>-->
+</object>
+<!--<![endif]-->
+#end
+
+#import ("/footer.wm")
