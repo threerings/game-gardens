@@ -45,7 +45,7 @@ public class ToyBoxApp
     {
         // create a frame
         _frame = new ToyBoxFrame("...", gameId, username);
-        _framemgr = FrameManager.newInstance(_frame, _frame);
+        _framemgr = FrameManager.newInstance(_frame);
 
         // create and initialize our client instance
         _client = new ToyBoxClient();
@@ -57,9 +57,8 @@ public class ToyBoxApp
         // show the frame
         _frame.setVisible(true);
 
+        // configure the client with server and port
         Client client = _client.getContext().getClient();
-
-        // pass them on to the client
         log.info("Using [server=" + server + ", port=" + port + "].");
         client.setServer(server, new int[] { port });
 

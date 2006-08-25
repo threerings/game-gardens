@@ -25,12 +25,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
 
+import groovy.lang.GroovyClassLoader;
+
+import com.samskivert.swing.Controller;
+import com.samskivert.swing.ControllerProvider;
 import com.samskivert.util.Config;
 import com.samskivert.util.RunQueue;
 import com.samskivert.util.StringUtil;
@@ -68,11 +75,28 @@ import static com.threerings.toybox.lobby.Log.log;
 public class ToyBoxClient
     implements RunQueue
 {
+    /** Provides acccess to the context in which we're running, either an
+     * application or an applet. */
+    public interface Shell
+    {
+        /** Sets the window title, if possible. */
+        public void setTitle (String title);
+
+        /** Returns the window in which we're running. */
+        public Window getWindow ();
+
+        /** Returns our frame manager. */
+        public FrameManager getFrameManager ();
+
+        /** Configures our content pane. */
+        public void setContentPane (Container root);
+    }
+
     /**
      * Initializes a new client and provides it with a frame in which to
      * display everything.
      */
-    public void init (ToyBoxFrame frame)
+    public void init (Shell shell)
         throws IOException
     {
         // create our context
@@ -82,7 +106,7 @@ public class ToyBoxClient
         createContextServices();
 
         // keep this for later
-        _frame = frame;
+        _shell = shell;
 
         // load up our user interface bits
         ToyBoxUI.init(_ctx);
@@ -90,11 +114,11 @@ public class ToyBoxClient
         // use the game name as our title if we have one
         String title = System.getProperty(
             "game_name", _ctx.xlate(ToyBoxCodes.TOYBOX_MSGS, "m.app_title"));
-        _frame.setTitle(title);
-        _keydisp = new KeyDispatcher(frame);
+        _shell.setTitle(title);
+        _keydisp = new KeyDispatcher(_shell.getWindow());
 
         // log off when they close the window
-        _frame.addWindowListener(new WindowAdapter() {
+        _shell.getWindow().addWindowListener(new WindowAdapter() {
             public void windowClosing (WindowEvent evt) {
                 // if we're logged on, log off
                 if (_client.isLoggedOn()) {
@@ -105,14 +129,17 @@ public class ToyBoxClient
             }
         });
 
-        // create our client controller and stick it in the frame
-        _frame.setController(new ClientController(_ctx, _frame));
+        // create our client controller
+        _cctrl = new ClientController(_ctx, this);
+
+        // stuff our top-level pane into the top-level of our shell
+        _shell.setContentPane(_root);
 
         // start our idle tracker
         IdleTracker idler =
             new IdleTracker(ChatCodes.DEFAULT_IDLE_TIME, LOGOFF_DELAY) {
             protected long getTimeStamp () {
-                return _frame.getFrameManager().getTimeStamp();
+                return _shell.getFrameManager().getTimeStamp();
             }
             protected void idledIn () {
                 updateIdle(false);
@@ -144,6 +171,20 @@ public class ToyBoxClient
     public ToyBoxContext getContext ()
     {
         return _ctx;
+    }
+
+    /**
+     * Sets the main user interface panel.
+     */
+    public void setMainPanel (JPanel panel)
+    {
+        // remove the old panel
+        _root.removeAll();
+	// add the new one
+	_root.add(panel, BorderLayout.CENTER);
+        // swing doesn't properly repaint after adding/removing children
+        _root.revalidate();
+        _root.repaint();
     }
 
     /**
@@ -228,6 +269,19 @@ public class ToyBoxClient
         return appdir + File.separator + subdir;
     }
 
+    /** Makes our client controller visible to the dispatch system. */
+    protected class RootPanel extends JPanel
+        implements ControllerProvider
+    {
+        public RootPanel () {
+            super(new BorderLayout());
+        }
+
+        public Controller getController () {
+            return _cctrl;
+        }
+    }
+
     /**
      * The context implementation. This provides access to all of the
      * objects and services that are needed by the operating client.
@@ -281,18 +335,12 @@ public class ToyBoxClient
 
         public void setPlaceView (PlaceView view)
         {
-            // stick the place view into our frame
-            _frame.setPanel((JPanel)view);
+            setMainPanel((JPanel)view);
         }
 
         public void clearPlaceView (PlaceView view)
         {
             // we'll just let the next place view replace our old one
-        }
-
-        public ToyBoxFrame getFrame ()
-        {
-            return _frame;
         }
 
         public MessageManager getMessageManager ()
@@ -307,7 +355,7 @@ public class ToyBoxClient
 
         public FrameManager getFrameManager ()
         {
-            return _frame.getFrameManager();
+            return _shell.getFrameManager();
         }
 
         public KeyDispatcher getKeyDispatcher ()
@@ -317,10 +365,12 @@ public class ToyBoxClient
     }
 
     protected ToyBoxContext _ctx;
-    protected ToyBoxFrame _frame;
+    protected Shell _shell;
+    protected RootPanel _root = new RootPanel();
     protected Config _config = new Config("toybox");
 
     protected Client _client;
+    protected ClientController _cctrl;
     protected MessageManager _msgmgr;
     protected KeyDispatcher _keydisp;
 

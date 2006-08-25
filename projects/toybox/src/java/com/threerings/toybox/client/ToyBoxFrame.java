@@ -21,16 +21,10 @@
 
 package com.threerings.toybox.client;
 
-import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import com.samskivert.swing.Controller;
-import com.samskivert.swing.ControllerProvider;
 import com.samskivert.swing.util.SwingUtil;
 
 import com.threerings.media.ManagedJFrame;
@@ -39,11 +33,11 @@ import com.threerings.media.ManagedJFrame;
  * Contains the user interface for the ToyBox client application.
  */
 public class ToyBoxFrame extends ManagedJFrame
-    implements ControllerProvider
+    implements ToyBoxClient.Shell
 {
     /**
-     * Constructs the top-level ToyBox client frame with the specified
-     * window title.
+     * Constructs the top-level ToyBox client frame with the specified window
+     * title.
      */
     public ToyBoxFrame (String title, String gameId, String username)
     {
@@ -66,7 +60,7 @@ public class ToyBoxFrame extends ManagedJFrame
         }
     }
 
-    // documentation inherited
+    @Override // documentation inherited
     public void addNotify ()
     {
         super.addNotify();
@@ -82,36 +76,5 @@ public class ToyBoxFrame extends ManagedJFrame
         });
     }
 
-    /**
-     * Sets the panel that makes up the entire client display.
-     */
-    public void setPanel (JPanel panel)
-    {
-        // remove the old panel
-        getContentPane().removeAll();
-	// add the new one
-	getContentPane().add(panel, BorderLayout.CENTER);
-        // swing doesn't properly repaint after adding/removing children
-        panel.revalidate();
-        panel.repaint();
-    }
-
-    /**
-     * Sets the controller for the outermost scope. This controller will
-     * handle all actions that aren't handled by controllers of tigher
-     * scope.
-     */
-    public void setController (Controller controller)
-    {
-        _controller = controller;
-    }
-
-    // documentation inherited
-    public Controller getController ()
-    {
-        return _controller;
-    }
-
-    protected Controller _controller;
     protected String _gameId, _username;
 }

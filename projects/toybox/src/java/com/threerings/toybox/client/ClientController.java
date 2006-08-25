@@ -43,18 +43,18 @@ public class ClientController extends Controller
      * Creates a new client controller. The controller will set everything
      * up in preparation for logging on.
      */
-    public ClientController (ToyBoxContext ctx, ToyBoxFrame frame)
+    public ClientController (ToyBoxContext ctx, ToyBoxClient client)
     {
         // we'll want to keep these around
         _ctx = ctx;
-        _frame = frame;
+        _client = client;
 
         // we want to know about logon/logoff
         _ctx.getClient().addClientObserver(this);
 
         // create the logon panel and display it
         _logonPanel = new LogonPanel(_ctx);
-        _frame.setPanel(_logonPanel);
+        _client.setMainPanel(_logonPanel);
     }
 
     // documentation inherited
@@ -94,11 +94,11 @@ public class ClientController extends Controller
         log.info("Client did logoff [client=" + client + "].");
 
         // reinstate the logon panel
-        _frame.setPanel(_logonPanel);
+        _client.setMainPanel(_logonPanel);
     }
 
     protected ToyBoxContext _ctx;
-    protected ToyBoxFrame _frame;
+    protected ToyBoxClient _client;
     protected BodyObject _body;
 
     // our panels
