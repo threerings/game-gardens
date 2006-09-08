@@ -255,7 +255,8 @@ public class ToyBoxManager
         }
 
         // load the game information from the database
-        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+        String ikey = "resolveLobby(" + gameId + ")";
+        ToyBoxServer.invoker.postUnit(new Invoker.Unit(ikey) {
             public boolean invoke () {
                 try {
                     _game = _toyrepo.loadGame(gameId);
