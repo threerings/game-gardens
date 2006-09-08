@@ -90,7 +90,7 @@ public class ToyBoxApp
     {
         try {
             // initialize the app
-            app.init(username, System.getProperty("game_id", "1"));
+            app.init(username, System.getProperty("game_id", "-1"));
         } catch (IOException ioe) {
             log.log(Level.WARNING, "Error initializing application.", ioe);
         }
