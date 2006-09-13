@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.getdown.data.Resource;
-import com.threerings.getdown.launcher.Downloader;
+import com.threerings.getdown.launcher.HTTPDownloader;
 
 import com.threerings.resource.ResourceManager;
 
@@ -190,7 +190,7 @@ public class ToyBoxDirector extends BasicDirector
      */
     public void resolveResources (
         final int gameId, final GameDefinition gamedef,
-        final Downloader.Observer obs)
+        final HTTPDownloader.Observer obs)
     {
         // if our resource URL is a file: URL, we can ignore this whole
         // process as we're running in testing mode and needn't worry
@@ -242,7 +242,7 @@ public class ToyBoxDirector extends BasicDirector
      * anything foolish.
      */
     protected void resolveResourcesAsync (
-        int gameId, GameDefinition gamedef, Downloader.Observer obs)
+        int gameId, GameDefinition gamedef, HTTPDownloader.Observer obs)
     {
         // determine whether the game's libraries, or its game jar file
         // need to be downloaded
@@ -278,7 +278,7 @@ public class ToyBoxDirector extends BasicDirector
         // fire up a downloader to do the downloading, if there's nothing
         // to download it will just immediately call "downloadComplete()"
         // on the observer
-        Downloader dloader = new Downloader(rsrcs, obs);
+        HTTPDownloader dloader = new HTTPDownloader(rsrcs, obs);
         // we're already on our own thread so just run() rather than start()
         dloader.run();
     }
