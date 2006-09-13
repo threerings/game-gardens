@@ -2,7 +2,7 @@
 <game>
   <!-- the string identifier for this game; this is used to name our jar -->
   <!-- file and to name other internal bits -->
-  <ident>reversi</ident>
+  <ident>greversi</ident>
 
   <!-- The controller and manager used for our game -->
   <controller>com.threerings.reversi.ReversiController</controller>
