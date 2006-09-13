@@ -65,29 +65,19 @@ public class NewGameProjectTask extends Task
                 "will be used to identify your game (e.g. reversi):");
             ident = ident.toLowerCase();
             pkgpre = readInput(input, "Please enter the package to use " +
-                "for your game classes (ie. com.something):");
+                "for your game classes (e.g. com.something):");
             pkgpre = pkgpre.toLowerCase();
-            fullpkg = pkgpre + "." + ident;
-
-            System.out.println("We will use the following package for your " +
-                "game classes:");
-            System.out.println("  " + fullpkg);
-        } while (!readConfirm(input));
-
-        do {
             classpre = readInput(
                 input, "Please enter the prefix to use for naming your game " +
-                "classes (ie. Reversi):");
-            if (classpre == null) {
-                System.out.println("Aborting.");
-                return;
-            }
+                "classes (e.g. Reversi):");
+            fullpkg = pkgpre + "." + ident;
 
             System.out.println("We will generate classes named:");
             System.out.println("  " + fullpkg + "." + classpre + "Object");
             System.out.println("  " + fullpkg + "." + classpre + "Panel");
             System.out.println("  " + fullpkg + "." + classpre + "Controller");
             System.out.println("  " + fullpkg + "." + classpre + "Manager");
+
         } while (!readConfirm(input));
 
         // create a directory for the project
@@ -120,6 +110,17 @@ public class NewGameProjectTask extends Task
             copyFile(input, new File(_templates, "Template" + cname + ".java"),
                 new File(sdir, classpre + cname + ".java"), subs);
         }
+
+        System.out.println(
+            "Done! Your new game has been created in '" + pdir + "'.");
+        System.out.println("");
+        System.out.println(
+            "Go into that directory and try the following commands:");
+        System.out.println("  Build the game: ant dist");
+        System.out.println("  Run the server: ant server");
+        System.out.println("  Run a client: ant -Dusername=NAME client");
+        System.out.println("");
+        System.out.println("Have fun making your new game.");
     }
 
     protected String readInput (BufferedReader input, String prompt)
@@ -179,7 +180,9 @@ public class NewGameProjectTask extends Task
                     return;
                 }
             }
-            System.out.println("Overwriting '" + dest + "'.");
+            System.out.println("  Overwriting '" + dest + "'.");
+        } else {
+            System.out.println("  Creating '" + dest + "'.");
         }
 
         try {
