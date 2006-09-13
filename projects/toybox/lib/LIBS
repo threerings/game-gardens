@@ -1,3 +1,4 @@
+ant.jar
 commons-beanutils.jar
 commons-collections.jar
 commons-digester.jar
@@ -7,10 +8,10 @@ commons-logging.jar
 getdown.jar
 narya-base.jar
 narya-distrib.jar
-nenya-rsrc.jar
 nenya-media.jar
-vilya-micasa.jar
-vilya-parlor.jar
+nenya-rsrc.jar
 samskivert.jar
 threerings.jar
 velocity-1.5-dev.jar
+vilya-micasa.jar
+vilya-parlor.jar
