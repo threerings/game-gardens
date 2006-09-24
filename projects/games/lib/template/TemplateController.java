@@ -31,7 +31,7 @@ public class @classpre@Controller extends GameController
         return _panel;
     }
 
-    // documentation inherited
+    @Override // from PlaceController
     public void willEnterPlace (PlaceObject plobj)
     {
         super.willEnterPlace(plobj);
@@ -40,7 +40,7 @@ public class @classpre@Controller extends GameController
         _gameobj = (@classpre@Object)plobj;
     }
 
-    // documentation inherited
+    @Override // from PlaceController
     public void didLeavePlace (PlaceObject plobj)
     {
         super.didLeavePlace(plobj);
@@ -49,7 +49,7 @@ public class @classpre@Controller extends GameController
         _gameobj = null;
     }
 
-    // documentation inherited
+    @Override // from GameController
     protected void gameDidStart ()
     {
         super.gameDidStart();
@@ -58,7 +58,7 @@ public class @classpre@Controller extends GameController
         // game
     }
 
-    // documentation inherited
+    @Override // from GameController
     protected void gameDidEnd ()
     {
         super.gameDidEnd();
