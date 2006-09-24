@@ -6,7 +6,6 @@ package @package@;
 import java.awt.Graphics;
 import javax.swing.JComponent;
 
-import com.threerings.presents.dobj.AttributeChangedEvent;
 import com.threerings.toybox.util.ToyBoxContext;
 
 import com.threerings.crowd.client.PlaceView;
