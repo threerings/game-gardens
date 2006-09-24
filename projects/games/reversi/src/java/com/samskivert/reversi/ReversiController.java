@@ -24,6 +24,15 @@ public class ReversiController extends GameController
         _ctx.getLocationDirector().moveBack();
     }
 
+    /**
+     * Called when a player requests to play a piece during their turn.
+     */
+    public void piecePlaced (ReversiObject.Piece piece)
+    {
+        // tell the server we want to place our piece here
+        _gameobj.manager.invoke("placePiece", piece);
+    }
+
     @Override // from PlaceController
     protected PlaceView createPlaceView (CrowdContext ctx)
     {

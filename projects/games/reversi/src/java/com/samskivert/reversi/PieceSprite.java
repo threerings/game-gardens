@@ -3,9 +3,7 @@
 
 package com.samskivert.reversi;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Graphics2D;
 
 import com.threerings.media.sprite.Sprite;
@@ -42,22 +40,9 @@ public class PieceSprite extends Sprite
         invalidate();
     }
 
-    /**
-     * Places this sprite into cursor mode.
-     */
-    public void setCursorMode (boolean cursorMode)
-    {
-        _comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
-    }
-
     @Override // from Sprite
     public void paint (Graphics2D gfx)
     {
-        Composite ocomp = gfx.getComposite();
-        if (_comp != null) {
-            gfx.setComposite(_comp);
-        }
-
         // set our color depending on the player that owns this piece
         gfx.setColor(_piece.owner == ReversiObject.BLACK ?
                      Color.darkGray : Color.white);
@@ -70,10 +55,7 @@ public class PieceSprite extends Sprite
         // then outline that oval in black
         gfx.setColor(Color.black);
         gfx.drawOval(px, py, pwid, phei);
-
-        gfx.setComposite(ocomp);
     }
 
     protected ReversiObject.Piece _piece;
-    protected AlphaComposite _comp;
 }

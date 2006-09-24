@@ -41,7 +41,7 @@ public class ReversiPanel extends PlacePanel
         setLayout(new BorderLayout());
 
         // create and add our board view
-        add(_bview = new ReversiBoardView(ctx), BorderLayout.CENTER);
+        add(_bview = new ReversiBoardView(ctx, ctrl), BorderLayout.CENTER);
 
         // create a side panel to hold our chat and other extra interfaces
         JPanel sidePanel = GroupLayout.makeVStretchBox(5);

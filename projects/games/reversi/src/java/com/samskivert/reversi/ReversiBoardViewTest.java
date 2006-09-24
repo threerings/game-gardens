@@ -24,7 +24,7 @@ public class ReversiBoardViewTest extends GameViewTest
 
     protected JComponent createInterface (ToyBoxContext ctx)
     {
-        return _view = new ReversiBoardView(ctx);
+        return _view = new ReversiBoardView(ctx, new ReversiController());
     }
 
     protected void initInterface ()
@@ -46,6 +46,8 @@ public class ReversiBoardViewTest extends GameViewTest
         int dx = piece.x * PieceSprite.SIZE;
         int dy = (piece.y+1) * PieceSprite.SIZE;
         sprite.move(new LinePath(new Point(dx, dy), 1000L));
+
+        _view.setPlacingMode(ReversiObject.WHITE);
     }
 
     protected ReversiBoardView _view;

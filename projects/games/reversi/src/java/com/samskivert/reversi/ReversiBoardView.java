@@ -7,6 +7,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseAdapter;
+
 import java.util.HashMap;
 
 import com.threerings.presents.dobj.EntryAddedEvent;
@@ -30,10 +35,40 @@ public class ReversiBoardView extends VirtualMediaPanel
      * Constructs a view which will initialize itself and prepare to display
      * the game board.
      */
-    public ReversiBoardView (ToyBoxContext ctx)
+    public ReversiBoardView (ToyBoxContext ctx, ReversiController ctrl)
     {
         super(ctx.getFrameManager());
         _ctx = ctx;
+        _ctrl = ctrl;
+
+        // listen for mouse motion and presses
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed (MouseEvent e) {
+                _ctrl.piecePlaced(_cursor.getPiece());
+                setPlacingMode(-1);
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseMoved (MouseEvent e) {
+                int tx = e.getX() / PieceSprite.SIZE;
+                int ty = e.getY() / PieceSprite.SIZE;
+                _cursor.setPosition(tx, ty);
+            }
+        });
+    }
+
+    /**
+     * Activates "placing" mode which allows the user to place a piece of the
+     * specified color.
+     */
+    public void setPlacingMode (int color)
+    {
+        if (color != -1) {
+            _cursor.setColor(color);
+            addSprite(_cursor);
+        } else {
+            removeSprite(_cursor);
+        }
     }
 
     // from interface PlaceView
@@ -46,6 +81,9 @@ public class ReversiBoardView extends VirtualMediaPanel
         for (ReversiObject.Piece piece : _gameobj.pieces) {
             addPieceSprite(piece);
         }
+
+        // temporary hackery to allow us to place a piece
+        setPlacingMode(ReversiObject.BLACK);
     }
 
     // from interface PlaceView
@@ -121,6 +159,9 @@ public class ReversiBoardView extends VirtualMediaPanel
     /** Provides access to client services. */
     protected ToyBoxContext _ctx;
 
+    /** The controller to which we dispatch user actions. */
+    protected ReversiController _ctrl;
+
     /** A reference to our game object. */
     protected ReversiObject _gameobj;
 
@@ -130,4 +171,7 @@ public class ReversiBoardView extends VirtualMediaPanel
     /** Contains a mapping from piece id to the sprite for that piece. */
     protected HashMap<Comparable,PieceSprite> _sprites =
         new HashMap<Comparable,PieceSprite>();
+
+    /** Displays a cursor when we're allowing the user to place a piece. */
+    protected CursorSprite _cursor = new CursorSprite();
 }

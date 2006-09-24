@@ -3,9 +3,12 @@
 
 package com.samskivert.reversi;
 
+import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.game.server.GameManager;
+import com.threerings.parlor.turn.server.TurnGameManager;
+import com.threerings.parlor.turn.server.TurnGameManagerDelegate;
 
 import com.threerings.toybox.data.ToyBoxGameConfig;
 
@@ -13,11 +16,46 @@ import com.threerings.toybox.data.ToyBoxGameConfig;
  * Handles the server side of the game.
  */
 public class ReversiManager extends GameManager
+    implements TurnGameManager
 {
-    @Override // from PlaceManager
-    protected PlaceObject createPlaceObject ()
+    public ReversiManager ()
     {
-        return new ReversiObject();
+        // we're a turn based game, so we use a turn game manager delegate
+        addDelegate(_turndel = new TurnGameManagerDelegate(this) {
+            protected void setNextTurnHolder () {
+                _turnIdx = _gameobj.getNextTurnHolderIndex(_turnIdx);
+            }
+        });
+    }
+
+    /**
+     * Called when a client sends a request to place a piece on the board.
+     */
+    public void placePiece (BodyObject player, ReversiObject.Piece piece)
+    {
+        // for now we just blindly add the piece to the board, yee haw!
+        _gameobj.addToPieces(piece);
+    }
+
+    // from interface TurnGameManager
+    public void turnWillStart ()
+    {
+        // nothing to do here
+    }
+
+    // from interface TurnGameManager
+    public void turnDidStart ()
+    {
+        // nothing to do here
+    }
+
+    // from interface TurnGameManager
+    public void turnDidEnd ()
+    {
+        // if neither player has legal moves, the game is over
+        if (!_gameobj.hasLegalMoves(0) && !_gameobj.hasLegalMoves(1)) {
+            endGame();
+        }
     }
 
     @Override // from PlaceManager
@@ -39,7 +77,7 @@ public class ReversiManager extends GameManager
         super.didStartup();
 
         // grab our own casted game object reference
-        _gameobj = (ReversiObject)_gameobj;
+        _gameobj = (ReversiObject)super._gameobj;
 
         // this method is called after we have created our game object but
         // before we do any game related things
@@ -51,6 +89,12 @@ public class ReversiManager extends GameManager
         super.didShutdown();
 
         // this is called right before we finally disappear for good
+    }
+
+    @Override // from PlaceManager
+    protected PlaceObject createPlaceObject ()
+    {
+        return new ReversiObject();
     }
 
     @Override // from GameManager
@@ -83,4 +127,7 @@ public class ReversiManager extends GameManager
 
     /** Our game configuration. */
     protected ToyBoxGameConfig _gameconf;
+
+    /** Handles our turn based game flow. */
+    protected TurnGameManagerDelegate _turndel;
 }
