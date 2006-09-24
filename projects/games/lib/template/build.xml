@@ -94,4 +94,14 @@
     <delete file="${deploy.dir}/classes/toybox.properties"/>
   </target>
 
+  <!-- a target for running the board view test -->
+  <target name="viewtest" depends="compile">
+    <java classname="@package@.@classpre@BoardViewTest" fork="true">
+      <classpath>
+        <pathelement location="${deploy.dir}/classes"/>
+        <pathelement location="../client/gg-client.jar"/>
+      </classpath>
+    </java>
+  </target>
+
 </project>
