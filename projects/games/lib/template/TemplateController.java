@@ -25,13 +25,6 @@ public class @classpre@Controller extends GameController
     }
 
     @Override // from PlaceController
-    protected PlaceView createPlaceView (CrowdContext ctx)
-    {
-        _panel = new @classpre@Panel((ToyBoxContext)ctx, this);
-        return _panel;
-    }
-
-    @Override // from PlaceController
     public void willEnterPlace (PlaceObject plobj)
     {
         super.willEnterPlace(plobj);
@@ -47,6 +40,13 @@ public class @classpre@Controller extends GameController
 
         // clear out our game object reference
         _gameobj = null;
+    }
+
+    @Override // from PlaceController
+    protected PlaceView createPlaceView (CrowdContext ctx)
+    {
+        _panel = new @classpre@Panel((ToyBoxContext)ctx, this);
+        return _panel;
     }
 
     @Override // from GameController
