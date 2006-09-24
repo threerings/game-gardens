@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 
 import com.threerings.media.FrameManager;
 import com.threerings.media.image.ImageUtil;
+import com.threerings.resource.ResourceManager;
 
 import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageBundle;
@@ -68,6 +69,14 @@ public abstract class ToyBoxContext implements ParlorContext
     public abstract KeyDispatcher getKeyDispatcher ();
 
     /**
+     * Returns the resource manager which is used to load media resources.
+     */
+    public ResourceManager getResourceManager ()
+    {
+        return getToyBoxDirector().getResourceManager();
+    }
+
+    /**
      * Translates the specified message using the specified message bundle.
      */
     public String xlate (String bundle, String message)
@@ -91,10 +100,9 @@ public abstract class ToyBoxContext implements ParlorContext
      */
     public BufferedImage loadImage (String rsrcPath)
     {
-        ToyBoxDirector tbd = getToyBoxDirector();
         try {
             return ImageIO.read(
-                tbd.getResourceManager().getImageResource(rsrcPath));
+                getResourceManager().getImageResource(rsrcPath));
 
         } catch (IOException ioe) {
             log.log(Level.WARNING,

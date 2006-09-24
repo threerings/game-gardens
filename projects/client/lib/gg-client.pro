@@ -48,6 +48,9 @@
     public protected *;
 }
 
+# keep our view test harness
+-keep public class com.threerings.toybox.util.GameViewTest
+
 # similarly for all of the narya libraries
 -keep public class com.threerings.** {
     public protected *;
