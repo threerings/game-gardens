@@ -15,12 +15,6 @@ import com.threerings.toybox.data.ToyBoxGameConfig;
 public class @classpre@Manager extends GameManager
 {
     @Override // from PlaceManager
-    protected PlaceObject createPlaceObject ()
-    {
-        return new @classpre@Object();
-    }
-
-    @Override // from PlaceManager
     public void didInit ()
     {
         super.didInit();
@@ -51,6 +45,12 @@ public class @classpre@Manager extends GameManager
         super.didShutdown();
 
         // this is called right before we finally disappear for good
+    }
+
+    @Override // from PlaceManager
+    protected PlaceObject createPlaceObject ()
+    {
+        return new @classpre@Object();
     }
 
     @Override // from GameManager
