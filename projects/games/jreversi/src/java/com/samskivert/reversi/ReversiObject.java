@@ -68,10 +68,32 @@ public class ReversiObject extends GameObject
     }
 
     /**
+     * Places the supplied piece onto the board, flipping any pieces captured
+     * by this play to the appropriate color. The piece is assumed to represent
+     * a legal move.
+     */
+    public void placePiece (Piece piece)
+    {
+        // add this new piece to the set
+        addToPieces(piece);
+
+        // TODO: flip influenced pieces
+    }
+
+    /**
      * Returns true if the player of the specified color (turn holder index)
      * has legal moves, false if not.
      */
     public boolean hasLegalMoves (int color)
+    {
+        return true; // TODO
+    }
+
+    /**
+     * Returns true if the supplied piece represents a legal move for the owner
+     * of the piece.
+     */
+    public boolean isLegalMove (Piece piece)
     {
         return true; // TODO
     }

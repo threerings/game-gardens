@@ -33,8 +33,23 @@ public class ReversiManager extends GameManager
      */
     public void placePiece (BodyObject player, ReversiObject.Piece piece)
     {
-        // for now we just blindly add the piece to the board, yee haw!
-        _gameobj.addToPieces(piece);
+        // make sure it's this player's turn
+        int pidx = _turndel.getTurnHolderIndex();
+        if (_playerOids[pidx] != player.getOid()) {
+            System.err.println("Requested to place piece by non-turn holder " +
+                               "[who=" + player.who() +
+                               ", turnHolder=" + _gameobj.turnHolder + "].");
+
+        // make sure this is a legal move
+        } else if (_gameobj.isLegalMove(piece)) {
+            _gameobj.placePiece(piece);
+            _turndel.endTurn();
+
+        } else {
+            System.err.println("Received illegal move request " +
+                               "[who=" + player.who() +
+                               ", piece=" + piece + "].");
+        }
     }
 
     // from interface TurnGameManager
