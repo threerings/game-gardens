@@ -39,7 +39,7 @@ public class @classpre@Manager extends GameManager
         super.didStartup();
 
         // grab our own casted game object reference
-        _gameobj = (@classpre@Object)_gameobj;
+        _gameobj = (@classpre@Object)super._gameobj;
 
         // this method is called after we have created our game object but
         // before we do any game related things
