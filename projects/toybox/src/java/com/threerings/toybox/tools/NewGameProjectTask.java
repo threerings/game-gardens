@@ -216,6 +216,6 @@ public class NewGameProjectTask extends Task
         System.getProperty("line.separator");
 
     protected static final String[] CLASSES = {
-        "BoardView", "Controller", "Panel", "Manager", "Object"
+        "BoardView", "BoardViewTest", "Controller", "Panel", "Manager", "Object"
     };
 }
