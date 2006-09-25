@@ -5,6 +5,7 @@ package com.samskivert.reversi;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -14,12 +15,18 @@ import java.awt.event.MouseAdapter;
 
 import java.util.HashMap;
 
+import com.samskivert.swing.Label;
+
+import com.threerings.media.VirtualMediaPanel;
+import com.threerings.media.animation.FloatingTextAnimation;
+
 import com.threerings.presents.dobj.EntryAddedEvent;
 import com.threerings.presents.dobj.EntryRemovedEvent;
 import com.threerings.presents.dobj.EntryUpdatedEvent;
 import com.threerings.presents.dobj.SetListener;
 
-import com.threerings.media.VirtualMediaPanel;
+import com.threerings.parlor.media.ScoreAnimation;
+
 import com.threerings.toybox.util.ToyBoxContext;
 
 import com.threerings.crowd.client.PlaceView;
@@ -78,6 +85,18 @@ public class ReversiBoardView extends VirtualMediaPanel
         } else if (isManaged(_cursor)) {
             removeSprite(_cursor);
         }
+    }
+
+    /**
+     * Floats the supplied text over the board.
+     */
+    public void displayFloatingText (String text)
+    {
+        Label label = ScoreAnimation.createLabel(
+            text, Color.white, new Font("Helvetica", Font.BOLD, 48), this);
+        int lx = (getWidth() - label.getSize().width)/2;
+        int ly = (getHeight() - label.getSize().height)/2;
+        addAnimation(new FloatingTextAnimation(label, lx, ly));
     }
 
     // from interface PlaceView

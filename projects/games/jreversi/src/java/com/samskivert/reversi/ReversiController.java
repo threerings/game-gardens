@@ -96,8 +96,12 @@ public class ReversiController extends GameController
     {
         super.gameDidEnd();
 
-        // here we can clear out anything that needs to be cleared out at the
-        // end of a game
+        // if we are the winner of the game, display some animated text
+        // informing us of this fact
+        ToyBoxContext tctx = (ToyBoxContext)_ctx;
+        String message = (!_gameobj.isDraw() && _gameobj.isWinner(_color)) ?
+            "m.you_win" : "m.game_over";
+        _panel.bview.displayFloatingText(tctx.xlate("reversi", message));
     }
 
     /** Handles turn-game related stuff. */
