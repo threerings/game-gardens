@@ -52,6 +52,11 @@ public class ReversiLogic
      */
     public boolean isLegalMove (ReversiObject.Piece piece)
     {
+        // disallow moves on already occupied spots
+        if (getColor(piece.x, piece.y) != -1) {
+            return false;
+        }
+
         // determine whether this piece "captures" pieces of the opposite color
         for (int ii = 0; ii < DX.length; ii++) {
             // look in this direction for captured pieces

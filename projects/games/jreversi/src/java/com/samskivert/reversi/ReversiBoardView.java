@@ -41,18 +41,24 @@ public class ReversiBoardView extends VirtualMediaPanel
         _ctx = ctx;
         _ctrl = ctrl;
 
+        // create our logic class
+        _logic = new ReversiLogic(8); // TODO
+
         // listen for mouse motion and presses
         addMouseListener(new MouseAdapter() {
             public void mousePressed (MouseEvent e) {
-                _ctrl.piecePlaced(_cursor.getPiece());
-                setPlacingMode(-1);
+                ReversiObject.Piece piece = _cursor.getPiece();
+                if (_logic.isLegalMove(piece)) {
+                    _ctrl.piecePlaced(piece);
+                    setPlacingMode(-1);
+                }
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseMoved (MouseEvent e) {
                 int tx = e.getX() / PieceSprite.SIZE;
                 int ty = e.getY() / PieceSprite.SIZE;
-                _cursor.setPosition(tx, ty);
+                _cursor.setPosition(tx, ty, _logic);
             }
         });
     }
@@ -63,10 +69,13 @@ public class ReversiBoardView extends VirtualMediaPanel
      */
     public void setPlacingMode (int color)
     {
+        // update our logic with the current board state
+        _logic.setState(_gameobj.pieces);
+
         if (color != -1) {
             _cursor.setColor(color);
             addSprite(_cursor);
-        } else {
+        } else if (isManaged(_cursor)) {
             removeSprite(_cursor);
         }
     }
@@ -164,6 +173,9 @@ public class ReversiBoardView extends VirtualMediaPanel
 
     /** A reference to our game object. */
     protected ReversiObject _gameobj;
+
+    /** Used to determine legal moves. */
+    protected ReversiLogic _logic;
 
     /** The size of the Reversi board. */
     protected Dimension _size = new Dimension(8, 8);

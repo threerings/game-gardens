@@ -23,10 +23,11 @@ public class CursorSprite extends PieceSprite
         _piece.owner = color;
     }
 
-    public void setPosition (int x, int y)
+    public void setPosition (int x, int y, ReversiLogic logic)
     {
         _piece.x = x;
         _piece.y = y;
+        _legal = logic.isLegalMove(_piece);
         updatePiece(_piece);
     }
 
@@ -38,11 +39,14 @@ public class CursorSprite extends PieceSprite
     @Override // from PieceSprite
     public void paint (Graphics2D gfx)
     {
-        Composite ocomp = gfx.getComposite();
-        gfx.setComposite(_comp);
-        super.paint(gfx);
-        gfx.setComposite(ocomp);
+        if (_legal) {
+            Composite ocomp = gfx.getComposite();
+            gfx.setComposite(_comp);
+            super.paint(gfx);
+            gfx.setComposite(ocomp);
+        }
     }
 
     protected AlphaComposite _comp;
+    protected boolean _legal = false;
 }
