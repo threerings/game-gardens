@@ -26,6 +26,30 @@ public class ReversiLogic
         }
     }
 
+    /**
+     * Returns the index into the {@link ReversiObject#players} array of the
+     * player to whom control should transition.
+     */
+    public int getNextTurnHolderIndex (int curTurnIdx)
+    {
+        // if the next player can move, they're up
+        if (hasLegalMoves(1-curTurnIdx)) {
+            return 1-curTurnIdx;
+        }
+
+        // otherwise see if the current player can still move
+        if (hasLegalMoves(curTurnIdx)) {
+            return curTurnIdx;
+        }
+
+        // otherwise the game is over
+        return -1;
+    }
+
+    /**
+     * Returns true if the supplied piece represents a legal move for the
+     * owning player.
+     */
     public boolean isLegalMove (ReversiObject.Piece piece)
     {
         // determine whether this piece "captures" pieces of the opposite color
@@ -62,6 +86,9 @@ public class ReversiLogic
         return false;
     }
 
+    /**
+     * Returns true if the player with the specified color has legal moves.
+     */
     public boolean hasLegalMoves (int color)
     {
         // search every board position for a legal move
@@ -82,6 +109,11 @@ public class ReversiLogic
         return false;
     }
 
+    /**
+     * Determines which pieces should be flipped based on the placement of the
+     * specified piece onto the board. The pieces in question are changed to
+     * the appropriate color and updated in the game object.
+     */
     public void flipPieces (ReversiObject.Piece placed, ReversiObject gameobj)
     {
         ArrayList<ReversiObject.Piece> toflip =

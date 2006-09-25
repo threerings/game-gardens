@@ -48,29 +48,6 @@ public class ReversiObject extends GameObject
     public Name turnHolder;
 
     /**
-     * Returns the index into the {@link #players} array of the player to whom
-     * control should transition.
-     */
-    public int getNextTurnHolderIndex (ReversiLogic logic, int curTurnIdx)
-    {
-        // update the logic with the current board state
-        logic.setState(pieces);
-
-        // if the next player can move, they're up
-        if (logic.hasLegalMoves(1-curTurnIdx)) {
-            return 1-curTurnIdx;
-        }
-
-        // otherwise see if the current player can still move
-        if (logic.hasLegalMoves(curTurnIdx)) {
-            return curTurnIdx;
-        }
-
-        // otherwise the game is over
-        return -1;
-    }
-
-    /**
      * Places the supplied piece onto the board, first assigning it a unique
      * piece id.
      */

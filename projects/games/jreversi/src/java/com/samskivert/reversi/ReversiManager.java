@@ -23,7 +23,8 @@ public class ReversiManager extends GameManager
         // we're a turn based game, so we use a turn game manager delegate
         addDelegate(_turndel = new TurnGameManagerDelegate(this) {
             protected void setNextTurnHolder () {
-                _turnIdx = _gameobj.getNextTurnHolderIndex(_logic, _turnIdx);
+                _logic.setState(_gameobj.pieces);
+                _turnIdx = _logic.getNextTurnHolderIndex(_turnIdx);
             }
         });
     }
