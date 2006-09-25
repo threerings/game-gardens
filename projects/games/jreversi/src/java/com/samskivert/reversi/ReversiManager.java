@@ -77,7 +77,8 @@ public class ReversiManager extends GameManager
     {
         // if neither player has legal moves, the game is over
         _logic.setState(_gameobj.pieces);
-        if (!_logic.hasLegalMoves(0) && !_logic.hasLegalMoves(1)) {
+        if (!_logic.hasLegalMoves(ReversiObject.BLACK) &&
+            !_logic.hasLegalMoves(ReversiObject.WHITE)) {
             endGame();
         }
     }
@@ -144,6 +145,23 @@ public class ReversiManager extends GameManager
         // manager a call to endGame() should be made when the manager knows
         // the game to be over and that will trigger the end-of-game processing
         // including calling this method
+    }
+
+    @Override // from GameManager
+    protected void assignWinners (boolean[] winners)
+    {
+        super.assignWinners(winners);
+
+        // count up the number of black and white pieces
+        int[] counts = new int[2];
+        for (ReversiObject.Piece piece : _gameobj.pieces) {
+            counts[piece.owner]++;
+        }
+
+        // now set a boolean indicating which player is the winner (note that
+        // if it is a tie, we want to set both values to true)
+        winners[0] = (counts[0] >= counts[1]);
+        winners[1] = (counts[1] >= counts[0]);
     }
 
     /** Our game object. */
