@@ -52,8 +52,8 @@ public class ReversiLogic
      */
     public boolean isLegalMove (ReversiObject.Piece piece)
     {
-        // disallow moves on already occupied spots
-        if (getColor(piece.x, piece.y) != -1) {
+        // disallow moves on out of bounds and already occupied spots
+        if (!inBounds(piece.x, piece.y) || getColor(piece.x, piece.y) != -1) {
             return false;
         }
 
@@ -67,7 +67,7 @@ public class ReversiLogic
                 y += DY[ii];
 
                 // stop when we end up off the board
-                if (x < 0 || x >= _size || y < 0 || y >= _size) {
+                if (!inBounds(x, y)) {
                     break;
                 }
 
@@ -133,7 +133,7 @@ public class ReversiLogic
                 y += DY[ii];
 
                 // stop when we end up off the board
-                if (x < 0 || x >= _size || y < 0 || y >= _size) {
+                if (!inBounds(x, y)) {
                     break;
                 }
 
@@ -166,6 +166,11 @@ public class ReversiLogic
     protected final int getColor (int x, int y)
     {
         return _state[y * _size + x];
+    }
+
+    protected final boolean inBounds (int x, int y)
+    {
+        return x >= 0 && y >= 0 && x < _size && y < _size;
     }
 
     protected int _size;
