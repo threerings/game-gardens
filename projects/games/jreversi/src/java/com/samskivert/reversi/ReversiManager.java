@@ -23,7 +23,7 @@ public class ReversiManager extends GameManager
         // we're a turn based game, so we use a turn game manager delegate
         addDelegate(_turndel = new TurnGameManagerDelegate(this) {
             protected void setNextTurnHolder () {
-                _turnIdx = _gameobj.getNextTurnHolderIndex(_turnIdx);
+                _turnIdx = _gameobj.getNextTurnHolderIndex(_logic, _turnIdx);
             }
         });
     }
@@ -33,6 +33,9 @@ public class ReversiManager extends GameManager
      */
     public void placePiece (BodyObject player, ReversiObject.Piece piece)
     {
+        // update our logic with the current state of the board
+        _logic.setState(_gameobj.pieces);
+
         // make sure it's this player's turn
         int pidx = _turndel.getTurnHolderIndex();
         if (_playerOids[pidx] != player.getOid()) {
@@ -41,8 +44,12 @@ public class ReversiManager extends GameManager
                                ", turnHolder=" + _gameobj.turnHolder + "].");
 
         // make sure this is a legal move
-        } else if (_gameobj.isLegalMove(piece)) {
+        } else if (_logic.isLegalMove(piece)) {
+            // place this piece on the board
             _gameobj.placePiece(piece);
+            // have our logic figure out which pieces need flipping
+            _logic.flipPieces(piece, _gameobj);
+            // and finally end the turn
             _turndel.endTurn();
 
         } else {
@@ -68,7 +75,8 @@ public class ReversiManager extends GameManager
     public void turnDidEnd ()
     {
         // if neither player has legal moves, the game is over
-        if (!_gameobj.hasLegalMoves(0) && !_gameobj.hasLegalMoves(1)) {
+        _logic.setState(_gameobj.pieces);
+        if (!_logic.hasLegalMoves(0) && !_logic.hasLegalMoves(1)) {
             endGame();
         }
     }
@@ -81,9 +89,8 @@ public class ReversiManager extends GameManager
         // get a casted reference to our game configuration
         _gameconf = (ToyBoxGameConfig)_config;
 
-        // this is called when our manager is created but before any
-        // game-specific actions take place; we don't yet have our game object
-        // at this point but we do have our game configuration
+        // create our game logic instance
+        _logic = new ReversiLogic(8); // TODO: get board size from config
     }
 
     @Override // from PlaceManager
@@ -117,13 +124,14 @@ public class ReversiManager extends GameManager
     {
         super.gameWillStart();
 
-        // when all the players have entered the game room, the game is
-        // automatically started and this method is called just before the
-        // event is delivered to the clients that will start the game
-
-        // this is the place to do any pre-game setup that needs to be done
-        // each time a game is started rather than just once at the very
-        // beginning (those sorts of things should be done in didStartup())
+        // start the game with the standard arrangement of pieces
+        for (int ii = 0; ii < STARTERS.length; ii += 3) {
+            ReversiObject.Piece piece = new ReversiObject.Piece();
+            piece.x = STARTERS[ii];
+            piece.y = STARTERS[ii+1];
+            piece.owner = STARTERS[ii+2];
+            _gameobj.placePiece(piece);
+        }
     }
 
     @Override // from GameManager
@@ -140,9 +148,20 @@ public class ReversiManager extends GameManager
     /** Our game object. */
     protected ReversiObject _gameobj;
 
+    /** Used to determine legality of moves, etc. */
+    protected ReversiLogic _logic;
+
     /** Our game configuration. */
     protected ToyBoxGameConfig _gameconf;
 
     /** Handles our turn based game flow. */
     protected TurnGameManagerDelegate _turndel;
+
+    /** The starting set of pieces. */
+    protected static final int[] STARTERS = {
+        3, 3, ReversiObject.BLACK,
+        3, 4, ReversiObject.WHITE,
+        4, 4, ReversiObject.BLACK,
+        4, 3, ReversiObject.WHITE,
+    };
 }

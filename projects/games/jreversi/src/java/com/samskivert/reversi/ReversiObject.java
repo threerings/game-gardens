@@ -51,15 +51,18 @@ public class ReversiObject extends GameObject
      * Returns the index into the {@link #players} array of the player to whom
      * control should transition.
      */
-    public int getNextTurnHolderIndex (int curTurnIdx)
+    public int getNextTurnHolderIndex (ReversiLogic logic, int curTurnIdx)
     {
+        // update the logic with the current board state
+        logic.setState(pieces);
+
         // if the next player can move, they're up
-        if (hasLegalMoves(1-curTurnIdx)) {
+        if (logic.hasLegalMoves(1-curTurnIdx)) {
             return 1-curTurnIdx;
         }
 
         // otherwise see if the current player can still move
-        if (hasLegalMoves(curTurnIdx)) {
+        if (logic.hasLegalMoves(curTurnIdx)) {
             return curTurnIdx;
         }
 
@@ -68,34 +71,16 @@ public class ReversiObject extends GameObject
     }
 
     /**
-     * Places the supplied piece onto the board, flipping any pieces captured
-     * by this play to the appropriate color. The piece is assumed to represent
-     * a legal move.
+     * Places the supplied piece onto the board, first assigning it a unique
+     * piece id.
      */
     public void placePiece (Piece piece)
     {
+        // assign this piece a new unique piece id
+        piece.pieceId = ++_nextPieceId;
+
         // add this new piece to the set
         addToPieces(piece);
-
-        // TODO: flip influenced pieces
-    }
-
-    /**
-     * Returns true if the player of the specified color (turn holder index)
-     * has legal moves, false if not.
-     */
-    public boolean hasLegalMoves (int color)
-    {
-        return true; // TODO
-    }
-
-    /**
-     * Returns true if the supplied piece represents a legal move for the owner
-     * of the piece.
-     */
-    public boolean isLegalMove (Piece piece)
-    {
-        return true; // TODO
     }
 
     // from interface TurnGameObject
@@ -181,4 +166,7 @@ public class ReversiObject extends GameObject
         this.turnHolder = value;
     }
     // AUTO-GENERATED: METHODS END
+
+    /** Used to assign ids to pieces. */
+    protected transient int _nextPieceId;
 }
