@@ -3,7 +3,11 @@
 
 <p>
 #if (!$string.blank($category))
-<b>$i18n.xlate("category.$category")</b>: $i18n.xlate("browse.${category}.intro")
+<table>
+<tr><td><img src="/images/cat_$category"></td>
+<td><b>$i18n.xlate("category.$category")</b>:<br>
+    $i18n.xlate("browse.${category}.intro")</td></tr>
+</table>
 #else
 $i18n.xlate("browse.all.intro")
 #end

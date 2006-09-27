@@ -22,11 +22,7 @@
       <fileset dir="web" excludes="**/*.in"/>
     </copy>
     <mkdir dir="${deploy.dir}/WEB-INF"/>
-    <copy file="etc/web.xml.in" tofile="${deploy.dir}/WEB-INF/web.xml">
-      <filterset>
-        <filter token="webapp_dir" value="${webapp_dir}"/>
-      </filterset>
-    </copy>
+    <copy file="etc/web.xml" tofile="${deploy.dir}/WEB-INF/web.xml"/>
     <copy todir="${deploy.dir}/WEB-INF/classes">
       <fileset dir="etc" includes="**/*.properties"/>
       <fileset dir="${base.dir}" includes="*.properties"/>
