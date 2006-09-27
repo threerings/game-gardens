@@ -1,37 +1,4 @@
-body { 
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-table {
-  border-collapse: collapse;
-  border-width: 0;
-}
-
-th, td, center, div { /* ns 4 */
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-pre {
-  font-family: Courier New, monospace;
-}
-
-.big { font-size: x-large }
-.small { font-size: small }
-
-a:link { color: #053381 }
-a:visited { color: #053381 }
-a:hover { color: #8c1d12 }
-a:active { color: #8c1d12 }
-
-h1, h2, h3, h4 { 
-   font-family: Arial, Helvetica, sans-serif;
-}
-
-.catbox {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border: 1px solid black;
-  background-color: #CCCCCC
+.notice {
+  border: 1px solid #FFFFFF;
+  padding: 5px;
 }

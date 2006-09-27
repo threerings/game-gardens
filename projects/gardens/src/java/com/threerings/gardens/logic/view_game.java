@@ -33,5 +33,6 @@ public class view_game extends OptionalUserLogic
             throw new FriendlyException("error.no_such_game");
         }
         ctx.put("game", game);
+        ctx.put("players", app.getToyBoxRepository().getOnlineCount(gameId));
     }
 }
