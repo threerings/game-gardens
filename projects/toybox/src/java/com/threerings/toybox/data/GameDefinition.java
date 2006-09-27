@@ -68,6 +68,31 @@ public class GameDefinition implements Streamable
         return (gameId == -1) ? ident + ".jar" : ident + "-" + gameId + ".jar";
     }
 
+    /**
+     * Returns true if a single player can play this game (possibly against AI
+     * opponents), or if opponents are needed.
+     */
+    public boolean isSinglePlayerPlayable ()
+    {
+        // maybe it's just single player no problem
+        int minPlayers = 2;
+        if (match != null) {
+            minPlayers = match.getMinimumPlayers();
+            if (minPlayers <= 1) {
+                return true;
+            }
+        }
+
+        // or maybe it has AIs
+        int aiCount = 0;
+        for (Parameter param : params) {
+            if (param instanceof AIParameter) {
+                aiCount = ((AIParameter)param).maximum;
+            }
+        }
+        return (minPlayers - aiCount) <= 1;
+    }
+
     /** Called when parsing a game definition from XML. */
     public void setParams (ArrayList<Parameter> list)
     {

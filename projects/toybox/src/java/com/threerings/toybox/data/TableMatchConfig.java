@@ -38,4 +38,10 @@ public class TableMatchConfig extends MatchConfig
 
     /** This is set to true if this is a party game. */
     public boolean isPartyGame;
+
+    @Override // from MatchConfig
+    public int getMinimumPlayers ()
+    {
+        return minSeats;
+    }
 }

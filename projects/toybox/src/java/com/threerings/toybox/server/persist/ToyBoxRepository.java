@@ -238,6 +238,37 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
+     * Clears out the players online counts. Called when the server starts up.
+     */
+    public void clearOnlineCounts ()
+        throws PersistenceException
+    {
+        update("delete from " + _otable.getName());
+    }
+
+    /**
+     * Updates the number of players online for the specified game.
+     */
+    public void updateOnlineCount (int gameId, int players)
+        throws PersistenceException
+    {
+        OnlineRecord record = new OnlineRecord();
+        record.gameId = gameId;
+        record.players = players;
+        store(_otable, record);
+    }
+
+    /**
+     * Looks up the number of players online for the specified game.
+     */
+    public int getOnlineCount (int gameId)
+        throws PersistenceException
+    {
+        OnlineRecord record = load(_otable, "where GAME_ID = " + gameId);
+        return (record == null) ? 0 : record.players;
+    }
+
+    /**
      * Helper function for {@link #loadGames()} and {@link
      * #loadGames(String)}.
      *
@@ -279,8 +310,42 @@ public class ToyBoxRepository extends JORARepository
     protected void createTables ()
     {
 	_gtable = new Table<Game>(Game.class, "GAMES", "GAME_ID", true);
+	_otable = new Table<OnlineRecord>(
+            OnlineRecord.class, "ONLINE", "GAME_ID", true);
+    }
+
+    @Override // documentation inherited
+    protected void migrateSchema (Connection conn, DatabaseLiaison liaison)
+        throws SQLException, PersistenceException
+    {
+        super.migrateSchema(conn, liaison);
+
+        JDBCUtil.createTableIfMissing(conn, "GAMES", new String[] {
+            "GAME_ID INTEGER NOT NULL AUTO_INCREMENT",
+            "CATEGORY VARCHAR(255) NOT NULL",
+            "NAME VARCHAR(255) NOT NULL",
+            "MAINTAINER_ID INTEGER NOT NULL",
+            "STATUS VARCHAR(255) NOT NULL",
+            "HOST VARCHAR(255) NOT NULL",
+            "DEFINITION TEXT NOT NULL",
+            "DIGEST VARCHAR(255) NOT NULL",
+            "DESCRIPTION TEXT NOT NULL",
+            "INSTRUCTIONS TEXT NOT NULL",
+            "CREDITS TEXT NOT NULL",
+            "CREATED DATE NOT NULL",
+            "LAST_UPDATED DATE NOT NULL",
+            "KEY (MAINTAINER_ID)",
+        }, "");
+
+        JDBCUtil.createTableIfMissing(conn, "ONLINE", new String[] {
+            "GAME_ID INTEGER NOT NULL",
+            "PLAYERS INTEGER NOT NULL",
+        }, "");
     }
 
     /** A wrapper that provides access to the games table. */
     protected Table<Game> _gtable;
+
+    /** Provides access to the players online table. */
+    protected Table<OnlineRecord> _otable;
 }

@@ -38,6 +38,7 @@ import java.util.logging.Level;
 
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
+import com.samskivert.util.IntIntMap;
 import com.samskivert.util.Interval;
 import com.samskivert.util.Invoker;
 import com.samskivert.util.ResultListenerList;
@@ -333,7 +334,7 @@ public class ToyBoxManager
     /**
      * Called by the {@link LobbyManager} when it shuts down.
      */
-    public void lobbyDidShutdown (Game game)
+    public void lobbyDidShutdown (final Game game)
     {
         if (_lobbyOids.remove(game.gameId) == null) {
             log.warning("Lobby shut down for which we have no registration " +
@@ -341,6 +342,19 @@ public class ToyBoxManager
         } else {
             log.info("Unloading lobby '" + game.which() + "'.");
         }
+
+        // clear out the number of players online count for this game
+        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+            public boolean invoke () {
+                try {
+                    _toyrepo.updateOnlineCount(game.gameId, 0);
+                } catch (Exception e) {
+                    log.log(Level.WARNING, "Failed to clear online count " +
+                            "[game=" + game.name + "].", e);
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -349,6 +363,9 @@ public class ToyBoxManager
      */
     protected void writeOccupancy (String path)
     {
+        final IntIntMap occs = new IntIntMap();
+
+        // write out the file (noting the number of game occupants)
         String template =
             ToyBoxConfig.config.getValue("occupancy_template", "");
         try {
@@ -361,8 +378,9 @@ public class ToyBoxManager
                     continue;
                 }
                 LobbyObject lobj = (LobbyObject)lmgr.getPlaceObject();
-                list.add(new GameOccupancy(
-                             gameId, lobj.name, lobj.countOccupants()));
+                int count = lobj.countOccupants();
+                occs.put(gameId, count);
+                list.add(new GameOccupancy(gameId, lobj.name, count));
             }
             Collections.sort(list);
 
@@ -382,6 +400,22 @@ public class ToyBoxManager
             log.log(Level.WARNING, "Failed to write occupancy file " +
                     "[path=" + path + "]", ioe);
         }
+
+        // then update the database
+        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+            public boolean invoke () {
+                for (IntIntMap.IntIntEntry entry : occs.entrySet()) {
+                    try {
+                        _toyrepo.updateOnlineCount(
+                            entry.getKey(), entry.getValue());
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Failed to clear online count " +
+                                "[gameId=" + entry.getKey() + "].", e);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     /** Used to generate an occupancy listing for our games. */
