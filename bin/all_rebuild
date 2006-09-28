@@ -46,6 +46,11 @@ if [ ! -z "$UPDATE" ]; then
     echo "Updating main tree..."
     cd $ROOT
     svn update -q
+    if [ $? != 0 ] ; then
+        echo >&2 "*** svn update failed in $ROOT"
+        rm -f $LOCKFILE
+        exit 255
+    fi
 fi
 
 # rebuild our libraries
@@ -55,9 +60,18 @@ for LIB in samskivert narya nenya vilya toybox ; do
         if [ ! -z "$UPDATE" ]; then
             echo "Updating $LIB..."
             svn update -q
+            if [ $? != 0 ] ; then
+                echo >&2 "*** svn update failed in $LIB"
+                rm -f $LOCKFILE
+                exit 255
+            fi
         fi
         echo "Rebuilding $LIB..."
         ant clean dist
+        if [ $? != 0 ]; then
+            rm -f $LOCKFILE
+            exit 255
+        fi
         ln -sf $ROOT/projects/$LIB/dist/*.jar $ROOT/lib
     fi
 done
@@ -66,12 +80,20 @@ done
 echo "Rebuilding webapps..."
 cd $ROOT/projects/gardens
 ant clean install
+if [ $? != 0 ]; then
+    rm -f $LOCKFILE
+    exit 255
+fi
 ln -sf $ROOT/projects/gardens/dist/*.jar $ROOT/lib
 
 if [ ! -z "$CLIENT" ]; then
     echo "Rebuilding client..."
     cd $ROOT/projects/client
     ant
+    if [ $? != 0 ]; then
+        rm -f $LOCKFILE
+        exit 255
+    fi
 fi
 
 # rebuild the development packages
