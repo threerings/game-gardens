@@ -93,6 +93,7 @@ public class game_jnlp implements Logic
         ctx.put("libs_dir", ToyBoxCodes.LIBRARY_DIR);
         ctx.put("server", game.host);
         ctx.put("port", ToyBoxConfig.getServerPort());
+        ctx.put("resource_url", ToyBoxConfig.getResourceURL());
 
         ctx.getResponse().setContentType("application/x-java-jnlp-file");
     }
