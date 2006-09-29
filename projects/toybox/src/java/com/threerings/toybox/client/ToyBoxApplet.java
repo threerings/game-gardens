@@ -22,6 +22,7 @@
 package com.threerings.toybox.client;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 
 import com.samskivert.util.LoggingLogProvider;
@@ -92,14 +93,22 @@ public class ToyBoxApplet extends ManagedJApplet
         log.info("Using [server=" + server + ", port=" + port + "].");
         client.setServer(server, new int[] { port });
 
+        // and our resource url
+        ToyBoxDirector toydtr = _client.getContext().getToyBoxDirector();
+        String resourceURL = getParameter("resource_url");
+        try {
+            toydtr.setResourceURL(new URL(resourceURL));
+        } catch (Exception e) {
+            log.warning("Invalid resource_url supplied '" +
+                        resourceURL + "': " + e + ".");
+        }
+
         // and our game id
         String idstr = getParameter("game_id");
         try {
-            _client.getContext().getToyBoxDirector().setGameId(
-                Integer.parseInt(idstr));
+            toydtr.setGameId(Integer.parseInt(idstr));
         } catch (Exception e) {
-            log.warning("Invalid game_id property supplied '" +
-                idstr + "': " + e + ".");
+            log.warning("Invalid game_id supplied '" + idstr + "': " + e + ".");
         }
     }
 

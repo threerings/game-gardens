@@ -21,12 +21,9 @@
 
 package com.threerings.toybox.server;
 
-import com.threerings.presents.net.BootstrapData;
-
 import com.threerings.crowd.server.CrowdClient;
 
 import com.threerings.toybox.data.TokenRing;
-import com.threerings.toybox.data.ToyBoxBootstrapData;
 import com.threerings.toybox.data.ToyBoxUserObject;
 import com.threerings.toybox.server.ToyBoxConfig;
 
@@ -35,19 +32,6 @@ import com.threerings.toybox.server.ToyBoxConfig;
  */
 public class ToyBoxClient extends CrowdClient
 {
-    // documentation inherited
-    protected BootstrapData createBootstrapData ()
-    {
-        return new ToyBoxBootstrapData();
-    }
-
-    // documentation inherited
-    protected void populateBootstrapData (BootstrapData data)
-    {
-        super.populateBootstrapData(data);
-        ((ToyBoxBootstrapData)data).resourceURL = ToyBoxConfig.getResourceURL();
-    }
-
     // documentation inherited
     protected void sessionWillStart ()
     {

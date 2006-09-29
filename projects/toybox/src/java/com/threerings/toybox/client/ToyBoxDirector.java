@@ -51,7 +51,6 @@ import com.threerings.toybox.lobby.data.LobbyObject;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.Library;
-import com.threerings.toybox.data.ToyBoxBootstrapData;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 import com.threerings.toybox.util.ToyBoxUtil;
@@ -134,20 +133,19 @@ public class ToyBoxDirector extends BasicDirector
         _gameId = gameId;
     }
 
+    /**
+     * Configures the URL from which we download our game and library
+     * resources.
+     */
+    public void setResourceURL (URL resourceURL)
+    {
+        _resourceURL = resourceURL;
+    }
+
     // documentation inherited
     public void clientDidLogon (Client client)
     {
         super.clientDidLogon(client);
-
-        // obtain our root resource URL
-        ToyBoxBootstrapData bstrap = (ToyBoxBootstrapData)
-            client.getBootstrapData();
-        try {
-            _resourceURL = new URL(bstrap.resourceURL);
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Invalid resource URL. We will be " +
-                    "unable to load game code or media.", e);
-        }
 
         // determine our local cache directory and make sure it exists
         _cacheDir = new File(ToyBoxClient.localDataDir("cache"));

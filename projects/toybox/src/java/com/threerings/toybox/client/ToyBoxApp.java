@@ -24,6 +24,7 @@ package com.threerings.toybox.client;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.util.logging.Level;
 
 import com.samskivert.util.LoggingLogProvider;
@@ -40,7 +41,7 @@ import static com.threerings.toybox.Log.log;
  */
 public class ToyBoxApp
 {
-    public void init (String username, String gameId)
+    public void init (String username, String gameId, String resourceURL)
         throws IOException
     {
         // create a frame
@@ -51,13 +52,20 @@ public class ToyBoxApp
         _client = new ToyBoxClient();
         _client.init(_frame);
 
+        // configure our resource url
+        ToyBoxDirector toydtr = _client.getContext().getToyBoxDirector();
+        try {
+            toydtr.setResourceURL(new URL(resourceURL));
+        } catch (Exception e) {
+            log.warning("Invalid resource_url '" +
+                        resourceURL + "': " + e + ".");
+        }
+
         // configure our game id
         try {
-            _client.getContext().getToyBoxDirector().setGameId(
-                Integer.parseInt(gameId));
+            toydtr.setGameId(Integer.parseInt(gameId));
         } catch (Exception e) {
-            log.warning("Invalid game_id property supplied '" +
-                gameId + "': " + e + ".");
+            log.warning("Invalid game_id '" + gameId + "': " + e + ".");
         }
     }
 
@@ -89,8 +97,11 @@ public class ToyBoxApp
                               String username, String password)
     {
         try {
-            // initialize the app
-            app.init(username, System.getProperty("game_id", "-1"));
+            // initialize the app (use defaults that work when running in
+            // development mode)
+            String gid = System.getProperty("game_id", "-1");
+            String rurl = System.getProperty("resource_url", "file://dist");
+            app.init(username, gid, rurl);
         } catch (IOException ioe) {
             log.log(Level.WARNING, "Error initializing application.", ioe);
         }
