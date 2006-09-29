@@ -66,7 +66,6 @@ import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.server.persist.Game.Status;
 import com.threerings.toybox.server.persist.Game;
-import com.threerings.toybox.server.persist.ToyBoxRepository;
 import com.threerings.toybox.util.ToyBoxClassLoader;
 import com.threerings.toybox.util.ToyBoxUtil;
 
@@ -80,14 +79,32 @@ public class ToyBoxManager
     implements ToyBoxProvider
 {
     /**
+     * Provides access to {@link Game} info for the ToyBox manager.
+     */
+    public interface GameRepository
+    {
+        /** Loads the persistent data for a game. */
+        public Game loadGame (int gameId)
+            throws PersistenceException;
+
+        /** Records playtime to a game's persistent record. */
+        public void incrementPlaytime (int gameId, int minutes)
+            throws PersistenceException;
+
+        /** Updates the number of players online for a game. */
+        public void updateOnlineCount (int gameId, int players)
+            throws PersistenceException;
+    }
+
+    /**
      * Prepares the toybox manager for operation in a server managing a
      * collection of games in conjunction with a repository.
      */
-    public void init (InvocationManager invmgr, ConnectionProvider conprov)
+    public void init (InvocationManager invmgr, GameRepository gamerepo)
         throws PersistenceException
     {
-        // create our repository
-        _toyrepo = new ToyBoxRepository(conprov);
+        // note our repository
+        _gamerepo = gamerepo;
 
         // perform common initializations
         finishInit(invmgr);
@@ -162,14 +179,6 @@ public class ToyBoxManager
     }
 
     /**
-     * Returns a reference to our repository.
-     */
-    public ToyBoxRepository getToyBoxRepository ()
-    {
-        return _toyrepo;
-    }
-
-    /**
      * Returns the custom class loader that should be used for the
      * specified place.
      */
@@ -204,7 +213,7 @@ public class ToyBoxManager
     public void recordPlaytime (final Game game, long playtime)
     {
         // we don't record playtime if we're in development mode
-        if (_toyrepo == null) {
+        if (_gamerepo == null) {
             return;
         }
 
@@ -225,7 +234,7 @@ public class ToyBoxManager
         ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
             public boolean invoke () {
                 try {
-                    _toyrepo.incrementPlaytime(game.gameId, fmins);
+                    _gamerepo.incrementPlaytime(game.gameId, fmins);
                 } catch (Exception e) {
                     log.log(Level.WARNING, "Failed to update playtime " +
                             "[game=" + game.name + ", mins=" + fmins + "].", e);
@@ -260,7 +269,7 @@ public class ToyBoxManager
         ToyBoxServer.invoker.postUnit(new Invoker.Unit(ikey) {
             public boolean invoke () {
                 try {
-                    _game = _toyrepo.loadGame(gameId);
+                    _game = _gamerepo.loadGame(gameId);
                 } catch (PersistenceException pe) {
                     log.log(Level.WARNING, "Failed to load game " +
                             "[game=" + gameId + "].", pe);
@@ -347,7 +356,7 @@ public class ToyBoxManager
         ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
             public boolean invoke () {
                 try {
-                    _toyrepo.updateOnlineCount(game.gameId, 0);
+                    _gamerepo.updateOnlineCount(game.gameId, 0);
                 } catch (Exception e) {
                     log.log(Level.WARNING, "Failed to clear online count " +
                             "[game=" + game.name + "].", e);
@@ -406,7 +415,7 @@ public class ToyBoxManager
             public boolean invoke () {
                 for (IntIntMap.IntIntEntry entry : occs.entrySet()) {
                     try {
-                        _toyrepo.updateOnlineCount(
+                        _gamerepo.updateOnlineCount(
                             entry.getKey(), entry.getValue());
                     } catch (Exception e) {
                         log.log(Level.WARNING, "Failed to clear online count " +
@@ -440,8 +449,8 @@ public class ToyBoxManager
         }
     }
 
-    /** Our persistent repository. */
-    protected ToyBoxRepository _toyrepo;
+    /** Provides information on {@link Game}s. */
+    protected GameRepository _gamerepo;
 
     /** Contains pending listeners for lobbies in the process of being
      * resolved. */

@@ -42,12 +42,15 @@ import com.samskivert.util.HashIntMap;
 import com.samskivert.util.SortableArrayList;
 import com.samskivert.util.StringUtil;
 
+import com.threerings.toybox.server.ToyBoxManager;
+
 import static com.threerings.toybox.Log.log;
 
 /**
  * Provides an interface to our persistent repository of game metadata.
  */
 public class ToyBoxRepository extends JORARepository
+    implements ToyBoxManager.GameRepository
 {
     /**
      * The database identifier used when establishing a database
@@ -321,7 +324,7 @@ public class ToyBoxRepository extends JORARepository
         super.migrateSchema(conn, liaison);
 
         JDBCUtil.createTableIfMissing(conn, "GAMES", new String[] {
-            "GAME_ID INTEGER NOT NULL AUTO_INCREMENT",
+            "GAME_ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY_KEY",
             "CATEGORY VARCHAR(255) NOT NULL",
             "NAME VARCHAR(255) NOT NULL",
             "MAINTAINER_ID INTEGER NOT NULL",

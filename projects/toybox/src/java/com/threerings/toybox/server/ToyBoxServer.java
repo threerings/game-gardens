@@ -48,6 +48,8 @@ import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.server.ParlorManager;
 
+import com.threerings.toybox.server.persist.ToyBoxRepository;
+
 import static com.threerings.toybox.Log.log;
 
 /**
@@ -101,7 +103,7 @@ public class ToyBoxServer extends CrowdServer
         // game configuration
         String gconfig = System.getProperty("game_conf");
         if (StringUtil.isBlank(gconfig)) {
-            toymgr.init(invmgr, conprov);
+            toymgr.init(invmgr, new ToyBoxRepository(conprov));
         } else {
             toymgr.init(invmgr, new File(gconfig));
         }
