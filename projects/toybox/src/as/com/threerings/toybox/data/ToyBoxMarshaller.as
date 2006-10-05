@@ -27,6 +27,7 @@ import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService_ResultListener;
 import com.threerings.presents.data.InvocationMarshaller;
 import com.threerings.presents.data.InvocationMarshaller_ListenerMarshaller;
+import com.threerings.presents.data.InvocationMarshaller_ResultMarshaller;
 import com.threerings.toybox.client.ToyBoxService;
 
 /**
