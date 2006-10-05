@@ -19,12 +19,14 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.data;
+package com.threerings.toybox.data {
+
+import com.threerings.util.*; // for Float, Integer, etc.
 
 import com.threerings.presents.client.Client;
-import com.threerings.presents.client.InvocationService;
+import com.threerings.presents.client.InvocationService_ResultListener;
 import com.threerings.presents.data.InvocationMarshaller;
-import com.threerings.presents.dobj.InvocationResponseEvent;
+import com.threerings.presents.data.InvocationMarshaller_ListenerMarshaller;
 import com.threerings.toybox.client.ToyBoxService;
 
 /**
@@ -38,15 +40,16 @@ public class ToyBoxMarshaller extends InvocationMarshaller
     implements ToyBoxService
 {
     /** The method id used to dispatch {@link #getLobbyOid} requests. */
-    public static final int GET_LOBBY_OID = 1;
+    public static const GET_LOBBY_OID :int = 1;
 
     // from interface ToyBoxService
-    public void getLobbyOid (Client arg1, int arg2, InvocationService.ResultListener arg3)
+    public function getLobbyOid (arg1 :Client, arg2 :int, arg3 :InvocationService_ResultListener) :void
     {
-        InvocationMarshaller.ResultMarshaller listener3 = new InvocationMarshaller.ResultMarshaller();
+        var listener3 :InvocationMarshaller_ResultMarshaller = new InvocationMarshaller_ResultMarshaller();
         listener3.listener = arg3;
-        sendRequest(arg1, GET_LOBBY_OID, new Object[] {
+        sendRequest(arg1, GET_LOBBY_OID, [
             Integer.valueOf(arg2), listener3
-        });
+        ]);
     }
+}
 }

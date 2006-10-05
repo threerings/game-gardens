@@ -2,7 +2,7 @@
 // $Id$
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2005 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005-2006 Three Rings Design, Inc., All Rights Reserved
 // http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -44,13 +44,13 @@ public class ToyBoxDispatcher extends InvocationDispatcher
         this.provider = provider;
     }
 
-    // documentation inherited
+    // from InvocationDispatcher
     public InvocationMarshaller createMarshaller ()
     {
         return new ToyBoxMarshaller();
     }
 
-    // documentation inherited
+    @SuppressWarnings("unchecked") // from InvocationDispatcher
     public void dispatchRequest (
         ClientObject source, int methodId, Object[] args)
         throws InvocationException
