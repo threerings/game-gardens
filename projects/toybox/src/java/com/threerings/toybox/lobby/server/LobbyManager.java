@@ -71,6 +71,13 @@ public class LobbyManager extends PlaceManager
         if (game.gameId == -1) {
             cancelShutdowner();
         }
+
+        // if we're using the table services to match-make, create a table
+        // manager
+        GameDefinition gdef = _lconfig.getGameDefinition();
+        if (gdef.match instanceof TableMatchConfig) {
+            _tablemgr = new ToyBoxTableManager(_toymgr, this);
+        }
     }
 
     /**
@@ -96,13 +103,6 @@ public class LobbyManager extends PlaceManager
 
         _lobobj = (LobbyObject)_plobj;
         _lobobj.addListener(_emptyListener);
-
-        // if we're using the table services to match-make, create a table
-        // manager
-        GameDefinition gdef = _lconfig.getGameDefinition();
-        if (gdef.match instanceof TableMatchConfig) {
-            _tablemgr = new ToyBoxTableManager(_toymgr, this);
-        }
     }
 
     // documentation inherited
