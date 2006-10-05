@@ -152,7 +152,8 @@ public class LogonPanel extends JPanel
         _password.setPreferredSize(new Dimension(100, 20));
         _password.setActionCommand("logon");
         _password.addActionListener(this);
-        _password.setText(StringUtil.fill('*', ToyBoxPrefs.getPasswordLength()));
+        _password.setText(
+            StringUtil.fill('*', ToyBoxPrefs.getPasswordLength()));
         bar.add(_password);
         subbox.add(bar);
 
@@ -217,6 +218,7 @@ public class LogonPanel extends JPanel
             msg = MessageBundle.compose("m.logon_failed", cause.getMessage());
         } else {
             msg = MessageBundle.tcompose("m.logon_failed", cause.getMessage());
+            cause.printStackTrace(System.err);
         }
         _status.setText(_msgs.xlate(msg) + "\n");
         setLogonEnabled(true);
