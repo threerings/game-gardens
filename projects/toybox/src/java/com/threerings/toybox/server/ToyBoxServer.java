@@ -99,13 +99,16 @@ public class ToyBoxServer extends CrowdServer
         // initialize our managers
         parmgr.init(invmgr, plreg);
 
-        // determine whether we've been run in test mode with a single
-        // game configuration
+        // determine whether we've been run in test mode with a single game
+        // configuration
         String gconfig = System.getProperty("game_conf");
+        ToyBoxRepository toyrepo = null;
         if (StringUtil.isBlank(gconfig)) {
-            toymgr.init(invmgr, new ToyBoxRepository(conprov));
-        } else {
-            toymgr.init(invmgr, new File(gconfig));
+            toyrepo = new ToyBoxRepository(conprov);
+        }
+        toymgr.init(omgr, invoker, invmgr, plreg, toyrepo);
+        if (!StringUtil.isBlank(gconfig)) {
+            toymgr.setDevelopmentMode(new File(gconfig));
         }
 
         log.info("ToyBox server initialized.");

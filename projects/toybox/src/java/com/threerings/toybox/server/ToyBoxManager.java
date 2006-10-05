@@ -52,11 +52,18 @@ import com.threerings.presents.client.InvocationService.ResultListener;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationManager;
+import com.threerings.presents.server.PresentsDObjectMgr;
 import com.threerings.presents.util.ResultAdapter;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
+import com.threerings.crowd.server.PlaceRegistry;
+
+import com.threerings.parlor.game.data.GameConfig;
+import com.threerings.parlor.game.data.GameObject;
+import com.threerings.parlor.game.server.GameManager;
+import com.threerings.parlor.game.server.GameManagerDelegate;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
@@ -96,31 +103,36 @@ public class ToyBoxManager
             throws PersistenceException;
     }
 
+    public ToyBoxManager ()
+    {
+    }
+
     /**
-     * Prepares the toybox manager for operation in a server managing a
-     * collection of games in conjunction with a repository.
+     * Prepares the toybox manager for operation.
      */
-    public void init (InvocationManager invmgr, GameRepository gamerepo)
+    public void init (PresentsDObjectMgr omgr, Invoker invoker,
+                      InvocationManager invmgr, PlaceRegistry plreg,
+                      GameRepository gamerepo)
         throws PersistenceException
     {
-        // note our repository
+        // make a note of our server services
         _gamerepo = gamerepo;
+        _omgr = omgr;
+        _invoker = invoker;
+        _plreg = plreg;
 
         // perform common initializations
         finishInit(invmgr);
     }
 
     /**
-     * Prepares the toybox manager for operation in development mode where
-     * it only hosts the lobby for a single game, which we will create
-     * immediately rather than on-demand.
+     * Prepares the toybox manager for operation in development mode where it
+     * only hosts the lobby for a single game, which we will create immediately
+     * rather than on-demand.
      */
-    public void init (InvocationManager invmgr, File gameConfig)
+    public void setDevelopmentMode (File gameConfig)
         throws PersistenceException
     {
-        // perform common initializations
-        finishInit(invmgr);
-
         // create a fake game record for this game and resolve its lobby
         Game game = new Game();
         GameDefinition gamedef = null;
@@ -166,7 +178,7 @@ public class ToyBoxManager
         // interval to actually do so
         final String path = ToyBoxConfig.config.getValue("occupancy_file", "");
         if (!StringUtil.isBlank(path)) {
-            _popval = new Interval(ToyBoxServer.omgr) {
+            _popval = new Interval(_omgr) {
                 public void expired () {
                     writeOccupancy(path);
                 }
@@ -231,7 +243,7 @@ public class ToyBoxManager
                  ", mins=" + mins + "].");
 
         final int fmins = mins;
-        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+        _invoker.postUnit(new Invoker.Unit() {
             public boolean invoke () {
                 try {
                     _gamerepo.incrementPlaytime(game.gameId, fmins);
@@ -266,7 +278,7 @@ public class ToyBoxManager
 
         // load the game information from the database
         String ikey = "resolveLobby(" + gameId + ")";
-        ToyBoxServer.invoker.postUnit(new Invoker.Unit(ikey) {
+        _invoker.postUnit(new Invoker.Unit(ikey) {
             public boolean invoke () {
                 try {
                     _game = _gamerepo.loadGame(gameId);
@@ -311,11 +323,11 @@ public class ToyBoxManager
         log.info("Resolving " + game.which() + ".");
 
         try {
-            PlaceManager pmgr = ToyBoxServer.plreg.createPlace(
+            PlaceManager pmgr = _plreg.createPlace(
                 new LobbyConfig(game.gameId, game.parseGameDefinition()));
 
-            // let our lobby manager know about its game
-            ((LobbyManager)pmgr).setGame(game);
+            // let our lobby manager know about its game and ourselves
+            ((LobbyManager)pmgr).init(this, game);
 
             // register ourselves in the lobby table
             int ploid = pmgr.getPlaceObject().getOid();
@@ -353,7 +365,7 @@ public class ToyBoxManager
         }
 
         // clear out the number of players online count for this game
-        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+        _invoker.postUnit(new Invoker.Unit() {
             public boolean invoke () {
                 try {
                     _gamerepo.updateOnlineCount(game.gameId, 0);
@@ -364,6 +376,39 @@ public class ToyBoxManager
                 return false;
             }
         });
+    }
+
+    /**
+     * Creates a game based on the supplied configuration.
+     */
+    public GameObject createGame (final Game game, GameConfig config)
+        throws InvocationException
+    {
+        // TODO: various complicated bits to pass this request off to the
+        // standalone game server
+        try {
+            PlaceManager pmgr = _plreg.createPlace(config);
+
+            // add a delegate that will record the game's playtime upon
+            // completion
+            pmgr.addDelegate(new GameManagerDelegate((GameManager)pmgr) {
+                public void gameWillStart () {
+                    _started = System.currentTimeMillis();
+                }
+                public void gameDidEnd () {
+                    long playtime = System.currentTimeMillis() - _started;
+                    recordPlaytime(game, playtime);
+                }
+                protected long _started;
+            });
+
+            return (GameObject)pmgr.getPlaceObject();
+
+        } catch (InstantiationException ie) {
+            log.log(Level.WARNING, "Failed to create manager for game " +
+                    "[config=" + config + "]", ie);
+            throw new InvocationException(INTERNAL_ERROR);
+        }
     }
 
     /**
@@ -382,7 +427,7 @@ public class ToyBoxManager
             for (int gameId : _lobbyOids.keySet()) {
                 int lobbyOid = _lobbyOids.get(gameId);
                 LobbyManager lmgr = (LobbyManager)
-                    ToyBoxServer.plreg.getPlaceManager(lobbyOid);
+                    _plreg.getPlaceManager(lobbyOid);
                 if (lmgr == null) {
                     continue;
                 }
@@ -411,7 +456,7 @@ public class ToyBoxManager
         }
 
         // then update the database
-        ToyBoxServer.invoker.postUnit(new Invoker.Unit() {
+        _invoker.postUnit(new Invoker.Unit() {
             public boolean invoke () {
                 for (IntIntMap.IntIntEntry entry : occs.entrySet()) {
                     try {
@@ -451,6 +496,15 @@ public class ToyBoxManager
 
     /** Provides information on {@link Game}s. */
     protected GameRepository _gamerepo;
+
+    /** Handles distributed object business. */
+    protected PresentsDObjectMgr _omgr;
+
+    /** Handles database business. */
+    protected Invoker _invoker;
+
+    /** Handles creation of places. */
+    protected PlaceRegistry _plreg;
 
     /** Contains pending listeners for lobbies in the process of being
      * resolved. */

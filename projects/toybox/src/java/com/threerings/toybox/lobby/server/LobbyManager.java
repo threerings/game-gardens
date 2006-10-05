@@ -32,7 +32,7 @@ import com.threerings.parlor.server.TableManagerProvider;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.TableMatchConfig;
-import com.threerings.toybox.server.ToyBoxServer;
+import com.threerings.toybox.server.ToyBoxManager;
 import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
@@ -53,10 +53,12 @@ public class LobbyManager extends PlaceManager
     }
 
     /**
-     * Provides this lobby manager with a reference to its game.
+     * Provides this lobby manager with a reference to its game and the ToyBox
+     * manager with whom it should work.
      */
-    public void setGame (Game game)
+    public void init (ToyBoxManager toymgr, Game game)
     {
+        _toymgr = toymgr;
         _game = game;
 
         // this happens after we've started up so we configure our lobby
@@ -99,7 +101,7 @@ public class LobbyManager extends PlaceManager
         // manager
         GameDefinition gdef = _lconfig.getGameDefinition();
         if (gdef.match instanceof TableMatchConfig) {
-            _tablemgr = new ToyBoxTableManager(this);
+            _tablemgr = new ToyBoxTableManager(_toymgr, this);
         }
     }
 
@@ -126,8 +128,8 @@ public class LobbyManager extends PlaceManager
     {
         super.didShutdown();
 
-        // unregister with the toybox manager
-        ToyBoxServer.toymgr.lobbyDidShutdown(_game);
+        // unregister with our toybox manager
+        _toymgr.lobbyDidShutdown(_game);
     }
 
     // documentation inherited
@@ -148,6 +150,9 @@ public class LobbyManager extends PlaceManager
             }
         }
     };
+
+    /** The ToyBox manager with whom we operate. */
+    protected ToyBoxManager _toymgr;
 
     /** The game record associated with our game. */
     protected Game _game;

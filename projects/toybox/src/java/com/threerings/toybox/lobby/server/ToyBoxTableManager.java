@@ -25,16 +25,11 @@ import java.util.logging.Level;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.threerings.crowd.data.PlaceObject;
-import com.threerings.crowd.server.PlaceManager;
-
 import com.threerings.parlor.data.Table;
 import com.threerings.parlor.game.data.GameObject;
-import com.threerings.parlor.game.server.GameManager;
-import com.threerings.parlor.game.server.GameManagerDelegate;
 import com.threerings.parlor.server.TableManager;
 
-import com.threerings.toybox.server.ToyBoxServer;
+import com.threerings.toybox.server.ToyBoxManager;
 
 import static com.threerings.toybox.lobby.Log.log;
 
@@ -43,9 +38,10 @@ import static com.threerings.toybox.lobby.Log.log;
  */
 public class ToyBoxTableManager extends TableManager
 {
-    public ToyBoxTableManager (LobbyManager lmgr)
+    public ToyBoxTableManager (ToyBoxManager toymgr, LobbyManager lmgr)
     {
         super(lmgr);
+        _toymgr = toymgr;
         _lmgr = lmgr;
     }
 
@@ -56,34 +52,15 @@ public class ToyBoxTableManager extends TableManager
         // fill the players array into the game config
         table.config.players = table.getPlayers();
 
-        // TODO: various complicated bits to pass this request off to the
-        // standalone game server
-        try {
-            PlaceManager pmgr = ToyBoxServer.plreg.createPlace(table.config);
+        // pass the buck to the toybox manager to create the game
+        GameObject gobj = _toymgr.createGame(_lmgr.getGame(), table.config);
 
-            // add a delegate that will record the game's playtime upon
-            // completion
-            pmgr.addDelegate(new GameManagerDelegate((GameManager)pmgr) {
-                public void gameWillStart () {
-                    _started = System.currentTimeMillis();
-                }
-                public void gameDidEnd () {
-                    long playtime = System.currentTimeMillis() - _started;
-                    ToyBoxServer.toymgr.recordPlaytime(
-                        _lmgr.getGame(), playtime);
-                }
-                protected long _started;
-            });
-
-            // tell the table manager about this game
-            gameCreated(table, (GameObject)pmgr.getPlaceObject());
-
-        } catch (InstantiationException ie) {
-            log.log(Level.WARNING, "Failed to create manager for game " +
-                    "[config=" + table.config + "]", ie);
-            throw new InvocationException(INTERNAL_ERROR);
-        }
+        // tell the table manager about this game
+        gameCreated(table, gobj);
     }
+
+    /** The toybox manager with whom we operate. */
+    protected ToyBoxManager _toymgr;
 
     /** The lobby manager for which we're working. */
     protected LobbyManager _lmgr;
