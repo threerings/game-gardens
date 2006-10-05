@@ -32,18 +32,23 @@ import java.awt.Window;
 
 import javax.swing.JPanel;
 
+import com.samskivert.servlet.user.Password;
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
 import com.samskivert.util.Config;
 import com.samskivert.util.RunQueue;
 import com.samskivert.util.StringUtil;
+
 import com.threerings.media.FrameManager;
 import com.threerings.util.IdleTracker;
 import com.threerings.util.KeyDispatcher;
 import com.threerings.util.MessageManager;
+import com.threerings.util.Name;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.dobj.DObjectManager;
+import com.threerings.presents.net.Credentials;
+import com.threerings.presents.net.UsernamePasswordCreds;
 
 import com.threerings.crowd.chat.client.ChatDirector;
 import com.threerings.crowd.chat.data.ChatCodes;
@@ -163,6 +168,24 @@ public class ToyBoxClient
     public ToyBoxContext getContext ()
     {
         return _ctx;
+    }
+
+    /**
+     * Creates the appropriate type of credentials from the supplied username
+     * and plaintext password.
+     */
+    public Credentials createCredentials (String username, String pw)
+    {
+        return createCredentials(username, Password.makeFromClear(pw));
+    }
+
+    /**
+     * Creates the appropriate type of credentials from the supplied username
+     * and encrypted password.
+     */
+    public Credentials createCredentials (String username, Password pw)
+    {
+        return new UsernamePasswordCreds(new Name(username), pw.getEncrypted());
     }
 
     /**

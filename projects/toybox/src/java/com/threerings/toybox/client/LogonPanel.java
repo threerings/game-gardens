@@ -60,8 +60,6 @@ import com.threerings.util.Name;
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.ClientObserver;
 import com.threerings.presents.client.LogonException;
-import com.threerings.presents.net.Credentials;
-import com.threerings.presents.net.UsernamePasswordCreds;
 
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -70,10 +68,11 @@ import static com.threerings.toybox.Log.log;
 public class LogonPanel extends JPanel
     implements ActionListener, ClientObserver
 {
-    public LogonPanel (ToyBoxContext ctx)
+    public LogonPanel (ToyBoxContext ctx, ToyBoxClient client)
     {
         // keep these around for later
         _ctx = ctx;
+        _client = client;
         _msgs = _ctx.getMessageManager().getBundle("client.logon");
 
 	setLayout(new VGroupLayout());
@@ -300,7 +299,7 @@ public class LogonPanel extends JPanel
 
         // configure the client with some credentials and logon
         Client client = _ctx.getClient();
-        client.setCredentials(createCredentials(username, encPw));
+        client.setCredentials(_client.createCredentials(username, encPw));
         client.logon();
     }
 
@@ -311,21 +310,8 @@ public class LogonPanel extends JPanel
         _logon.setEnabled(enabled);
     }
 
-    /** Creates the appropriate type of credentials from the supplied
-     * username and plaintext password. */
-    public static Credentials createCredentials (String username, String pw)
-    {
-        return createCredentials(username, Password.makeFromClear(pw));
-    }
-
-    /** Creates the appropriate type of credentials from the supplied
-     * username and encrypted password. */
-    public static Credentials createCredentials (String username, Password pw)
-    {
-        return new UsernamePasswordCreds(new Name(username), pw.getEncrypted());
-    }
-
     protected ToyBoxContext _ctx;
+    protected ToyBoxClient _client;
     protected MessageBundle _msgs;
 
     protected JTextField _username;

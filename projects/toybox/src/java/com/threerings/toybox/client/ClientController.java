@@ -53,7 +53,7 @@ public class ClientController extends Controller
         _ctx.getClient().addClientObserver(this);
 
         // create the logon panel and display it
-        _logonPanel = new LogonPanel(_ctx);
+        _logonPanel = new LogonPanel(_ctx, _client);
         _client.setMainPanel(_logonPanel);
     }
 

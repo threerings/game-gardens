@@ -68,7 +68,7 @@ public class ToyBoxApplet extends ManagedJApplet
 
         try {
             // create and initialize our client instance
-            _client = new ToyBoxClient();
+            _client = createClient();
             _client.init(this);
         } catch (IOException ioe) {
             log.log(Level.WARNING, "Failed to create ToyBoxClient.", ioe);
@@ -130,6 +130,14 @@ public class ToyBoxApplet extends ManagedJApplet
                 client.logoff(true);
             }
         }
+    }
+
+    /**
+     * Creates our client implementation.
+     */
+    protected ToyBoxClient createClient ()
+    {
+        return new ToyBoxClient();
     }
 
     protected ToyBoxClient _client;

@@ -83,7 +83,7 @@ public class ToyBoxApp
         if (username != null && password != null) {
             // create and set our credentials
             client.setCredentials(
-                LogonPanel.createCredentials(username, password));
+                _client.createCredentials(username, password));
             client.logon();
         }
 
