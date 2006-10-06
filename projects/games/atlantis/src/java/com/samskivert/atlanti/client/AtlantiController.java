@@ -50,8 +50,8 @@ public class AtlantiController extends GameController
     {
         super.didInit();
 
-        // get a handle on our body object
-        _self = (BodyObject)_ctx.getClient().getClientObject();
+        // cast our context
+        _ctx = (ToyBoxContext)super._ctx;
     }
 
     // documentation inherited
@@ -70,7 +70,7 @@ public class AtlantiController extends GameController
         _atlobj = (AtlantiObject)plobj;
 
         // find out what our index is and use that as our piecen color
-        _selfIndex = ListUtil.indexOf(_atlobj.players, _self.username);
+        _selfIndex = ListUtil.indexOf(_atlobj.players, _ctx.getUsername());
         if (_selfIndex != -1) {
             // use our player index as the piecen color directly
             _panel.board.setNewPiecenColor(_selfIndex);
@@ -92,7 +92,7 @@ public class AtlantiController extends GameController
     public void turnDidChange (Name turnHolder)
     {
         // if it's our turn, set the tile to be placed
-        if (_self.username.equals(turnHolder)) {
+        if (_ctx.getUsername().equals(turnHolder)) {
             _panel.board.setTileToBePlaced(_atlobj.currentTile);
         }
     }
@@ -160,6 +160,9 @@ public class AtlantiController extends GameController
         _ctx.getLocationDirector().moveBack();
     }
 
+    /** Provides access to client bits. */
+    protected ToyBoxContext _ctx;
+
     /** Our turn game delegate. */
     protected TurnGameControllerDelegate _delegate;
 
@@ -168,9 +171,6 @@ public class AtlantiController extends GameController
 
     /** A reference to our game panel. */
     protected AtlantiObject _atlobj;
-
-    /** A reference to our body object. */
-    protected BodyObject _self;
 
     /** Our player index or -1 if we're not a player. */
     protected int _selfIndex;
