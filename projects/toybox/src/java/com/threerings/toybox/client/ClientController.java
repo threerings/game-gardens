@@ -27,8 +27,6 @@ import com.samskivert.swing.Controller;
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.SessionObserver;
 
-import com.threerings.crowd.data.BodyObject;
-
 import com.threerings.toybox.util.ToyBoxContext;
 
 import static com.threerings.toybox.Log.log;
@@ -84,16 +82,12 @@ public class ClientController extends Controller
     public void clientDidLogon (Client client)
     {
         log.info("Client did logon [client=" + client + "].");
-
-        // keep the body object around for stuff
-        _body = (BodyObject)client.getClientObject();
     }
 
     // documentation inherited
     public void clientObjectDidChange (Client client)
     {
-        // regrab our body object
-        _body = (BodyObject)client.getClientObject();
+        // nada
     }
 
     // documentation inherited
@@ -107,7 +101,6 @@ public class ClientController extends Controller
 
     protected ToyBoxContext _ctx;
     protected ToyBoxClient _client;
-    protected BodyObject _body;
 
     // our panels
     protected LogonPanel _logonPanel;

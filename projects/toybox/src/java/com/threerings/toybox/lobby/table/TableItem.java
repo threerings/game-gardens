@@ -37,8 +37,6 @@ import javax.swing.JPanel;
 import com.threerings.util.MessageBundle;
 import com.threerings.util.Name;
 
-import com.threerings.crowd.data.BodyObject;
-
 import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.data.Table;
@@ -76,7 +74,7 @@ public class TableItem
         _tdtr.addSeatednessObserver(this);
 
         // figure out who we are
-        _self = ((BodyObject)ctx.getClient().getClientObject()).username;
+        _self = ctx.getUsername();
 
         // grab the table config reference
         _tconfig = (ToyBoxGameConfig)table.config;
