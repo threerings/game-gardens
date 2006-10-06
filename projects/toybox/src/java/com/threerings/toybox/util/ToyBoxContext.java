@@ -92,7 +92,7 @@ public abstract class ToyBoxContext implements ParlorContext
     public Name getUsername ()
     {
         BodyObject bobj = (BodyObject)getClient().getClientObject();
-        return (bobj == null) ? null : bobj.username;
+        return (bobj == null) ? null : bobj.getVisibleName();
     }
 
     /**
