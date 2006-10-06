@@ -70,7 +70,7 @@ public class GameParser
         };
 
         // add the rules to parse the GameDefinition and its fields
-        _digester.addObjectCreate("game", GameDefinition.class.getName());
+        _digester.addObjectCreate("game", getGameDefinitionClass());
         _digester.addRule("game/ident", new SetFieldRule("ident"));
         _digester.addRule("game/controller", new SetFieldRule("controller"));
         _digester.addRule("game/manager", new SetFieldRule("manager"));
@@ -115,13 +115,6 @@ public class GameParser
         _digester.addSetNext("game", "add", Object.class.getName());
     }
 
-    protected void addParameter (String path, Class pclass)
-    {
-        _digester.addRule(path, new ObjectCreateRule(pclass));
-        _digester.addRule(path, new SetPropertyFieldsRule());
-        _digester.addSetNext(path, "add", Object.class.getName());
-    }
-
     /**
      * Parses a game definition from the supplied XML file.
      *
@@ -151,6 +144,22 @@ public class GameParser
         _digester.push(list);
         _digester.parse(source);
         return (list.size() > 0) ? (GameDefinition)list.get(0) : null;
+    }
+
+    /**
+     * Returns the {@link GameDefinition} class (or derived class) to use when
+     * parsing our game definition.
+     */
+    protected String getGameDefinitionClass ()
+    {
+        return GameDefinition.class.getName();
+    }
+
+    protected void addParameter (String path, Class pclass)
+    {
+        _digester.addRule(path, new ObjectCreateRule(pclass));
+        _digester.addRule(path, new SetPropertyFieldsRule());
+        _digester.addSetNext(path, "add", Object.class.getName());
     }
 
     /**

@@ -103,7 +103,7 @@ public class Game
         throws InvocationException
     {
         if (_parser == null) {
-            _parser = new GameParser();
+            _parser = createParser();
         }
 
         try {
@@ -137,6 +137,15 @@ public class Game
     public String toString ()
     {
         return StringUtil.fieldsToString(this);
+    }
+
+    /**
+     * Creates the parser we'll use to turn our text configuration (probably
+     * XML) into a game definition.
+     */
+    protected GameParser createParser ()
+    {
+        return new GameParser();
     }
 
     /** Used to parse our game definitions. */
