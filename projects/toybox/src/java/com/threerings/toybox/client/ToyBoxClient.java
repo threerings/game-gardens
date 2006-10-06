@@ -171,6 +171,14 @@ public class ToyBoxClient
     }
 
     /**
+     * Returns a reference to the main client controller.
+     */
+    public ClientController getClientController ()
+    {
+        return _cctrl;
+    }
+
+    /**
      * Creates the appropriate type of credentials from the supplied username
      * and plaintext password.
      */

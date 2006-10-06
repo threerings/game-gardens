@@ -57,6 +57,14 @@ public class ClientController extends Controller
         _client.setMainPanel(_logonPanel);
     }
 
+    /**
+     * Returns a reference to the panel used to logon.
+     */
+    public LogonPanel getLogonPanel ()
+    {
+        return _logonPanel;
+    }
+
     // documentation inherited
     public boolean handleAction (ActionEvent action)
     {

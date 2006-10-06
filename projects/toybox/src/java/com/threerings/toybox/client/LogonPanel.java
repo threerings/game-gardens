@@ -177,6 +177,19 @@ public class LogonPanel extends JPanel
         _username.requestFocus();
     }
 
+    /**
+     * Informs the logon panel that we're auto-logging on. This clears out any
+     * authentication info that was slurped in from prefs and disables the
+     * interface.
+     */
+    public void setAutoLoggingOn ()
+    {
+        _username.setText("");
+        _password.setText("");
+        _remember.setSelected(false);
+        setLogonEnabled(false);
+    }
+
     public void actionPerformed (ActionEvent e)
     {
 	String cmd = e.getActionCommand();
