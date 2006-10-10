@@ -300,7 +300,7 @@ public class ChatPanel extends JPanel
     }
 
     // documentation inherited from interface ChatDisplay
-    public void displayMessage (ChatMessage message)
+    public boolean displayMessage (ChatMessage message, boolean alreadyShown)
     {
         if (message instanceof UserMessage) {
             UserMessage msg = (UserMessage) message;
@@ -316,16 +316,20 @@ public class ChatPanel extends JPanel
             String speaker = MessageBundle.tcompose(type, msg.speaker);
             speaker = _ctx.xlate(CHAT_MSGS, speaker);
             appendAndScroll(speaker, msg.message, msgStyle);
+            return true;
 
         } else if (message instanceof SystemMessage) {
             appendAndScroll(message.message, _noticeStyle);
+            return true;
 
         } else if (message instanceof TellFeedbackMessage) {
             appendAndScroll(message.message, _feedbackStyle);
+            return true;
 
         } else {
             log.warning("Received unknown message type [message=" +
                         message + "].");
+            return false;
         }
     }
 
