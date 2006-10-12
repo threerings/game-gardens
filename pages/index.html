@@ -11,7 +11,7 @@
 <!-- header -->
 <table cellpadding=0 cellspacing=0 border=0 width=780 height=104>
 <tr><td class="main_header_left">
-  <table cellpadding=3 cellspacing=2 border=0 style="margin-left: 65px">
+  <table cellpadding=0 cellspacing=0 border=0 style="margin-left: 65px">
   <tr><td class="main_header_navi">
   <!--#include file="links_incl.html"-->
   </td></tr>
@@ -28,9 +28,9 @@ players and makers.
 </table>
 
 <!-- news box -->
-<table cellpadding=0 cellspacing=0 class="box_table">
+<table cellpadding=0 cellspacing=0 border=0 class="box_table">
 <tr><td colspan=3><img src="/images/news_bar.png"></td></tr>
-<tr><td class="box_left"></td>
+<tr><td class="box_left"/>
 <td class="box_body">
 <!--#include file="news_incl.html"-->
 </td>
@@ -41,7 +41,7 @@ players and makers.
 </table>
 
 <!-- play box -->
-<table cellpadding=0 cellspacing=0 class="play_table">
+<table cellpadding=0 cellspacing=0 border=0 class="play_table">
 <tr><td><img src="/images/play_bar_left.png"></td>
 <td><img src="/images/online_top.png"></td>
 <td><img src="/images/play_bar_one.png"></td>
@@ -49,8 +49,10 @@ players and makers.
 <td><img src="/images/play_bar_two.png"></td>
 <td><img src="/images/added_top.png"></td>
 <td><img src="/images/play_bar_three.png"></td></tr>
+</table>
 
-<tr><td class="left_cell">
+<table cellpadding=0 cellspacing=0 border=0 class="play_table">
+<tr><td class="left_cell" width=101>
 <a href="/gardens/browse.wm?category=strategy"><img src="/images/cat_strategy.png" border="0"></a><br/>
 <a href="/gardens/browse.wm?category=classic"><img src="/images/cat_classic.png" border="0"></a><br/>
 <a href="/gardens/browse.wm?category=party"><img src="/images/cat_party.png" border="0"></a><br/>
@@ -59,33 +61,35 @@ players and makers.
 <a href="/gardens/browse.wm?category=other"><img src="/images/cat_other.png"
 border="0"></a></td>
 
-<td class="play_list">
+<td class="play_list" width=197>
 <ol><!--#include file="online_incl.html"--></ol>
 </td>
-<td class="play_cell"/>
-<td class="play_list">
+<td class="play_cell" width=20/>
+<td class="play_list" width=197>
 <ol><!--#include file="recently_updated_incl.html"--></ol>
 </td>
-<td class="play_cell"/>
-<td class="play_list">
+<td class="play_cell" width=20/>
+<td class="play_list" width=197>
 <ol><!--#include file="most_popular_incl.html"--></ol>
 </td>
-<td class="right_cell"/></tr>
+<td class="right_cell" width=33/></tr>
+</table>
 
-<tr><td class="left_cell"/>
+<table cellpadding=0 cellspacing=0 border=0 class="play_table_bottom">
+<tr><td class="left_cell" width=101/>
 <td class="play_cell"><img src="/images/game_bottom.png"></td>
-<td class="play_cell"/>
+<td class="play_cell" width=20/>
 <td class="play_cell"><img src="/images/game_bottom.png"></td>
-<td class="play_cell"/>
+<td class="play_cell" width=20/>
 <td class="play_cell"><img src="/images/game_bottom.png"></td>
-<td class="right_cell"/></tr>
+<td class="right_cell" width=33/></tr>
 </table>
 
 <!-- talk and make boxes -->
-<table cellpadding=0 cellspacing=0 class="box_table">
+<table cellpadding=0 cellspacing=0 border=0 class="box_table">
 <tr><td>
 
-<table cellpadding=0 cellspacing=0 width=380>
+<table cellpadding=0 cellspacing=0 border=0 width=380>
 <tr><td colspan=3><img src="/images/talk_bar.png"></td></tr>
 <tr><td class="box_left"></td>
 <td class="box_body">
@@ -100,7 +104,7 @@ games <a href="/discussion/mvnforum/listforums">on the forums!</a>
 
 </td><td width="10"></td><td>
 
-<table cellpadding=0 cellspacing=0 width=380>
+<table cellpadding=0 cellspacing=0 border=0 width=380>
 <tr><td colspan=3 class="make_header">
 <img src="/images/make_bar.png"></td></tr>
 <tr><td class="box_left"></td>
@@ -118,13 +122,13 @@ Head to the wiki to download the
 </td></tr>
 </table>
 
-<table width=780 style="margin-top: 10px"><tr><td align="center">
-<span class="main_footer_navi">
+<table width=780><tr><td align="center">
+<table><tr><td class="main_footer_navi">
 &copy;2005-2006 
 <a href="mailto:gardens@threerings.net">Three Rings Design, Inc</a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <!--#include file="links_incl.html"-->
-</span>
+</td></tr></table>
 </td></tr></table>
 
 </body>

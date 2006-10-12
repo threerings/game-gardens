@@ -71,8 +71,7 @@ h3 {
   border-left: 1px solid #FFFFFF;
   background: #A2D7D7;
   font-weight: bold;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 5px;
 }
 
 .main_footer_navi {
@@ -92,25 +91,25 @@ h3 {
 }
 .box_left {
   background: url(/images/box/left.png) repeat;
-  width: 4;
+  width: 4px;
 }
 .box_right {
   background: url(/images/box/right.png) repeat;
-  width: 4;
+  width: 4px;
 }
 .box_bottom {
   background: url(/images/box/bottom.png) repeat;
-  height: 4;
+  height: 4px;
 }
 .box_lower_left {
   background: url(/images/box/lower_left.png) no-repeat;
-  width: 4;
-  height: 4;
+  width: 4px;
+  height: 4px;
 }
 .box_lower_right {
   background: url(/images/box/lower_right.png) no-repeat;
-  width: 4;
-  height: 4;
+  width: 4px;
+  height: 4px;
 }
 .box_body {
   padding: 15px;
@@ -118,6 +117,9 @@ h3 {
 }
 
 .play_table {
+  margin-left: 10px;
+}
+.play_table_bottom {
   margin-left: 10px;
   margin-bottom: 10px;
   border-bottom: 1px solid #FFFFFF;
@@ -134,13 +136,13 @@ h3 {
   background: #A2D7D7;
 }
 .play_list {
-  color: #B64141;
   background: #FFFFFF;
-  border-left: 1px solid #b64141;
-  border-right: 1px solid #b64141;
-  padding-top: 10px;
+  color: #B64141;
   vertical-align: top;
   font-weight: bold;
+  padding-top: 10px;
+  border-left: 1px solid #b64141;
+  border-right: 1px solid #b64141;
 }
 .play_list li {
   padding-bottom: 8px;
