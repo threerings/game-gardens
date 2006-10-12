@@ -1,8 +1,11 @@
 /* standard bits */
 body { 
   font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
   padding-top: 0;
   padding-left: 0;
+  margin-left: 0;
+  margin-top: 0;
   color: #000000;
 }
 
@@ -17,6 +20,7 @@ table {
 
 th, td, center, div { /* ns 4 */
   font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
 }
 
 pre {
@@ -40,7 +44,7 @@ h3 {
 .big { font-size: x-large }
 .small { font-size: small }
 .bigred {
-  font-size: x-large;
+  font-size: 20px;
   font-weight: bold;
   color: #CB0000;
 }
