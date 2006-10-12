@@ -1,159 +1,131 @@
-<!--#set var="title" value="Game Gardens"-->
-<!--#include virtual="/header.html" -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Game Gardens</title>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="SHORTCUT ICON" href="/favicon.ico">
+</head>
 
-<center><table><tr><td> <!-- center all the content on the page -->
+<body marginwidth=0 marginheight=0 class="main_body">
 
-<p><i>Welcome to Game Gardens! A community of game players and makers.</i></p>
+<!-- header -->
+<table cellpadding=0 cellspacing=0 border=0 width=780 height=104>
+<tr><td class="main_header_left">
+  <table cellpadding=3 cellspacing=2 border=0 style="margin-left: 65px">
+  <tr><td class="main_header_navi">
+  <!--#include file="links_incl.html"-->
+  </td></tr>
+  </table>
+</td><td width="348" class="main_header_right">
+<div align="right" style="padding-right: 105px">
+Welcome to<br/>
+<span class="bigred">Game Gardens!</span><br/>
+A community of game<br/>
+players and makers.
+</div>
+</td>
+</tr>
+</table>
 
+<!-- news box -->
+<table cellpadding=0 cellspacing=0 class="box_table">
+<tr><td colspan=3><img src="/images/news_bar.png"></td></tr>
+<tr><td class="box_left"></td>
+<td class="box_body">
 <!--#include file="news_incl.html"-->
+</td>
+<td class="box_right"></td></tr>
+<tr><td class="box_lower_left"/>
+    <td class="box_bottom"/>
+    <td class="box_lower_right"/></tr>
+</table>
 
-<table cellpadding="0" border="0">
-<tr><td colspan="5" height="15"></td></tr>
+<!-- play box -->
+<table cellpadding=0 cellspacing=0 class="play_table">
+<tr><td><img src="/images/play_bar_left.png"></td>
+<td><img src="/images/online_top.png"></td>
+<td><img src="/images/play_bar_one.png"></td>
+<td><img src="/images/popular_top.png"></td>
+<td><img src="/images/play_bar_two.png"></td>
+<td><img src="/images/added_top.png"></td>
+<td><img src="/images/play_bar_three.png"></td></tr>
 
-<tr><td colspan="5" style="border: 15px">
-<b><font size="+3">Play Games!</font></b>
-</td></tr>
+<tr><td class="left_cell">
+<a href="/gardens/browse.wm?category=strategy"><img src="/images/cat_strategy.png" border="0"></a><br/>
+<a href="/gardens/browse.wm?category=classic"><img src="/images/cat_classic.png" border="0"></a><br/>
+<a href="/gardens/browse.wm?category=party"><img src="/images/cat_party.png" border="0"></a><br/>
+<a href="/gardens/browse.wm?category=card"><img src="/images/cat_card.png" border="0"></a><br/>
+<a href="/gardens/browse.wm?category=word"><img src="/images/cat_word.png" border="0"></a><br/>
+<a href="/gardens/browse.wm?category=other"><img src="/images/cat_other.png"
+border="0"></a></td>
 
-<tr><td valign="top">
-
-<table cellpadding="0" border="0">
-<tr><td colspan="3"><img src="/images/online_top.png"></td></tr>
-<tr><td width="1" style="background: #679b02"></td>
-<td class="mptd" width="198" height="150"
- style="background: #76ce5a url(/images/online_background.png) no-repeat bottom">
+<td class="play_list">
 <ol><!--#include file="online_incl.html"--></ol>
 </td>
-<td width="1" style="background: #679b02"></td></tr>
-<tr><td colspan="3"><img src="/images/online_bottom.png"></td></tr>
+<td class="play_cell"/>
+<td class="play_list">
+<ol><!--#include file="recently_updated_incl.html"--></ol>
+</td>
+<td class="play_cell"/>
+<td class="play_list">
+<ol><!--#include file="most_popular_incl.html"--></ol>
+</td>
+<td class="right_cell"/></tr>
+
+<tr><td class="left_cell"/>
+<td class="play_cell"><img src="/images/game_bottom.png"></td>
+<td class="play_cell"/>
+<td class="play_cell"><img src="/images/game_bottom.png"></td>
+<td class="play_cell"/>
+<td class="play_cell"><img src="/images/game_bottom.png"></td>
+<td class="right_cell"/></tr>
 </table>
 
-</td><td width="10"></td><td valign="top">
+<!-- talk and make boxes -->
+<table cellpadding=0 cellspacing=0 class="box_table">
+<tr><td>
 
-<table cellpadding="0" border="0">
-<tr><td colspan="3"><img src="/images/popular_top.png"></td></tr>
-<tr><td width="1" style="background: #679b02"></td>
-<td class="mptd" width="198" height="150">
-<ol>
-<!--#include file="most_popular_incl.html"-->
-</ol>
-</td><td width="1" style="background: #679b02"></td></tr>
-<tr><td colspan="3"><img src="/images/addup_bottom.png"></td></tr>
-</table>
-
-</td><td width="10"></td><td valign="top">
-
-<table cellpadding="0" border="0">
-<tr><td colspan="3"><img src="/images/updated_top.png"></td></tr>
-<tr><td width="1" style="background: #679b02"></td>
-<td class="mptd" width="198" height="150">
-<ol>
-<!--#include file="recently_updated_incl.html"-->
-</ol>
-</td><td width="1" style="background: #679b02"></td></tr>
-<tr><td colspan="3"><img src="/images/addup_bottom.png"></td></tr>
-</table>
-
-</td></tr>
-</table>
-
-<p>
-<table width="620" cellpadding="0" border="0">
-<tr><td align="center"><a href="/gardens/browse.wm?category=strategy"><img src="/images/cat_strategy.png" border="0"></a><br>
-<a class="cath" href="/gardens/browse.wm?category=strategy">Strategy</a></td>
-<td align="center"><a href="/gardens/browse.wm?category=classic">
-    <img src="/images/cat_classic.png" border="0"></a><br>
-<a class="cath" href="/gardens/browse.wm?category=classic">Classic</a></td>
-<td align="center"><a href="/gardens/browse.wm?category=party">
-    <img src="/images/cat_party.png" border="0"></a><br>
-<a class="cath" href="/gardens/browse.wm?category=party">Party</a></td>
-<td align="center"><a href="/gardens/browse.wm?category=card">
-    <img src="/images/cat_card.png" border="0"></a><br>
-<a class="cath" href="/gardens/browse.wm?category=card">Card</a></td>
-<td align="center"><a href="/gardens/browse.wm?category=word">
-    <img src="/images/cat_word.png" border="0"></a><br>
-<a class="cath" href="/gardens/browse.wm?category=word">Word</a></td>
-<td align="center"><a href="/gardens/browse.wm?category=other">
-    <img src="/images/cat_other.png" border="0"></a><br>
-<a class="cath" href="/gardens/browse.wm?category=other">Other</a></td></tr>
-</table>
-
-<div align="center"><img src="/images/divider.png"></div>
-
-<p>
-<table width="620">
-<tr><td width="50%">
-<b><font size="+2">Talk about Games!</font></b><br>
+<table cellpadding=0 cellspacing=0 width=380>
+<tr><td colspan=3><img src="/images/talk_bar.png"></td></tr>
+<tr><td class="box_left"></td>
+<td class="box_body">
 Meet and talk with other players about games, game design and making your own
 games <a href="/discussion/mvnforum/listforums">on the forums!</a>
-</td><td width="50%">
-<b><font size="+2">Make Your Own Games!</font></b><br>
+</td>
+<td class="box_right"></td></tr>
+<tr><td class="box_lower_left"/>
+    <td class="box_bottom"/>
+    <td class="box_lower_right"/></tr>
+</table>
+
+</td><td width="10"></td><td>
+
+<table cellpadding=0 cellspacing=0 width=380>
+<tr><td colspan=3 class="make_header">
+<img src="/images/make_bar.png"></td></tr>
+<tr><td class="box_left"></td>
+<td class="box_body">
 Head to the wiki to download the
 <a href="http://wiki.gamegardens.com/">toolkit</a> and check out the
 <a href="http://wiki.gamegardens.com/">tutorials!</a>
+</td>
+<td class="box_right"></td></tr>
+<tr><td class="box_lower_left"/>
+    <td class="box_bottom"/>
+    <td class="box_lower_right"/></tr>
+</table>
+
 </td></tr>
 </table>
 
-<!--
-<p><table>
-<tr><td><a href="/gardens/browse.wm?category=strategy">
-    <img src="/images/cat_strategy.png" border="0"></a></td>
-    <td width="155" class="cattd">
-    <a class="cath" href="/gardens/browse.wm?category=strategy">Strategy</a><br>
-Flex your mental skills in strategic showdowns</td>
-    <td width="10"></td>
-    <td><a href="/gardens/browse.wm?category=classic">
-    <img src="/images/cat_classic.png" border="0"></a></td>
-    <td width="155" class="cattd">
-    <a class="cath" href="/gardens/browse.wm?category=classic">Classic</a><br>
-New takes on old favorites</td>
-    <td width="10"></td>
-    <td><a href="/gardens/browse.wm?category=party">
-    <img src="/images/cat_party.png" border="0"></a></td>
-    <td width="155" class="cattd">
-    <a class="cath" href="/gardens/browse.wm?category=party">Party</a><br>
-Pop in and out of ongoing games</td></tr>
+<table width=780 style="margin-top: 10px"><tr><td align="center">
+<span class="main_footer_navi">
+&copy;2005-2006 
+<a href="mailto:gardens@threerings.net">Three Rings Design, Inc</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<!--#include file="links_incl.html"-->
+</span>
+</td></tr></table>
 
-<tr><td><a href="/gardens/browse.wm?category=card">
-    <img src="/images/cat_card.png" border="0"></a></td>
-    <td width="155" class="cattd">
-    <a class="cath" href="/gardens/browse.wm?category=card">Card</a><br>
-Classic companions to quirky creations</td>
-    <td width="10"></td>
-    <td><a href="/gardens/browse.wm?category=word">
-    <img src="/images/cat_word.png" border="0"></a></td>
-    <td width="155" class="cattd">
-    <a class="cath" href="/gardens/browse.wm?category=word">Word</a><br>
-Plumb the penetralia of your pedantry</td>
-    <td width="10"></td>
-    <td><a href="/gardens/browse.wm?category=other">
-    <img src="/images/cat_other.png" border="0"></a></td>
-    <td width="155" class="cattd">
-    <a class="cath" href="/gardens/browse.wm?category=other">Other</a><br>
-Explore the frontier of the unclassifiable</td></tr>
-<tr><td colspan="5">&nbsp;</td></tr>
-</table>
-
-<p><b>What is Game Gardens?</b><br>
-
-A place to play online multiplayer games and a place for game developers
-to create their own multiplayer games and host them for others to come and
-play. Feel free to read more about <a href="about.html">what we're trying
-to do.</a>
-
-<p><b>Create your own games:</b><br>
-If you can program in Java, you can use our multiplayer game toolkit
-to create your own games, and then upload them to the site for others to
-play. Check out our <a href="http://wiki.gamegardens.com/">sample games and
-tutorials</a>.
-
-<p><b>Chat with fellow game makers:</b><br>
-Use the <a href="/discussion/mvnforum/listforums">message boards</a> to
-share ideas on how to make games and to get help if you're just getting
-started.
--->
-
-<div align="center"><img src="/images/divider.png"></div>
-
-</td></tr></table></center> <!-- center all the content on the page -->
-
-<!--#include virtual="/footer.html" -->
+</body>
+</html>
