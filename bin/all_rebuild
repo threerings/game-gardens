@@ -23,7 +23,7 @@ umask 002
 # "parse" our arguments
 while [ ! -z "$1" ]; do
     if [ $1 = "--client" ]; then
-        CLIENT=true
+        CLIENT="client"
     fi
     if [ $1 = "--update" ]; then
         UPDATE=true
@@ -45,6 +45,7 @@ echo "*** Starting build in $ROOT at " `date`
 if [ ! -z "$UPDATE" ]; then
     # update the whole enchilada
     echo "Updating main tree..."
+
     cd $ROOT
     svn update -q
     if [ $? != 0 ] ; then
@@ -54,38 +55,8 @@ if [ ! -z "$UPDATE" ]; then
     fi
 fi
 
-# rebuild our libraries
-for LIB in samskivert narya nenya vilya toybox ; do
-    if [ -d $ROOT/projects/$LIB ]; then
-        cd $ROOT/projects/$LIB
-        if [ ! -z "$UPDATE" ]; then
-            echo "Updating $LIB..."
-            svn update -q
-            if [ $? != 0 ] ; then
-                echo >&2 "*** svn update failed in $LIB"
-                rm -f $LOCKFILE
-                exit 255
-            fi
-        fi
-        echo "Rebuilding $LIB..."
-        ant clean dist
-        if [ $? != 0 ]; then
-            rm -f $LOCKFILE
-            exit 255
-        fi
-        ln -sf $ROOT/projects/$LIB/dist/*.jar $ROOT/lib
-    fi
-done
-
-# update and rebuild our web applications
-echo "Rebuilding webapps..."
-cd $ROOT/projects/gardens
-ant clean install
-if [ $? != 0 ]; then
-    rm -f $LOCKFILE
-    exit 255
-fi
-ln -sf $ROOT/projects/gardens/dist/*.jar $ROOT/lib
+cd $ROOT
+ant cleanall distall $CLIENT
 
 if [ ! -z "$CLIENT" ]; then
     echo "Rebuilding client..."

@@ -6,7 +6,7 @@
   <property file="${base.dir}/toybox.properties"/>
 
   <!-- define the places where we get and put things -->
-  <property name="java.libs"  value="${base.dir}/lib"/>
+  <property name="libs.dir"  value="${base.dir}/dist/lib"/>
   <property name="web.home"   value="${base.dir}/pages"/>
   <property name="deploy.dir" value="${web.home}/client"/>
 
@@ -14,11 +14,30 @@
   <target name="proguard">
     <taskdef resource="proguard/ant/task.properties"
              classpath="lib/proguard.jar"/>
-    <proguard configuration="lib/gg-client.pro"/>
     <mkdir dir="${deploy.dir}"/>
-    <copy todir="${deploy.dir}" file="gg-client.jar"/>
+    <proguard configuration="lib/gg-client.pro">
+      <injar path="${libs.dir}/commons-io.jar"
+             filter="!META-INF/*"/>
+      <injar path="${libs.dir}/getdown.jar"
+             filter="!META-INF/*,!**/tools/**"/>
+      <injar path="${libs.dir}/narya-base.jar"
+             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
+      <injar path="${libs.dir}/narya-distrib.jar"
+             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
+      <injar path="${libs.dir}/nenya-rsrc.jar"
+             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
+      <injar path="${libs.dir}/nenya-media.jar"
+             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
+      <injar path="${libs.dir}/vilya-parlor.jar"
+             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
+      <injar path="${libs.dir}/samskivert.jar"
+             filter="!META-INF/*,!**/velocity/**,!**/xml/**"/>
+      <injar path="${libs.dir}/toybox.jar"
+             filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
+      <outjar path="${deploy.dir}/gg-client.jar"/>
+    </proguard>
     <!-- also copy the client jar into the game development directory -->
-    <copy todir="../games/client" file="gg-client.jar"/>
+    <copy file="${deploy.dir}/gg-client.jar" todir="../games/client"/>
   </target>
 
   <!-- signs the client jar files -->

@@ -21,6 +21,29 @@
   <import file="etc/build-support.xml"/>
   <import file="etc/project-dependencies.xml"/>
 
+  <!-- declare the libraries needed by the main thing -->
+  <fileset dir="${projects.root}" id="dist.libs">
+    <include name="${libs.dir}/activation.jar"/>
+    <include name="${libs.dir}/commons-beanutils.jar"/>
+    <include name="${libs.dir}/commons-collections.jar"/>
+    <include name="${libs.dir}/commons-digester.jar"/>
+    <include name="${libs.dir}/commons-fileupload-1.0.jar"/>
+    <include name="${libs.dir}/commons-io.jar"/>
+    <include name="${libs.dir}/commons-logging.jar"/>
+    <include name="${libs.dir}/getdown.jar"/>
+    <include name="${libs.dir}/mail.jar"/>
+    <include name="${libs.dir}/mysql-connector-java-3.0.11-stable-bin.jar"/>
+    <include name="${libs.dir}/servlet-2.3.jar"/>
+    <include name="${libs.dir}/velocity-1.5-dev.jar"/>
+    <include name="${narya.dir}/dist/narya-base.jar"/>
+    <include name="${narya.dir}/dist/narya-distrib.jar"/>
+    <include name="${nenya.dir}/dist/nenya-media.jar"/>
+    <include name="${nenya.dir}/dist/nenya-rsrc.jar"/>
+    <include name="${samskivert.dir}/dist/samskivert.jar"/>
+    <include name="${vilya.dir}/dist/vilya-micasa.jar"/>
+    <include name="${vilya.dir}/dist/vilya-parlor.jar"/>
+  </fileset>
+
   <!-- declare the libraries needed to build toybox -->
   <fileset dir="${projects.root}" id="toybox.libs">
     <include name="${libs.dir}/ant.jar"/>
@@ -45,7 +68,12 @@
   <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
   <property name="webapps"  value="gardens"/>
 
-  <!-- signs the client jar files -->
+  <!-- creates the Proguarded Java client -->
+  <target name="client" depends="copydistlibs">
+    <ant dir="projects/client" target="all" inheritAll="false"/>
+  </target>
+
+  <!-- signs the server jar files -->
   <target name="sign">
     <!-- copy any updated jar files into the seclib directory -->
     <mkdir dir="seclib"/>
@@ -64,10 +92,11 @@
   <target name="all" depends="sign"/>
 
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="distprojects"/>
+  <target name="distall" depends="distprojects,copydistlibs"/>
 
   <!-- fully cleans out the installed application and all subprojects -->
   <target name="cleanall" depends="cleanprojects">
+    <ant dir="projects/client" target="clean" inheritAll="false"/>
     <delete dir="${deploy.dir}"/>
   </target>
 </project>

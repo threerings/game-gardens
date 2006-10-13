@@ -3,20 +3,9 @@
 #
 # Proguard configuration file for Game Gardens client
 
--injars ../../lib/commons-io.jar(!META-INF/*)
--injars ../../lib/getdown.jar(!META-INF/*,!**/tools/**)
--injars ../../lib/narya-base.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/narya-distrib.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/nenya-rsrc.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/nenya-media.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/vilya-parlor.jar(!META-INF/*,!**/tools/**,!**/server/**)
--injars ../../lib/samskivert.jar(!META-INF/*,!**/velocity/**,!**/xml/**)
--injars ../../lib/toybox.jar(!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**)
-
 -libraryjars <java.home>/lib/rt.jar
 -dontskipnonpubliclibraryclasses
 -dontobfuscate
--outjars gg-client.jar
 
 # we need whatever we keep of samskivert to be around in its entirety so
 # that if a game uses the same classfile, the whole thing is there
