@@ -23,10 +23,4 @@
     <ai ident="aicount" maximum="3"/>
 <!--    <choice ident="rules" choices="standard,hand_of_three" start="standard"/>-->
   </params>
-
-  <!-- Here the library version dependencies are enumerated. -->
-  <libs>
-    <library name="narya-media" version="1.0"/>
-    <library name="samskivert" version="1.0"/>
-  </libs>
 </game>
