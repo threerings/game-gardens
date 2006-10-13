@@ -9,7 +9,6 @@
   <property name="app.name"       value="toybox"/>
   <property name="deploy.dir"     value="dist"/>
   <property name="savedoc.dir"    value="docs"/>
-  <property name="narya.home"     value="/export/yohoho/projects/narya"/>
 
   <!-- derived properties -->  
   <property name="javadoc.home"   value="${deploy.dir}/docs"/>
@@ -19,10 +18,8 @@
   <!-- declare our classpath -->
   <path id="classpath">
     <pathelement location="${classes.dir}"/>
-    <fileset dir="lib" includesfile="lib/LIBS"/>
-    <fileset dir="${java.libraries}" includesfile="lib/LIBS"/>
+    <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
   </path>
-  <property name="cp" refid="classpath"/>
 
   <!-- checks to see which packages are available -->
   <target name="check-available">
@@ -70,6 +67,7 @@
   <!-- prepares the application directories -->
   <target name="prepare">
     <mkdir dir="${deploy.dir}"/>
+    <mkdir dir="${deploy.dir}/lib"/>
     <mkdir dir="${classes.dir}"/>
     <mkdir dir="${classes.dir}/rsrc"/>
     <mkdir dir="${javadoc.home}"/>
@@ -79,11 +77,16 @@
     <copy todir="${classes.dir}/rsrc">
       <fileset dir="rsrc" includes="**/*" excludes="**/bundles/**"/>
     </copy>
+    <copy todir="${deploy.dir}/lib">
+      <fileset dir="lib" includes="**/*.jar"/>
+    </copy>
   </target>
 
   <!-- cleans out the installed application -->
   <target name="clean">
-    <delete dir="${deploy.dir}"/>
+    <delete dir="${deploy.dir}/classes"/>
+    <delete dir="${deploy.dir}/docs"/>
+    <delete><fileset dir="${deploy.dir}" includes="*.jar"/></delete>
   </target>
 
   <!-- build the java class files -->

@@ -4,6 +4,47 @@
   <!-- load up our configuration information -->
   <property file="toybox.properties"/>
 
+  <!-- things you probably don't want to change -->
+  <property name="deploy.dir"     value="dist"/>
+  <property name="projects.root"  value="."/>
+
+  <!-- declare the location of our various subprojects -->
+  <property name="libs.dir"       value="lib"/>
+  <property name="samskivert.dir" value="projects/samskivert"/>
+  <property name="narya.dir"      value="projects/narya"/>
+  <property name="nenya.dir"      value="projects/nenya"/>
+  <property name="vilya.dir"      value="projects/vilya"/>
+  <property name="toybox.dir"     value="projects/toybox"/>
+  <property name="gardens.dir"    value="projects/gardens"/>
+
+  <!-- import useful tasks -->
+  <import file="etc/build-support.xml"/>
+  <import file="etc/project-dependencies.xml"/>
+
+  <!-- declare the libraries needed to build toybox -->
+  <fileset dir="${projects.root}" id="toybox.libs">
+    <include name="${libs.dir}/ant.jar"/>
+    <include name="${libs.dir}/commons-beanutils.jar"/>
+    <include name="${libs.dir}/commons-collections.jar"/>
+    <include name="${libs.dir}/commons-digester.jar"/>
+    <include name="${libs.dir}/commons-io.jar"/>
+    <include name="${libs.dir}/commons-lang.jar"/>
+    <include name="${libs.dir}/commons-logging.jar"/>
+    <include name="${libs.dir}/getdown.jar"/>
+    <include name="${libs.dir}/velocity-1.5-dev.jar"/>
+    <include name="${samskivert.dir}/dist/samskivert.jar"/>
+    <include name="${narya.dir}/dist/narya-base.jar"/>
+    <include name="${narya.dir}/dist/narya-distrib.jar"/>
+    <include name="${nenya.dir}/dist/nenya-media.jar"/>
+    <include name="${nenya.dir}/dist/nenya-rsrc.jar"/>
+    <include name="${vilya.dir}/dist/vilya-micasa.jar"/>
+    <include name="${vilya.dir}/dist/vilya-parlor.jar"/>
+  </fileset>
+
+  <!-- delcare our subprojects and webapps -->
+  <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
+  <property name="webapps"  value="gardens"/>
+
   <!-- signs the client jar files -->
   <target name="sign">
     <!-- copy any updated jar files into the seclib directory -->
@@ -21,4 +62,12 @@
 
   <!-- the default target is to install and sign the client -->
   <target name="all" depends="sign"/>
+
+  <!-- rebuilds all subprojects and the top-level application -->
+  <target name="distall" depends="distprojects"/>
+
+  <!-- fully cleans out the installed application and all subprojects -->
+  <target name="cleanall" depends="cleanprojects">
+    <delete dir="${deploy.dir}"/>
+  </target>
 </project>

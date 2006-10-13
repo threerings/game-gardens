@@ -1,0 +1,82 @@
+<!-- build configuration -->
+<project name="build-support">
+
+  <!-- we want some tasks from ant-contrib -->
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${projects.root}/${libs.dir}/ant-contrib.jar"/>
+    </classpath>
+  </taskdef>
+
+  <!-- import the project dependencies -->
+  <import file="project-dependencies.xml"/>
+
+  <!-- updates the source from subversion -->
+  <target name="update">
+    <echo level="info" message="Updating the source from subversion."/>
+    <exec executable="svn">
+      <arg line="update"/>
+    </exec>
+  </target>
+
+  <!-- call buildproject on each item in ${webapps} -->
+  <target name="webapps">
+    <antcall target="distprojects">
+      <param name="projects"  value="${webapps}"/>
+    </antcall>
+  </target>
+
+  <!-- call buildproject on each item in ${projects} -->
+  <target name="distprojects">
+    <for list="${projects}" param="project">
+      <sequential>
+        <antcall target="buildproject">
+          <param name="project.dir"  value="${projects.root}/${@{project}.dir}"/>
+          <param name="project.libs" value="@{project}.libs"/>
+        </antcall>
+      </sequential>
+    </for>
+  </target>
+
+  <!-- builds a project in ${project.dir} using ${project.libs} -->
+  <!-- copies ${project.dir}/dist/*.jar to ${deploy.dir}/lib -->
+  <target name="buildproject">
+    <!-- copy the library dependencies -->
+    <copy todir="${project.dir}/dist/lib" flatten="true">
+      <fileset refid="${project.libs}"/>
+    </copy>
+
+    <ant dir="${project.dir}" target="dist" inheritAll="false"/>
+
+    <!-- copy the library jars to ${deploy.dir}/lib -->
+    <copy todir="${deploy.dir}/lib">
+      <fileset dir="${project.dir}/dist">
+        <include name="*.jar"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- call cleanproject on each item in ${projects} -->
+  <target name="cleanprojects">
+    <for list="${projects}" param="project">
+      <sequential>
+        <antcall target="cleanproject">
+          <param name="project.dir"  value="${projects.root}/${@{project}.dir}"/>
+        </antcall>
+      </sequential>
+    </for>
+  </target>
+
+  <!-- cleans the project in ${project.dir} -->
+  <target name="cleanproject">
+    <ant dir="${project.dir}" target="clean" inheritAll="false"/>
+  </target>
+
+  <!-- copies the dist.libs fileset into deploy.dir/lib -->
+  <target name="copydistlibs">
+    <copy todir="${deploy.dir}/lib" flatten="true">
+      <fileset refid="dist.libs"/>
+    </copy>
+  </target>
+
+</project>
