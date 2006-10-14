@@ -2,18 +2,19 @@
 <!-- build configuration -->
 <project name="toybox" default="compile" basedir=".">
 
-  <!-- the base directory from which we get our bundles and jar files -->
-  <property name="base.dir" value="../.."/>
-
   <!-- configuration parameters -->
-  <property name="app.name"       value="toybox"/>
-  <property name="deploy.dir"     value="dist"/>
-  <property name="savedoc.dir"    value="docs"/>
+  <property name="app.name"     value="toybox"/>
+  <property name="deploy.dir"   value="dist"/>
+  <property name="savedoc.dir"  value="docs"/>
 
   <!-- derived properties -->  
-  <property name="javadoc.home"   value="${deploy.dir}/docs"/>
-  <property name="classes.dir"    value="${deploy.dir}/classes"/>
-  <property name="java.libraries" value="${base.dir}/lib"/>
+  <property name="javadoc.home" value="${deploy.dir}/docs"/>
+  <property name="classes.dir"  value="${deploy.dir}/classes"/>
+
+  <!-- import some targets to enumerate library dependencies -->
+  <property name="projects.root" value="."/>
+  <property name="libs.dir" value="lib"/>
+  <import file="libs-incl.xml"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -75,8 +76,8 @@
     <copy todir="${classes.dir}/rsrc">
       <fileset dir="rsrc" includes="**/*" excludes="**/bundles/**"/>
     </copy>
-    <copy todir="${deploy.dir}/lib">
-      <fileset dir="lib" includes="**/*.jar"/>
+    <copy todir="${deploy.dir}/lib" flatten="true">
+      <fileset refid="${app.name}.libs"/>
     </copy>
   </target>
 
