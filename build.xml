@@ -17,9 +17,10 @@
   <property name="toybox.dir"     value="projects/toybox"/>
   <property name="gardens.dir"    value="projects/gardens"/>
 
-  <!-- import useful tasks -->
+  <!-- declare our subprojects and webapps -->
   <import file="etc/build-support.xml"/>
-  <import file="etc/project-dependencies.xml"/>
+  <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
+  <property name="webapps"  value="gardens"/>
 
   <!-- declare the libraries needed by the main thing -->
   <fileset dir="${projects.root}" id="dist.libs">
@@ -43,10 +44,6 @@
     <include name="${project.dir}/vilya/dist/vilya-micasa.jar"/>
     <include name="${project.dir}/vilya/dist/vilya-parlor.jar"/>
   </fileset>
-
-  <!-- delcare our subprojects and webapps -->
-  <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
-  <property name="webapps"  value="gardens"/>
 
   <!-- creates the Proguarded Java client -->
   <target name="client" depends="copydistlibs">
