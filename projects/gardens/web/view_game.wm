@@ -17,7 +17,7 @@ $i18n.xlate("category.$game.category")</a>
 #end
 </center>
 
-#if ($players == 0 &&!$game.parseGameDefinition().isSinglePlayerPlayable())
+#if ($players == 0 && !$single_player)
 <p class="notice">$i18n.xlate("view_game.no_single_player")</p>
 #else
 <p>$i18n.xlate("view_game.players_online", "$players")</p>

@@ -11,6 +11,7 @@ import com.samskivert.servlet.util.HTMLUtil;
 import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.velocity.InvocationContext;
 
+import com.threerings.presents.server.InvocationException;
 import com.threerings.toybox.server.persist.Game;
 
 import com.threerings.gardens.Log;
@@ -34,5 +35,14 @@ public class view_game extends OptionalUserLogic
         }
         ctx.put("game", game);
         ctx.put("players", app.getToyBoxRepository().getOnlineCount(gameId));
+        try {
+            ctx.put("single_player",
+                    game.parseGameDefinition().isSinglePlayerPlayable());
+        } catch (InvocationException ie) {
+            String errmsg = (ie.getCause() == null) ?
+                ie.getMessage() : ie.getCause().getMessage();
+            Log.log.warning("Failed to parse gamedef [game=" + game.which() +
+                            ", error=" + errmsg + "].");
+        }
     }
 }
