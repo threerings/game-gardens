@@ -324,7 +324,7 @@ public class ToyBoxRepository extends JORARepository
         super.migrateSchema(conn, liaison);
 
         JDBCUtil.createTableIfMissing(conn, "GAMES", new String[] {
-            "GAME_ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY_KEY",
+            "GAME_ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY",
             "CATEGORY VARCHAR(255) NOT NULL",
             "NAME VARCHAR(255) NOT NULL",
             "MAINTAINER_ID INTEGER NOT NULL",
