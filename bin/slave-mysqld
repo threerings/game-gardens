@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# $Id: slave-mysqld 253 2004-11-16 22:53:59Z mdb $
-#
-# Startup script for the slave database server.
-
-`dirname $0`/generic-mysqld slave "$@"
