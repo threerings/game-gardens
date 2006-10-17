@@ -23,14 +23,13 @@ echo "** Mirroring configuration files..."
 $MIRROR $VERBOSE $ROOT/gardens.conf \
     $ROOT/toybox.properties \
     $ROOT/projects/toybox/src/sql/*.sql \
-    $ROOT/lib/GARDENS_LIBS \
     $ROOT/etc/gardens.policy \
     $ROOT/etc/*.cnf
 
 # update the signed libraries
 echo "*** Updating signed libraries..."
 cd $ROOT
-ant
+ant sign
 
 # mirror the library files
 echo "** Mirroring server jars..."

@@ -1,5 +1,5 @@
 <!-- project build configuration -->
-<project name="Game Gardens Server" default="sign" basedir=".">
+<project name="Game Gardens Server" default="all" basedir=".">
 
   <!-- load up our configuration information -->
   <property file="toybox.properties"/>
@@ -69,7 +69,7 @@
   <target name="all" depends="sign"/>
 
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="distprojects,copydistlibs"/>
+  <target name="distall" depends="distprojects,webapps,copydistlibs,client"/>
 
   <!-- fully cleans out the installed application and all subprojects -->
   <target name="cleanall" depends="cleanprojects">

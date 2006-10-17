@@ -31,7 +31,7 @@
     <for list="${projects}" param="project">
       <sequential>
         <antcall target="buildproject">
-          <param name="project"  value="@{project}"/>
+          <param name="project" value="@{project}"/>
           <param name="project.libs" value="@{project}.libs"/>
         </antcall>
       </sequential>

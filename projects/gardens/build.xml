@@ -7,49 +7,64 @@
 
   <!-- the web application name and derived parameters -->
   <property name="app.name"       value="gardens"/>
-  <property name="deploy.dir"     value="${base.dir}/pages/${app.name}"/>
+  <property name="src.dir"        value="src/java"/>
+  <property name="deploy.dir"     value="dist"/>
+  <property name="build.dir"      value="${deploy.dir}/${app.name}"/>
+  <property name="dist.war"       value="${webapp_dir}/${app.name}.war"/>
+
+  <!-- import some targets to enumerate library dependencies -->
+  <property name="projects.root" value="${base.dir}"/>
+  <property name="libs.dir" value="lib"/>
+  <import file="libs-incl.xml"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
-    <pathelement location="${deploy.dir}/WEB-INF/classes"/>
-    <fileset dir="${base.dir}/lib" includes="**/*.jar"/>
+    <pathelement location="${build.dir}/WEB-INF/classes"/>
+    <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
   </path>
 
   <!-- prepares the application directories -->
   <target name="prepare">
-    <mkdir dir="${deploy.dir}"/>
-    <copy todir="${deploy.dir}">
+    <mkdir dir="${build.dir}"/>
+    <copy todir="${build.dir}">
       <fileset dir="web" excludes="**/*.in"/>
     </copy>
-    <mkdir dir="${deploy.dir}/WEB-INF"/>
-    <copy file="etc/web.xml" tofile="${deploy.dir}/WEB-INF/web.xml"/>
-    <copy todir="${deploy.dir}/WEB-INF/classes">
+    <mkdir dir="${build.dir}/WEB-INF/lib"/>
+    <copy file="etc/web.xml" tofile="${build.dir}/WEB-INF/web.xml"/>
+    <mkdir dir="${build.dir}/WEB-INF/classes"/>
+    <copy todir="${build.dir}/WEB-INF/classes">
       <fileset dir="etc" includes="**/*.properties"/>
       <fileset dir="${base.dir}" includes="*.properties"/>
     </copy>
-    <mkdir dir="${deploy.dir}/WEB-INF/classes"/>
-    <mkdir dir="${deploy.dir}/WEB-INF/lib"/>
-    <!-- copy the library jar files -->
-    <copy todir="${deploy.dir}/WEB-INF/lib">
-      <fileset dir="${base.dir}/lib" includesfile="lib/LIBS"/>
+    <copy todir="${deploy.dir}/lib" flatten="true">
+      <fileset refid="${app.name}.libs"/>
     </copy>
   </target>
 
   <!-- build the java class files -->
   <target name="compile" depends="prepare">
-    <javac srcdir="src" destdir="${deploy.dir}/WEB-INF/classes"
+    <javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes"
            debug="on" optimize="${build.optimize}">
       <classpath refid="classpath"/>
     </javac>
-    <copy todir="${deploy.dir}/WEB-INF/classes">
+    <copy todir="${build.dir}/WEB-INF/classes">
       <fileset dir="src" includes="**/*.properties"/>
+    </copy>
+    <!-- copy the library jar files -->
+    <copy todir="${build.dir}/WEB-INF/lib">
+      <fileset dir="${deploy.dir}/lib" includes="**/*.jar"/>
     </copy>
   </target>
 
-  <!-- cleans out the installed application -->
+  <!-- cleans out the intermediate build files -->
   <target name="clean">
+    <delete dir="${build.dir}/WEB-INF"/>
+  </target>
+
+  <!-- wipes the entire build directory clean -->
+  <target name="distclean">
     <delete dir="${deploy.dir}"/>
-    <delete dir="dist"/>
+    <delete file="${dist.war}"/>
   </target>
 
   <!-- the default target is to rebuild everything -->
@@ -59,17 +74,11 @@
   <target name="dist" depends="all">
     <mkdir dir="dist"/>
     <!-- update the build timestamp file -->
-    <propertyfile file="${deploy.dir}/WEB-INF/classes/build.properties">
+    <propertyfile file="${build.dir}/WEB-INF/classes/build.properties">
       <entry key="build.time" type="date" value="now"/>
     </propertyfile>
-    <jar destfile="dist/${app.name}.war" basedir="${deploy.dir}"/>
-    <jar destfile="dist/${app.name}.jar"
-         basedir="${deploy.dir}/WEB-INF/classes"
-         excludes="toybox.properties"/>
-  </target>
-
-  <!-- builds the .war file and installs it into the webapp directory -->
-  <target name="install" depends="dist">
-    <copy file="dist/${app.name}.war" todir="${webapp_dir}"/>
+    <jar basedir="${build.dir}" destfile="${dist.war}"/>
+    <jar basedir="${build.dir}/WEB-INF/classes" excludes="toybox.properties"
+         destfile="${deploy.dir}/${app.name}.jar"/>
   </target>
 </project>
