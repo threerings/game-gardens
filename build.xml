@@ -43,6 +43,8 @@
     <include name="${project.dir}/samskivert/dist/samskivert.jar"/>
     <include name="${project.dir}/vilya/dist/vilya-micasa.jar"/>
     <include name="${project.dir}/vilya/dist/vilya-parlor.jar"/>
+    <!-- optional -->
+    <include name="${libs.dir}/threerings.jar"/>
   </fileset>
 
   <!-- creates the Proguarded Java client -->

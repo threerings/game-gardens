@@ -55,6 +55,6 @@
 
   <!-- cleans out the installed application -->
   <target name="clean">
-    <delete dir="${deploy.dir}" includes="*.jar"/>
+    <delete><fileset dir="${deploy.dir}" includes="*.jar"/></delete>
   </target>
 </project>

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
+import com.samskivert.servlet.RedirectException;
 import com.samskivert.servlet.user.User;
 import com.samskivert.servlet.util.FriendlyException;
 import com.samskivert.servlet.util.HTMLUtil;
@@ -45,6 +46,12 @@ public class edit_game extends UserLogic
             if (game != null) {
                 ctx.put("game", game);
             }
+        }
+
+        // make sure this user is the maintainer or an admin
+        if (game != null &&
+            !(user.userId == game.maintainerId || user.isAdmin())) {
+            throw new RedirectException(app.getProperty("access_denied_url"));
         }
 
         // determine where uploads should be sent

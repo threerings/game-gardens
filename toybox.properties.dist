@@ -68,3 +68,4 @@ db.default.url = jdbc:mysql://DATABASE_HOST:3306/DATABASE_NAME
 web.login_url = register.wm?from=%R
 web.access_denied_url = access_denied.wm
 web.auth_cookie.strip_hostname = true
+# web.webapp_auth = com.samskivert.servlet.user.UserManager

@@ -1,0 +1,6 @@
+#set ($title = $i18n.xlate("access_denied.title"))
+#import ("/header.wm")
+
+$i18n.xlate("access_denied.message")
+
+#import ("/footer.wm")

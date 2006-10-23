@@ -11,7 +11,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 $i18n.xlate("view_game.back_to") <a href="browse.wm?category=$game.category">
 $i18n.xlate("category.$game.category")</a>
-#if ($user && $user.userId == $game.maintainerId)
+#if ($user && ($user.userId == $game.maintainerId || $user.isAdmin()))
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="edit_game.wm?gameid=$game.gameId">$i18n.xlate("view_game.edit")</a>
 #end

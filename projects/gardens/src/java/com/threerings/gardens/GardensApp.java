@@ -85,7 +85,10 @@ public class GardensApp extends Application
                 ToyBoxConfig.getJDBCConfig());
 
             // create our repositories and managers
-	    _usermgr = new UserManager(_config, _conprov);
+            String umclass = _config.getProperty(
+                "webapp_auth", UserManager.class.getName());
+	    _usermgr = (UserManager)Class.forName(umclass).newInstance();
+            _usermgr.init(_config, _conprov);
             _tbrepo = new ToyBoxRepository(_conprov);
 
             // load up our build stamp so that we can report it

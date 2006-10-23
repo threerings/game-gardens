@@ -17,5 +17,7 @@
     <include name="${project.dir}/narya/dist/narya-base.jar"/>
     <include name="${project.dir}/narya/dist/narya-distrib.jar"/>
     <include name="${project.dir}/toybox/dist/toybox.jar"/>
+    <!-- optional -->
+    <include name="${libs.dir}/threerings.jar"/>
   </fileset>
 </project>
