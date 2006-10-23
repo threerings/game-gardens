@@ -107,8 +107,10 @@ public class Game
         }
 
         try {
-            GameDefinition gamedef = _parser.parseGame(
-                new StringReader(definition));
+            GameDefinition gamedef;
+            synchronized (_parser) {
+                gamedef = _parser.parseGame(new StringReader(definition));
+            }
 
             // fill in things that only we know
             gamedef.digest = digest;
