@@ -145,7 +145,7 @@ public class ToyBoxApplet extends ManagedJApplet
 
         // we need to cope with our threads being destroyed but our classes not
         // being unloaded
-        Interval.shutdown();
+        Interval.resetTimer();
     }
 
     /**
