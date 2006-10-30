@@ -70,8 +70,18 @@
   <!-- the default target is to install and sign the client -->
   <target name="all" depends="sign"/>
 
+  <!-- ensures that a toybox.properties exists -->
+  <target name="prepare">
+    <if><not><isset property="webapp_dir"/></not>
+    <then>
+      <echo>Generating default toybox.properties.</echo>
+      <copy tofile="toybox.properties" file="toybox.properties.dist"/>
+    </then>
+    </if>
+  </target>
+
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="distprojects,webapps,copydistlibs,client"/>
+  <target name="distall" depends="prepare,distprojects,webapps,copydistlibs"/>
 
   <!-- fully cleans out the installed application and all subprojects -->
   <target name="cleanall" depends="cleanprojects">
