@@ -57,7 +57,7 @@
     <!-- copy any updated jar files into the seclib directory -->
     <mkdir dir="seclib"/>
     <copy todir="seclib">
-      <fileset dir="lib" includes="*.jar"/>
+      <fileset dir="dist/lib" includes="*.jar"/>
     </copy>
 
     <!-- now sign them -->
