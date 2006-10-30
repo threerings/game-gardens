@@ -61,10 +61,14 @@
     </copy>
 
     <!-- now sign them -->
-    <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
-             storepass="${sign.storepass}">
-      <fileset dir="seclib" includes="*.jar"/>
-    </signjar>
+    <if><isset property="sign.alias"/><then>
+      <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
+               storepass="${sign.storepass}">
+        <fileset dir="seclib" includes="*.jar"/>
+      </signjar>
+    </then><else>
+      <echo>Not signing server code. No keystore configured.</echo>
+    </else></if>
   </target>
 
   <!-- the default target is to install and sign the client -->
@@ -81,7 +85,7 @@
   </target>
 
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="prepare,distprojects,webapps,copydistlibs"/>
+  <target name="distall" depends="prepare,distprojects,webapps,copydistlibs,client"/>
 
   <!-- fully cleans out the installed application and all subprojects -->
   <target name="cleanall" depends="cleanprojects">

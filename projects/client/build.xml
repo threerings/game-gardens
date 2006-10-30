@@ -42,10 +42,14 @@
 
   <!-- signs the client jar files -->
   <target name="sign">
-    <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
-      storepass="${sign.storepass}">
-      <fileset dir="${deploy.dir}" includes="*.jar"/>
-    </signjar>
+    <if><isset property="sign.alias"/><then>
+      <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
+        storepass="${sign.storepass}">
+        <fileset dir="${deploy.dir}" includes="*.jar"/>
+      </signjar>
+    </then><else>
+      <echo>Not signing client. No keystore configured.</echo>
+    </else></if>
     <!-- also copy the client jar into the game development directory -->
     <copy todir="../games/client" file="${deploy.dir}/gg-client.jar"/>
   </target>
