@@ -190,6 +190,9 @@ public class ToyBoxDirector extends BasicDirector
         final int gameId, final GameDefinition gamedef,
         final HTTPDownloader.Observer obs)
     {
+        log.info("Resolving resources [game=" + gameId +
+                 ", rurl=" + _resourceURL + "].");
+
         // if our resource URL is a file: URL, we can ignore this whole
         // process as we're running in testing mode and needn't worry
         if (_resourceURL.getProtocol().equals("file")) {
@@ -242,8 +245,8 @@ public class ToyBoxDirector extends BasicDirector
     protected void resolveResourcesAsync (
         int gameId, GameDefinition gamedef, HTTPDownloader.Observer obs)
     {
-        // determine whether the game's libraries, or its game jar file
-        // need to be downloaded
+        // determine whether the game's libraries, or its game jar file need to
+        // be downloaded
         ArrayList<Resource> rsrcs = new ArrayList<Resource>();
         MessageDigest md;
         try {
