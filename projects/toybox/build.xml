@@ -3,17 +3,16 @@
 <project name="toybox" default="compile" basedir=".">
 
   <!-- configuration parameters -->
-  <property name="app.name"     value="toybox"/>
-  <property name="deploy.dir"   value="dist"/>
-  <property name="savedoc.dir"  value="docs"/>
+  <property name="app.name"    value="toybox"/>
+  <property name="deploy.dir"  value="dist"/>
+  <property name="savedoc.dir" value="docs"/>
 
   <!-- derived properties -->  
   <property name="javadoc.home" value="${deploy.dir}/docs"/>
   <property name="classes.dir"  value="${deploy.dir}/classes"/>
 
   <!-- import some targets to enumerate library dependencies -->
-  <property name="projects.root" value="."/>
-  <property name="libs.dir" value="lib"/>
+  <property name="libs.dir" value="../../dist/lib"/>
   <import file="libs-incl.xml"/>
 
   <!-- declare our classpath -->
