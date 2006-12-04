@@ -1,39 +1,22 @@
 #!/bin/sh
 #
-# $Id: mysql 254 2004-11-16 23:03:50Z mdb $
+# $Id$
 #
-# A script for invoking mysql with a connection to our database
+# A script for invoking mysql with a connection to our GG database
 
-USAGE="Usage: $0 [--dbhost database_host] [--slave]"
 ROOT=`dirname $0 | sed s:/bin::`
 
-# Load in our machine-local configurations
+# Load in our configuration info
 if [ -f $ROOT/gardens.conf ]; then
     . $ROOT/gardens.conf
 else
     echo "No $ROOT/gardens.conf could be found."
-    exit -1
+    exit 255
 fi
 
-if [ "$1" = "--dbhost" ]; then
-    shift
-    if [ -z "$1" ]; then
-        echo $USAGE
-        exit -1
-    fi
-    DBSERVER=$1
-    shift
+if [ "$DBPORT" = "" ]; then
+    # Supply our default
+    DBPORT=3306
 fi
 
-WHICH=master
-if [ "$1" = "--slave" ]; then
-    shift
-    WHICH=slave
-fi
-
-MYSQLARGS="-u $DBUSER -p$DBPASSWD"
-if [ -f $ROOT/etc/mysql-$WHICH.cnf ]; then
-    mysql --defaults-file=$ROOT/etc/mysql-$WHICH.cnf $MYSQLARGS "$@"
-else
-    mysql $MYSQLARGS -h $DBSERVER -P 3307 "$@"
-fi
+mysql -u $DBUSER -p$DBPASSWD -h $DBSERVER -P $DBPORT "$@"
