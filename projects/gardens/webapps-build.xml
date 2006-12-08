@@ -1,0 +1,84 @@
+<!-- project build configuration -->
+<project name="generic webapps build" default="all">
+
+  <!-- these need to be defined before we do anything else -->
+  <property name="src.dir"    value="src/java"/>
+  <property name="deploy.dir" value="dist"/>
+
+  <!-- import local properties -->
+  <property file="${base.dir}/${deploy.dir}/${properties.file}"/>
+
+  <!-- set a default for webapp_dir for auto building -->
+  <property name="webapp_dir" value="${base.dir}/dist"/>
+
+  <!-- the web application name and derived parameters -->
+  <property name="build.dir" value="${deploy.dir}/${app.name}"/>
+  <property name="dist.war"  value="${webapp_dir}/${app.name}.war"/>
+  <property name="libs.dir"  value="${base.dir}/dist/lib"/>
+
+  <!-- declare our classpath -->
+  <path id="classpath">
+    <pathelement location="${build.dir}/WEB-INF/classes"/>
+    <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
+  </path>
+
+  <!-- build the java class files -->
+  <target name="compile" depends="prepare">
+    <javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes"
+           debug="on" optimize="${build.optimize}">
+      <classpath refid="classpath"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+    </javac>
+    <copy todir="${build.dir}/WEB-INF/classes">
+      <fileset dir="src" includes="**/*.properties"/>
+    </copy>
+    <!-- copy the library jar files -->
+    <copy todir="${build.dir}/WEB-INF/lib">
+      <fileset dir="${deploy.dir}/lib" includes="**/*.jar"/>
+    </copy>
+  </target>
+
+  <!-- cleans out the intermediate build files -->
+  <target name="clean">
+    <delete dir="${build.dir}/WEB-INF"/>
+  </target>
+
+  <!-- wipes the entire build directory clean -->
+  <target name="distclean">
+    <delete dir="${deploy.dir}"/>
+    <delete file="${dist.war}"/>
+  </target>
+
+  <!-- the default target is to rebuild everything -->
+  <target name="all" depends="prepare,compile"/>
+
+  <!-- builds our distribution files (war and jar) -->
+  <target name="dist" depends="all,tests">
+    <!-- update the build timestamp file -->
+    <propertyfile file="${build.dir}/WEB-INF/classes/build.properties">
+      <entry key="build.time" type="date" value="now"/>
+    </propertyfile>
+    <jar basedir="${build.dir}" destfile="${dist.war}"/>
+  </target>
+
+  <!-- run the tests -->
+  <target name="tests" depends="compile" description="Runs the tests.">
+    <mkdir dir="${base.dir}/${deploy.dir}/tmp"/>
+    <junit printsummary="no" haltonfailure="yes" fork="false">
+      <classpath>
+        <pathelement location="${build.dir}/WEB-INF/classes"/>
+        <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
+        <pathelement location="."/>
+      </classpath>
+      <sysproperty key="templatesLocation" value="${basedir}/"/>
+      <formatter type="brief" usefile="false" unless="use.xml.output"/>
+      <formatter type="xml" usefile="true" if="xml.test.output"/>
+      <batchtest todir="${base.dir}/${deploy.dir}/tmp">
+        <fileset dir="${src.dir}">
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+</project>
