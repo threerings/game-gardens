@@ -9,6 +9,7 @@
 <object classid="java:com.threerings.toybox.client.ToyBoxApplet.class" type="application/x-java-applet" archive="/client/gg-client.jar" width="800" height="600">
 <param name="server" value="$game.host"/>
 <param name="port" value="$port"/>
+<param name="resource_url" value="$resource_url"/>
 <param name="game_id" value="$game.gameId"/>
 <!--<![endif]-->
 <object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" width="800" height="600" codebase="http://java.sun.com/update/1.5.0/jinstall-1_5-windows-i586.cab#Version=5,0,0,5\"> 
@@ -16,6 +17,7 @@
 <param name="archive" value="/client/gg-client.jar"/>
 <param name="server" value="$game.host"/>
 <param name="port" value="$port"/>
+<param name="resource_url" value="$resource_url"/>
 <param name="game_id" value="$game.gameId"/>
 Install the Javer.
 </object> 

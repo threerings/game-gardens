@@ -21,5 +21,6 @@ public class play_game extends view_game
     {
         super.invoke(ctx, app, user);
         ctx.put("port", ToyBoxConfig.getServerPort());
+        ctx.put("resource_url", ToyBoxConfig.getResourceURL());
     }
 }
