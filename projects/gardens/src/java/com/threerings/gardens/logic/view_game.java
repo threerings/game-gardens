@@ -27,20 +27,19 @@ public class view_game extends OptionalUserLogic
         throws Exception
     {
         HttpServletRequest req = ctx.getRequest();
-        int gameId = ParameterUtil.requireIntParameter(
-            req, "gameid", "error.invalid_gameid");
+        int gameId = ParameterUtil.requireIntParameter(req, "gameid", "error.invalid_gameid");
         Game game = app.getToyBoxRepository().loadGame(gameId);
         if (game == null) {
             throw new FriendlyException("error.no_such_game");
         }
         ctx.put("game", game);
+        User creator = app.getUserManager().getRepository().loadUser(game.maintainerId);
+        ctx.put("creator", (creator == null) ? "???" : creator.username);
         ctx.put("players", app.getToyBoxRepository().getOnlineCount(gameId));
         try {
-            ctx.put("single_player",
-                    game.parseGameDefinition().isSinglePlayerPlayable());
+            ctx.put("single_player", game.parseGameDefinition().isSinglePlayerPlayable());
         } catch (InvocationException ie) {
-            String errmsg = (ie.getCause() == null) ?
-                ie.getMessage() : ie.getCause().getMessage();
+            String errmsg = (ie.getCause() == null) ? ie.getMessage() : ie.getCause().getMessage();
             Log.log.warning("Failed to parse gamedef [game=" + game.which() +
                             ", error=" + errmsg + "].");
         }
