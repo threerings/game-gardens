@@ -5,17 +5,7 @@
   <property file="toybox.properties"/>
 
   <!-- things you probably don't want to change -->
-  <property name="deploy.dir"     value="dist"/>
-  <property name="projects.root"  value="."/>
-
-  <!-- declare the location of our various subprojects -->
-  <property name="libs.dir"       value="lib"/>
-  <property name="samskivert.dir" value="projects/samskivert"/>
-  <property name="narya.dir"      value="projects/narya"/>
-  <property name="nenya.dir"      value="projects/nenya"/>
-  <property name="vilya.dir"      value="projects/vilya"/>
-  <property name="toybox.dir"     value="projects/toybox"/>
-  <property name="gardens.dir"    value="projects/gardens"/>
+  <property name="deploy.dir" value="dist"/>
 
   <!-- declare our subprojects and webapps -->
   <import file="etc/build-support.xml"/>
@@ -23,28 +13,29 @@
   <property name="webapps"  value="gardens"/>
 
   <!-- declare the libraries needed by the main thing -->
-  <fileset dir="${projects.root}" id="dist.libs">
-    <include name="${libs.dir}/activation.jar"/>
-    <include name="${libs.dir}/commons-beanutils.jar"/>
-    <include name="${libs.dir}/commons-collections.jar"/>
-    <include name="${libs.dir}/commons-digester.jar"/>
-    <include name="${libs.dir}/commons-fileupload-1.0.jar"/>
-    <include name="${libs.dir}/commons-io.jar"/>
-    <include name="${libs.dir}/commons-logging.jar"/>
-    <include name="${libs.dir}/getdown.jar"/>
-    <include name="${libs.dir}/mail.jar"/>
-    <include name="${libs.dir}/mysql-connector-java-3.0.11-stable-bin.jar"/>
-    <include name="${libs.dir}/servlet-2.3.jar"/>
-    <include name="${libs.dir}/velocity-1.5-dev.jar"/>
-    <include name="${project.dir}/narya/dist/narya-base.jar"/>
-    <include name="${project.dir}/narya/dist/narya-distrib.jar"/>
-    <include name="${project.dir}/nenya/dist/nenya-media.jar"/>
-    <include name="${project.dir}/nenya/dist/nenya-rsrc.jar"/>
-    <include name="${project.dir}/samskivert/dist/samskivert.jar"/>
-    <include name="${project.dir}/vilya/dist/vilya-micasa.jar"/>
-    <include name="${project.dir}/vilya/dist/vilya-parlor.jar"/>
-    <!-- optional -->
-    <include name="${libs.dir}/threerings.jar"/>
+  <fileset dir="." id="dist.libs">
+    <include name="${extlib.dir}/ant.jar"/>
+    <include name="${extlib.dir}/activation.jar"/>
+    <include name="${extlib.dir}/commons-beanutils.jar"/>
+    <include name="${extlib.dir}/commons-collections.jar"/>
+    <include name="${extlib.dir}/commons-digester.jar"/>
+    <include name="${extlib.dir}/commons-fileupload-1.0.jar"/>
+    <include name="${extlib.dir}/commons-io.jar"/>
+    <include name="${extlib.dir}/commons-lang.jar"/>
+    <include name="${extlib.dir}/commons-logging.jar"/>
+    <include name="${extlib.dir}/getdown.jar"/>
+    <include name="${extlib.dir}/mail.jar"/>
+    <include name="${extlib.dir}/mysql-connector-java-3.0.11-stable-bin.jar"/>
+    <include name="${extlib.dir}/servlet-2.3.jar"/>
+    <include name="${extlib.dir}/velocity-1.5-dev.jar"/>
+    <include name="${extlib.dir}/threerings.jar"/> <!-- optional -->
+    <include name="${libs.dir}/narya-base.jar"/>
+    <include name="${libs.dir}/narya-distrib.jar"/>
+    <include name="${libs.dir}/nenya-media.jar"/>
+    <include name="${libs.dir}/nenya-rsrc.jar"/>
+    <include name="${libs.dir}/samskivert.jar"/>
+    <include name="${libs.dir}/vilya-micasa.jar"/>
+    <include name="${libs.dir}/vilya-parlor.jar"/>
   </fileset>
 
   <!-- creates the Proguarded Java client -->
@@ -57,7 +48,7 @@
     <!-- copy any updated jar files into the seclib directory -->
     <mkdir dir="seclib"/>
     <copy todir="seclib">
-      <fileset dir="dist/lib" includes="*.jar"/>
+      <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
     </copy>
 
     <!-- now sign them -->
@@ -75,7 +66,7 @@
   <target name="all" depends="sign"/>
 
   <!-- ensures that a toybox.properties exists -->
-  <target name="prepare">
+  <target name="prepare" depends="copydistlibs">
     <if><not><isset property="webapp_dir"/></not>
     <then>
       <echo>Generating default toybox.properties.</echo>
@@ -85,7 +76,7 @@
   </target>
 
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="prepare,distprojects,webapps,copydistlibs,client"/>
+  <target name="distall" depends="prepare,distprojects,webapps,client"/>
 
   <!-- fully cleans out the installed application and all subprojects -->
   <target name="cleanall" depends="cleanprojects">

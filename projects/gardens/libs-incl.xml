@@ -1,23 +1,22 @@
 <?xml version="1.0"?>
 <!-- declares the libraries needed to build gardens -->
 <project name="library-dependencies">
-  <fileset dir="${projects.root}" id="gardens.libs">
-    <include name="${libs.dir}/activation.jar"/>
-    <include name="${libs.dir}/commons-beanutils.jar"/>
-    <include name="${libs.dir}/commons-collections.jar"/>
-    <include name="${libs.dir}/commons-digester.jar"/>
-    <include name="${libs.dir}/commons-fileupload-1.0.jar"/>
-    <include name="${libs.dir}/commons-logging.jar"/>
-    <include name="${libs.dir}/getdown.jar"/>
-    <include name="${libs.dir}/mail.jar"/>
-    <include name="${libs.dir}/mysql-connector-java-3.0.11-stable-bin.jar"/>
-    <include name="${libs.dir}/servlet-2.3.jar"/>
-    <include name="${libs.dir}/velocity-1.5-dev.jar"/>
-    <include name="${project.dir}/samskivert/dist/samskivert.jar"/>
-    <include name="${project.dir}/narya/dist/narya-base.jar"/>
-    <include name="${project.dir}/narya/dist/narya-distrib.jar"/>
-    <include name="${project.dir}/toybox/dist/toybox.jar"/>
-    <!-- optional -->
-    <include name="${libs.dir}/threerings.jar"/>
+  <fileset dir="${libs.dir}" id="gardens.libs">
+    <include name="activation.jar"/>
+    <include name="commons-beanutils.jar"/>
+    <include name="commons-collections.jar"/>
+    <include name="commons-digester.jar"/>
+    <include name="commons-fileupload-1.0.jar"/>
+    <include name="commons-logging.jar"/>
+    <include name="getdown.jar"/>
+    <include name="mail.jar"/>
+    <include name="mysql-connector-java-3.0.11-stable-bin.jar"/>
+    <include name="narya-base.jar"/>
+    <include name="narya-distrib.jar"/>
+    <include name="samskivert.jar"/>
+    <include name="servlet-2.3.jar"/>
+    <include name="threerings.jar"/> <!-- optional -->
+    <include name="toybox.jar"/>
+    <include name="velocity-1.5-dev.jar"/>
   </fileset>
 </project>
