@@ -99,9 +99,9 @@ public class ToyBoxGameConfig extends GameConfig
     }
 
     // documentation inherited
-    public List getDescription ()
+    public List<String> getDescription ()
     {
-        List desc = super.getDescription();
+        List<String> desc = super.getDescription();
         // we have nothing to add at the moment
         return desc;
     }
