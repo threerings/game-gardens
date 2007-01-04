@@ -1,9 +1,10 @@
 <!-- build configuration -->
 <project name="@project@" default="compile" basedir=".">
 
-  <property name="app.name" value="@project@"/>
-  <property name="src.dir" value="src/java"/>
-  <property name="deploy.dir" value="dist"/>
+  <property name="app.name"       value="@project@"/>
+  <property name="src.dir"        value="src/java"/>
+  <property name="deploy.dir"     value="dist"/>
+  <property name="build.optimize" value="on"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -13,14 +14,16 @@
 
   <!-- generates additional methods for distributed object classes -->
   <target name="gendobj" depends="prepare">
-    <taskdef name="dobj"
-             classname="com.threerings.presents.tools.GenDObjectTask"
-             classpathref="classpath"/>
+    <taskdef name="dobj" classpathref="classpath"
+             classname="com.threerings.presents.tools.GenDObjectTask"/>
     <!-- make sure the dobject class files are all compiled -->
     <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
-           debug="on" optimize="${build.optimize}" deprecation="on">
+           debug="on" optimize="${build.optimize}" deprecation="on"
+           includeAntRuntime="false">
       <classpath refid="classpath"/>
       <include name="**/*Object.java"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
     </javac>
     <!-- now generate the associated files -->
     <dobj classpathref="classpath">
@@ -46,9 +49,11 @@
   <!-- build the java class files -->
   <target name="compile" depends="prepare">
     <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
-           debug="on" optimize="off" deprecation="on">
+           debug="on" optimize="${build.optimze}" deprecation="on"
+           includeAntRuntime="false">
       <classpath refid="classpath"/>
-      <compilerarg value="-Xlint:unchecked"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
     </javac>
   </target>
 
