@@ -1,6 +1,13 @@
 <!-- project build configuration -->
 <project name="generic webapps build" default="all">
 
+  <!-- we want some tasks from ant-contrib -->
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${base.dir}/projects/tools/lib/java/ant-contrib.jar"/>
+    </classpath>
+  </taskdef>
+
   <!-- these need to be defined before we do anything else -->
   <property name="src.dir"    value="src/java"/>
   <property name="deploy.dir" value="dist"/>
@@ -9,29 +16,60 @@
   <property file="${base.dir}/${deploy.dir}/${properties.file}"/>
 
   <!-- set a default for webapp_dir for auto building -->
-  <property name="webapp_dir" value="${base.dir}/dist"/>
+  <property name="webapp_dir" value="${base.dir}/${deploy.dir}"/>
 
   <!-- the web application name and derived parameters -->
   <property name="build.dir" value="${deploy.dir}/${app.name}"/>
   <property name="dist.war"  value="${webapp_dir}/${app.name}.war"/>
-  <property name="libs.dir"  value="${base.dir}/dist/lib"/>
+  <property name="libs.dir"  value="${base.dir}/${deploy.dir}/lib"/>
+
+  <!-- javadoc related configurations -->
+  <property name="javadoc.dir"  value="${deploy.dir}/docs"/>
+  <property name="doc.packages" value="com.threerings.*"/>
+  <property name="copy.holder"  value="Three Rings Design, Inc."/>
 
   <!-- declare our classpath -->
   <path id="classpath">
-    <pathelement location="${build.dir}/WEB-INF/classes"/>
+    <pathelement location="${deploy.dir}/classes"/>
     <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
   </path>
 
+  <!-- prepare the webapp -->
+  <target name="common-webapp-prepare">
+    <mkdir dir="${deploy.dir}/classes"/>
+    <mkdir dir="${build.dir}"/>
+    <if><isset property="templates.location"/><then>
+      <copy todir="${build.dir}">
+        <fileset dir="${templates.location}" excludes="**/*.in"/>
+      </copy>
+    </then></if>
+    <mkdir dir="${build.dir}/WEB-INF"/>
+    <copy file="etc/web.xml" tofile="${build.dir}/WEB-INF/web.xml"/>
+    <copy todir="${build.dir}/WEB-INF/classes">
+      <fileset dir="etc" includes="**/*.properties"/>
+    </copy>
+    <copy file="${base.dir}/${deploy.dir}/${properties.file}" todir="${build.dir}/WEB-INF/classes"/>
+    <copy todir="${deploy.dir}/lib" flatten="true">
+      <fileset refid="${app.name}.libs"/>
+    </copy>
+    <mkdir dir="${build.dir}/WEB-INF/classes"/>
+    <mkdir dir="${build.dir}/WEB-INF/lib"/>
+  </target>
+
   <!-- build the java class files -->
   <target name="compile" depends="prepare">
-    <javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes"
+    <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
            debug="on" optimize="${build.optimize}">
       <classpath refid="classpath"/>
       <compilerarg value="-Xlint"/>
       <compilerarg value="-Xlint:-serial"/>
     </javac>
-    <copy todir="${build.dir}/WEB-INF/classes">
+    <copy todir="${deploy.dir}/classes">
       <fileset dir="src" includes="**/*.properties"/>
+    </copy>
+    <!-- copy the compilation results to the webapp classes directory -->
+    <copy todir="${build.dir}/WEB-INF/classes">
+      <fileset dir="${deploy.dir}/classes" includes="**/*.*"/>
     </copy>
     <!-- copy the library jar files -->
     <copy todir="${build.dir}/WEB-INF/lib">
@@ -39,9 +77,22 @@
     </copy>
   </target>
 
+  <!-- build the javadoc documentation -->
+  <target name="javadoc" depends="prepare">
+    <javadoc sourcepath="src/java" packagenames="${doc.packages}"
+             windowtitle="${app.name} API" doctitle="${app.name} API"
+             bottom="Copyright &#169; 2006 ${copy.holder}. All Rights Reserved."
+             destdir="${javadoc.dir}" additionalparam="-breakiterator">
+      <classpath refid="classpath"/>
+      <link href="http://java.sun.com/j2se/1.5/docs/api/"/>
+    </javadoc>
+  </target>
+
   <!-- cleans out the intermediate build files -->
   <target name="clean">
+    <delete dir="${deploy.dir}/classes"/>
     <delete dir="${build.dir}/WEB-INF"/>
+    <delete file="${deploy.dir}/${app.name}.jar"/>
   </target>
 
   <!-- wipes the entire build directory clean -->
@@ -59,6 +110,7 @@
     <propertyfile file="${build.dir}/WEB-INF/classes/build.properties">
       <entry key="build.time" type="date" value="now"/>
     </propertyfile>
+    <jar basedir="${deploy.dir}/classes" destfile="${deploy.dir}/${app.name}.jar"/>
     <jar basedir="${build.dir}" destfile="${dist.war}"/>
   </target>
 
@@ -76,7 +128,7 @@
       <formatter type="xml" usefile="true" if="xml.test.output"/>
       <batchtest todir="${base.dir}/${deploy.dir}/tmp">
         <fileset dir="${src.dir}">
-          <include name="**/*Test.java"/>
+          <include name="**/*UnitTest.java"/>
         </fileset>
       </batchtest>
     </junit>

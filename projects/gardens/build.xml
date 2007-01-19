@@ -8,26 +8,18 @@
   <property name="app.name"        value="gardens"/>
   <property name="properties.file" value="toybox.properties"/>
 
+  <!-- the location of the velocity templates -->
+  <property name="templates.location" value="web"/>
+
   <!-- import the generic webapp build file and library dependencies -->
   <property name="libs.dir" value="lib"/>
-  <import file="webapps-build.xml"/>
+  <import file="webapp-build.xml"/>
   <import file="libs-incl.xml"/>
 
   <!-- prepares the application directories -->
   <target name="prepare">
-    <mkdir dir="${build.dir}"/>
-    <copy todir="${build.dir}">
-      <fileset dir="web" excludes="**/*.in"/>
-    </copy>
-    <mkdir dir="${build.dir}/WEB-INF/lib"/>
-    <copy file="etc/web.xml" tofile="${build.dir}/WEB-INF/web.xml"/>
-    <mkdir dir="${build.dir}/WEB-INF/classes"/>
-    <copy todir="${build.dir}/WEB-INF/classes">
-      <fileset dir="etc" includes="**/*.properties"/>
-      <fileset dir="${base.dir}" includes="${properties.file}"/>
-    </copy>
-    <copy todir="${deploy.dir}/lib" flatten="true">
-      <fileset refid="${app.name}.libs"/>
-    </copy>
+    <antcall target="common-webapp-prepare"/>
+    <!-- we also need some toybox server code which doesn't fit into our libs.dir scheme -->
+    <copy file="${base.dir}/${deploy.dir}/toybox.jar" todir="${deploy.dir}/lib"/>
   </target>
 </project>
