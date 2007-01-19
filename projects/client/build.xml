@@ -32,7 +32,7 @@
              filter="!META-INF/*,!**/tools/**,!**/server/**"/>
       <injar path="${libs.dir}/samskivert.jar"
              filter="!META-INF/*,!**/velocity/**,!**/xml/**"/>
-      <injar path="${libs.dir}/toybox.jar"
+      <injar path="${base.dir}/dist/toybox.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <outjar path="${deploy.dir}/gg-client.jar"/>
     </proguard>
@@ -60,5 +60,6 @@
   <!-- cleans out the installed application -->
   <target name="clean">
     <delete><fileset dir="${deploy.dir}" includes="*.jar"/></delete>
+    <delete file="../games/client/gg-client.jar"/>
   </target>
 </project>
