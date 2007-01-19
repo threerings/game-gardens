@@ -2,12 +2,12 @@ activation.jar
 commons-beanutils.jar
 commons-collections.jar
 commons-digester.jar
-commons-fileupload-1.0.jar
+commons-fileupload.jar
 commons-io.jar
 commons-logging.jar
 getdown.jar
 mail.jar
-mysql-connector-java-3.0.11-stable-bin.jar
+mysql-connector-java-3.1.12-bin.jar
 narya-base.jar
 narya-distrib.jar
 nenya-media.jar
