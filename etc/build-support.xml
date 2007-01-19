@@ -24,23 +24,26 @@
 
   <!-- call buildproject on each item in ${projects} -->
   <target name="distprojects">
+    <if><not><isset property="dest.dir"/></not>
+      <then>
+        <property name="dest.dir" value="${deploy.dir}/lib"/>
+      </then>
+    </if>
     <for list="${projects}" param="project">
       <sequential>
         <antcall target="buildproject">
           <param name="project"  value="@{project}"/>
-          <param name="project.libs" value="@{project}.libs"/>
         </antcall>
         <!-- copy the library jars to ${deploy.dir}/lib -->
-        <copy todir="${deploy.dir}/lib">
-          <fileset dir="${project.dir}/@{project}/dist">
-            <include name="*.jar"/>
-          </fileset>
-        </copy>
+        <antcall target="copyresult">
+          <param name="project"  value="@{project}"/>
+          <param name="dest.dir" value="${dest.dir}"/>
+        </antcall>
       </sequential>
     </for>
   </target>
 
-  <!-- builds a project in ${project.dir}/${project} using ${project.libs} -->
+  <!-- builds a project in ${project.dir}/${project} -->
   <target name="buildproject">
     <echo>Building in ${project}...</echo>
     <ant dir="${project.dir}/${project}" target="dist" inheritAll="false">
@@ -48,18 +51,25 @@
     </ant>
   </target>
 
-  <!-- copies ${project.dir}/[projects]/dist/*.jar to ${deploy.dir}/lib -->
+  <!-- convenience target that copies ${project.dir}/[projects]/dist/*.jar to ${deploy.dir}/lib -->
   <target name="copyresults">
     <for list="${projects}" param="project">
       <sequential>
-        <!-- copy the library jars to ${deploy.dir}/lib -->
-        <copy todir="${deploy.dir}/lib">
-          <fileset dir="${project.dir}/@{project}/dist">
-            <include name="*.jar"/>
-          </fileset>
-        </copy>
+        <antcall target="copyresult">
+          <param name="project"  value="@{project}"/>
+          <param name="dest.dir" value="${deploy.dir}/lib"/>
+        </antcall>
       </sequential>
     </for>
+  </target>
+
+  <!-- copy the project results to ${dest.dir} -->
+  <target name="copyresult">
+    <copy todir="${dest.dir}">
+      <fileset dir="${project.dir}/${project}/dist">
+        <include name="*.jar"/>
+      </fileset>
+    </copy>
   </target>
 
   <!-- call cleanproject on each item in ${projects} -->
