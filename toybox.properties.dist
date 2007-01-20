@@ -50,9 +50,7 @@ server_port = 47624
 #
 # Used when signing the Game Gardens client
 
-# sign.keystore = PATH_TO_KEYSTORE
-# sign.alias = ALIAS
-# sign.storepass = PASSWORD
+# cert_dir = /export/gardens
 
 #
 # Database configuration

@@ -46,14 +46,16 @@
 
   <!-- signs the server jar files -->
   <target name="sign">
-    <if><isset property="sign.alias"/><then>
+    <if><isset property="cert_dir"/><then>
+      <!-- this contains the path to the keystore and the credentials -->
+      <property file="${cert_dir}/certificate.properties"/>
       <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
                storepass="${sign.storepass}">
         <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
         <fileset dir="${deploy.dir}" includes="*.jar"/>
       </signjar>
     </then><else>
-      <echo>Not signing server code. No keystore configured.</echo>
+      <echo>Not signing server code. No cert_dir configured.</echo>
     </else></if>
   </target>
 
