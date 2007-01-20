@@ -17,7 +17,7 @@ if [ -f $GARDENS_HOME/gardens.conf ]; then
     . $GARDENS_HOME/gardens.conf
 else
     echo "Can't load '$GARDENS_HOME/gardens.conf'; can't run server."
-    exit -1
+    exit 255
 fi
 
 CLASS=com.threerings.toybox.server.ToyBoxServer
@@ -39,11 +39,14 @@ fi
 CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
 
 # Add all JAR files in $GARDENS_HOME/seclib to the CLASSPATH
-for jar in $GARDENS_HOME/seclib/*.jar; do
+for jar in $GARDENS_HOME/dist/lib/*.jar; do
     if [ -e $jar ]; then
         CLASSPATH=$jar:$CLASSPATH
     fi
 done
+
+# Add toybox to the class path
+CLASSPATH=$GARDENS_HOME/dist/toybox.jar:$CLASSPATH
 
 # Add the main directory to the CLASSPATH
 CLASSPATH=$GARDENS_HOME:$CLASSPATH
