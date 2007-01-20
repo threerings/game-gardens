@@ -68,6 +68,7 @@
       <copy tofile="toybox.properties" file="toybox.properties.dist"/>
     </then>
     </if>
+    <copy file="toybox.properties" todir="${deploy.dir}"/>
   </target>
 
   <!-- build the server -->
