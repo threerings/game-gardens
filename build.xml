@@ -46,17 +46,11 @@
 
   <!-- signs the server jar files -->
   <target name="sign">
-    <!-- copy any updated jar files into the seclib directory -->
-    <mkdir dir="seclib"/>
-    <copy todir="seclib">
-      <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
-    </copy>
-
-    <!-- now sign them -->
     <if><isset property="sign.alias"/><then>
       <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
                storepass="${sign.storepass}">
-        <fileset dir="seclib" includes="*.jar"/>
+        <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
+        <fileset dir="${deploy.dir}" includes="*.jar"/>
       </signjar>
     </then><else>
       <echo>Not signing server code. No keystore configured.</echo>
