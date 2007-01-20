@@ -38,7 +38,7 @@ ROOT=`dirname $0 | sed s:/bin$::`
 
 JETTY_HOME=$ROOT/jetty
 JETTY_INSTALL_TRACE_FILE="lib/org.mortbay.jmx.jar"
-JETTY_CONSOLE=$ROOT/logs/jetty-console.log
+JETTY_CONSOLE=$ROOT/log/jetty-console.log
 
 # Check that jetty is where we think it is
 if [ ! -r $JETTY_HOME/$JETTY_INSTALL_TRACE_FILE ] 

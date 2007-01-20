@@ -7,8 +7,8 @@
 
 my $root = `dirname $0 | sed s:/bin\$::`; chomp($root);
 my $LOG;
-if (!open($LOG, ">/tmp/respawn-gardens.log")) {
-    warn "Unable to log to /tmp/respawn-gardens.log: $!\n";
+if (!open($LOG, ">$root/log/respawn-gardens.log")) {
+    warn "Unable to log to $root/log/respawn-gardens.log: $!\n";
     $LOG = STDERR;
 }
 

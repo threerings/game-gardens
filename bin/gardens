@@ -20,8 +20,8 @@ fi
 ulimit -n 4096
 
 DAEMON=$GARDENS_HOME/bin/respawn-gardens
-PIDFILE=/var/run/respawn-gardens.pid
-LOGFILE=/tmp/respawn-gardens.log
+PIDFILE=$GARDENS_HOME/run/respawn-gardens.pid
+LOGFILE=$GARDENS_HOME/log/respawn-gardens.log
 
 # See how we were called
 case "$1" in

@@ -10,7 +10,7 @@ DESC="Gardens game server"
 
 GARDENS_HOME=`dirname $0`/..
 GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
-LOGFILE=$GARDENS_HOME/logs/gardens.log
+LOGFILE=$GARDENS_HOME/log/gardens.log
 
 # Load settings with those from gardens.conf
 if [ -f $GARDENS_HOME/gardens.conf ]; then
@@ -78,6 +78,6 @@ NOW=`date "+%F-%H:%M"`
 mv $LOGFILE $LOGFILE.$NOW
 
 # Prune old logs
-find $GARDENS_HOME/logs -name 'gardens.log*' -a -mtime +7 | xargs rm -f
+find $GARDENS_HOME/log -name 'gardens.log*' -a -mtime +7 | xargs rm -f
 
 exit $EXIT_CODE
