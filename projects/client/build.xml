@@ -3,7 +3,7 @@
 
   <!-- load up our configuration information -->
   <property name="base.dir" value="../.."/>
-  <property file="${base.dir}/toybox.properties"/>
+  <property file="${base.dir}/dist/toybox.properties"/>
 
   <!-- define the places where we get and put things -->
   <property name="libs.dir"  value="${base.dir}/dist/lib"/>
