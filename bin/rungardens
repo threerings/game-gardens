@@ -32,7 +32,7 @@ umask 002
 JAVA_VM="$JAVA_HOME/bin/java"
 if [ ! -e $JAVA_VM ]; then
     echo "$0: Cannot find JVM in $JAVA_HOME. Exiting."
-    exit -1
+    exit 255
 fi
 
 # Start with the standard Java classes
