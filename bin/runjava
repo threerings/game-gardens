@@ -85,7 +85,7 @@ foreach $dir (@dirs) {
 }
 
 # finally add the standard classes
-$classpath = "$classpath:$jlib";
+$classpath = "$classpath:$root/dist:$jlib";
 
 # log the pid file if requested to do so
 print `echo $$ > $pid_file` if (defined $pid_file);
