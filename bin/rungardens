@@ -54,7 +54,7 @@ CLASSPATH=$GARDENS_HOME/dist:$CLASSPATH
 export CLASSPATH
 
 # Set up the LD_LIBRARY_PATH to include our shared libraries
-LD_LIBRARY_PATH=$GARDENS_HOME/lib/`uname -m`-`uname -s`
+LD_LIBRARY_PATH=$GARDENS_HOME/dist/lib/`uname -m`-`uname -s`
 export LD_LIBRARY_PATH
 
 # Start up the server

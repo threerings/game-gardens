@@ -46,7 +46,7 @@ chomp($machtype);
 my $arch = "$machtype-$ostype";
 
 # add our native libraries to the runtime library path
-my $libs = "$root/lib/$arch";
+my $libs = "$root/dist/lib/$arch";
 my $libpath = $ENV{"LD_LIBRARY_PATH"};
 
 if (defined $libpath) {
@@ -67,7 +67,7 @@ my $havenarya = ($classpath =~ m:narya/dist/classes:);
 my $havetoy = ($classpath =~ m:toybox/dist/classes:);
 
 # add zip and jar files from our lib/ directory
-my @dirs = ( "$root/lib", "$root/seclib" );
+my @dirs = ( "$root/dist", "$root/dist/lib" );
 foreach $dir (@dirs) {
     next unless (defined $dir);
     if (opendir(DIR, $dir)) {
