@@ -48,8 +48,9 @@ done
 # Add toybox to the class path
 CLASSPATH=$GARDENS_HOME/dist/toybox.jar:$CLASSPATH
 
-# Add the main directory to the CLASSPATH
-CLASSPATH=$GARDENS_HOME:$CLASSPATH
+# Add the deployment directory directory to the CLASSPATH for properties
+# and toybox.jar
+CLASSPATH=$GARDENS_HOME/dist:$CLASSPATH
 export CLASSPATH
 
 # Set up the LD_LIBRARY_PATH to include our shared libraries
