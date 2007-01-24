@@ -344,6 +344,13 @@ public class ToyBoxRepository extends JORARepository
             "GAME_ID INTEGER NOT NULL",
             "PLAYERS INTEGER NOT NULL",
         }, "");
+
+        JDBCUtil.createTableIfMissing(conn, "PLAYTIME", new String[] {
+            "GAME_ID INTEGER NOT NULL",
+            "PERIOD DATE NOT NULL",
+            "PLAYTIME INTEGER NOT NULL",
+            "PRIMARY KEY (GAME_ID, PERIOD)",
+        }, "");
     }
 
     /** A wrapper that provides access to the games table. */
