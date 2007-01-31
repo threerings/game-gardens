@@ -23,7 +23,7 @@ package com.threerings.toybox.client;
 
 import java.awt.Rectangle;
 
-import com.samskivert.util.Config;
+import com.samskivert.util.PrefsConfig;
 import com.samskivert.util.StringUtil;
 
 import static com.threerings.toybox.Log.log;
@@ -34,7 +34,7 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxPrefs
 {
     /** Defines the location in the preference system of our prefs. */
-    public static Config config = new Config("com.threerings.toybox");
+    public static PrefsConfig config = new PrefsConfig("com.threerings.toybox");
 
     /**
      * Returns the preferred bounds for the client frame.
