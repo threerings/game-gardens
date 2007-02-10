@@ -46,7 +46,7 @@ public class ToyBoxTableManager extends TableManager
     }
 
     // documentation inherited
-    protected void createGame (Table table)
+    protected int createGame (Table table)
         throws InvocationException
     {
         // fill the players array into the game config
@@ -57,6 +57,8 @@ public class ToyBoxTableManager extends TableManager
 
         // tell the table manager about this game
         gameCreated(table, gobj);
+
+        return gobj.getOid();
     }
 
     /** The toybox manager with whom we operate. */
