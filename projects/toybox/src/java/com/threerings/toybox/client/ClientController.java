@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 import com.samskivert.swing.Controller;
 
 import com.threerings.presents.client.Client;
-import com.threerings.presents.client.SessionObserver;
+import com.threerings.presents.client.ClientAdapter;
 
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -35,7 +35,6 @@ import static com.threerings.toybox.Log.log;
  * Responsible for top-level control of the client user interface.
  */
 public class ClientController extends Controller
-    implements SessionObserver
 {
     /**
      * Creates a new client controller. The controller will set everything
@@ -48,7 +47,11 @@ public class ClientController extends Controller
         _client = client;
 
         // we want to know about logon/logoff
-        _ctx.getClient().addClientObserver(this);
+        _ctx.getClient().addClientObserver(new ClientAdapter() {
+            public void clientDidLogoff (Client client) {
+                _client.setMainPanel(_logonPanel);
+            }
+        });
 
         // create the logon panel and display it
         _logonPanel = new LogonPanel(_ctx, _client);
@@ -76,27 +79,6 @@ public class ClientController extends Controller
 
         log.info("Unhandled action: " + action);
         return false;
-    }
-
-    // documentation inherited
-    public void clientDidLogon (Client client)
-    {
-        log.info("Client did logon [client=" + client + "].");
-    }
-
-    // documentation inherited
-    public void clientObjectDidChange (Client client)
-    {
-        // nada
-    }
-
-    // documentation inherited
-    public void clientDidLogoff (Client client)
-    {
-        log.info("Client did logoff [client=" + client + "].");
-
-        // reinstate the logon panel
-        _client.setMainPanel(_logonPanel);
     }
 
     protected ToyBoxContext _ctx;

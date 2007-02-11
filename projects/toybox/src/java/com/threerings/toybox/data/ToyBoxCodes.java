@@ -31,6 +31,9 @@ import com.threerings.toybox.client.ToyBoxService;
  */
 public class ToyBoxCodes implements InvocationCodes
 {
+    /** Defines our invocation services group. */
+    public static final String TOYBOX_GROUP = "toybox";
+
     /** Defines the general ToyBox translation message bundle.*/
     public static final String TOYBOX_MSGS = "toybox";
 

@@ -171,7 +171,7 @@ public class ToyBoxManager
     protected void finishInit (InvocationManager invmgr)
     {
         // register ourselves as providing the toybox service
-        invmgr.registerDispatcher(new ToyBoxDispatcher(this), true);
+        invmgr.registerDispatcher(new ToyBoxDispatcher(this), TOYBOX_GROUP);
 
         // if we are configured with a path to a file in which to
         // periodically dump the number of players online, start up an

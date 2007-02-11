@@ -74,22 +74,22 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     /**
-     * Our custom location director obtains a special class loader by
-     * calling this method. We use this to run gamecode in a sandbox.
+     * Our custom location director obtains a special class loader by calling this method. We use
+     * this to run gamecode in a sandbox.
      */
     public ClassLoader getClassLoader (PlaceConfig config)
     {
         if (config instanceof ToyBoxGameConfig) {
-            // return our already configured class loader as we're in
-            // development mode and set it up when we entered the lobby
+            // return our already configured class loader as we're in development mode and set it
+            // up when we entered the lobby
             return _gameLoader;
         }
         return null;
     }
 
     /**
-     * Returns the resource manager that is usable by the game to load
-     * custom resources from its jar file.
+     * Returns the resource manager that is usable by the game to load custom resources from its
+     * jar file.
      */
     public ResourceManager getResourceManager ()
     {
@@ -97,31 +97,28 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     /**
-     * This is called by a lobby controller when we have arrived safely
-     * and soundly in our desired lobby.
+     * This is called by a lobby controller when we have arrived safely and soundly in our desired
+     * lobby.
      */
     public void enteredLobby (LobbyConfig config)
     {
-        // configure our custom classloader (TODO: fire up a whole
-        // separate connection to the game server and configure that with
-        // the classloader when we're in "production" mode)
+        // configure our custom classloader (TODO: fire up a whole separate connection to the game
+        // server and configure that with the classloader when we're in "production" mode)
         int gameId = config.getGameId();
         GameDefinition gamedef = config.getGameDefinition();
         String ident = gamedef.ident + "-" + gameId;
         _gameLoader = _cache.get(ident);
         if (_gameLoader == null) {
-            _gameLoader = ToyBoxUtil.createClassLoader(
-                _cacheDir, gameId, gamedef);
+            _gameLoader = ToyBoxUtil.createClassLoader(_cacheDir, gameId, gamedef);
             _cache.put(ident, _gameLoader);
         }
 
-        // configure the resource manager to load files from the game's
-        // class loader
+        // configure the resource manager to load files from the game's class loader
         _gameResource.setClassLoader(_gameLoader);
         _ctx.getClient().setClassLoader(_gameLoader);
 
-        // configure our message manager with this class loader so that we
-        // can obtain translation resources from the game message bundles
+        // configure our message manager with this class loader so that we can obtain translation
+        // resources from the game message bundles
         _ctx.getMessageManager().setClassLoader(_gameLoader);
     }
 
@@ -134,8 +131,7 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     /**
-     * Configures the URL from which we download our game and library
-     * resources.
+     * Configures the URL from which we download our game and library resources.
      */
     public void setResourceURL (URL resourceURL)
     {
@@ -176,32 +172,29 @@ public class ToyBoxDirector extends BasicDirector
     // documentation inherited
     public boolean receivedGameReady (int gameOid)
     {
-        // TODO: fire up a connection to the game server and do all the
-        // custom jockeying to make that work
+        // TODO: fire up a connection to the game server and do all the custom jockeying to make
+        // that work
         _ctx.getLocationDirector().moveTo(gameOid);
         return true;
     }
 
     /**
-     * Ensures that the resources for the specified game definition are
-     * resolved.
+     * Ensures that the resources for the specified game definition are resolved.
      */
-    public void resolveResources (
-        final int gameId, final GameDefinition gamedef,
-        final HTTPDownloader.Observer obs)
+    public void resolveResources (final int gameId, final GameDefinition gamedef,
+                                  final HTTPDownloader.Observer obs)
     {
-        log.info("Resolving resources [game=" + gameId +
-                 ", rurl=" + _resourceURL + "].");
+        log.info("Resolving resources [game=" + gameId + ", rurl=" + _resourceURL + "].");
 
-        // if our resource URL is a file: URL, we can ignore this whole
-        // process as we're running in testing mode and needn't worry
+        // if our resource URL is a file: URL, we can ignore this whole process as we're running in
+        // testing mode and needn't worry
         if (_resourceURL.getProtocol().equals("file")) {
             obs.downloadProgress(100, 0L);
             return;
         }
 
-        // create a thread that will resolve the resources as we at least
-        // have to some MD5 grindy grindy if not some downloading
+        // create a thread that will resolve the resources as we at least have to some MD5 grindy
+        // grindy if not some downloading
         Thread t = new Thread() {
             public void run () {
                 resolveResourcesAsync(gameId, gamedef, obs);
@@ -215,8 +208,7 @@ public class ToyBoxDirector extends BasicDirector
     {
         log.fine("Entering lobby [oid=" + lobbyOid + "].");
 
-        // wire up a location observer that can detect if we fail to make
-        // it into our requested lobby
+        // wire up a location observer that can detect if we fail to make it into our lobby
         LocationAdapter obs = new LocationAdapter() {
             public void locationDidChange (PlaceObject place) {
                 _ctx.getLocationDirector().removeLocationObserver(this);
@@ -231,7 +223,13 @@ public class ToyBoxDirector extends BasicDirector
         _ctx.getLocationDirector().moveTo(lobbyOid);
     }
 
-    // documentation inherited
+    @Override // from BasicDirector
+    protected void registerServices (Client client)
+    {
+        client.addServiceGroup(TOYBOX_GROUP);
+    }
+
+    @Override // from BasicDirector
     protected void fetchServices (Client client)
     {
         super.fetchServices(client);
@@ -239,14 +237,12 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     /**
-     * <em>BEWARE:</em> This method is run in a separate thread. Don't do
-     * anything foolish.
+     * <em>BEWARE:</em> This method is run in a separate thread. Don't do anything foolish.
      */
     protected void resolveResourcesAsync (
         int gameId, GameDefinition gamedef, HTTPDownloader.Observer obs)
     {
-        // determine whether the game's libraries, or its game jar file need to
-        // be downloaded
+        // determine whether the game's libraries, or its game jar file need to be downloaded
         ArrayList<Resource> rsrcs = new ArrayList<Resource>();
         MessageDigest md;
         try {
@@ -259,16 +255,14 @@ public class ToyBoxDirector extends BasicDirector
 
         synchronized (_pending) {
             // check whether the files exist and match their checksums
-            Resource rsrc = checkResource(gamedef.getJarName(gameId),
-                                          gamedef.getJarName(gameId), md,
-                                          gamedef.digest);
+            Resource rsrc = checkResource(gamedef.getJarName(gameId), gamedef.getJarName(gameId),
+                                          md, gamedef.digest);
             if (rsrc != null) {
                 rsrcs.add(rsrc);
             }
             int lcount = (gamedef.libs == null) ? 0 : gamedef.libs.length;
             for (int ii = 0; ii < lcount; ii++) {
-                rsrc = checkResource(gamedef.libs[ii].getFilePath(),
-                                     gamedef.libs[ii].getURLPath(),
+                rsrc = checkResource(gamedef.libs[ii].getFilePath(), gamedef.libs[ii].getURLPath(),
                                      md, gamedef.libs[ii].digest);
                 if (rsrc != null) {
                     rsrcs.add(rsrc);
@@ -276,17 +270,15 @@ public class ToyBoxDirector extends BasicDirector
             }
         }
 
-        // fire up a downloader to do the downloading, if there's nothing
-        // to download it will just immediately call "downloadComplete()"
-        // on the observer
+        // fire up a downloader to do the downloading, if there's nothing to download it will just
+        // immediately call "downloadComplete()" on the observer
         HTTPDownloader dloader = new HTTPDownloader(rsrcs, obs);
         // we're already on our own thread so just run() rather than start()
         dloader.run();
     }
 
     /** Helper function for {@link #resolveResourcesAsync}. */
-    protected Resource checkResource (
-        String lpath, String rpath, MessageDigest md, String rdigest)
+    protected Resource checkResource (String lpath, String rpath, MessageDigest md, String rdigest)
     {
         // if we're already downloading it, skip it
         File local = new File(_cacheDir, lpath);
@@ -299,8 +291,8 @@ public class ToyBoxDirector extends BasicDirector
         try {
             remote = new URL(_resourceURL, rpath);
         } catch (Exception e) {
-            log.log(Level.WARNING, "Unable to construct URL for resource " +
-                    "[local=" + lpath + ", remote=" + rpath + "].", e);
+            log.log(Level.WARNING, "Unable to construct URL for resource [local=" + lpath +
+                    ", remote=" + rpath + "].", e);
             return null;
         }
 
@@ -312,16 +304,14 @@ public class ToyBoxDirector extends BasicDirector
             try {
                 // TODO: display progress!
                 String digest = rsrc.computeDigest(md, null);
-                if (StringUtil.isBlank(rdigest) ||
-                    digest.equals(rdigest)) {
-                    log.info("Resource up to date " + rsrc +
-                             " (digest " + digest + ").");
+                if (StringUtil.isBlank(rdigest) || digest.equals(rdigest)) {
+                    log.info("Resource up to date " + rsrc + " (digest " + digest + ").");
                     return null;
                 }
 
             } catch (Exception e) {
-                log.info("Failed to compute digest, refetching " +
-                         "[rsrc=" + rsrc + ", error=" + e + "].");
+                log.info("Failed to compute digest, refetching [rsrc=" + rsrc +
+                         ", error=" + e + "].");
             }
         }
 
@@ -340,13 +330,10 @@ public class ToyBoxDirector extends BasicDirector
     protected ClassLoader _gameLoader;
     protected ResourceManager _gameResource = new ResourceManager("rsrc");
 
-    /** Contains an entry for all resources in the process of being
-     * downloaded. */
+    /** Contains an entry for all resources in the process of being downloaded. */
     protected HashSet<File> _pending = new HashSet<File>();
 
-    /** We have to cache our classloaders as we must preserve the same
-     * classloader for the lifetime of the session so that the class cache
-     * held by the ObjectInputStream remains valid. */
-    protected HashMap<String,ClassLoader> _cache =
-        new HashMap<String,ClassLoader>();
+    /** We have to cache our classloaders as we must preserve the same classloader for the lifetime
+     * of the session so that the class cache held by the ObjectInputStream remains valid. */
+    protected HashMap<String,ClassLoader> _cache = new HashMap<String,ClassLoader>();
 }

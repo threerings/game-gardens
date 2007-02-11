@@ -178,9 +178,8 @@ public class LogonPanel extends JPanel
     }
 
     /**
-     * Informs the logon panel that we're auto-logging on. This clears out any
-     * authentication info that was slurped in from prefs and disables the
-     * interface.
+     * Informs the logon panel that we're auto-logging on. This clears out any authentication info
+     * that was slurped in from prefs and disables the interface.
      */
     public void setAutoLoggingOn ()
     {
@@ -205,6 +204,12 @@ public class LogonPanel extends JPanel
     }
 
     // documentation inherited from interface
+    public void clientWillLogon (Client client)
+    {
+        // nada
+    }
+
+    // documentation inherited from interface
     public void clientDidLogon (Client client)
     {
         _status.setText(_msgs.get("m.logon_success") + "\n");
@@ -220,6 +225,7 @@ public class LogonPanel extends JPanel
     // documentation inherited from interface
     public void clientDidClear (Client client)
     {
+        // nada
     }
 
     // documentation inherited from interface
@@ -287,8 +293,7 @@ public class LogonPanel extends JPanel
 
         String server = _ctx.getClient().getHostname();
         int port = _ctx.getClient().getPorts()[0];
-        String msg = MessageBundle.tcompose(
-            "m.logging_on", server, String.valueOf(port));
+        String msg = MessageBundle.tcompose("m.logging_on", server, String.valueOf(port));
         _status.setText(_msgs.xlate(msg) + "\n");
 
         // take care of the password stuff
