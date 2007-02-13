@@ -29,7 +29,6 @@ import com.threerings.util.StreamableHashMap;
 
 import com.threerings.parlor.game.client.GameConfigurator;
 import com.threerings.parlor.game.data.GameConfig;
-import com.threerings.parlor.game.data.PartyGameConfig;
 
 import com.threerings.toybox.client.ToyBoxGameConfigurator;
 
@@ -41,7 +40,6 @@ import static com.threerings.toybox.Log.log;
  * during the match making process.
  */
 public class ToyBoxGameConfig extends GameConfig
-    implements PartyGameConfig
 {
     /** Our configuration parameters. These will be seeded with the
      * defaults from the game definition and then configured by the player
@@ -66,6 +64,13 @@ public class ToyBoxGameConfig extends GameConfig
             params.put(gamedef.params[ii].ident,
                        gamedef.params[ii].getDefaultValue());
         }
+    }
+
+    @Override
+    public byte getGameType ()
+    {
+        return ((TableMatchConfig)_gamedef.match).isPartyGame ?
+            PARTY : SEATED_GAME;
     }
 
     // documentation inherited
@@ -142,17 +147,10 @@ public class ToyBoxGameConfig extends GameConfig
         _isPrivate = privateTable;
     }
 
-    // documentation inherited from interface PartyGameConfig
-    public byte getPartyGameType ()
-    {
-        return ((TableMatchConfig)_gamedef.match).isPartyGame ?
-            FREE_FOR_ALL_PARTY_GAME : NOT_PARTY_GAME;
-    }
-
     /** Returns true if this is a party game, false otherwise. */
     public boolean isPartyGame ()
     {
-        return getPartyGameType() != NOT_PARTY_GAME;
+        return getGameType() == PARTY;
     }
 
     /** Returns the id of the game associated with this config instance. */
