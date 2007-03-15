@@ -21,7 +21,7 @@ import com.samskivert.velocity.Logic;
 
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.server.ToyBoxConfig;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord;
 
 import com.threerings.gardens.GardensApp;
 
@@ -54,7 +54,7 @@ public class game_jnlp implements Logic
         }
 
         // load up the game
-        Game game = gtapp.getToyBoxRepository().loadGame(gameId);
+        GameRecord game = gtapp.getToyBoxRepository().loadGame(gameId);
         if (game == null) {
             throw new FriendlyException("error.no_such_game");
         }

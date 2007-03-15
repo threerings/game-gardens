@@ -12,7 +12,7 @@ import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.velocity.InvocationContext;
 
 import com.threerings.presents.server.InvocationException;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -28,7 +28,7 @@ public class view_game extends OptionalUserLogic
     {
         HttpServletRequest req = ctx.getRequest();
         int gameId = ParameterUtil.requireIntParameter(req, "gameid", "error.invalid_gameid");
-        Game game = app.getToyBoxRepository().loadGame(gameId);
+        GameRecord game = app.getToyBoxRepository().loadGame(gameId);
         if (game == null) {
             throw new FriendlyException("error.no_such_game");
         }

@@ -20,8 +20,8 @@ import com.threerings.presents.server.InvocationException;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
-import com.threerings.toybox.server.persist.Game.Status;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord.Status;
+import com.threerings.toybox.server.persist.GameRecord;
 
 import com.threerings.gardens.Log;
 import com.threerings.gardens.GardensApp;
@@ -40,7 +40,7 @@ public class edit_game extends UserLogic
         // load up the game if an id was provided
         int gameId = ParameterUtil.getIntParameter(
             req, "gameid", 0, "error.invalid_gameid");
-        Game game = null;
+        GameRecord game = null;
         if (gameId != 0) {
             game = app.getToyBoxRepository().loadGame(gameId);
             if (game != null) {
@@ -82,7 +82,7 @@ public class edit_game extends UserLogic
             ctx.put("action", "create");
 
             // create a blank game and configure it
-            game = new Game();
+            game = new GameRecord();
             game.setStatus(Status.PENDING);
             game.maintainerId = user.userId;
             game.host = ToyBoxConfig.getServerHost();
@@ -106,13 +106,13 @@ public class edit_game extends UserLogic
 
         } else {
             ctx.put("action", "create");
-            game = new Game();
+            game = new GameRecord();
             game.category = "other";
             ctx.put("game", game);
         }
     }
 
-    protected void populateGame (HttpServletRequest req, Game game)
+    protected void populateGame (HttpServletRequest req, GameRecord game)
         throws Exception
     {
         // read in and validate our various bits

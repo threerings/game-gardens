@@ -18,7 +18,7 @@ import com.samskivert.jdbc.StaticConnectionProvider;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.toybox.server.ToyBoxConfig;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord;
 import com.threerings.toybox.server.persist.ToyBoxRepository;
 
 /**
@@ -57,13 +57,13 @@ public class UpdateSnapshots
         }
     }
 
-    protected static void writeGameList (ArrayList<Game> games, File target)
+    protected static void writeGameList (ArrayList<GameRecord> games, File target)
     {
         try {
             PrintWriter out = new PrintWriter(
                 new BufferedWriter(new FileWriter(target)));
             for (Object obj : games) {
-                Game game = (Game)obj;
+                GameRecord game = (GameRecord)obj;
                 out.println("<li> <a href=\"/gardens/view_game.wm?gameid=" +
                             game.gameId + "\">" + game.name + "</a>");
             }
@@ -75,11 +75,11 @@ public class UpdateSnapshots
         }
     }
 
-    protected static void writeExtGameList (ArrayList<Game> games, File target)
+    protected static void writeExtGameList (ArrayList<GameRecord> games, File target)
     {
         // sort them by name
-        Collections.sort(games, new Comparator<Game>() {
-            public int compare (Game g1, Game g2) {
+        Collections.sort(games, new Comparator<GameRecord>() {
+            public int compare (GameRecord g1, GameRecord g2) {
                 return g1.name.compareTo(g2.name);
             }
         });
@@ -88,7 +88,7 @@ public class UpdateSnapshots
             PrintWriter out = new PrintWriter(
                 new BufferedWriter(new FileWriter(target)));
             for (Object obj : games) {
-                Game game = (Game)obj;
+                GameRecord game = (GameRecord)obj;
                 String desc = StringUtil.truncate(game.description, 80, "...");
                 String iurl = "http://www.gamegardens.com/gardens/" +
                     "view_game.wm?gameid=" + game.gameId;

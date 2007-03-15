@@ -22,7 +22,7 @@ import com.threerings.getdown.data.Resource;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord;
 
 import com.threerings.gardens.GardensApp;
 
@@ -64,7 +64,7 @@ public class upload_jar extends UserLogic
         }
 
         // now load up the associated game record
-        Game game = null;
+        GameRecord game = null;
         if (gameId != 0) {
             game = app.getToyBoxRepository().loadGame(gameId);
         }
@@ -107,8 +107,8 @@ public class upload_jar extends UserLogic
             game.lastUpdated = new Date(System.currentTimeMillis());
             // if the game was pending upgrade it to ready now that it has
             // a jar file
-            if (game.getStatus() == Game.Status.PENDING) {
-                game.setStatus(Game.Status.READY);
+            if (game.getStatus() == GameRecord.Status.PENDING) {
+                game.setStatus(GameRecord.Status.READY);
             }
             // finally update the game record
             app.getToyBoxRepository().updateGame(game);
