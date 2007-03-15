@@ -71,8 +71,8 @@ import com.threerings.toybox.lobby.server.LobbyManager;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
-import com.threerings.toybox.server.persist.Game.Status;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord.Status;
+import com.threerings.toybox.server.persist.GameRecord;
 import com.threerings.toybox.util.ToyBoxClassLoader;
 import com.threerings.toybox.util.ToyBoxUtil;
 
@@ -86,12 +86,12 @@ public class ToyBoxManager
     implements ToyBoxProvider
 {
     /**
-     * Provides access to {@link Game} info for the ToyBox manager.
+     * Provides access to {@link GameRecord} info for the ToyBox manager.
      */
     public interface GameRepository
     {
         /** Loads the persistent data for a game. */
-        public Game loadGame (int gameId)
+        public GameRecord loadGame (int gameId)
             throws PersistenceException;
 
         /** Records playtime to a game's persistent record. */
@@ -134,7 +134,7 @@ public class ToyBoxManager
         throws PersistenceException
     {
         // create a fake game record for this game and resolve its lobby
-        Game game = new Game();
+        GameRecord game = new GameRecord();
         GameDefinition gamedef = null;
         try {
             game.gameId = -1;
@@ -222,7 +222,7 @@ public class ToyBoxManager
      * @param game the game whose time is being reported.
      * @param playtime the total playtime in milliseconds.
      */
-    public void recordPlaytime (final Game game, long playtime)
+    public void recordPlaytime (final GameRecord game, long playtime)
     {
         // we don't record playtime if we're in development mode
         if (_gamerepo == null) {
@@ -306,7 +306,7 @@ public class ToyBoxManager
                 }
             }
 
-            protected Game _game;
+            protected GameRecord _game;
         });
     }
 
@@ -317,7 +317,7 @@ public class ToyBoxManager
      *
      * @param game the metadata for the game whose lobby we will create.
      */
-    public void resolveLobby (final Game game, ResultListener rl)
+    public void resolveLobby (final GameRecord game, ResultListener rl)
         throws InvocationException
     {
         log.info("Resolving " + game.which() + ".");
@@ -355,7 +355,7 @@ public class ToyBoxManager
     /**
      * Called by the {@link LobbyManager} when it shuts down.
      */
-    public void lobbyDidShutdown (final Game game)
+    public void lobbyDidShutdown (final GameRecord game)
     {
         if (_lobbyOids.remove(game.gameId) == null) {
             log.warning("Lobby shut down for which we have no registration " +
@@ -381,7 +381,7 @@ public class ToyBoxManager
     /**
      * Creates a game based on the supplied configuration.
      */
-    public GameObject createGame (final Game game, GameConfig config)
+    public GameObject createGame (final GameRecord game, GameConfig config)
         throws InvocationException
     {
         // TODO: various complicated bits to pass this request off to the
@@ -494,7 +494,7 @@ public class ToyBoxManager
         }
     }
 
-    /** Provides information on {@link Game}s. */
+    /** Provides information on {@link GameRecord}s. */
     protected GameRepository _gamerepo;
 
     /** Handles distributed object business. */

@@ -38,7 +38,7 @@ import static com.threerings.toybox.Log.log;
 /**
  * Contains information about a game registration.
  */
-public class Game
+public class GameRecord
 {
     /** Defines the possible values for {@link #status}. */
     public enum Status { UNKNOWN, PENDING, READY, DISABLED };

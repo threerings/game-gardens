@@ -33,7 +33,7 @@ import com.threerings.parlor.server.TableManagerProvider;
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.server.ToyBoxManager;
-import com.threerings.toybox.server.persist.Game;
+import com.threerings.toybox.server.persist.GameRecord;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
@@ -56,7 +56,7 @@ public class LobbyManager extends PlaceManager
      * Provides this lobby manager with a reference to its game and the ToyBox
      * manager with whom it should work.
      */
-    public void init (ToyBoxManager toymgr, Game game)
+    public void init (ToyBoxManager toymgr, GameRecord game)
     {
         _toymgr = toymgr;
         _game = game;
@@ -83,7 +83,7 @@ public class LobbyManager extends PlaceManager
     /**
      * Returns a reference to the game associated with this lobby.
      */
-    public Game getGame ()
+    public GameRecord getGame ()
     {
         return _game;
     }
@@ -155,7 +155,7 @@ public class LobbyManager extends PlaceManager
     protected ToyBoxManager _toymgr;
 
     /** The game record associated with our game. */
-    protected Game _game;
+    protected GameRecord _game;
 
     /** A casted reference to our lobby config. */
     protected LobbyConfig _lconfig;
