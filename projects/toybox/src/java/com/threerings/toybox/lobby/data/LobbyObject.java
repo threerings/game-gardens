@@ -14,14 +14,14 @@ import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.data.Table;
 import com.threerings.parlor.data.TableLobbyObject;
+import com.threerings.parlor.data.TableMarshaller;
 
 /**
- * Presently the lobby object contains nothing specific, but the class
- * acts as a placeholder in case lobby-wide fields are needed in the
- * future.
+ * Presently the lobby object contains nothing specific, but the class acts as a placeholder in
+ * case lobby-wide fields are needed in the future.
  */
 public class LobbyObject extends PlaceObject
-    implements TableLobbyObject
+     implements TableLobbyObject
 {
     // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>name</code> field. */
@@ -29,42 +29,53 @@ public class LobbyObject extends PlaceObject
 
     /** The field name of the <code>tableSet</code> field. */
     public static final String TABLE_SET = "tableSet";
+
+    /** The field name of the <code>tableService</code> field. */
+    public static final String TABLE_SERVICE = "tableService";
     // AUTO-GENERATED: FIELDS END
 
     /** The name of the game we're match-making in this lobby. */
     public String name;
 
-    /** A set containing all of the tables being managed by this lobby.
-     * This may be empty if we're not using tables to match-make. */
+    /** A set containing all of the tables being managed by this lobby.  This may be empty if we're
+     * not using tables to match-make. */
     public DSet<Table> tableSet = new DSet<Table>();
 
-    // documentation inherited
+    /** Used to communicate to the table manager. */
+    public TableMarshaller tableService;
+
+    // from interface TableLobbyObject
     public DSet<Table> getTables ()
     {
         return tableSet;
     }
 
-    // documentation inherited from interface
+    // from interface TableLobbyObject
+    public TableMarshaller getTableService ()
+    {
+        return tableService;
+    }
+
+    // from interface TableLobbyObject
     public void addToTables (Table table)
     {
         addToTableSet(table);
     }
 
-    // documentation inherited from interface
+    // from interface TableLobbyObject
     public void updateTables (Table table)
     {
         updateTableSet(table);
     }
 
-    // documentation inherited from interface
+    // from interface TableLobbyObject
     public void removeFromTables (Comparable key)
     {
         removeFromTableSet(key);
     }
 
     /**
-     * Counts up the occupants of this lobby and of all games hosted from
-     * this lobby.
+     * Counts up the occupants of this lobby and of all games hosted from this lobby.
      */
     public int countOccupants ()
     {
@@ -151,7 +162,25 @@ public class LobbyObject extends PlaceObject
     public void setTableSet (DSet<com.threerings.parlor.data.Table> value)
     {
         requestAttributeChange(TABLE_SET, value, this.tableSet);
-        this.tableSet = (value == null) ? null : value.typedClone();
+        @SuppressWarnings("unchecked") DSet<com.threerings.parlor.data.Table> clone =
+            (value == null) ? null : value.typedClone();
+        this.tableSet = clone;
+    }
+
+    /**
+     * Requests that the <code>tableService</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
+     * clients) will apply the value change when they received the
+     * attribute changed notification.
+     */
+    public void setTableService (TableMarshaller value)
+    {
+        TableMarshaller ovalue = this.tableService;
+        requestAttributeChange(
+            TABLE_SERVICE, value, ovalue);
+        this.tableService = value;
     }
     // AUTO-GENERATED: METHODS END
 }

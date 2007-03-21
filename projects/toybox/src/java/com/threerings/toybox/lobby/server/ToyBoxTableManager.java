@@ -40,7 +40,7 @@ public class ToyBoxTableManager extends TableManager
 {
     public ToyBoxTableManager (ToyBoxManager toymgr, LobbyManager lmgr)
     {
-        super(lmgr);
+        super(lmgr.getPlaceObject());
         _toymgr = toymgr;
         _lmgr = lmgr;
     }
