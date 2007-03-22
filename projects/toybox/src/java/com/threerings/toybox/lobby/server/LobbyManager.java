@@ -28,7 +28,6 @@ import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
 
 import com.threerings.parlor.server.TableManager;
-import com.threerings.parlor.server.TableManagerProvider;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.TableMatchConfig;
@@ -44,14 +43,7 @@ import static com.threerings.toybox.lobby.Log.log;
  * Takes care of the server side of a particular lobby.
  */
 public class LobbyManager extends PlaceManager
-    implements TableManagerProvider
 {
-    // documentation inherited from interface
-    public TableManager getTableManager ()
-    {
-        return _tablemgr;
-    }
-
     /**
      * Provides this lobby manager with a reference to its game and the ToyBox
      * manager with whom it should work.
