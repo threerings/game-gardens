@@ -122,6 +122,11 @@ public class LobbyManager extends PlaceManager
 
         // unregister with our toybox manager
         _toymgr.lobbyDidShutdown(_game);
+
+        // shutdown our table manager
+        if (_tablemgr != null) {
+            _tablemgr.shutdown();
+        }
     }
 
     // documentation inherited
