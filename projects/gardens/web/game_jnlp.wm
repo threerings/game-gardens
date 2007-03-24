@@ -17,8 +17,12 @@
     <title>$game.name</title>
     <vendor>Three Rings Design, Inc.</vendor>
     <homepage href="$base_path/view_game.wm?gameid=$game.gameId"/>
-    <description kind="short">$string.truncate($game.description, 120, "...")</description>
-    <description>$game.description</description>
+    <description kind="short">
+        $string.restrictHTML($string.truncate($game.description, 120, "..."))
+    </description>
+    <description>
+        $string.restrictHTML($game.description)
+    </description>
     <icon kind="splash" href="splash.png"/>
     <icon href="icon.gif"/>
   </information>
