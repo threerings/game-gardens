@@ -237,25 +237,7 @@ public class ToyBoxClient
         _msgmgr = new MessageManager(MESSAGE_MANAGER_PREFIX);
 
         // create our managers and directors
-        _locdir = new LocationDirector(_ctx) {
-            protected PlaceController createController (PlaceConfig config) {
-                if (config instanceof ToyBoxGameConfig) {
-                    ToyBoxGameConfig toycfg = (ToyBoxGameConfig)config;
-                    String ccls = toycfg.getGameDefinition().controller;
-                    try {
-                        ClassLoader loader = _toydtr.getClassLoader(config);
-                        return (PlaceController)Class.forName(
-                            ccls, true, loader).newInstance();
-                    } catch (Exception e) {
-                        log.log(Level.WARNING, "Failed to instantiate game " +
-                                "controller [class=" + ccls + "]", e);
-                        return null;
-                    }
-                } else {
-                    return super.createController(config);
-                }
-            }
-        };
+        _locdir = createLocationDirector();
         _occdir = new OccupantDirector(_ctx);
         _chatdir = new ChatDirector(_ctx, _msgmgr, ChatPanel.CHAT_MSGS);
         _pardtr = new ParlorDirector(_ctx);
@@ -292,6 +274,14 @@ public class ToyBoxClient
         return appdir + File.separator + subdir;
     }
 
+    /**
+     * Creates our custom location director.
+     */
+    protected LocationDirector createLocationDirector ()
+    {
+        return new ToyBoxLocationDirector();
+    }
+
     /** Makes our client controller visible to the dispatch system. */
     protected class RootPanel extends JPanel
         implements ControllerProvider
@@ -304,6 +294,31 @@ public class ToyBoxClient
             return _cctrl;
         }
     }
+
+    /** Handles using custom classloaders to load place code. */
+    protected class ToyBoxLocationDirector extends LocationDirector
+    {
+        public ToyBoxLocationDirector () {
+            super(ToyBoxClient.this._ctx);
+        }
+
+        protected PlaceController createController (PlaceConfig config) {
+            if (config instanceof ToyBoxGameConfig) {
+                ToyBoxGameConfig toycfg = (ToyBoxGameConfig)config;
+                String ccls = toycfg.getGameDefinition().controller;
+                try {
+                    ClassLoader loader = _toydtr.getClassLoader(config);
+                    return (PlaceController)Class.forName(ccls, true, loader).newInstance();
+                } catch (Exception e) {
+                    log.log(Level.WARNING, "Failed to instantiate game controller " +
+                            "[class=" + ccls + "]", e);
+                    return null;
+                }
+            } else {
+                return super.createController(config);
+            }
+        }
+    };
 
     /**
      * The context implementation. This provides access to all of the
