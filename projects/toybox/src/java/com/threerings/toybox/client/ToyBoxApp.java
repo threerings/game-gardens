@@ -57,13 +57,12 @@ public class ToyBoxApp
         try {
             toydtr.setResourceURL(new URL(resourceURL));
         } catch (Exception e) {
-            log.warning("Invalid resource_url '" +
-                        resourceURL + "': " + e + ".");
+            log.warning("Invalid resource_url '" + resourceURL + "': " + e + ".");
         }
 
         // configure our game id
         try {
-            toydtr.setGameId(Integer.parseInt(gameId));
+            toydtr.setGameId(Integer.parseInt(gameId), -1);
         } catch (Exception e) {
             log.warning("Invalid game_id '" + gameId + "': " + e + ".");
         }
@@ -82,8 +81,7 @@ public class ToyBoxApp
         // configure the client with some credentials and logon
         if (username != null && password != null) {
             // create and set our credentials
-            client.setCredentials(
-                _client.createCredentials(username, password));
+            client.setCredentials(_client.createCredentials(username, password));
             client.logon();
         }
 
@@ -93,8 +91,8 @@ public class ToyBoxApp
     /**
      * Performs the standard setup and starts the ToyBox client application.
      */
-    public static void start (ToyBoxApp app, String server, int port,
-                              String username, String password)
+    public static void start (
+        ToyBoxApp app, String server, int port, String username, String password)
     {
         try {
             // initialize the app (use defaults that work when running in
@@ -112,21 +110,18 @@ public class ToyBoxApp
 
     public static void main (String[] args)
     {
-        // we do this all in a strange order to avoid logging anything
-        // unti we set up our log formatter but we can't do that until
-        // after we've redirected system out and err
+        // we do this all in a strange order to avoid logging anything unti we set up our log
+        // formatter but we can't do that until after we've redirected system out and err
         String dlog = null;
         if (System.getProperty("no_log_redir") == null) {
             dlog = ToyBoxClient.localDataDir("toybox.log");
             try {
-                PrintStream logOut = new PrintStream(
-                    new FileOutputStream(dlog), true);
+                PrintStream logOut = new PrintStream(new FileOutputStream(dlog), true);
                 System.setOut(logOut);
                 System.setErr(logOut);
 
             } catch (IOException ioe) {
-                log.warning("Failed to open debug log [path=" + dlog +
-                            ", error=" + ioe + "].");
+                log.warning("Failed to open debug log [path=" + dlog + ", error=" + ioe + "].");
                 dlog = null;
             }
         }
@@ -162,7 +157,6 @@ public class ToyBoxApp
 
         String username = (args.length > 2) ? args[2] : null;
         String password = (args.length > 3) ? args[3] : null;
-
         start(new ToyBoxApp(), server, port, username, password);
     }
 

@@ -24,7 +24,8 @@ package com.threerings.toybox.lobby.data;
 import com.threerings.crowd.client.PlaceController;
 import com.threerings.crowd.data.PlaceConfig;
 
-import com.threerings.toybox.data.GameDefinition;
+import com.threerings.ezgame.data.GameDefinition;
+
 import com.threerings.toybox.lobby.client.LobbyController;
 
 /**

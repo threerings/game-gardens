@@ -29,8 +29,9 @@ import com.threerings.crowd.server.PlaceManager;
 
 import com.threerings.parlor.server.TableManager;
 
-import com.threerings.toybox.data.GameDefinition;
-import com.threerings.toybox.data.TableMatchConfig;
+import com.threerings.ezgame.data.GameDefinition;
+import com.threerings.ezgame.data.TableMatchConfig;
+
 import com.threerings.toybox.server.ToyBoxManager;
 import com.threerings.toybox.server.persist.GameRecord;
 

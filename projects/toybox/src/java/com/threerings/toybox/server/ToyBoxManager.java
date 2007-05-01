@@ -65,11 +65,12 @@ import com.threerings.parlor.game.data.GameObject;
 import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.game.server.GameManagerDelegate;
 
+import com.threerings.ezgame.data.GameDefinition;
+
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.lobby.server.LobbyManager;
 
-import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.server.persist.GameRecord.Status;
 import com.threerings.toybox.server.persist.GameRecord;
@@ -110,9 +111,8 @@ public class ToyBoxManager
     /**
      * Prepares the toybox manager for operation.
      */
-    public void init (PresentsDObjectMgr omgr, Invoker invoker,
-                      InvocationManager invmgr, PlaceRegistry plreg,
-                      GameRepository gamerepo)
+    public void init (PresentsDObjectMgr omgr, Invoker invoker, InvocationManager invmgr,
+                      PlaceRegistry plreg, GameRepository gamerepo)
         throws PersistenceException
     {
         // make a note of our server services
@@ -126,9 +126,8 @@ public class ToyBoxManager
     }
 
     /**
-     * Prepares the toybox manager for operation in development mode where it
-     * only hosts the lobby for a single game, which we will create immediately
-     * rather than on-demand.
+     * Prepares the toybox manager for operation in development mode where it only hosts the lobby
+     * for a single game, which we will create immediately rather than on-demand.
      */
     public void setDevelopmentMode (File gameConfig)
         throws PersistenceException
@@ -145,23 +144,20 @@ public class ToyBoxManager
 
             // compute the digests of all the files
             gamedef = game.parseGameDefinition();
-            File jar = new File(ToyBoxConfig.getResourceDir(),
-                                gamedef.getJarName(game.gameId));
+            File jar = new File(ToyBoxConfig.getResourceDir(), gamedef.getMediaPath(game.gameId));
             log.info("Reading " + jar + "...");
             MessageDigest md = MessageDigest.getInstance("MD5");
             game.digest = Resource.computeDigest(jar, md, null);
 
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load game config " +
-                    "[path=" + gameConfig + "].", e);
+            log.log(Level.WARNING, "Failed to load game config [path=" + gameConfig + "].", e);
             return;
         }
 
         try {
             resolveLobby(game, null);
         } catch (InvocationException ie) {
-            log.log(Level.WARNING, "Failed to resolve lobby " +
-                    "[game=" + game + "].", ie);
+            log.log(Level.WARNING, "Failed to resolve lobby [game=" + game + "].", ie);
         }
     }
 

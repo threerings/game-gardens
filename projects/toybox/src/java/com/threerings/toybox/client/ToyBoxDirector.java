@@ -45,12 +45,11 @@ import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.client.GameReadyObserver;
+import com.threerings.ezgame.data.GameDefinition;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 
-import com.threerings.toybox.data.GameDefinition;
-import com.threerings.toybox.data.Library;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 import com.threerings.toybox.util.ToyBoxUtil;
@@ -125,9 +124,10 @@ public class ToyBoxDirector extends BasicDirector
     /**
      * Configures the id of the game we're playing.
      */
-    public void setGameId (int gameId)
+    public void setGameId (int gameId, int gameOid)
     {
         _gameId = gameId;
+        _gameOid = gameOid;
     }
 
     /**
@@ -146,12 +146,16 @@ public class ToyBoxDirector extends BasicDirector
         // determine our local cache directory and make sure it exists
         _cacheDir = new File(ToyBoxClient.localDataDir("cache"));
         if (!_cacheDir.exists()) {
-            File libdir = new File(_cacheDir, LIBRARY_DIR);
             if (!_cacheDir.mkdirs()) {
                 log.warning("Unable to create game cache '" + _cacheDir + "'.");
-            } else if (!libdir.mkdirs()) {
-                log.warning("Unable to create library cache '" + libdir + "'.");
             }
+        }
+
+        // if we already have a game oid, then go directly there, otherwise first enter the lobby
+        if (_gameOid > 0) {
+            // TODO: we need to download the game code etc.
+            _ctx.getLocationDirector().moveTo(_gameOid);
+            return;
         }
 
         // issue a request to enter our game lobby
@@ -255,18 +259,10 @@ public class ToyBoxDirector extends BasicDirector
 
         synchronized (_pending) {
             // check whether the files exist and match their checksums
-            Resource rsrc = checkResource(gamedef.getJarName(gameId), gamedef.getJarName(gameId),
-                                          md, gamedef.digest);
+            Resource rsrc = checkResource(
+                gamedef.getMediaPath(gameId), gamedef.getMediaPath(gameId), md, gamedef.digest);
             if (rsrc != null) {
                 rsrcs.add(rsrc);
-            }
-            int lcount = (gamedef.libs == null) ? 0 : gamedef.libs.length;
-            for (int ii = 0; ii < lcount; ii++) {
-                rsrc = checkResource(gamedef.libs[ii].getFilePath(), gamedef.libs[ii].getURLPath(),
-                                     md, gamedef.libs[ii].digest);
-                if (rsrc != null) {
-                    rsrcs.add(rsrc);
-                }
             }
         }
 
@@ -323,7 +319,7 @@ public class ToyBoxDirector extends BasicDirector
     protected ToyBoxContext _ctx;
     protected ToyBoxService _toysvc;
 
-    protected int _gameId = -1;
+    protected int _gameId = -1, _gameOid = -1;
     protected URL _resourceURL;
     protected File _cacheDir;
 

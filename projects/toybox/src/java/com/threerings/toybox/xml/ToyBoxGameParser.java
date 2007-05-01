@@ -2,7 +2,7 @@
 // $Id$
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005-2006 Three Rings Design, Inc., All Rights Reserved
 // http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -19,37 +19,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.data;
+package com.threerings.toybox.xml;
+
+import com.threerings.ezgame.xml.GameParser;
+
+import com.threerings.toybox.data.ToyBoxGameDefinition;
 
 /**
- * Models a parameter that allows the selection of one of a list of
- * choices (specified as strings).
+ * Handles parsing {@link ToyBoxGameDefinition} instances.
  */
-public class ChoiceParameter extends Parameter
+public class ToyBoxGameParser extends GameParser
 {
-    /** The set of choices available for this parameter. */
-    public String[] choices;
-
-    /** The starting selection. */
-    public String start;
-
-    /**
-     * Returns the translation key for the specified choice.
-     */
-    public String getChoiceLabel (int index)
+    @Override // from GameParser
+    protected String getGameDefinitionClass ()
     {
-        return "m.choice_" + choices[index];
-    }
-
-    @Override // documentation inherited
-    public String getLabel ()
-    {
-        return "m.choice_" + ident;
-    }
-
-    @Override // documentation inherited
-    public Object getDefaultValue ()
-    {
-        return start;
+        return ToyBoxGameDefinition.class.getName();
     }
 }

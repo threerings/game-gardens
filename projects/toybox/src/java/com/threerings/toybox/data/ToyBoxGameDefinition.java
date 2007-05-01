@@ -2,7 +2,7 @@
 // $Id$
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005-2006 Three Rings Design, Inc., All Rights Reserved
 // http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -21,22 +21,16 @@
 
 package com.threerings.toybox.data;
 
-import com.samskivert.util.StringUtil;
-import com.threerings.io.Streamable;
+import com.threerings.ezgame.data.GameDefinition;
 
 /**
- * Used to configure the match-making interface for a game. Particular
- * match-making mechanisms extend this class and specify their own special
- * configuration parameters.
+ * Defines some bits for ToyBox games.
  */
-public abstract class MatchConfig implements Streamable
+public class ToyBoxGameDefinition extends GameDefinition
 {
-    /** Returns the minimum number of players needed to play this game. */
-    public abstract int getMinimumPlayers ();
-
-    /** Generates a string representation of this instance. */
-    public String toString ()
+    @Override // from GameDefinition
+    public String getMediaPath (int gameId)
     {
-        return StringUtil.fieldsToString(this);
+        return (gameId == -1) ? ident + ".jar" : ident + "-" + gameId + ".jar";
     }
 }

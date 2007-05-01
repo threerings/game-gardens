@@ -37,10 +37,6 @@ public class ToyBoxCodes implements InvocationCodes
     /** Defines the general ToyBox translation message bundle.*/
     public static final String TOYBOX_MSGS = "toybox";
 
-    /** The subdirectory of the game data directory in which our standard
-     * libraries are stored. */
-    public static final String LIBRARY_DIR = "libs";
-
     /** An error constant returned by the {@link ToyBoxService}. */
     public static final String ERR_NO_SUCH_GAME =
         MessageUtil.qualify(TOYBOX_MSGS, "e.no_such_game");

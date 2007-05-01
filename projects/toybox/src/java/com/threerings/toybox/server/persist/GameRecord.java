@@ -29,9 +29,11 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.threerings.toybox.data.GameDefinition;
+import com.threerings.ezgame.data.GameDefinition;
+import com.threerings.ezgame.xml.GameParser;
+
 import com.threerings.toybox.data.ToyBoxCodes;
-import com.threerings.toybox.xml.GameParser;
+import com.threerings.toybox.xml.ToyBoxGameParser;
 
 import static com.threerings.toybox.Log.log;
 
@@ -55,9 +57,8 @@ public class GameRecord
     /** The user id of the maintainer of this game. */
     public int maintainerId;
 
-    /** The status of the game. We can't use the enumeration directly here
-     * as this class is persisted and JORA doesn't (and can't be made to)
-     * automagically handle enums. */
+    /** The status of the game. We can't use the enumeration directly here as this class is
+     * persisted and JORA doesn't (and can't be made to) automagically handle enums. */
     public String status;
 
     /** The server on which this game is hosted. */
@@ -118,8 +119,7 @@ public class GameRecord
             return gamedef;
 
         } catch (Exception e) {
-//             log.log(Level.WARNING, "Failed to parse game definition " +
-//                     "[game=" + gameId + "]", e);
+//             log.log(Level.WARNING, "Failed to parse game definition [game=" + gameId + "]", e);
             throw (InvocationException)new InvocationException(
                 ToyBoxCodes.ERR_MALFORMED_GAMEDEF).initCause(e);
         }
@@ -142,12 +142,12 @@ public class GameRecord
     }
 
     /**
-     * Creates the parser we'll use to turn our text configuration (probably
-     * XML) into a game definition.
+     * Creates the parser we'll use to turn our text configuration (probably XML) into a game
+     * definition.
      */
     protected GameParser createParser ()
     {
-        return new GameParser();
+        return new ToyBoxGameParser();
     }
 
     /** Used to parse our game definitions. */

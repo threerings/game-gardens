@@ -2,7 +2,7 @@
 // $Id$
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2005 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005-2006 Three Rings Design, Inc., All Rights Reserved
 // http://www.gamegardens.com/code/
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -19,28 +19,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.toybox.data;
+package com.threerings.toybox.data {
+
+import com.threerings.ezgame.data.EZGameConfig;
 
 /**
- * Models a parameter that is used to configure AIs.
+ * Provides configuration to ToyBox games. Everything is now handled by the EZ game framework.
  */
-public class AIParameter extends Parameter
+public class ToyBoxGameConfig extends EZGameConfig
 {
-    /** Indicates the maximum number of AIs in the game. */
-    public int maximum;
-
-    // TODO: allow specification of difficulty range
-    // TODO: allow specification of personality types
-
-    @Override // documentation inherited
-    public String getLabel ()
+    /** A zero argument constructor used when unserializing. */
+    public function ToyBoxGameConfig ()
     {
-        return "m.ai_" + ident;
     }
-
-    @Override // documentation inherited
-    public Object getDefaultValue ()
-    {
-        return 0;
-    }
+}
 }

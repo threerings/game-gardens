@@ -41,7 +41,8 @@ import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.data.Table;
 
-import com.threerings.toybox.data.GameDefinition;
+import com.threerings.ezgame.data.GameDefinition;
+
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.lobby.data.LobbyCodes;
 import com.threerings.toybox.util.ToyBoxContext;
@@ -49,19 +50,17 @@ import com.threerings.toybox.util.ToyBoxContext;
 import static com.threerings.toybox.lobby.Log.log;
 
 /**
- * A table item displays the user interface for a single table (whether it
- * be in-play or still being matchmade).
+ * A table item displays the user interface for a single table (whether it be in-play or still
+ * being matchmade).
  */
-public class TableItem
-    extends JPanel
+public class TableItem extends JPanel
     implements ActionListener, SeatednessObserver
 {
     /** A reference to the table we are displaying. */
     public Table table;
 
     /**
-     * Creates a new table item to display and interact with the supplied
-     * table.
+     * Creates a new table item to display and interact with the supplied table.
      */
     public TableItem (ToyBoxContext ctx, TableDirector tdtr, Table table)
     {
@@ -90,16 +89,12 @@ public class TableItem
         add(tlabel, gbc);
 
         // we have one button for every "seat" at the table
-        int bcount = _tconfig.getDesiredPlayers();
-        if (bcount == -1) {
-            bcount = _tconfig.getMaximumPlayers();
-        }
+        int bcount = table.tconfig.desiredPlayerCount;
 
         // show the game configuration if this is a party game
         StringBuffer confdesc = new StringBuffer("<html>");
         if (_tconfig.isPartyGame()) {
-            MessageBundle msgs = ctx.getMessageManager().getBundle(
-                _tconfig.getBundleName());
+            MessageBundle msgs = ctx.getMessageManager().getBundle(_tconfig.getGameIdent());
             GameDefinition gdef = _tconfig.getGameDefinition();
             for (int ii = 0; ii < gdef.params.length; ii++) {
                 confdesc.append(msgs.xlate(gdef.params[ii].getLabel()));
@@ -109,8 +104,8 @@ public class TableItem
             }
         }
 
-        // create blank buttons for now and then we'll update everything
-        // with the current state when we're done
+        // create blank buttons for now and then we'll update everything with the current state
+        // when we're done
         gbc.weightx = 1.0;
         gbc.insets = new Insets(2, 0, 2, 0);
         _seats = new JButton[bcount];
@@ -121,8 +116,8 @@ public class TableItem
 
             // if we're on the left
             if (i % 2 == 0) {
-                // if we're the last seat, then we've got an odd number
-                // and need to center this final seat
+                // if we're the last seat, then we've got an odd number and need to center this
+                // final seat
                 if (i == bcount-1) {
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
                 } else {
@@ -145,8 +140,7 @@ public class TableItem
                 add(_seats[i], gbc);
             }
 
-            // if we just added the first button, add the "go" button
-            // right after it
+            // if we just added the first button, add the "go" button right after it
             if (i == 0) {
                 String msg = _tconfig.isPartyGame() ? "m.join" : "m.watch";
                 _goButton = new JButton(_ctx.xlate(LobbyCodes.LOBBY_MSGS, msg));
@@ -156,14 +150,13 @@ public class TableItem
             }
         }
 
-        // and update ourselves based on the contents of the occupants
-        // list
+        // and update ourselves based on the contents of the occupants list
         tableUpdated(table);
     }
 
     /**
-     * Called when our table has been updated and we need to update the UI
-     * to reflect the new information.
+     * Called when our table has been updated and we need to update the UI to reflect the new
+     * information.
      */
     public void tableUpdated (Table table)
     {
@@ -181,8 +174,7 @@ public class TableItem
                 _seats[i].setEnabled(!isSeated);
                 _seats[i].setActionCommand("join");
 
-            } else if (table.occupants[i].equals(_self) &&
-                       !table.inPlay()) {
+            } else if (table.occupants[i].equals(_self) && !table.inPlay()) {
                 _seats[i].setText(LEAVE_LABEL);
                 _seats[i].setEnabled(true);
                 _seats[i].setActionCommand("leave");
@@ -198,8 +190,7 @@ public class TableItem
     }
 
     /**
-     * Called by the table list view prior to removing us. Here we clean
-     * up.
+     * Called by the table list view prior to removing us. Here we clean up.
      */
     public void tableRemoved ()
     {
@@ -223,8 +214,8 @@ public class TableItem
 
             // sanity check
             if (position == -1) {
-                log.warning("Unable to figure out what position a <join> " +
-                            "click came from [event=" + event + "].");
+                log.warning("Unable to figure out what position a <join> click came from " +
+                            "[event=" + event + "].");
             } else {
                 // otherwise, request to join the table at this position
                 _tdtr.joinTable(table.tableId, position);
@@ -270,14 +261,13 @@ public class TableItem
     /** We have a button for each "seat" at the table. */
     protected JButton[] _seats;
 
-    /** We have a button for going to games that are already in
-     * progress. */
+    /** We have a button for going to games that are already in progress. */
     protected JButton _goButton;
 
     /** The text shown for seats at which the user can join. */
     protected static final String JOIN_LABEL = "<join>";
 
-    /** The text shown for the seat in which this user occupies and which
-     * lets her/him know that they can leave that seat by clicking. */
+    /** The text shown for the seat in which this user occupies and which lets her/him know that
+     * they can leave that seat by clicking. */
     protected static final String LEAVE_LABEL = "<leave>";
 }

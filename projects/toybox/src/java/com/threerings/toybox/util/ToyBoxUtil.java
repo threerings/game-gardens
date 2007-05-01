@@ -27,8 +27,7 @@ import java.util.logging.Level;
 
 import java.net.URL;
 
-import com.threerings.toybox.data.GameDefinition;
-import com.threerings.toybox.data.Library;
+import com.threerings.ezgame.data.GameDefinition;
 
 import static com.threerings.toybox.Log.log;
 
@@ -38,10 +37,9 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxUtil
 {
     /**
-     * Creates a class loader with restricted permissions that loads
-     * classes from the game jar and libraries specified by the supplied
-     * game definition. Those jar files will be assumed to live relative
-     * to the specified root directory.
+     * Creates a class loader with restricted permissions that loads classes from the game jar and
+     * libraries specified by the supplied game definition. Those jar files will be assumed to live
+     * relative to the specified root directory.
      */
     public static ToyBoxClassLoader createClassLoader (
         File root, int gameId, GameDefinition gamedef)
@@ -50,21 +48,12 @@ public class ToyBoxUtil
         String path = "";
         try {
             // add the game jar file
-            path = "file:" + root + "/" + gamedef.getJarName(gameId);
+            path = "file:" + root + "/" + gamedef.getMediaPath(gameId);
             ulist.add(new URL(path));
 
-            // enumerate the paths to the game's jar files
-            if (gamedef.libs != null) {
-                for (int ii = 0; ii < gamedef.libs.length; ii++) {
-                    Library lib = gamedef.libs[ii];
-                    path = "file:" + root + "/" + lib.getURLPath();
-                    ulist.add(new URL(path));
-                }
-            }
-
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to create URL for class loader " +
-                    "[root=" + root + ", path=" + path + "].", e);
+            log.log(Level.WARNING, "Failed to create URL for class loader [root=" + root +
+                    ", path=" + path + "].", e);
         }
 
         return new ToyBoxClassLoader(ulist.toArray(new URL[ulist.size()]));

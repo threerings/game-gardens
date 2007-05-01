@@ -69,15 +69,14 @@ import com.threerings.toybox.util.ToyBoxContext;
 import static com.threerings.toybox.lobby.Log.log;
 
 /**
- * The ToyBox client takes care of instantiating all of the proper
- * managers and loading up all of the necessary configuration and getting
- * the client bootstrapped.
+ * The ToyBox client takes care of instantiating all of the proper managers and loading up all of
+ * the necessary configuration and getting the client bootstrapped.
  */
 public class ToyBoxClient
     implements RunQueue
 {
-    /** Provides acccess to the context in which we're running, either an
-     * application or an applet. */
+    /** Provides acccess to the context in which we're running, either an application or an
+     * applet. */
     public interface Shell
     {
         /** Sets the window title, if possible. */
@@ -97,8 +96,7 @@ public class ToyBoxClient
     }
 
     /**
-     * Initializes a new client and provides it with a frame in which to
-     * display everything.
+     * Initializes a new client and provides it with a frame in which to display everything.
      */
     public void init (Shell shell)
         throws IOException
@@ -133,8 +131,7 @@ public class ToyBoxClient
         _shell.setContentPane(_root);
 
         // start our idle tracker
-        IdleTracker idler =
-            new IdleTracker(ChatCodes.DEFAULT_IDLE_TIME, LOGOFF_DELAY) {
+        IdleTracker idler = new IdleTracker(ChatCodes.DEFAULT_IDLE_TIME, LOGOFF_DELAY) {
             protected long getTimeStamp () {
                 return _shell.getFrameManager().getTimeStamp();
             }
@@ -162,8 +159,8 @@ public class ToyBoxClient
     }
 
     /**
-     * Returns a reference to the context in effect for this client. This
-     * reference is valid for the lifetime of the application.
+     * Returns a reference to the context in effect for this client. This reference is valid for
+     * the lifetime of the application.
      */
     public ToyBoxContext getContext ()
     {
@@ -179,8 +176,8 @@ public class ToyBoxClient
     }
 
     /**
-     * Creates the appropriate type of credentials from the supplied username
-     * and plaintext password.
+     * Creates the appropriate type of credentials from the supplied username and plaintext
+     * password.
      */
     public Credentials createCredentials (String username, String pw)
     {
@@ -188,8 +185,8 @@ public class ToyBoxClient
     }
 
     /**
-     * Creates the appropriate type of credentials from the supplied username
-     * and encrypted password.
+     * Creates the appropriate type of credentials from the supplied username and encrypted
+     * password.
      */
     public Credentials createCredentials (String username, Password pw)
     {
@@ -211,9 +208,9 @@ public class ToyBoxClient
     }
 
     /**
-     * Creates the {@link ToyBoxContext} implementation that will be
-     * passed around to all of the client code. Derived classes may wish
-     * to override this and create some extended context implementation.
+     * Creates the {@link ToyBoxContext} implementation that will be passed around to all of the
+     * client code. Derived classes may wish to override this and create some extended context
+     * implementation.
      */
     protected ToyBoxContext createContextImpl ()
     {
@@ -221,11 +218,9 @@ public class ToyBoxClient
     }
 
     /**
-     * Creates and initializes the various services that are provided by
-     * the context. Derived classes that provide an extended context
-     * should override this method and create their own extended
-     * services. They should be sure to call
-     * <code>super.createContextServices</code>.
+     * Creates and initializes the various services that are provided by the context. Derived
+     * classes that provide an extended context should override this method and create their own
+     * extended services. They should be sure to call <code>super.createContextServices</code>.
      */
     protected void createContextServices ()
         throws IOException
@@ -258,8 +253,8 @@ public class ToyBoxClient
     }
 
     /**
-     * Given a subdirectory name (that should correspond to the calling
-     * service), returns a file path that can be used to store local data.
+     * Given a subdirectory name (that should correspond to the calling service), returns a file
+     * path that can be used to store local data.
      */
     public static String localDataDir (String subdir)
     {
@@ -321,16 +316,15 @@ public class ToyBoxClient
     };
 
     /**
-     * The context implementation. This provides access to all of the
-     * objects and services that are needed by the operating client.
+     * The context implementation. This provides access to all of the objects and services that are
+     * needed by the operating client.
      */
     protected class ToyBoxContextImpl extends ToyBoxContext
     {
         /**
-         * Apparently the default constructor has default access, rather
-         * than protected access, even though this class is declared to be
-         * protected. Why, I don't know, but we need to be able to extend
-         * this class elsewhere, so we need this.
+         * Apparently the default constructor has default access, rather than protected access,
+         * even though this class is declared to be protected. Why, I don't know, but we need to be
+         * able to extend this class elsewhere, so we need this.
          */
         protected ToyBoxContextImpl ()
         {
@@ -418,8 +412,8 @@ public class ToyBoxClient
     protected ParlorDirector _pardtr;
     protected ToyBoxDirector _toydtr;
 
-    /** The prefix prepended to localization bundle names before looking
-     * them up in the classpath. */
+    /** The prefix prepended to localization bundle names before looking them up in the
+     * classpath. */
     protected static final String MESSAGE_MANAGER_PREFIX = "rsrc.i18n";
 
     /** The time in milliseconds after which we log off an idle user. */

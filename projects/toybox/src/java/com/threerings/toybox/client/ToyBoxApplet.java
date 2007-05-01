@@ -79,17 +79,11 @@ public class ToyBoxApplet extends ManagedJApplet
         }
 
         // configure our server and port
-        String server = null;
-        int port = 0;
-        try {
-            server = getParameter("server");
-            port = Integer.parseInt(getParameter("port"));
-        } catch (Exception e) {
-            // fall through and complain
-        }
+        String server = getParameter("server");
+        int port = getIntParameter("port", -1);
         if (server == null || port <= 0) {
-            log.warning("Failed to obtain server and port parameters " +
-                "[server=" + server + ", port=" + port + "].");
+            log.warning("Failed to obtain server and port parameters [server=" + server +
+                        ", port=" + port + "].");
             return;
         }
         Client client = _client.getContext().getClient();
@@ -106,13 +100,8 @@ public class ToyBoxApplet extends ManagedJApplet
                         resourceURL + "': " + e + ".");
         }
 
-        // and our game id
-        String idstr = getParameter("game_id");
-        try {
-            toydtr.setGameId(Integer.parseInt(idstr));
-        } catch (Exception e) {
-            log.warning("Invalid game_id supplied '" + idstr + "': " + e + ".");
-        }
+        // and our game id and game oid
+        toydtr.setGameId(getIntParameter("game_id", -1), getIntParameter("game_oid", -1));
     }
 
     @Override // from Applet
@@ -146,6 +135,16 @@ public class ToyBoxApplet extends ManagedJApplet
         // we need to cope with our threads being destroyed but our classes not
         // being unloaded
         Interval.resetTimer();
+    }
+
+    /** Helpy helper function. */
+    protected int getIntParameter (String name, int defvalue)
+    {
+        try {
+            return Integer.parseInt(getParameter(name));
+        } catch (Exception e) {
+            return defvalue;
+        }
     }
 
     /**

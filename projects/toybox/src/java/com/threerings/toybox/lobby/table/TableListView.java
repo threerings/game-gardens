@@ -51,7 +51,9 @@ import com.threerings.parlor.data.TableLobbyObject;
 import com.threerings.parlor.game.client.GameConfigurator;
 import com.threerings.parlor.game.client.SwingGameConfigurator;
 
-import com.threerings.toybox.data.GameDefinition;
+import com.threerings.ezgame.data.GameDefinition;
+import com.threerings.ezgame.data.TableMatchConfig;
+
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
@@ -61,18 +63,17 @@ import com.threerings.toybox.lobby.data.LobbyObject;
 import static com.threerings.toybox.lobby.Log.log;
 
 /**
- * A view that displays the tables in a table lobby. It displays two
- * separate lists, one of tables being matchmade and another of games in
- * progress. These tables are updated dynamically as they proceed through
- * the matchmaking process. UI mechanisms for creating and joining tables
- * are also provided.
+ * A view that displays the tables in a table lobby. It displays two separate lists, one of tables
+ * being matchmade and another of games in progress. These tables are updated dynamically as they
+ * proceed through the matchmaking process. UI mechanisms for creating and joining tables are also
+ * provided.
  */
 public class TableListView extends JPanel
     implements PlaceView, TableObserver, ActionListener, SeatednessObserver
 {
     /**
-     * Creates a new table list view, suitable for providing the user
-     * interface for table-style matchmaking in a table lobby.
+     * Creates a new table list view, suitable for providing the user interface for table-style
+     * matchmaking in a table lobby.
      */
     public TableListView (ToyBoxContext ctx, ToyBoxGameConfig config)
     {
@@ -80,8 +81,7 @@ public class TableListView extends JPanel
         _config = config;
         _ctx = ctx;
 
-        MessageBundle msgs =
-            ctx.getMessageManager().getBundle(LobbyCodes.LOBBY_MSGS);
+        MessageBundle msgs = ctx.getMessageManager().getBundle(LobbyCodes.LOBBY_MSGS);
 
         // create our table director
         _tdtr = new TableDirector(ctx, LobbyObject.TABLE_SET, this);
@@ -99,8 +99,7 @@ public class TableListView extends JPanel
         pgl.setOffAxisPolicy(VGroupLayout.STRETCH);
         pgl.setJustification(VGroupLayout.TOP);
         JPanel panel = new JPanel(pgl);
-        String cmsg = config.isPartyGame() ?
-            "m.create_game" : "m.pending_tables";
+        String cmsg = config.isPartyGame() ? "m.create_game" : "m.pending_tables";
         panel.add(new JLabel(msgs.get(cmsg)), VGroupLayout.FIXED);
 
         VGroupLayout mgl = new VGroupLayout(VGroupLayout.NONE);
@@ -117,28 +116,26 @@ public class TableListView extends JPanel
         if (_figger != null) {
             _figger.init(_ctx);
             _figger.setGameConfig(config);
-            panel.add(((SwingGameConfigurator) _figger).getPanel(),
-                VGroupLayout.FIXED);
+            panel.add(((SwingGameConfigurator) _figger).getPanel(), VGroupLayout.FIXED);
         }
 
         // add the interface for selecting the number of seats at the table
-        panel.add(_pslide = new SimpleSlider(msgs.get("m.seats"), 0, 10, 0),
-                  VGroupLayout.FIXED);
+        panel.add(_pslide = new SimpleSlider(msgs.get("m.seats"), 0, 10, 0), VGroupLayout.FIXED);
 
         // configure our slider
-        _pslide.setMinimum(config.getMinimumPlayers());
-        _pslide.setMaximum(config.getMaximumPlayers());
-        _pslide.setValue(config.getDesiredPlayers());
+        TableMatchConfig match = (TableMatchConfig)config.getGameDefinition().match;
+        _pslide.setMinimum(match.minSeats);
+        _pslide.setMaximum(match.maxSeats);
+        _pslide.setValue(match.startSeats);
 
-        int range = config.getMaximumPlayers() - config.getMinimumPlayers();
+        int range = match.maxSeats - match.minSeats;
         _pslide.getSlider().setPaintTicks(true);
         _pslide.getSlider().setMinorTickSpacing(1);
         _pslide.getSlider().setMajorTickSpacing(range / 2);
         _pslide.getSlider().setSnapToTicks(true);
 
         // if the min == the max, hide the slider because it's pointless
-        _pslide.setVisible(config.getMinimumPlayers() !=
-                           config.getMaximumPlayers());
+        _pslide.setVisible(match.minSeats != match.maxSeats);
 
         cmsg = config.isPartyGame() ? "m.create_game" : "m.create_table";
         _create = new JButton(msgs.get(cmsg));
@@ -170,8 +167,8 @@ public class TableListView extends JPanel
         // pass the good word on to our table director
         _tdtr.setTableObject(place);
 
-        // iterate over the tables already active in this lobby and put
-        // them in their respective lists
+        // iterate over the tables already active in this lobby and put them in their respective
+        // lists
         TableLobbyObject tlobj = (TableLobbyObject)place;
         Iterator iter = tlobj.getTables().iterator();
         while (iter.hasNext()) {
@@ -195,8 +192,7 @@ public class TableListView extends JPanel
     {
         log.info("Table added [table=" + table + "].");
 
-        // create a table item for this table and insert it into the
-        // appropriate list
+        // create a table item for this table and insert it into the appropriate list
         JPanel panel = table.inPlay() ? _playList : _matchList;
         panel.add(new TableItem(_ctx, _tdtr, table));
         SwingUtil.refresh(panel);
@@ -205,15 +201,13 @@ public class TableListView extends JPanel
     // documentation inherited
     public void tableUpdated (Table table)
     {
-        log.info("Table updated [table=" + table + "].");
-
         // locate the table item associated with this table
         TableItem item = getTableItem(table.tableId);
         if (item == null) {
-            log.warning("Received table updated notification for " +
-                        "unknown table [table=" + table + "].");
+            log.warning("Received table updated notification for unknown table " + table + ".");
             return;
         }
+        log.info("Table updated [table=" + table + "].");
 
         // let the item perform any updates it finds necessary
         item.tableUpdated(table);
@@ -231,15 +225,13 @@ public class TableListView extends JPanel
     // documentation inherited
     public void tableRemoved (int tableId)
     {
-        log.info("Table removed [tableId=" + tableId + "].");
-
         // locate the table item associated with this table
         TableItem item = getTableItem(tableId);
         if (item == null) {
-            log.warning("Received table removed notification for " +
-                        "unknown table [tableId=" + tableId + "].");
+            log.warning("Received table removed for unknown table [tableId=" + tableId + "].");
             return;
         }
+        log.info("Table removed [tableId=" + tableId + "].");
 
         // remove this item from the user interface
         JPanel panel = (JPanel)item.getParent();
@@ -253,19 +245,16 @@ public class TableListView extends JPanel
     // documentation inherited
     public void actionPerformed (ActionEvent event)
     {
-        // the create table button was clicked. use the game config as
-        // configured by the configurator to create a table
+        // the create table button was clicked. use the game config as configured by the
+        // configurator to create a table
         ToyBoxGameConfig config = _config;
         if (_figger != null) {
             config = (ToyBoxGameConfig)_figger.getGameConfig();
         }
 
-        // fill in our number of seats configuration
-        config.setDesiredPlayers(_pslide.getValue());
-
         TableConfig tconfig = new TableConfig();
+        tconfig.minimumPlayerCount = ((TableMatchConfig)config.getGameDefinition().match).minSeats;
         tconfig.desiredPlayerCount = _pslide.getValue();
-
         _tdtr.createTable(tconfig, config);
     }
 
@@ -277,8 +266,7 @@ public class TableListView extends JPanel
     }
 
     /**
-     * Fetches the table item component associated with the specified
-     * table id.
+     * Fetches the table item component associated with the specified table id.
      */
     protected TableItem getTableItem (int tableId)
     {
