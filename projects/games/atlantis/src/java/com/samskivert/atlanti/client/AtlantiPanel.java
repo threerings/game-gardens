@@ -149,8 +149,7 @@ public class AtlantiPanel extends JPanel
         // we can't create our image manager until we have access to our
         // containing frame
         JRootPane rpane = getRootPane();
-        ImageManager imgr = new ImageManager(
-            _ctx.getToyBoxDirector().getResourceManager(), rpane);
+        ImageManager imgr = new ImageManager(_ctx.getResourceManager(), rpane);
         TileManager tmgr = new TileManager(imgr);
         AtlantiTile.setManagers(imgr, tmgr);
         PiecenUtil.init(tmgr);
