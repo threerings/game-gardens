@@ -29,10 +29,10 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.threerings.ezgame.data.GameDefinition;
 import com.threerings.ezgame.xml.GameParser;
 
 import com.threerings.toybox.data.ToyBoxCodes;
+import com.threerings.toybox.data.ToyBoxGameDefinition;
 import com.threerings.toybox.xml.ToyBoxGameParser;
 
 import static com.threerings.toybox.Log.log;
@@ -100,7 +100,7 @@ public class GameRecord
     /**
      * Parses this game's definition and returns
      */
-    public GameDefinition parseGameDefinition ()
+    public ToyBoxGameDefinition parseGameDefinition ()
         throws InvocationException
     {
         if (_parser == null) {
@@ -108,9 +108,9 @@ public class GameRecord
         }
 
         try {
-            GameDefinition gamedef;
+            ToyBoxGameDefinition gamedef;
             synchronized (_parser) {
-                gamedef = _parser.parseGame(new StringReader(definition));
+                gamedef = (ToyBoxGameDefinition)_parser.parseGame(new StringReader(definition));
             }
 
             // fill in things that only we know

@@ -18,7 +18,7 @@ import com.samskivert.velocity.InvocationContext;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.ToyBoxGameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.GameRecord.Status;
 import com.threerings.toybox.server.persist.GameRecord;
@@ -125,7 +125,7 @@ public class edit_game extends UserLogic
 
         // TODO: validate definition
         try {
-            GameDefinition gamedef = game.parseGameDefinition();
+            ToyBoxGameDefinition gamedef = (ToyBoxGameDefinition)game.parseGameDefinition();
         } catch (InvocationException ie) {
             String errmsg = "edit_game.error.malformed_definition";
             Throwable cause;

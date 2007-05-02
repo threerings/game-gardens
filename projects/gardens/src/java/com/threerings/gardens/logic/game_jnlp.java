@@ -90,7 +90,6 @@ public class game_jnlp implements Logic
 
         ctx.put("base_path", req.getContextPath());
         ctx.put("codebase", codebase.toString());
-        ctx.put("libs_dir", ToyBoxCodes.LIBRARY_DIR);
         ctx.put("server", game.host);
         ctx.put("port", ToyBoxConfig.getServerPort());
         ctx.put("resource_url", ToyBoxConfig.getResourceURL());

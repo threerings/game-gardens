@@ -12,8 +12,7 @@
 
   <!-- removes unneeded code and generates one big jar file -->
   <target name="proguard">
-    <taskdef resource="proguard/ant/task.properties"
-             classpath="lib/proguard.jar"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="lib/proguard.jar"/>
     <mkdir dir="${deploy.dir}"/>
     <proguard configuration="lib/gg-client.pro">
       <injar path="${libs.dir}/commons-io.jar"
@@ -29,7 +28,7 @@
       <injar path="${libs.dir}/nenya-media.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**"/>
       <injar path="${libs.dir}/vilya-parlor.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
+             filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <injar path="${libs.dir}/samskivert.jar"
              filter="!META-INF/*,!**/velocity/**,!**/xml/**"/>
       <injar path="${base.dir}/dist/toybox.jar"

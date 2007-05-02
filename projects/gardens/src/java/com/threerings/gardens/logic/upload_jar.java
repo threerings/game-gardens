@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.FileItem;
 
 import com.threerings.getdown.data.Resource;
 
-import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.ToyBoxGameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.GameRecord;
 
@@ -76,7 +76,7 @@ public class upload_jar extends UserLogic
         ctx.put("gameid", gameId);
 
         // get a handle on the game definition
-        GameDefinition gamedef = game.parseGameDefinition();
+        ToyBoxGameDefinition gamedef = game.parseGameDefinition();
         MessageDigest md = MessageDigest.getInstance("MD5");
 
         // TODO: put game jars in gameId subdirectories
@@ -96,7 +96,7 @@ public class upload_jar extends UserLogic
             throw new FriendlyException("upload_jar.error.missing_jar");
         }
 
-        File jar = new File(gdir, gamedef.getJarName(gameId));
+        File jar = new File(gdir, gamedef.getMediaPath(gameId));
         item.write(jar);
         log.info("Wrote " + jar + ".");
 
