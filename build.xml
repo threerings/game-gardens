@@ -9,7 +9,7 @@
 
   <!-- declare our subprojects and webapps -->
   <import file="etc/build-support.xml"/>
-  <property name="projects" value="samskivert,narya,nenya,vilya"/>
+  <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
   <property name="webapps"  value="gardens"/>
 
   <!-- declare the libraries needed by the main thing -->
@@ -73,16 +73,8 @@
     <copy file="toybox.properties" todir="${deploy.dir}"/>
   </target>
 
-  <!-- build the server -->
-  <target name="toybox" depends="prepare">
-    <antcall target="distprojects">
-      <param name="projects"  value="toybox"/>
-      <param name="dest.dir"  value="${deploy.dir}"/>
-    </antcall>
-  </target>
-
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="prepare,distprojects,toybox,webapps,client"/>
+  <target name="distall" depends="prepare,distprojects,webapps,client"/>
 
   <!-- fully cleans out the installed application and all subprojects -->
   <target name="cleanall" depends="cleanprojects">

@@ -12,9 +12,24 @@
 
   <!-- removes unneeded code and generates one big jar file -->
   <target name="proguard">
-    <taskdef resource="proguard/ant/task.properties" classpath="lib/proguard.jar"/>
+    <!-- determine whether this is Darwin, so that we can do special magic -->
+    <condition property="platform.darwin">
+      <and><os family="mac"/><os family="unix"/></and>
+    </condition>
+
+    <!-- figure out where the Java rt.jar file lives -->
+    <condition property="rtClasses" value="${java.home}/../Classes/classes.jar">
+      <istrue value="${platform.darwin}"/>
+    </condition>
+    <condition property="rtClasses" value="${java.home}/lib/rt.jar">
+      <isfalse value="${platform.darwin}"/>
+    </condition>
     <mkdir dir="${deploy.dir}"/>
+
+    <!-- do the proguardian deed -->
+    <taskdef resource="proguard/ant/task.properties" classpath="lib/proguard.jar"/>
     <proguard configuration="lib/gg-client.pro">
+      <libraryjar name="${rtClasses}"/>
       <injar path="${libs.dir}/commons-io.jar"
              filter="!META-INF/*"/>
       <injar path="${libs.dir}/getdown.jar"
@@ -31,10 +46,11 @@
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <injar path="${libs.dir}/samskivert.jar"
              filter="!META-INF/*,!**/velocity/**,!**/xml/**"/>
-      <injar path="${base.dir}/dist/toybox.jar"
+      <injar path="${libs.dir}/toybox.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <outjar path="${deploy.dir}/gg-client.jar"/>
     </proguard>
+
     <!-- also copy the client jar into the game development directory -->
     <copy file="${deploy.dir}/gg-client.jar" todir="../games/client"/>
   </target>

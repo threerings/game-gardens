@@ -35,9 +35,6 @@ for jar in $GARDENS_HOME/dist/lib/*.jar; do
     fi
 done
 
-# Add toybox to the class path
-CLASSPATH=$GARDENS_HOME/dist/toybox.jar:$CLASSPATH
-
 # Add the main directory to the CLASSPATH
 CLASSPATH=$GARDENS_HOME:$CLASSPATH
 export CLASSPATH

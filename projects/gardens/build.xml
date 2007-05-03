@@ -19,7 +19,5 @@
   <!-- prepares the application directories -->
   <target name="prepare">
     <antcall target="common-webapp-prepare"/>
-    <!-- we also need some toybox server code which doesn't fit into our libs.dir scheme -->
-    <copy file="${base.dir}/${deploy.dir}/toybox.jar" todir="${deploy.dir}/lib"/>
   </target>
 </project>

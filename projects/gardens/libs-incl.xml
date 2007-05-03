@@ -10,6 +10,7 @@
     <include name="commons-io.jar"/>
     <include name="commons-logging.jar"/>
     <include name="getdown.jar"/>
+    <include name="junit-3.7.jar"/>
     <include name="mail.jar"/>
     <include name="mysql-connector-java-3.1.12-bin.jar"/>
     <include name="narya-base.jar"/>
@@ -17,6 +18,7 @@
     <include name="samskivert.jar"/>
     <include name="servlet-2.3.jar"/>
     <include name="threerings.jar"/> <!-- optional -->
+    <include name="toybox.jar"/>
     <include name="velocity-1.5-dev.jar"/>
     <include name="vilya-parlor.jar"/>
   </fileset>

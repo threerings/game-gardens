@@ -38,18 +38,14 @@ fi
 # Start with the standard Java classes
 CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
 
-# Add all JAR files in $GARDENS_HOME/seclib to the CLASSPATH
+# Add all JAR files in $GARDENS_HOME/dist/lib to the CLASSPATH
 for jar in $GARDENS_HOME/dist/lib/*.jar; do
     if [ -e $jar ]; then
         CLASSPATH=$jar:$CLASSPATH
     fi
 done
 
-# Add toybox to the class path
-CLASSPATH=$GARDENS_HOME/dist/toybox.jar:$CLASSPATH
-
 # Add the deployment directory directory to the CLASSPATH for properties
-# and toybox.jar
 CLASSPATH=$GARDENS_HOME/dist:$CLASSPATH
 export CLASSPATH
 

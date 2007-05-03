@@ -3,7 +3,6 @@
 #
 # Proguard configuration file for Game Gardens client
 
--libraryjars <java.home>/lib/rt.jar
 -dontskipnonpubliclibraryclasses
 -dontobfuscate
 

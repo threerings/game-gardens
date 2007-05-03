@@ -76,8 +76,11 @@ public class ReversiBoardView extends VirtualMediaPanel
      */
     public void setPlacingMode (int color)
     {
-        // update our logic with the current board state
-        _logic.setState(_gameobj.pieces);
+        // if we're running in the unit test, we won't have a game object
+        if (_gameobj != null) {
+            // update our logic with the current board state
+            _logic.setState(_gameobj.pieces);
+        }
 
         if (color != -1) {
             _cursor.setColor(color);
