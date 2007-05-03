@@ -133,7 +133,7 @@ public class SagashiManager extends GameManager
         _sagaobj = (SagashiObject)_gameobj;
         _sagaobj.setService(
             (SagashiMarshaller)PresentsServer.invmgr.registerDispatcher(
-                new SagashiDispatcher(this), false));
+                new SagashiDispatcher(this)));
         _sagaobj.setScores(new SagashiScore[0]);
 
         // load up our word list if we haven't already
