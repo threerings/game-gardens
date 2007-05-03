@@ -101,12 +101,9 @@ public abstract class ToyBoxContext implements EZGameContext
     public BufferedImage loadImage (String rsrcPath)
     {
         try {
-            return ImageIO.read(
-                getResourceManager().getImageResource(rsrcPath));
-
+            return ImageIO.read(getResourceManager().getImageResource(rsrcPath));
         } catch (IOException ioe) {
-            log.log(Level.WARNING,
-                "Unable to load image resource [path=" + rsrcPath + "].", ioe);
+            log.log(Level.WARNING,"Unable to load image resource [path=" + rsrcPath + "].", ioe);
             // cope; return an error image of abitrary size
             return ImageUtil.createErrorImage(50, 50);
         }
