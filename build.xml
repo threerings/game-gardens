@@ -1,43 +1,36 @@
 <!-- project build configuration -->
-<project name="Game Gardens Server" default="all" basedir=".">
+<project name="Game Gardens" default="all" basedir=".">
 
   <!-- load up our configuration information -->
   <property file="toybox.properties"/>
 
   <!-- things you probably don't want to change -->
-  <property name="deploy.dir" value="dist"/>
+  <property name="deploy.dir"  value="dist"/>
+  <property name="extlibs.dir" value="lib"/>
 
   <!-- declare our subprojects and webapps -->
-  <import file="etc/build-support.xml"/>
   <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
   <property name="webapps"  value="gardens"/>
+  <import file="build/etc/build-support.xml"/>
 
   <!-- declare the libraries needed by the main thing -->
-  <fileset dir="." id="dist.libs">
-    <include name="${extlib.dir}/ant.jar"/>
-    <include name="${extlib.dir}/activation.jar"/>
-    <include name="${extlib.dir}/commons-beanutils.jar"/>
-    <include name="${extlib.dir}/commons-collections.jar"/>
-    <include name="${extlib.dir}/commons-digester.jar"/>
-    <include name="${extlib.dir}/commons-fileupload.jar"/>
-    <include name="${extlib.dir}/commons-io.jar"/>
-    <include name="${extlib.dir}/commons-lang.jar"/>
-    <include name="${extlib.dir}/commons-logging.jar"/>
-    <include name="${extlib.dir}/getdown.jar"/>
-    <include name="${extlib.dir}/junit-3.7.jar"/>
-    <include name="${extlib.dir}/mail.jar"/>
-    <include name="${extlib.dir}/mysql-connector-java-3.1.12-bin.jar"/>
-    <include name="${extlib.dir}/servlet-2.3.jar"/>
-    <include name="${extlib.dir}/velocity-1.5-dev.jar"/>
-    <include name="${extlib.dir}/threerings.jar"/> <!-- optional -->
-    <include name="${libs.dir}/narya-base.jar"/>
-    <include name="${libs.dir}/narya-distrib.jar"/>
-    <include name="${libs.dir}/nenya-media.jar"/>
-    <include name="${libs.dir}/nenya-rsrc.jar"/>
-    <include name="${libs.dir}/samskivert.jar"/>
-    <include name="${libs.dir}/vilya-micasa.jar"/>
-    <include name="${libs.dir}/vilya-parlor.jar"/>
-  </fileset>
+  <filelist dir="." id="dist.libs">
+    <file name="${extlibs.dir}/ant.jar"/>
+    <file name="${extlibs.dir}/activation.jar"/>
+    <file name="${extlibs.dir}/commons-beanutils.jar"/>
+    <file name="${extlibs.dir}/commons-collections.jar"/>
+    <file name="${extlibs.dir}/commons-digester.jar"/>
+    <file name="${extlibs.dir}/commons-fileupload.jar"/>
+    <file name="${extlibs.dir}/commons-io.jar"/>
+    <file name="${extlibs.dir}/commons-lang.jar"/>
+    <file name="${extlibs.dir}/commons-logging.jar"/>
+    <file name="${extlibs.dir}/getdown.jar"/>
+    <file name="${extlibs.dir}/junit-3.7.jar"/>
+    <file name="${extlibs.dir}/mail.jar"/>
+    <file name="${extlibs.dir}/mysql-connector-java-3.1.12-bin.jar"/>
+    <file name="${extlibs.dir}/servlet-2.3.jar"/>
+    <file name="${extlibs.dir}/velocity-1.5-dev.jar"/>
+  </filelist>
 
   <!-- creates the Proguarded Java client -->
   <target name="client" depends="copydistlibs">
@@ -62,23 +55,31 @@
   <!-- the default target is to install and sign the client -->
   <target name="all" depends="sign"/>
 
-  <!-- ensures that a toybox.properties exists -->
+  <!-- prepares the build directories, ensures that a toybox.properties exists -->
   <target name="prepare" depends="copydistlibs">
-    <if><not><isset property="webapp_dir"/></not>
-    <then>
+    <if><not><isset property="webapp_dir"/></not><then>
       <echo>Generating default toybox.properties.</echo>
       <copy tofile="toybox.properties" file="toybox.properties.dist"/>
-    </then>
-    </if>
+    </then></if>
     <copy file="toybox.properties" todir="${deploy.dir}"/>
+    <copy todir="${deploy.dir}/lib">
+      <fileset dir="lib" includes="threerings.jar"/> <!-- optional -->
+    </copy>
   </target>
 
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="prepare,distprojects,webapps,client"/>
+  <target name="distall" depends="prepare,distprojects,distwebapps,client"/>
 
-  <!-- fully cleans out the installed application and all subprojects -->
-  <target name="cleanall" depends="cleanprojects">
+  <!-- cleans out the compiled code -->
+  <target name="clean">
     <ant dir="projects/client" target="clean" inheritAll="false"/>
+  </target>
+
+  <!-- fully cleans out the application -->
+  <target name="distclean" depends="clean">
     <delete dir="${deploy.dir}"/>
   </target>
+
+  <!-- fully cleans out the application and all subprojects -->
+  <target name="distcleanall" depends="distcleanprojects,distcleanwebapps,distclean"/>
 </project>
