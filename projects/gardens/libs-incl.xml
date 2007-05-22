@@ -12,7 +12,7 @@
     <include name="getdown.jar"/>
     <include name="junit-3.7.jar"/>
     <include name="mail.jar"/>
-    <include name="mysql-connector-java-3.1.12-bin.jar"/>
+    <include name="mysql-connector-java-5.0.4-bin.jar"/>
     <include name="narya-base.jar"/>
     <include name="narya-distrib.jar"/>
     <include name="samskivert.jar"/>
