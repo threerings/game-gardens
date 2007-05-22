@@ -7,7 +7,7 @@ commons-io.jar
 commons-logging.jar
 getdown.jar
 mail.jar
-mysql-connector-java-3.1.12-bin.jar
+mysql-connector-java-5.0.4-bin.jar
 narya-base.jar
 narya-distrib.jar
 nenya-media.jar
