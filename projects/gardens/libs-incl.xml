@@ -1,25 +1,24 @@
 <?xml version="1.0"?>
 <!-- declares the libraries needed to build gardens -->
 <project name="library-dependencies">
-  <fileset dir="${libs.dir}" id="gardens.libs">
-    <include name="activation.jar"/>
-    <include name="commons-beanutils.jar"/>
-    <include name="commons-collections.jar"/>
-    <include name="commons-digester.jar"/>
-    <include name="commons-fileupload.jar"/>
-    <include name="commons-io.jar"/>
-    <include name="commons-logging.jar"/>
-    <include name="getdown.jar"/>
-    <include name="junit-3.7.jar"/>
-    <include name="mail.jar"/>
-    <include name="mysql-connector-java-5.0.4-bin.jar"/>
-    <include name="narya-base.jar"/>
-    <include name="narya-distrib.jar"/>
-    <include name="samskivert.jar"/>
-    <include name="servlet-2.3.jar"/>
-    <include name="threerings.jar"/> <!-- optional -->
-    <include name="toybox.jar"/>
-    <include name="velocity-1.5-dev.jar"/>
-    <include name="vilya-parlor.jar"/>
-  </fileset>
+  <filelist dir="${libs.dir}" id="gardens.libs">
+    <file name="activation.jar"/>
+    <file name="commons-beanutils.jar"/>
+    <file name="commons-collections.jar"/>
+    <file name="commons-digester.jar"/>
+    <file name="commons-fileupload.jar"/>
+    <file name="commons-io.jar"/>
+    <file name="commons-logging.jar"/>
+    <file name="getdown.jar"/>
+    <file name="junit-3.7.jar"/>
+    <file name="mail.jar"/>
+    <file name="mysql-connector-java-5.0.4-bin.jar"/>
+    <file name="narya-base.jar"/>
+    <file name="narya-distrib.jar"/>
+    <file name="samskivert.jar"/>
+    <file name="servlet-2.3.jar"/>
+    <file name="toybox.jar"/>
+    <file name="velocity-1.5-dev.jar"/>
+    <file name="vilya-parlor.jar"/>
+  </filelist>
 </project>

@@ -13,11 +13,13 @@
 
   <!-- import the generic webapp build file and library dependencies -->
   <property name="libs.dir" value="lib"/>
-  <import file="webapp-build.xml"/>
+  <import file="${base.dir}/build/etc/webapp-build.xml"/>
   <import file="libs-incl.xml"/>
 
   <!-- prepares the application directories -->
   <target name="prepare">
     <antcall target="common-webapp-prepare"/>
+    <!-- optionally copy the threerings library if available -->
+    <copy file="${libs.dir}/threerings.jar" todir="${deploy.dir}/lib" failonerror="false"/>
   </target>
 </project>
