@@ -12,7 +12,7 @@
     <file name="getdown.jar"/>
     <file name="junit-3.7.jar"/>
     <file name="mail.jar"/>
-    <file name="mysql-connector-java-5.0.4-bin.jar"/>
+    <file name="mysql-connector-java.jar"/>
     <file name="narya-base.jar"/>
     <file name="narya-distrib.jar"/>
     <file name="samskivert.jar"/>
