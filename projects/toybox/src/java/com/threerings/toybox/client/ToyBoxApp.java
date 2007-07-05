@@ -110,7 +110,7 @@ public class ToyBoxApp
 
     public static void main (String[] args)
     {
-        // we do this all in a strange order to avoid logging anything unti we set up our log
+        // we do this all in a strange order to avoid logging anything until we set up our log
         // formatter but we can't do that until after we've redirected system out and err
         String dlog = null;
         if (System.getProperty("no_log_redir") == null) {
