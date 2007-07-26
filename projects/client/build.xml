@@ -45,7 +45,7 @@
       <injar path="${libs.dir}/vilya-parlor.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <injar path="${libs.dir}/samskivert.jar"
-             filter="!META-INF/*,!**/velocity/**,!**/xml/**"/>
+             filter="!META-INF/*,!**/velocity/**,!**/xml/**,!**/jdbc/depot/**"/>
       <injar path="${libs.dir}/toybox.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <outjar path="${deploy.dir}/gg-client.jar"/>
