@@ -19,7 +19,6 @@ import com.threerings.presents.dobj.DSet;
 import com.threerings.presents.dobj.DynamicListener;
 import com.threerings.presents.dobj.MessageEvent;
 
-import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
 
@@ -186,8 +185,7 @@ public class AtlantiManager extends GameManager
         }
 
         if (ntile == null) {
-            SpeakProvider.sendInfo(
-                _atlobj, ATLANTI_MESSAGE_BUNDLE, "m.no_legal_moves");
+            systemMessage(ATLANTI_MESSAGE_BUNDLE, "m.no_legal_moves");
             endGame();
         } else {
             ntile.x = 0;
@@ -453,8 +451,7 @@ public class AtlantiManager extends GameManager
                 msg = MessageBundle.compose(
                     "m.scored", msg, MessageBundle.taint(String.valueOf(score)),
                     MessageBundle.taint(names));
-                SpeakProvider.sendInfo(
-                    _atlobj, ATLANTI_MESSAGE_BUNDLE, msg);
+                systemMessage(ATLANTI_MESSAGE_BUNDLE, msg);
 
                 Log.debug("New scores: " + StringUtil.toString(_atlobj.scores));
 
@@ -529,8 +526,7 @@ public class AtlantiManager extends GameManager
                             "m.scored", msg,
                             MessageBundle.taint(String.valueOf(score)),
                             MessageBundle.taint(getPlayerName(p.owner)));
-                        SpeakProvider.sendInfo(
-                            _atlobj, ATLANTI_MESSAGE_BUNDLE, msg);
+                        systemMessage(ATLANTI_MESSAGE_BUNDLE, msg);
 
                         // add the score to the owning player
                         _atlobj.scores[p.owner] += score;
@@ -678,8 +674,7 @@ public class AtlantiManager extends GameManager
                 String msg = MessageBundle.tcompose(
                     "m.scored_fisheries", getPlayerName(i),
                     String.valueOf(cityScores[i]));
-                SpeakProvider.sendInfo(
-                    _atlobj, ATLANTI_MESSAGE_BUNDLE, msg);
+                systemMessage(ATLANTI_MESSAGE_BUNDLE, msg);
             }
         }
     }

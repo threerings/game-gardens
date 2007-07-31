@@ -21,7 +21,6 @@ import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.PresentsServer;
 
-import com.threerings.crowd.chat.server.SpeakProvider;
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.OccupantInfo;
 import com.threerings.crowd.data.PlaceObject;
@@ -207,7 +206,7 @@ public class SagashiManager extends GameManager
             msg = buf.indexOf(", ") != -1 ? "m.winners" : "m.winner";
             msg = MessageBundle.tcompose(msg, buf);
         }
-        SpeakProvider.sendInfo(_sagaobj, SagashiCodes.SAGASHI_MSG_BUNDLE, msg);
+        systemMessage(SagashiCodes.SAGASHI_MSG_BUNDLE, msg);
     }
 
     @Override // documentation inherited
