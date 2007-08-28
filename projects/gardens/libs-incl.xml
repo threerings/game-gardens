@@ -10,13 +10,13 @@
     <file name="commons-io.jar"/>
     <file name="commons-logging.jar"/>
     <file name="getdown.jar"/>
-    <file name="junit-3.7.jar"/>
+    <file name="junit4.jar"/>
     <file name="mail.jar"/>
     <file name="mysql-connector-java.jar"/>
     <file name="narya-base.jar"/>
     <file name="narya-distrib.jar"/>
     <file name="samskivert.jar"/>
-    <file name="servlet-2.3.jar"/>
+    <file name="servlet-api.jar"/>
     <file name="toybox.jar"/>
     <file name="velocity-1.5-dev.jar"/>
     <file name="vilya-parlor.jar"/>
