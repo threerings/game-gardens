@@ -27,7 +27,7 @@
     <mkdir dir="${deploy.dir}"/>
 
     <!-- do the proguardian deed -->
-    <taskdef resource="proguard/ant/task.properties" classpath="lib/proguard.jar"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="../../dist/lib/proguard.jar"/>
     <proguard configuration="lib/gg-client.pro">
       <libraryjar name="${rtClasses}"/>
       <injar path="${libs.dir}/commons-io.jar"
