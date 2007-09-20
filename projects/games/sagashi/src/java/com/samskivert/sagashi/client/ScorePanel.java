@@ -91,8 +91,7 @@ public class ScorePanel extends JPanel
             if (col == 0) {
                 OccupantInfo oinfo = null;
                 if (_sagaobj != null) {
-                    oinfo = (OccupantInfo)
-                        _sagaobj.occupantInfo.get(_sagaobj.scores[row].userOid);
+                    oinfo = _sagaobj.occupantInfo.get(_sagaobj.scores[row].userOid);
                 }
                 return (oinfo == null) ? "<departed>" : oinfo.username;
             } else {

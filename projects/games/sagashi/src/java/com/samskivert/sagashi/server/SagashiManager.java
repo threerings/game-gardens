@@ -94,7 +94,7 @@ public class SagashiManager extends GameManager
         // compute and record their score
         int score = word.length() - (_minLength-1) + bonus;
 
-        SagashiScore srec = (SagashiScore)_scores.get(user.getOid());
+        SagashiScore srec = _scores.get(user.getOid());
         if (srec == null) {
             srec = new SagashiScore(user.getOid());
             srec.score = score;
@@ -185,8 +185,7 @@ public class SagashiManager extends GameManager
         int high = 0;
         for (int ii = 0; ii < _sagaobj.scores.length; ii++) {
             SagashiScore score = _sagaobj.scores[ii];
-            OccupantInfo info = (OccupantInfo)_sagaobj.occupantInfo.get(
-                score.userOid);
+            OccupantInfo info = _sagaobj.occupantInfo.get(score.userOid);
             if (info == null) {
                 continue;
             }
