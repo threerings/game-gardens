@@ -27,6 +27,7 @@ import com.threerings.presents.server.InvocationException;
 
 import com.threerings.parlor.data.Table;
 import com.threerings.parlor.game.data.GameObject;
+import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.server.TableManager;
 
 import com.threerings.toybox.server.ToyBoxManager;
@@ -53,12 +54,12 @@ public class ToyBoxTableManager extends TableManager
         table.config.players = table.getPlayers();
 
         // pass the buck to the toybox manager to create the game
-        GameObject gobj = _toymgr.createGame(_lmgr.getGame(), table.config);
+        GameManager gmgr = _toymgr.createGame(_lmgr.getGame(), table.config);
 
         // tell the table manager about this game
-        gameCreated(table, gobj);
+        gameCreated(table, (GameObject)gmgr.getPlaceObject(), gmgr);
 
-        return gobj.getOid();
+        return gmgr.getPlaceObject().getOid();
     }
 
     /** The toybox manager with whom we operate. */

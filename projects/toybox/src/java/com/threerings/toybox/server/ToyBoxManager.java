@@ -377,7 +377,7 @@ public class ToyBoxManager
     /**
      * Creates a game based on the supplied configuration.
      */
-    public GameObject createGame (final GameRecord game, GameConfig config)
+    public GameManager createGame (final GameRecord game, GameConfig config)
         throws InvocationException
     {
         // TODO: various complicated bits to pass this request off to the
@@ -398,7 +398,7 @@ public class ToyBoxManager
                 protected long _started;
             });
 
-            return (GameObject)pmgr.getPlaceObject();
+            return (GameManager)pmgr;
 
         } catch (InstantiationException ie) {
             log.log(Level.WARNING, "Failed to create manager for game " +
