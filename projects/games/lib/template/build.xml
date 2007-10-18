@@ -19,7 +19,7 @@
     <!-- make sure the dobject class files are all compiled -->
     <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
            debug="on" optimize="${build.optimize}" deprecation="on"
-           includeAntRuntime="false">
+           includeAntRuntime="false" target="1.5">
       <classpath refid="classpath"/>
       <include name="**/*Object.java"/>
       <compilerarg value="-Xlint"/>
@@ -50,7 +50,7 @@
   <target name="compile" depends="prepare">
     <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
            debug="on" optimize="${build.optimze}" deprecation="on"
-           includeAntRuntime="false">
+           includeAntRuntime="false" target="1.5">
       <classpath refid="classpath"/>
       <compilerarg value="-Xlint"/>
       <compilerarg value="-Xlint:-serial"/>
