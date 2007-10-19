@@ -11,8 +11,9 @@ import com.samskivert.velocity.Application;
 import com.samskivert.velocity.InvocationContext;
 import com.samskivert.velocity.Logic;
 
-import com.threerings.gardens.GardensApp;
 import com.threerings.toybox.server.persist.GameRecord;
+
+import com.threerings.gardens.GardensApp;
 
 /**
  * Provides information on recently added, updated and most-popular games.
