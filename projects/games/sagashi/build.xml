@@ -14,7 +14,11 @@
 
   <!-- declare our classpath -->
   <path id="classpath">
+    <!-- we find things here in the full GG dev environment -->
+    <fileset dir="../../../dist/lib" includes="**/*.jar"/>
+    <!-- we find things here in the SDK -->
     <fileset dir="../lib" includes="**/*.jar"/>
+    <!-- these are our bits -->
     <pathelement location="${deploy.dir}/classes"/>
   </path>
 

@@ -88,7 +88,7 @@ public class SagashiObject extends GameObject
     {
         int ovalue = this.secondsUntil;
         requestAttributeChange(
-            SECONDS_UNTIL, new Integer(value), new Integer(ovalue));
+            SECONDS_UNTIL, Integer.valueOf(value), Integer.valueOf(ovalue));
         this.secondsUntil = value;
     }
 
@@ -105,7 +105,7 @@ public class SagashiObject extends GameObject
         SagashiScore[] ovalue = this.scores;
         requestAttributeChange(
             SCORES, value, ovalue);
-        this.scores = (value == null) ? null : (SagashiScore[])value.clone();
+        this.scores = (value == null) ? null : value.clone();
     }
 
     /**
@@ -138,7 +138,7 @@ public class SagashiObject extends GameObject
         String[] ovalue = this.allWords;
         requestAttributeChange(
             ALL_WORDS, value, ovalue);
-        this.allWords = (value == null) ? null : (String[])value.clone();
+        this.allWords = (value == null) ? null : value.clone();
     }
 
     /**
