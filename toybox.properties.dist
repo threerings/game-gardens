@@ -41,11 +41,6 @@ server_port = 47624
 # server_auth = com.foobar.FoobarAuthenticator
 
 #
-# Used when signing the Game Gardens client
-
-# cert_dir = /export/gardens
-
-#
 # Database configuration
 
 db.default.driver = com.mysql.jdbc.Driver
