@@ -169,13 +169,15 @@ public class ToyBoxManager
         // register ourselves as providing the toybox service
         invmgr.registerDispatcher(new ToyBoxDispatcher(this), TOYBOX_GROUP);
 
-        // periodically write our occupancy information to the database
-        _popval = new Interval(_omgr) {
-            public void expired () {
-                publishOccupancy();
-            }
-        };
-        _popval.schedule(60 * 1000L, true);
+        if (_gamerepo != null) {
+            // periodically write our occupancy information to the database
+            _popval = new Interval(_omgr) {
+                public void expired () {
+                    publishOccupancy();
+                }
+            };
+            _popval.schedule(60 * 1000L, true);
+        }
 
         log.info("ToyBoxManager ready [rsrcdir=" + ToyBoxConfig.getResourceDir() + "].");
     }
