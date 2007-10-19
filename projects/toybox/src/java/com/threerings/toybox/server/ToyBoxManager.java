@@ -169,21 +169,15 @@ public class ToyBoxManager
         // register ourselves as providing the toybox service
         invmgr.registerDispatcher(new ToyBoxDispatcher(this), TOYBOX_GROUP);
 
-        // if we are configured with a path to a file in which to
-        // periodically dump the number of players online, start up an
-        // interval to actually do so
-        final String path = ToyBoxConfig.config.getValue("occupancy_file", "");
-        if (!StringUtil.isBlank(path)) {
-            _popval = new Interval(_omgr) {
-                public void expired () {
-                    writeOccupancy(path);
-                }
-            };
-            _popval.schedule(60 * 1000L, true);
-        }
+        // periodically write our occupancy information to the database
+        _popval = new Interval(_omgr) {
+            public void expired () {
+                publishOccupancy();
+            }
+        };
+        _popval.schedule(60 * 1000L, true);
 
-        log.info("ToyBoxManager ready [rsrcdir=" +
-                 ToyBoxConfig.getResourceDir() + "].");
+        log.info("ToyBoxManager ready [rsrcdir=" + ToyBoxConfig.getResourceDir() + "].");
     }
 
     /**
@@ -408,47 +402,18 @@ public class ToyBoxManager
     }
 
     /**
-     * Writes out a file containing the number of players online in each
-     * game.
+     * Publishes our lobby and game occupancy figures to the database.
      */
-    protected void writeOccupancy (String path)
+    protected void publishOccupancy ()
     {
+        // note the number of occupants in all games
         final IntIntMap occs = new IntIntMap();
-
-        // write out the file (noting the number of game occupants)
-        String template =
-            ToyBoxConfig.config.getValue("occupancy_template", "");
-        try {
-            ArrayList<GameOccupancy> list = new ArrayList<GameOccupancy>();
-            for (int gameId : _lobbyOids.keySet()) {
-                int lobbyOid = _lobbyOids.get(gameId);
-                LobbyManager lmgr = (LobbyManager)
-                    _plreg.getPlaceManager(lobbyOid);
-                if (lmgr == null) {
-                    continue;
-                }
-                LobbyObject lobj = (LobbyObject)lmgr.getPlaceObject();
-                int count = lobj.countOccupants();
-                occs.put(gameId, count);
-                list.add(new GameOccupancy(gameId, lobj.name, count));
+        for (int gameId : _lobbyOids.keySet()) {
+            LobbyManager lmgr = (LobbyManager)_plreg.getPlaceManager(_lobbyOids.get(gameId));
+            if (lmgr == null) {
+                continue;
             }
-            Collections.sort(list);
-
-            PrintWriter pout = new PrintWriter(
-                new BufferedWriter(new FileWriter(path)));
-            for (GameOccupancy occ : list) {
-                String line = StringUtil.replace(
-                    template, "GAME_ID", String.valueOf(occ.gameId));
-                line = StringUtil.replace(
-                    line, "COUNT", String.valueOf(occ.occupancy));
-                line = StringUtil.replace(line, "NAME", occ.name);
-                pout.println(line);
-            }
-            pout.close();
-
-        } catch (IOException ioe) {
-            log.log(Level.WARNING, "Failed to write occupancy file " +
-                    "[path=" + path + "]", ioe);
+            occs.put(gameId, ((LobbyObject)lmgr.getPlaceObject()).countOccupants());
         }
 
         // then update the database
@@ -456,8 +421,7 @@ public class ToyBoxManager
             public boolean invoke () {
                 for (IntIntMap.IntIntEntry entry : occs.entrySet()) {
                     try {
-                        _gamerepo.updateOnlineCount(
-                            entry.getKey(), entry.getValue());
+                        _gamerepo.updateOnlineCount(entry.getKey(), entry.getValue());
                     } catch (Exception e) {
                         log.log(Level.WARNING, "Failed to clear online count " +
                                 "[gameId=" + entry.getKey() + "].", e);
@@ -466,28 +430,6 @@ public class ToyBoxManager
                 return false;
             }
         });
-    }
-
-    /** Used to generate an occupancy listing for our games. */
-    protected static class GameOccupancy implements Comparable<GameOccupancy>
-    {
-        public int gameId;
-        public String name;
-        public int occupancy;
-
-        public GameOccupancy (int gameId, String name, int occupancy) {
-            this.gameId = gameId;
-            this.name = name;
-            this.occupancy = occupancy;
-        }
-
-        public int compareTo (GameOccupancy other) {
-            if (occupancy == other.occupancy) {
-                return name.compareTo(other.name);
-            } else {
-                return other.occupancy - occupancy;
-            }
-        }
     }
 
     /** Provides information on {@link GameRecord}s. */
