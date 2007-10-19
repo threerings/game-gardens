@@ -354,18 +354,20 @@ public class ToyBoxManager
             log.info("Unloading lobby '" + game.which() + "'.");
         }
 
-        // clear out the number of players online count for this game
-        _invoker.postUnit(new Invoker.Unit() {
-            public boolean invoke () {
-                try {
-                    _gamerepo.updateOnlineCount(game.gameId, 0);
-                } catch (Exception e) {
-                    log.log(Level.WARNING, "Failed to clear online count " +
-                            "[game=" + game.name + "].", e);
+        if (_gamerepo != null) {
+            // clear out the number of players online count for this game
+            _invoker.postUnit(new Invoker.Unit() {
+                public boolean invoke () {
+                    try {
+                        _gamerepo.updateOnlineCount(game.gameId, 0);
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Failed to clear online count " +
+                                "[game=" + game.name + "].", e);
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
     /**
