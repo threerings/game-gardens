@@ -51,7 +51,7 @@ case "$1" in
         chown $GARDENS_USER $LOGFILE
         # Go ahead and start things up
         echo -n "Starting $DAEMON: "
-        su - $GARDENS_USER -c "$DAEMON" >$LOGFILE 2>&1 </dev/null &
+        su -m $GARDENS_USER -c "$DAEMON" >$LOGFILE 2>&1 </dev/null &
 	echo $! > $PIDFILE
         echo "started."
         ;;
