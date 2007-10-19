@@ -89,7 +89,7 @@ public class TableItem extends JPanel
         add(tlabel, gbc);
 
         // we have one button for every "seat" at the table
-        int bcount = table.tconfig.desiredPlayerCount;
+        int bcount = _tconfig.isPartyGame() ? 0 : table.tconfig.desiredPlayerCount;
 
         // show the game configuration if this is a party game
         StringBuffer confdesc = new StringBuffer("<html>");
@@ -142,12 +142,13 @@ public class TableItem extends JPanel
 
             // if we just added the first button, add the "go" button right after it
             if (i == 0) {
-                String msg = _tconfig.isPartyGame() ? "m.join" : "m.watch";
-                _goButton = new JButton(_ctx.xlate(LobbyCodes.LOBBY_MSGS, msg));
-                _goButton.setActionCommand("go");
-                _goButton.addActionListener(this);
-                add(_goButton, gbc);
+                addGoButton(gbc);
             }
+        }
+
+        // if this is a party game it has nothing except a go button
+        if (bcount == 0) {
+            addGoButton(gbc);
         }
 
         // and update ourselves based on the contents of the occupants list
@@ -244,6 +245,15 @@ public class TableItem extends JPanel
         if (_goButton.isVisible()) {
             _goButton.setEnabled(!isSeated);
         }
+    }
+
+    protected void addGoButton (GridBagConstraints gbc)
+    {
+        String msg = _tconfig.isPartyGame() ? "m.join" : "m.watch";
+        _goButton = new JButton(_ctx.xlate(LobbyCodes.LOBBY_MSGS, msg));
+        _goButton.setActionCommand("go");
+        _goButton.addActionListener(this);
+        add(_goButton, gbc);
     }
 
     /** A reference to our context. */
