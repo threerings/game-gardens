@@ -41,13 +41,6 @@ server_port = 47624
 # server_auth = com.foobar.FoobarAuthenticator
 
 #
-# A file to which the server will write an HTML snippet summarizing all
-# occupied games
-
-# occupancy_file = 
-# occupancy_template = <whatever>NAME</text>GAME_ID<you>COUNT</like>
-
-#
 # Used when signing the Game Gardens client
 
 # cert_dir = /export/gardens
