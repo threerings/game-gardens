@@ -24,7 +24,7 @@
              classname="com.threerings.presents.tools.GenDObjectTask"
              classpathref="classpath"/>
     <!-- make sure the dobject class files are all compiled -->
-    <javac srcdir="src/java" destdir="${deploy.dir}/classes"
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
            debug="on" optimize="${build.optimize}" deprecation="on"
            includeAntRuntime="false">
       <classpath refid="classpath"/>
@@ -70,7 +70,7 @@
 
   <!-- build the java class files -->
   <target name="compile" depends="prepare">
-    <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes"
+    <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes" target="1.5"
            debug="on" optimize="${build.optimize}" deprecation="on"
            includeAntRuntime="false">
       <classpath refid="classpath"/>
