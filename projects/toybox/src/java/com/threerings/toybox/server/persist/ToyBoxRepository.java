@@ -53,16 +53,15 @@ public class ToyBoxRepository extends JORARepository
     implements ToyBoxManager.GameRepository
 {
     /**
-     * The database identifier used when establishing a database
-     * connection. This value being <code>gamedb</code>.
+     * The database identifier used when establishing a database connection. This value being
+     * <code>gamedb</code>.
      */
     public static final String GAME_DB_IDENT = "gamedb";
 
     /**
      * Constructs a new repository with the specified connection provider.
      *
-     * @param conprov the connection provider via which we will obtain our
-     * database connection.
+     * @param conprov the connection provider via which we will obtain our database connection.
      */
     public ToyBoxRepository (ConnectionProvider conprov)
         throws PersistenceException
@@ -80,8 +79,7 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Loads up all of the games in the repository with the specified
-     * category.
+     * Loads up all of the games in the repository with the specified category.
      */
     public ArrayList<GameRecord> loadGames (String category)
         throws PersistenceException
@@ -91,9 +89,8 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Loads the specified number of the most popular games as determined
-     * by the number of minutes played in those games in the current and
-     * previous week.
+     * Loads the specified number of the most popular games as determined by the number of minutes
+     * played in those games in the current and previous week.
      */
     public ArrayList<GameRecord> loadPopularGames (final int count)
         throws PersistenceException
@@ -152,8 +149,7 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Loads the specified number of the most recently created games in
-     * the system.
+     * Loads the specified number of the most recently created games in the system.
      */
     public ArrayList<GameRecord> loadRecentlyAdded (final int count)
         throws PersistenceException
@@ -162,8 +158,7 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Loads the specified number of the most recently updated games in
-     * the system.
+     * Loads the specified number of the most recently updated games in the system.
      */
     public ArrayList<GameRecord> loadRecentlyUpdated (final int count)
         throws PersistenceException
@@ -172,8 +167,8 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Loads information on a single game from the repository. Returns
-     * null if no game exists with the specifed id.
+     * Loads information on a single game from the repository. Returns null if no game exists with
+     * the specifed id.
      */
     public GameRecord loadGame (int gameId)
         throws PersistenceException
@@ -182,8 +177,8 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Loads information on a single game from the repository. Returns
-     * null if no game exists with the specifed id.
+     * Loads information on a single game from the repository. Returns null if no game exists with
+     * the specifed id.
      */
     public GameRecord loadGame (String gameIdent)
         throws PersistenceException
@@ -193,9 +188,8 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Inserts the supplied game into the repository. {@link GameRecord#gameId}
-     * will be filled in by this method with the game's newly assigned
-     * unique identifier.
+     * Inserts the supplied game into the repository. {@link GameRecord#gameId} will be filled in
+     * by this method with the game's newly assigned unique identifier.
      */
     public void insertGame (final GameRecord game)
         throws PersistenceException
@@ -204,8 +198,8 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Updates the supplied game in the repository. Returns true if a
-     * matching row was found and updated, false if no rows matched.
+     * Updates the supplied game in the repository. Returns true if a matching row was found and
+     * updated, false if no rows matched.
      */
     public boolean updateGame (final GameRecord game)
         throws PersistenceException
@@ -222,8 +216,7 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Increments the number of minutes played for the specified game in
-     * the current week.
+     * Increments the number of minutes played for the specified game in the current week.
      */
     public void incrementPlaytime (int gameId, int minutes)
         throws PersistenceException
@@ -231,8 +224,7 @@ public class ToyBoxRepository extends JORARepository
         Date when = getWeek(0);
         // first try updating
         if (update("update PLAYTIME set PLAYTIME = PLAYTIME + " + minutes +
-                   " where GAME_ID = " + gameId +
-                   " and PERIOD = '" + when + "'") == 0) {
+                   " where GAME_ID = " + gameId + " and PERIOD = '" + when + "'") == 0) {
             // if that failed to modify anything, insert
             update("insert into PLAYTIME (GAME_ID, PERIOD, PLAYTIME) " +
                    "values(" + gameId + ", '" + when + "', " + minutes + ")");
@@ -271,12 +263,11 @@ public class ToyBoxRepository extends JORARepository
     }
 
     /**
-     * Helper function for {@link #loadGames()} and {@link
-     * #loadGames(String)}.
+     * Helper function for {@link #loadGames()} and {@link #loadGames(String)}.
      *
      * @param where the where clause to use in our query (or "").
-     * @param extra any extra "order by" or "limit" clauses to append to
-     * the query, or "" if none are needed.
+     * @param extra any extra "order by" or "limit" clauses to append to the query, or "" if none
+     * are needed.
      */
     protected ArrayList<GameRecord> loadGamesBy (String where, String extra)
         throws PersistenceException
@@ -286,16 +277,15 @@ public class ToyBoxRepository extends JORARepository
         return loadAll(_gtable, where + " " + extra);
     }
 
-    /** Helper function for {@link #loadGame(int)} and {@link
-     * #loadGame(String)}. */
+    /** Helper function for {@link #loadGame(int)} and {@link #loadGame(String)}. */
     protected GameRecord loadGameBy (final String query)
         throws PersistenceException
     {
         return load(_gtable, query);
     }
 
-    /** Returns a {@link Date} instance configured to the beginning of the
-     * current (or current + offset) week. */
+    /** Returns a {@link Date} instance configured to the beginning of the current (or current +
+     * offset) week. */
     protected static Date getWeek (int offset)
     {
         Calendar now = Calendar.getInstance();
@@ -312,8 +302,7 @@ public class ToyBoxRepository extends JORARepository
     protected void createTables ()
     {
 	_gtable = new Table<GameRecord>(GameRecord.class, "GAMES", "GAME_ID", true);
-	_otable = new Table<OnlineRecord>(
-            OnlineRecord.class, "ONLINE", "GAME_ID", true);
+	_otable = new Table<OnlineRecord>(OnlineRecord.class, "ONLINE", "GAME_ID", true);
     }
 
     @Override // documentation inherited
