@@ -29,6 +29,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.DatabaseLiaison;
@@ -260,6 +261,40 @@ public class ToyBoxRepository extends JORARepository
     {
         OnlineRecord record = load(_otable, "where GAME_ID = " + gameId);
         return (record == null) ? 0 : record.players;
+    }
+
+    /**
+     * Returns information on how many players are in games.
+     */
+    public List<FullOnlineRecord> getOnlineCounts ()
+        throws PersistenceException
+    {
+        return execute(new Operation<List<FullOnlineRecord>>() {
+            public List<FullOnlineRecord> invoke (Connection conn, DatabaseLiaison liaison)
+                throws SQLException, PersistenceException
+            {
+                // first obtain the game ids of the top N most frequently played games
+                String query = "select ONLINE.GAME_ID, PLAYERS, NAME from ONLINE, GAMES " +
+                    "where PLAYERS > 0 && ONLINE.GAME_ID = GAMES.GAME_ID";
+                ArrayList<FullOnlineRecord> results = new ArrayList<FullOnlineRecord>();
+                Statement stmt = null;
+                try {
+                    stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+                    for (int ii = 0; rs.next(); ii++) {
+                        FullOnlineRecord record = new FullOnlineRecord();
+                        record.gameId = rs.getInt(1);
+                        record.players = rs.getInt(2);
+                        record.name = rs.getString(3);
+                        results.add(record);
+                    }
+                    return results;
+
+                } finally {
+                    JDBCUtil.close(stmt);
+                }
+            }
+        });
     }
 
     /**
