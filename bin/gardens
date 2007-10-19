@@ -27,11 +27,11 @@ LOGFILE=$GARDENS_HOME/log/respawn-gardens.log
 case "$1" in
   start)
         # Make sure respawn is not currently running
-	if [ -f $PIDFILE ]; then
-	    echo "respawn-gardens appears to be already running."
+        if [ -f $PIDFILE ]; then
+            echo "respawn-gardens appears to be already running."
             echo "Run '$0 stop' to stop it first."
-	    exit 1
-	fi
+            exit 1
+        fi
         # Make sure there are no hung Gardens server processes
         RPIDS=`ps auxww | grep ToyBoxServer | grep java | \
             awk '{ print $2 }' | sort -n | head -1`
@@ -52,15 +52,15 @@ case "$1" in
         # Go ahead and start things up
         echo -n "Starting $DAEMON: "
         su -m $GARDENS_USER -c "$DAEMON" >$LOGFILE 2>&1 </dev/null &
-	echo $! > $PIDFILE
+        echo $! > $PIDFILE
         echo "started."
         ;;
 
   stop)
-	if [ ! -f $PIDFILE ]; then
-	    echo "No $PIDFILE exists. Is respawn-gardens running?"
-	    exit 1
-	fi
+        if [ ! -f $PIDFILE ]; then
+            echo "No $PIDFILE exists. Is respawn-gardens running?"
+            exit 1
+        fi
         echo -n "Shutting down gardens, "
         $GARDENS_HOME/bin/reboot-gardens
         echo -n "respawn: "
