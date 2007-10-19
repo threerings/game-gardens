@@ -128,7 +128,9 @@ public class AtlantiObject extends GameObject
     public void setTiles (DSet<com.samskivert.atlanti.data.AtlantiTile> value)
     {
         requestAttributeChange(TILES, value, this.tiles);
-        this.tiles = (value == null) ? null : value.typedClone();
+        @SuppressWarnings("unchecked") DSet<com.samskivert.atlanti.data.AtlantiTile> clone =
+            (value == null) ? null : value.typedClone();
+        this.tiles = clone;
     }
 
     /**
@@ -190,7 +192,9 @@ public class AtlantiObject extends GameObject
     public void setPiecens (DSet<com.samskivert.atlanti.data.Piecen> value)
     {
         requestAttributeChange(PIECENS, value, this.piecens);
-        this.piecens = (value == null) ? null : value.typedClone();
+        @SuppressWarnings("unchecked") DSet<com.samskivert.atlanti.data.Piecen> clone =
+            (value == null) ? null : value.typedClone();
+        this.piecens = clone;
     }
 
     /**
@@ -206,7 +210,7 @@ public class AtlantiObject extends GameObject
         int[] ovalue = this.scores;
         requestAttributeChange(
             SCORES, value, ovalue);
-        this.scores = (value == null) ? null : (int[])value.clone();
+        this.scores = (value == null) ? null : value.clone();
     }
 
     /**

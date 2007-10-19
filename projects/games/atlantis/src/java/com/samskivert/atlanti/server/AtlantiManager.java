@@ -115,7 +115,7 @@ public class AtlantiManager extends GameManager
      */
     public void placePiecen (BodyObject player, Piecen piecen)
     {
-        AtlantiTile tile = (AtlantiTile)_atlobj.tiles.get(piecen.getKey());
+        AtlantiTile tile = _atlobj.tiles.get(piecen.getKey());
         int pidx = _turndel.getTurnHolderIndex();
         int pcount = TileUtil.countPiecens(_atlobj.piecens, pidx);
 
@@ -214,7 +214,7 @@ public class AtlantiManager extends GameManager
         }
 
         // select a random position for our tile and place it
-        tile = (AtlantiTile)RandomUtil.pickRandom(moves);
+        tile = RandomUtil.pickRandom(moves);
         if (placeTile(pidx, tile)) {
             return;
         }
@@ -626,7 +626,7 @@ public class AtlantiManager extends GameManager
         Iterator iter = cities.keys();
         while (iter.hasNext()) {
             int cityClaim = ((Integer)iter.next()).intValue();
-            int[] farmClaims = (int[])cities.get(cityClaim);
+            int[] farmClaims = cities.get(cityClaim);
             int[] pcount = new int[getPlayerCount()];
             int max = 0;
 

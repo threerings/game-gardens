@@ -14,15 +14,18 @@
 
   <!-- declare our classpath -->
   <path id="classpath">
+    <!-- we find things here in the full GG dev environment -->
+    <fileset dir="../../../dist/lib" includes="**/*.jar"/>
+    <!-- we find things here in the SDK -->
     <fileset dir="../lib" includes="**/*.jar"/>
+    <!-- these are our bits -->
     <pathelement location="${deploy.dir}/classes"/>
   </path>
 
   <!-- generates additional methods for distributed object classes -->
   <target name="gendobj" depends="prepare">
-    <taskdef name="dobj"
-             classname="com.threerings.presents.tools.GenDObjectTask"
-             classpathref="classpath"/>
+    <taskdef name="dobj" classpathref="classpath"
+             classname="com.threerings.presents.tools.GenDObjectTask"/>
     <!-- make sure the dobject class files are all compiled -->
     <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
            debug="on" optimize="${build.optimize}" deprecation="on"

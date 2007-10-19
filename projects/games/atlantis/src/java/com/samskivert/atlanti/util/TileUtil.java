@@ -32,7 +32,7 @@ public class TileUtil implements TileCodes
      */
     public static AtlantiTile getStartingTile ()
     {
-        return (AtlantiTile)AtlantiTile.STARTING_TILE.clone();
+        return AtlantiTile.STARTING_TILE.clone();
     }
 
     /**
@@ -49,7 +49,7 @@ public class TileUtil implements TileCodes
         for (int i = 0; i < tsize; i++) {
             // when testing, we prune out most tiles to make games quicker
             if (!TESTING || RandomUtil.getInt(10) > 7) {
-                tiles.add(((AtlantiTile)TILE_SET.get(i)).clone());
+                tiles.add((TILE_SET.get(i)).clone());
             }
         }
         return tiles;
@@ -560,7 +560,7 @@ public class TileUtil implements TileCodes
     {
         int count = 0;
         for (int i = 0; i < tiles.size(); i++) {
-            AtlantiTile tile = (AtlantiTile)tiles.get(i);
+            AtlantiTile tile = tiles.get(i);
             if (tile.piecen != null &&
                 tile.piecen.owner == playerIndex) {
                 count++;

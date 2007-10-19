@@ -208,7 +208,7 @@ public class AtlantiBoardView extends JPanel
         Log.info("Setting tile to be placed [tile=" + tile + "].");
 
         // make a copy of this tile so that we can play with it
-        _placingTile = (AtlantiTile)tile.clone();;
+        _placingTile = tile.clone();;
 
         // update our internal state based on this new placing tile
         if (_placingTile != null) {
