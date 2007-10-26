@@ -24,7 +24,6 @@ package com.threerings.toybox.util;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
-import javax.imageio.ImageIO;
 
 import com.threerings.media.FrameManager;
 import com.threerings.media.image.ImageUtil;
@@ -101,7 +100,7 @@ public abstract class ToyBoxContext implements EZGameContext
     public BufferedImage loadImage (String rsrcPath)
     {
         try {
-            return ImageIO.read(getResourceManager().getImageResource(rsrcPath));
+            return getResourceManager().getImageResource(rsrcPath);
         } catch (IOException ioe) {
             log.log(Level.WARNING,"Unable to load image resource [path=" + rsrcPath + "].", ioe);
             // cope; return an error image of abitrary size
