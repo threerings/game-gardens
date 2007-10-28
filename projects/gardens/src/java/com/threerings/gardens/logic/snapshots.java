@@ -37,14 +37,14 @@ public class snapshots
             });
 
         } else if (UPDATED.equals(category)) {
-            games = getGames(POPULAR, new RefreshFunc() {
+            games = getGames(UPDATED, new RefreshFunc() {
                 public ArrayList<GameRecord> refresh () throws Exception {
                     return gtapp.getToyBoxRepository().loadRecentlyUpdated(SNAPSHOT_COUNT);
                 }
             });
 
         } else { // ADDED or whatever
-            games = getGames(POPULAR, new RefreshFunc() {
+            games = getGames(ADDED, new RefreshFunc() {
                 public ArrayList<GameRecord> refresh () throws Exception {
                     return gtapp.getToyBoxRepository().loadRecentlyAdded(SNAPSHOT_COUNT);
                 }
