@@ -65,7 +65,12 @@
   </target>
 
   <!-- rebuilds all subprojects and the top-level application -->
-  <target name="distall" depends="prepare,distprojects,distwebapps,client"/>
+  <target name="distall" depends="prepare,distprojects,distwebapps,client">
+    <!-- copy our jar files into a directory where the games can build against them -->
+    <copy todir="projects/games/lib">
+      <fileset dir="${deploy.dir}/lib" includes="**/*.jar"/>
+    </copy>
+  </target>
 
   <!-- cleans out the compiled code -->
   <target name="clean">
@@ -75,6 +80,7 @@
   <!-- fully cleans out the application -->
   <target name="distclean" depends="clean">
     <delete dir="${deploy.dir}"/>
+    <delete><fileset dir="projects/games/lib" includes="**/*.jar"/></delete>
   </target>
 
   <!-- fully cleans out the application and all subprojects -->
