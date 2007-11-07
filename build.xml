@@ -25,6 +25,7 @@
     <file name="${extlibs.dir}/commons-lang.jar"/>
     <file name="${extlibs.dir}/commons-logging.jar"/>
     <file name="${extlibs.dir}/getdown.jar"/>
+    <file name="${extlibs.dir}/google-collect.jar"/>
     <file name="${extlibs.dir}/javassist.jar"/>
     <file name="${extlibs.dir}/junit-3.7.jar"/>
     <file name="${extlibs.dir}/junit4.jar"/>
