@@ -73,17 +73,25 @@
     <fail unless="username">
       Please specify a username: ant -Dusername=who client
     </fail>
+    <echo file="client.policy">
+      grant codeBase "file:../client/gg-client.jar" {
+          permission java.security.AllPermission;
+      };
+    </echo>
     <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
       <classpath>
         <pathelement location="${deploy.dir}/classes"/>
         <pathelement location="../client/gg-client.jar"/>
       </classpath>
       <sysproperty key="no_log_redir" value="true"/>
+      <sysproperty key="java.security.manager" value=""/>
+      <sysproperty key="java.security.policy" value="client.policy"/>
       <arg value="localhost"/>
       <arg value="47624"/>
       <arg value="${username}"/>
       <arg value="secret"/>
     </java>
+    <delete file="client.policy"/>
   </target>
 
   <!-- a target for running the game server -->
