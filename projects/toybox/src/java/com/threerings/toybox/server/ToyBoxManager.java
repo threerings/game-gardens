@@ -385,7 +385,7 @@ public class ToyBoxManager
 
             // add a delegate that will record the game's playtime upon
             // completion
-            pmgr.addDelegate(new GameManagerDelegate((GameManager)pmgr) {
+            pmgr.addDelegate(new GameManagerDelegate() {
                 public void gameWillStart () {
                     _started = System.currentTimeMillis();
                 }
