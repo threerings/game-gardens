@@ -151,7 +151,7 @@ public class TableItem extends JPanel
             addGoButton(gbc);
         }
 
-        // and update ourselves based on the contents of the occupants list
+        // and update ourselves based on the contents of the players list
         tableUpdated(table);
     }
 
@@ -170,18 +170,18 @@ public class TableItem extends JPanel
         // now enable and label the buttons accordingly
         int slength = _seats.length;
         for (int i = 0; i < slength; i++) {
-            if (table.occupants[i] == null) {
+            if (table.players[i] == null) {
                 _seats[i].setText(JOIN_LABEL);
                 _seats[i].setEnabled(!isSeated);
                 _seats[i].setActionCommand("join");
 
-            } else if (table.occupants[i].equals(_self) && !table.inPlay()) {
+            } else if (table.players[i].equals(_self) && !table.inPlay()) {
                 _seats[i].setText(LEAVE_LABEL);
                 _seats[i].setEnabled(true);
                 _seats[i].setActionCommand("leave");
 
             } else {
-                _seats[i].setText(table.occupants[i].toString());
+                _seats[i].setText(table.players[i].toString());
                 _seats[i].setEnabled(false);
             }
         }
