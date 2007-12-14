@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.getdown.data.Resource;
-import com.threerings.getdown.launcher.HTTPDownloader;
+import com.threerings.getdown.net.HTTPDownloader;
 
 import com.threerings.resource.ResourceManager;
 

@@ -22,7 +22,7 @@
 package com.threerings.toybox.lobby.client;
 
 import com.threerings.getdown.data.Resource;
-import com.threerings.getdown.launcher.Downloader;
+import com.threerings.getdown.net.Downloader;
 
 import com.threerings.crowd.client.PlaceController;
 import com.threerings.crowd.client.PlaceView;
@@ -68,13 +68,14 @@ public class LobbyController extends PlaceController
                 log.info("Resolving downloads...");
                 // TODO: show download progress
             }
-            public void downloadProgress (int percent, long remaining) {
+            public boolean downloadProgress (int percent, long remaining) {
                 log.info("Download progress: " + percent);
                 if (percent == 100) {
                     _panel.showMatchMakingView(_config);
                 } else {
                     // TODO: show download progress
                 }
+                return true;
             }
             public void downloadFailed (Resource rsrc, Exception e) {
                 log.info("Download failed [rsrc=" + rsrc + ", e=" + e + "].");
