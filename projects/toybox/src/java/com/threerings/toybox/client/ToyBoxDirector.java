@@ -270,7 +270,7 @@ public class ToyBoxDirector extends BasicDirector
         // immediately call "downloadComplete()" on the observer
         HTTPDownloader dloader = new HTTPDownloader(rsrcs, obs);
         // we're already on our own thread so just run() rather than start()
-        dloader.run();
+        dloader.download();
     }
 
     /** Helper function for {@link #resolveResourcesAsync}. */
