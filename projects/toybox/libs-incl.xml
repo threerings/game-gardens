@@ -11,14 +11,13 @@
     <include name="commons-logging.jar"/>
     <include name="getdown.jar"/>
     <include name="velocity-1.5-dev.jar"/>
-    <!-- these might be named lib-SNAPSHOT-0.0.jar or lib.jar -->
-    <include name="narya-base*.jar"/>
-    <include name="narya-distrib*.jar"/>
-    <include name="nenya-media*.jar"/>
-    <include name="nenya-rsrc*.jar"/>
-    <include name="samskivert*.jar"/>
-    <include name="threerings*.jar"/> <!-- optional -->
-    <include name="vilya-micasa*.jar"/>
-    <include name="vilya-parlor*.jar"/>
+    <include name="narya-base.jar"/>
+    <include name="narya-distrib.jar"/>
+    <include name="nenya-media.jar"/>
+    <include name="nenya-rsrc.jar"/>
+    <include name="samskivert.jar"/>
+    <include name="threerings.jar"/> <!-- optional -->
+    <include name="vilya-micasa.jar"/>
+    <include name="vilya-parlor.jar"/>
   </fileset>
 </project>
