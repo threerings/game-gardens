@@ -29,12 +29,6 @@ if [ -f $SECURITY_POLICY ]; then
 fi
 umask 002
 
-JAVA_VM="$JAVA_HOME/bin/java"
-if [ ! -e $JAVA_VM ]; then
-    echo "$0: Cannot find JVM in $JAVA_HOME. Exiting."
-    exit 255
-fi
-
 # Start with the standard Java classes
 CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
 
@@ -64,13 +58,14 @@ elif [ "$WHOAMI" != "$GARDENS_USER" ]; then
     echo "$0: Running as $WHOAMI rather than $GARDENS_USER."
 fi
 
+JAVA_VERSION=`java -fullversion`
 echo "Running Game Gardens server:" >>$LOGFILE
 echo "    Gardens root: $GARDENS_HOME" >>$LOGFILE
-echo "         Java VM: $JAVA_VM" >>$LOGFILE
+echo "    Java version: $JAVA_VERSION" >>$LOGFILE
 echo "       Java args: $JAVA_ARGS" >>$LOGFILE
 echo "    Server class: $CLASS" >>$LOGFILE
 
-$JAVA_VM $JAVA_ARGS $CLASS >>$LOGFILE 2>&1
+java $JAVA_ARGS $CLASS >>$LOGFILE 2>&1
 EXIT_CODE=$?
 
 # Archive the server log
