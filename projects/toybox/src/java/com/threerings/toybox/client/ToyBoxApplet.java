@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 
-import com.samskivert.util.Interval;
 import com.samskivert.util.LoggingLogProvider;
 import com.samskivert.util.OneLineLogFormatter;
 
@@ -124,17 +123,6 @@ public class ToyBoxApplet extends ManagedJApplet
                 client.logoff(true);
             }
         }
-    }
-
-    @Override // from Applet
-    public void destroy ()
-    {
-        super.destroy();
-        log.info("ToyBoxApplet destroyed.");
-
-        // we need to cope with our threads being destroyed but our classes not
-        // being unloaded
-        Interval.resetTimer();
     }
 
     /** Helpy helper function. */
