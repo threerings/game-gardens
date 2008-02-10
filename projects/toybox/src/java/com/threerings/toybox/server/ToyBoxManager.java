@@ -378,13 +378,11 @@ public class ToyBoxManager
     public GameManager createGame (final GameRecord game, GameConfig config)
         throws InvocationException
     {
-        // TODO: various complicated bits to pass this request off to the
-        // standalone game server
+        // TODO: various complicated bits to pass this request off to the standalone game server
         try {
             PlaceManager pmgr = _plreg.createPlace(config);
 
-            // add a delegate that will record the game's playtime upon
-            // completion
+            // add a delegate that will record the game's playtime upon completion
             pmgr.addDelegate(new GameManagerDelegate() {
                 public void gameWillStart () {
                     _started = System.currentTimeMillis();
@@ -399,9 +397,11 @@ public class ToyBoxManager
             return (GameManager)pmgr;
 
         } catch (InstantiationException ie) {
-            log.log(Level.WARNING, "Failed to create manager for game " +
-                    "[config=" + config + "]", ie);
+            log.log(Level.WARNING, "Failed to create manager for game [config=" + config + "]", ie);
             throw new InvocationException(INTERNAL_ERROR);
+
+        } catch (UnsupportedClassVersionError ucve) {
+            throw new InvocationException("e.code_version_incorrect");
         }
     }
 
