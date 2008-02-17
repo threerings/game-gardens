@@ -21,7 +21,7 @@
 
 package com.threerings.toybox.data;
 
-import com.threerings.ezgame.data.GameDefinition;
+import com.whirled.game.data.GameDefinition;
 
 /**
  * Defines some bits for ToyBox games.

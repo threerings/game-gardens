@@ -27,7 +27,7 @@ import java.util.logging.Level;
 
 import java.net.URL;
 
-import com.threerings.ezgame.data.GameDefinition;
+import com.whirled.game.data.GameDefinition;
 
 import static com.threerings.toybox.Log.log;
 

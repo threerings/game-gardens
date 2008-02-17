@@ -21,14 +21,14 @@
 
 package com.threerings.toybox.xml;
 
-import com.threerings.ezgame.xml.GameParser;
+import com.whirled.game.xml.WhirledGameParser;
 
 import com.threerings.toybox.data.ToyBoxGameDefinition;
 
 /**
  * Handles parsing {@link ToyBoxGameDefinition} instances.
  */
-public class ToyBoxGameParser extends GameParser
+public class ToyBoxGameParser extends WhirledGameParser
 {
     @Override // from GameParser
     protected String getGameDefinitionClass ()

@@ -21,15 +21,15 @@
 
 package com.threerings.toybox.data;
 
-import com.threerings.ezgame.data.EZGameConfig;
-import com.threerings.ezgame.data.GameDefinition;
+import com.whirled.game.data.WhirledGameConfig;
+import com.whirled.game.data.GameDefinition;
 
 import static com.threerings.toybox.Log.log;
 
 /**
- * Provides configuration to ToyBox games. Everything is now handled by the EZ game framework.
+ * Provides configuration to ToyBox games. Everything is now handled by the whirled game framework.
  */
-public class ToyBoxGameConfig extends EZGameConfig
+public class ToyBoxGameConfig extends WhirledGameConfig
 {
     /** A zero argument constructor used when unserializing. */
     public ToyBoxGameConfig ()

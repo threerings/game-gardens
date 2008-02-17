@@ -45,7 +45,7 @@ import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.client.GameReadyObserver;
-import com.threerings.ezgame.data.GameDefinition;
+import com.whirled.game.data.GameDefinition;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;

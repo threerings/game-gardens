@@ -29,7 +29,7 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.threerings.ezgame.xml.GameParser;
+import com.whirled.game.xml.WhirledGameParser;
 
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.data.ToyBoxGameDefinition;
@@ -145,11 +145,11 @@ public class GameRecord
      * Creates the parser we'll use to turn our text configuration (probably XML) into a game
      * definition.
      */
-    protected GameParser createParser ()
+    protected WhirledGameParser createParser ()
     {
         return new ToyBoxGameParser();
     }
 
     /** Used to parse our game definitions. */
-    protected static GameParser _parser;
+    protected static WhirledGameParser _parser;
 }
