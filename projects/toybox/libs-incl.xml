@@ -19,5 +19,6 @@
     <include name="threerings.jar"/> <!-- optional -->
     <include name="vilya-micasa.jar"/>
     <include name="vilya-parlor.jar"/>
+    <include name="whirled-code.jar"/>
   </fileset>
 </project>
