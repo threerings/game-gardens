@@ -46,8 +46,12 @@
              filter="!META-INF/*,!**/tools/**,!**/server/**"/>
       <injar path="${libs.dir}/vilya-parlor.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
+      <injar path="${libs.dir}/whirled-code.jar"
+             filter="**/game/WhirledGame.class,**/game/data/**,**/game/client/**,**/game/util/**"/>
       <injar path="${libs.dir}/samskivert.jar"
-             filter="!META-INF/*,**/io/**,**/util/**,**/net/**,**/swing/**,**/text/**,com/samskivert/Log.class,**/servlet/user/Password.class,**/servlet/user/UserUtil.class"/>
+             filter="!META-INF/*,**/io/**,**/util/**,**/net/**,**/swing/**,**/text/**,
+                     com/samskivert/Log.class,**/servlet/user/Password.class,
+                     **/servlet/user/UserUtil.class"/>
       <injar path="${libs.dir}/toybox.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
       <outjar path="${deploy.dir}/gg-client.jar"/>
