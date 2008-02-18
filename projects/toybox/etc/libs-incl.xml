@@ -2,6 +2,7 @@
 <!-- declares the libraries needed to build toybox -->
 <project name="library-dependencies">
   <fileset dir="${libs.dir}" id="toybox.libs">
+    <!-- Java dependencies -->
     <include name="ant.jar"/>
     <include name="commons-beanutils.jar"/>
     <include name="commons-collections.jar"/>
@@ -20,5 +21,10 @@
     <include name="vilya-micasa.jar"/>
     <include name="vilya-parlor.jar"/>
     <include name="whirled-code.jar"/>
+    <!-- ActionScript dependencies -->
+    <include name="naryalib.swc"/>
+    <include name="nenyalib.swc"/>
+    <include name="vilyalib.swc"/>
+    <include name="whirledlib.swc"/>
   </fileset>
 </project>

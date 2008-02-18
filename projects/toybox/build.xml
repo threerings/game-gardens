@@ -3,7 +3,7 @@
 <project name="toybox" default="compile" basedir=".">
 
   <!-- configuration parameters -->
-  <property name="app.name"    value="toybox"/>
+  <property name="lib.name"    value="toybox"/>
   <property name="deploy.dir"  value="dist"/>
   <property name="savedoc.dir" value="docs"/>
 
@@ -13,7 +13,7 @@
 
   <!-- import some targets to enumerate library dependencies -->
   <property name="libs.dir" value="../../dist/lib"/>
-  <import file="libs-incl.xml"/>
+  <import file="etc/libs-incl.xml"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
@@ -78,7 +78,7 @@
       <fileset dir="rsrc" includes="**/*" excludes="**/bundles/**"/>
     </copy>
     <copy todir="${deploy.dir}/lib" flatten="true">
-      <fileset refid="${app.name}.libs"/>
+      <fileset refid="${lib.name}.libs"/>
     </copy>
   </target>
 
@@ -103,6 +103,36 @@
                unless="threerings.present"/>
       <compilerarg value="-Xlint:unchecked"/>
     </javac>
+  </target>
+
+  <!-- checks whether our Flash library needs building -->
+  <target name="checkaslib">
+    <condition property="no_build_aslib"><or>
+      <not><available file="${flexsdk.dir}/lib/compc.jar"/></not>
+      <uptodate targetfile="${deploy.dir}/${lib.name}lib.swc">
+        <srcfiles dir="src/as" includes="**/*.as"/>
+      </uptodate>
+    </or></condition>
+  </target>
+
+  <!-- builds our Flash library -->
+  <target name="aslib" unless="no_build_aslib" depends="checkaslib">
+    <copy file="etc/aslib-config.xml.in" tofile="${deploy.dir}/aslib-config.xml">
+      <filterset>
+        <filter token="flex_sdk_dir" value="${flexsdk.dir}"/>
+        <filter token="lib_name_dir" value="${lib.name}"/>
+      </filterset>
+    </copy>
+    <java jar="${flexsdk.dir}/lib/compc.jar" fork="true" failonerror="true">
+      <arg value="-load-config"/>
+      <arg value="${deploy.dir}/aslib-config.xml"/>
+      <arg value="-compiler.optimize"/>
+      <arg value="-compiler.source-path=src/as/"/>
+      <arg value="-include-sources=src/as/"/>
+      <arg value="-output"/>
+      <arg value="${deploy.dir}/${lib.name}lib.swc"/>
+    </java>
+    <delete file="${deploy.dir}/aslib-config.xml"/>
   </target>
 
   <!-- build the javadoc documentation -->
@@ -133,8 +163,8 @@
   <target name="all" depends="clean,prepare,compile,javadoc,dist"/>
 
   <!-- builds our distribution files (war and jar) -->
-  <target name="dist" depends="prepare,compile">
-    <jar destfile="${deploy.dir}/${app.name}.jar"
+  <target name="dist" depends="prepare,compile,aslib">
+    <jar destfile="${deploy.dir}/${lib.name}.jar"
          basedir="${deploy.dir}/classes"/>
   </target>
 </project>
