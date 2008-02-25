@@ -1,0 +1,148 @@
+<!-- common build targets for Game Gardens games -->
+<project>
+
+  <!-- defines various standard stuff -->
+  <property name="src.dir"    value="src/java"/>
+  <property name="deploy.dir" value="dist"/>
+
+  <!-- declare our classpath -->
+  <path id="classpath">
+    <fileset dir="../lib" includes="**/*.jar"/>
+    <pathelement location="${deploy.dir}/classes"/>
+  </path>
+
+  <!-- generates additional methods for distributed object classes -->
+  <target name="gendobj" depends="prepare"
+          description="Updates distributed object auto-generated methods.">
+    <taskdef name="dobj" classpathref="classpath"
+             classname="com.threerings.presents.tools.GenDObjectTask"/>
+    <!-- make sure the dobject class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
+           debug="on" optimize="${build.optimize}" deprecation="on"
+           includeAntRuntime="false">
+      <classpath refid="classpath"/>
+      <include name="**/*Object.java"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+    </javac>
+    <!-- now generate the associated files -->
+    <dobj classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Object.java"/>
+    </dobj>
+  </target>
+
+  <!-- generates marshaller and dispatcher classes for all invocation -->
+  <!-- service declarations -->
+  <target name="genservice" description="Updates invocation service generated classes.">
+    <taskdef name="service" classpathref="classpath"
+             classname="com.threerings.presents.tools.GenServiceTask"/>
+    <!-- make sure the service class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
+           debug="on" optimize="${build.optimize}" deprecation="on"
+           includeAntRuntime="false">
+      <classpath refid="classpath"/>
+      <include name="**/*Service.java"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+    </javac>
+    <!-- now generate the associated files -->
+    <service header="lib/SOURCE_HEADER" classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Service.java"/>
+    </service>
+  </target>
+
+  <!-- adds readField and writeField methods to Stremable classes -->
+  <target name="procstream">
+    <taskdef name="instream" classpathref="classpath"
+             classname="com.threerings.presents.tools.InstrumentStreamableTask"/>
+    <!-- now instrument the associated files -->
+    <instream outdir="${deploy.dir}/classes">
+      <path refid="classpath"/>
+      <fileset dir="${deploy.dir}/classes" includes="**/*.class"/>
+    </instream>
+  </target>
+
+  <!-- prepares the application directories -->
+  <target name="prepare">
+    <mkdir dir="${deploy.dir}"/>
+    <mkdir dir="${deploy.dir}/classes"/>
+    <mkdir dir="${deploy.dir}/classes/rsrc"/>
+    <copy todir="${deploy.dir}/classes">
+      <fileset dir="${src.dir}" includes="**/*.properties"/>
+    </copy>
+    <copy todir="${deploy.dir}/classes/rsrc">
+      <fileset dir="rsrc" includes="**/*"/>
+    </copy>
+  </target>
+
+  <!-- cleans out the installed application -->
+  <target name="clean" description="Cleans out the build results.">
+    <delete dir="${deploy.dir}"/>
+  </target>
+
+  <!-- build the java class files -->
+  <target name="compile" depends="prepare" description="Compiles the game code.">
+    <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes" target="1.5"
+           debug="on" optimize="${build.optimize}" deprecation="on"
+           includeAntRuntime="false">
+      <classpath refid="classpath"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+    </javac>
+  </target>
+
+  <!-- builds our distribution files (war and jar) -->
+  <target name="dist" depends="prepare,compile,procstream"
+          description="Compiles and builds the game jar file.">
+    <jar file="${deploy.dir}/${app.name}.jar"
+         basedir="${deploy.dir}/classes"/>
+  </target>
+
+  <!-- a target for running a game client -->
+  <target name="client" description="Runs a test client. Be sure to pass -Dusername=somename">
+    <fail unless="username">
+      Please specify a username: ant -Dusername=who client
+    </fail>
+    <echo file="${deploy.dir}/client.policy">
+      grant codeBase "file:../client/gg-client.jar" {
+          permission java.security.AllPermission;
+      };
+    </echo>
+    <java classname="com.threerings.toybox.client.ToyBoxApp" fork="true">
+      <classpath>
+        <pathelement location="${deploy.dir}/classes"/>
+        <pathelement location="../client/gg-client.jar"/>
+      </classpath>
+      <sysproperty key="no_log_redir" value="true"/>
+      <sysproperty key="java.security.manager" value=""/>
+      <sysproperty key="java.security.policy" value="${deploy.dir}/client.policy"/>
+      <arg value="localhost"/>
+      <arg value="47624"/>
+      <arg value="${username}"/>
+      <arg value="secret"/>
+    </java>
+    <delete file="${deploy.dir}/client.policy"/>
+  </target>
+
+  <!-- a target for running the game server -->
+  <target name="server" depends="compile" description="Runs a test server.">
+    <propertyfile file="${deploy.dir}/classes/toybox.properties">
+      <entry key="resource_dir" value="${deploy.dir}"/>
+      <entry key="resource_url" value="file://${deploy.dir}"/>
+    </propertyfile>
+    <echo file="${deploy.dir}/server.policy">
+      grant codeBase "file://${basedir}/../lib/-" {
+          permission java.security.AllPermission;
+      };
+    </echo>
+    <java classname="com.threerings.toybox.server.ToyBoxServer" fork="true">
+      <classpath refid="classpath"/>
+      <sysproperty key="java.security.manager" value=""/>
+      <sysproperty key="java.security.policy" value="${deploy.dir}/server.policy"/>
+      <sysproperty key="game_conf" value="${app.name}.xml"/>
+    </java>
+    <delete file="${deploy.dir}/classes/toybox.properties"/>
+    <delete file="${deploy.dir}/server.policy"/>
+  </target>
+
+</project>
