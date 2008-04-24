@@ -24,12 +24,6 @@ resource_url = http://localhost/games/
 website_url = http://localhost
 
 #
-# Defines the directory into which the web application will be installed. (And
-# where the webapps will look for the site-data directory).
-
-webapp_dir = ../../webapps
-
-#
 # Defines the host and port on which our game server listens.
 
 server_host = localhost

@@ -5,23 +5,11 @@
 # Local configuration for this Game Gardens installation.
 
 #
-# The location of a JDK installation. This must be 1.5 or newer.
-
-export JAVA_HOME=/usr/local/java
-
-#
 # The user as whom the Game Gardens server will run. This user should have
 # write access to the 'logs' and 'data' directory (which are contained in
 # the same directory as this configuration file).
 
 GARDENS_USER=gardens
-
-#
-# The user and password with which we will access the database.
-
-DBSERVER=localhost
-DBUSER=gardens
-DBPASSWD=secret
 
 #
 # The address to which server-related emails will be sent.
