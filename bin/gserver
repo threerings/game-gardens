@@ -8,10 +8,10 @@ GARDENS_HOME=`dirname $0`/..
 GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
 
 # Load settings with those from gardens.conf
-if [ -f $GARDENS_HOME/gardens.conf ]; then
-    . $GARDENS_HOME/gardens.conf
+if [ -f $GARDENS_HOME/dist/gardens.conf ]; then
+    . $GARDENS_HOME/dist/gardens.conf
 else
-    echo "Can't load '$GARDENS_HOME/gardens.conf'; can't run server."
+    echo "Can't load '$GARDENS_HOME/dist/gardens.conf'; can't run server."
     exit 255
 fi
 
@@ -19,24 +19,14 @@ CLASS=com.threerings.toybox.server.ToyBoxServer
 JAVA_ARGS="-server -Dlog_level=$LOGLEVEL"
 umask 002
 
-JAVA_VM="$JAVA_HOME/bin/java"
-if [ ! -e $JAVA_VM ]; then
-    echo "$0: Cannot find JVM in $JAVA_HOME. Exiting."
-    exit 255
-fi
-
-# Start with the standard Java classes
-CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
-
+# Start with the deployment directory
+CLASSPATH="$GARDENS_HOME/dist"
 # Add all JAR files in $GARDENS_HOME/dist/lib to the CLASSPATH
 for jar in $GARDENS_HOME/dist/lib/*.jar; do
     if [ -e $jar ]; then
-        CLASSPATH=$jar:$CLASSPATH
+        CLASSPATH=$CLASSPATH:$jar
     fi
 done
-
-# Add the main directory to the CLASSPATH
-CLASSPATH=$GARDENS_HOME:$CLASSPATH
 export CLASSPATH
 
 # Set up the LD_LIBRARY_PATH to include our shared libraries
@@ -50,5 +40,5 @@ echo "         Java VM: $JAVA_VM"
 echo "       Java args: $JAVA_ARGS"
 echo "    Server class: $CLASS"
 
-$JAVA_VM $JAVA_ARGS $CLASS
+java $JAVA_ARGS $CLASS
 exit $?

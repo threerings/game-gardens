@@ -13,10 +13,10 @@ GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
 LOGFILE=$GARDENS_HOME/log/gardens.log
 
 # Load settings with those from gardens.conf
-if [ -f $GARDENS_HOME/gardens.conf ]; then
-    . $GARDENS_HOME/gardens.conf
+if [ -f $GARDENS_HOME/dist/gardens.conf ]; then
+    . $GARDENS_HOME/dist/gardens.conf
 else
-    echo "Can't load '$GARDENS_HOME/gardens.conf'; can't run server."
+    echo "Can't load '$GARDENS_HOME/dist/gardens.conf'; can't run server."
     exit 255
 fi
 
@@ -29,18 +29,14 @@ if [ -f $SECURITY_POLICY ]; then
 fi
 umask 002
 
-# Start with the standard Java classes
-CLASSPATH="$JAVA_HOME/jre/lib/rt.jar"
-
+# Start with the deployment directory
+CLASSPATH="$GARDENS_HOME/dist"
 # Add all JAR files in $GARDENS_HOME/dist/lib to the CLASSPATH
 for jar in $GARDENS_HOME/dist/lib/*.jar; do
     if [ -e $jar ]; then
-        CLASSPATH=$jar:$CLASSPATH
+        CLASSPATH=$CLASSPATH:$jar
     fi
 done
-
-# Add the deployment directory directory to the CLASSPATH for properties
-CLASSPATH=$GARDENS_HOME/dist:$CLASSPATH
 export CLASSPATH
 
 # Set up the LD_LIBRARY_PATH to include our shared libraries

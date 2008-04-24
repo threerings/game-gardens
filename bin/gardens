@@ -8,13 +8,13 @@
 # Locate our ocean directory
 GARDENS_HOME=`dirname $0`
 GARDENS_HOME=`cd $GARDENS_HOME/.. ; pwd`
-if [ ! -f $GARDENS_HOME/gardens.conf ]; then
-    echo "Misconfigured GARDENS_HOME? Missing: $GARDENS_HOME/gardens.conf"
+if [ ! -f $GARDENS_HOME/dist/gardens.conf ]; then
+    echo "Misconfigured GARDENS_HOME? Missing: $GARDENS_HOME/dist/gardens.conf"
     exit 1
 fi
 
 # Read in our configuration
-. $GARDENS_HOME/gardens.conf
+. $GARDENS_HOME/dist/gardens.conf
 
 # Let's blow that file descriptor limit wide open baby!
 ulimit -n 4096
