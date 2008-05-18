@@ -38,6 +38,7 @@ import java.util.logging.Level;
 
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
+import com.samskivert.jdbc.WriteOnlyUnit;
 import com.samskivert.util.IntIntMap;
 import com.samskivert.util.Interval;
 import com.samskivert.util.Invoker;
@@ -53,6 +54,7 @@ import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationManager;
 import com.threerings.presents.server.PresentsDObjectMgr;
+import com.threerings.presents.util.PersistingUnit;
 import com.threerings.presents.util.ResultAdapter;
 
 import com.threerings.crowd.data.PlaceConfig;
@@ -235,15 +237,9 @@ public class ToyBoxManager
                  ", mins=" + mins + "].");
 
         final int fmins = mins;
-        _invoker.postUnit(new Invoker.Unit() {
-            public boolean invoke () {
-                try {
-                    _gamerepo.incrementPlaytime(game.gameId, fmins);
-                } catch (Exception e) {
-                    log.log(Level.WARNING, "Failed to update playtime " +
-                            "[game=" + game.name + ", mins=" + fmins + "].", e);
-                }
-                return false;
+        _invoker.postUnit(new WriteOnlyUnit("updatePlaytime(" + game.gameId + ", " + mins + ")") {
+            public void invokePersist () throws Exception {
+                _gamerepo.incrementPlaytime(game.gameId, fmins);
             }
         });
     }
@@ -269,35 +265,21 @@ public class ToyBoxManager
         }
 
         // load the game information from the database
-        String ikey = "resolveLobby(" + gameId + ")";
-        _invoker.postUnit(new Invoker.Unit(ikey) {
-            public boolean invoke () {
-                try {
-                    _game = _gamerepo.loadGame(gameId);
-                } catch (PersistenceException pe) {
-                    log.log(Level.WARNING, "Failed to load game " +
-                            "[game=" + gameId + "].", pe);
+        _invoker.postUnit(new PersistingUnit("resolveLobby(" + gameId + ")", rl) {
+            public void invokePersistent () throws Exception {
+                if ((_game = _gamerepo.loadGame(gameId)) == null) {
+                    throw new InvocationException(INTERNAL_ERROR);
                 }
-                return true;
             }
-
-            public void handleResult () {
-                // if we failed to load the game, stop now
-                if (_game == null) {
-                    rl.requestFailed(INTERNAL_ERROR);
-                    return;
-                }
-
+            public void handleSuccess () {
                 try {
-                    // start the lobby resolution. if this fails we will
-                    // catch the failure and report it to the caller
+                    // start the lobby resolution. if this fails we will catch the failure and
+                    // report it to the caller
                     resolveLobby(_game, rl);
-
                 } catch (InvocationException ie) {
                     rl.requestFailed(ie.getMessage());
                 }
             }
-
             protected GameRecord _game;
         });
     }
