@@ -21,6 +21,8 @@
 
 package com.threerings.toybox.data;
 
+import com.threerings.presents.data.Permission;
+
 import com.threerings.crowd.chat.data.ChatCodes;
 import com.threerings.crowd.data.BodyObject;
 
@@ -38,13 +40,13 @@ public class ToyBoxUserObject extends BodyObject
     /** Indicates which access control tokens are held by this user. */
     public TokenRing tokens;
 
-    // documentation inherited
-    public String checkAccess (String feature, Object context)
+    @Override // from BodyObject
+    public String checkAccess (Permission perm, Object context)
     {
-        if (ChatCodes.BROADCAST_ACCESS.equals(feature)) {
+        if (perm == ChatCodes.BROADCAST_ACCESS) {
             return tokens.isAdmin() ? null : ChatCodes.ACCESS_DENIED;
         } else {
-            return super.checkAccess(feature, context);
+            return super.checkAccess(perm, context);
         }
     }
 
