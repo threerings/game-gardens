@@ -21,14 +21,11 @@
 
 package com.threerings.toybox.data;
 
-import com.threerings.presents.data.Permission;
-
-import com.threerings.crowd.chat.data.ChatCodes;
 import com.threerings.crowd.data.BodyObject;
+import com.threerings.crowd.data.TokenRing;
 
 /**
- * Extends the {@link BodyObject} with some custom bits needed for ToyBox
- * (mainly permissions handling).
+ * Extends the {@link BodyObject} with some custom bits needed for ToyBox.
  */
 public class ToyBoxUserObject extends BodyObject
 {
@@ -41,13 +38,9 @@ public class ToyBoxUserObject extends BodyObject
     public TokenRing tokens;
 
     @Override // from BodyObject
-    public String checkAccess (Permission perm, Object context)
+    public TokenRing getTokens ()
     {
-        if (perm == ChatCodes.BROADCAST_ACCESS) {
-            return tokens.isAdmin() ? null : ChatCodes.ACCESS_DENIED;
-        } else {
-            return super.checkAccess(perm, context);
-        }
+        return tokens;
     }
 
     // AUTO-GENERATED: METHODS START

@@ -39,7 +39,8 @@ import com.threerings.presents.net.UsernamePasswordCreds;
 import com.threerings.presents.server.Authenticator;
 import com.threerings.presents.server.net.AuthingConnection;
 
-import com.threerings.toybox.data.TokenRing;
+import com.threerings.crowd.data.TokenRing;
+
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.ToyBoxServer;
 
