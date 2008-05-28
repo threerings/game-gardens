@@ -101,7 +101,7 @@ public class ToyBoxApp
             String rurl = System.getProperty("resource_url", "file://dist");
             app.init(username, gid, rurl);
         } catch (IOException ioe) {
-            log.log(Level.WARNING, "Error initializing application.", ioe);
+            log.warning("Error initializing application.", ioe);
         }
 
         // and run it

@@ -134,7 +134,7 @@ public class LobbyPanel extends JPanel
                 _bgimg = new BufferedMirage(ImageIO.read(bgin));
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load background image.", e);
+            log.warning("Failed to load background image.", e);
         }
 
         // properly configure all of our components

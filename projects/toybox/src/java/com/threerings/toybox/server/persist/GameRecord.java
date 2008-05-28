@@ -119,7 +119,7 @@ public class GameRecord
             return gamedef;
 
         } catch (Exception e) {
-//             log.log(Level.WARNING, "Failed to parse game definition [game=" + gameId + "]", e);
+//             log.warning("Failed to parse game definition [game=" + gameId + "]", e);
             throw (InvocationException)new InvocationException(
                 ToyBoxCodes.ERR_MALFORMED_GAMEDEF).initCause(e);
         }

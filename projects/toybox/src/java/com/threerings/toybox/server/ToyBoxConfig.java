@@ -72,7 +72,7 @@ public class ToyBoxConfig
                 return (Authenticator)Class.forName(authclass).newInstance();
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to instantiate custom " +
+            log.warning("Failed to instantiate custom " +
                     "authenticator [class=" + authclass + "]", e);
         }
         return null;

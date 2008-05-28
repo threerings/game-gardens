@@ -102,7 +102,7 @@ public class LogonPanel extends JPanel
                     getClass().getClassLoader().getResourceAsStream(
                         "rsrc/media/lobby_background.png")));
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load background image.", e);
+            log.warning("Failed to load background image.", e);
         }
 
         // try obtaining our title text from a system property

@@ -61,7 +61,7 @@ public class OOOAuthenticator extends Authenticator
                 ToyBoxServer.conprov);
             _authrep = (OOOUserRepository)_usermgr.getRepository();
         } catch (PersistenceException pe) {
-            log.log(Level.WARNING, "Failed to initialize OOO authenticator. " +
+            log.warning("Failed to initialize OOO authenticator. " +
                     "Users will be unable to log in.", pe);
         }
     }

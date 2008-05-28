@@ -188,7 +188,7 @@ public class ChatPanel extends JPanel
                 _bgimg = ImageIO.read(in);
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load background image.", e);
+            log.warning("Failed to load background image.", e);
         }
 
         // listen to ancestor events to request focus when added

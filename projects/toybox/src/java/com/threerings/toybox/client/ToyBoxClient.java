@@ -23,7 +23,6 @@ package com.threerings.toybox.client;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -61,12 +60,11 @@ import com.threerings.crowd.data.PlaceConfig;
 
 import com.threerings.parlor.client.ParlorDirector;
 
-import com.threerings.toybox.Log;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.util.ToyBoxContext;
 
-import static com.threerings.toybox.lobby.Log.log;
+import static com.threerings.toybox.Log.log;
 
 /**
  * The ToyBox client takes care of instantiating all of the proper managers and loading up all of
@@ -143,7 +141,7 @@ public class ToyBoxClient
             }
             protected void updateIdle (boolean isIdle) {
                 if (_ctx.getClient().isLoggedOn()) {
-                    Log.log.info("Setting idle " + isIdle + ".");
+                    log.info("Setting idle " + isIdle + ".");
                     BodyService bsvc = (BodyService)
                         _ctx.getClient().requireService(BodyService.class);
                     bsvc.setIdle(_ctx.getClient(), isIdle);
@@ -305,7 +303,7 @@ public class ToyBoxClient
                     ClassLoader loader = _toydtr.getClassLoader(config);
                     return (PlaceController)Class.forName(ccls, true, loader).newInstance();
                 } catch (Exception e) {
-                    log.log(Level.WARNING, "Failed to instantiate game controller " +
+                    log.warning("Failed to instantiate game controller " +
                             "[class=" + ccls + "]", e);
                     return null;
                 }

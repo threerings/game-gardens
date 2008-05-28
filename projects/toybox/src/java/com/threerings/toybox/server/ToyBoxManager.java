@@ -152,14 +152,14 @@ public class ToyBoxManager
             game.digest = Resource.computeDigest(jar, md, null);
 
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load game config [path=" + gameConfig + "].", e);
+            log.warning("Failed to load game config [path=" + gameConfig + "].", e);
             return;
         }
 
         try {
             resolveLobby(game, null);
         } catch (InvocationException ie) {
-            log.log(Level.WARNING, "Failed to resolve lobby [game=" + game + "].", ie);
+            log.warning("Failed to resolve lobby [game=" + game + "].", ie);
         }
     }
 
@@ -320,7 +320,7 @@ public class ToyBoxManager
             }
 
         } catch (InstantiationException e) {
-            log.log(Level.WARNING, "Failed to create game lobby " +
+            log.warning("Failed to create game lobby " +
                     "[game=" + game.which() + "]", e);
             throw new InvocationException(INTERNAL_ERROR);
         }
@@ -345,7 +345,7 @@ public class ToyBoxManager
                     try {
                         _gamerepo.updateOnlineCount(game.gameId, 0);
                     } catch (Exception e) {
-                        log.log(Level.WARNING, "Failed to clear online count " +
+                        log.warning("Failed to clear online count " +
                                 "[game=" + game.name + "].", e);
                     }
                     return false;
@@ -379,7 +379,7 @@ public class ToyBoxManager
             return (GameManager)pmgr;
 
         } catch (InstantiationException ie) {
-            log.log(Level.WARNING, "Failed to create manager for game [config=" + config + "]", ie);
+            log.warning("Failed to create manager for game [config=" + config + "]", ie);
             throw new InvocationException(INTERNAL_ERROR);
 
         } catch (UnsupportedClassVersionError ucve) {
@@ -409,7 +409,7 @@ public class ToyBoxManager
                     try {
                         _gamerepo.updateOnlineCount(entry.getKey(), entry.getValue());
                     } catch (Exception e) {
-                        log.log(Level.WARNING, "Failed to clear online count " +
+                        log.warning("Failed to clear online count " +
                                 "[gameId=" + entry.getKey() + "].", e);
                     }
                 }

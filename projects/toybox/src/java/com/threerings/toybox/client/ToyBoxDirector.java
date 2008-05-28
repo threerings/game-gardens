@@ -169,7 +169,7 @@ public class ToyBoxDirector extends BasicDirector
                             ", error=" + cause + "].");
             }
         };
-        log.fine("Requesting lobby oid [game=" + _gameId + "].");
+        log.debug("Requesting lobby oid [game=" + _gameId + "].");
         _toysvc.getLobbyOid(client, _gameId, rl);
     }
 
@@ -210,7 +210,7 @@ public class ToyBoxDirector extends BasicDirector
     /** Helper method for entering a lobby and reporting any failure. */
     protected void enterLobby (int lobbyOid)
     {
-        log.fine("Entering lobby [oid=" + lobbyOid + "].");
+        log.debug("Entering lobby [oid=" + lobbyOid + "].");
 
         // wire up a location observer that can detect if we fail to make it into our lobby
         LocationAdapter obs = new LocationAdapter() {
@@ -252,7 +252,7 @@ public class ToyBoxDirector extends BasicDirector
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (Exception e) {
-            log.log(Level.WARNING, "JVM does not support MD5!?", e);
+            log.warning("JVM does not support MD5!?", e);
             // we're in a bad way
             return;
         }
@@ -287,7 +287,7 @@ public class ToyBoxDirector extends BasicDirector
         try {
             remote = new URL(_resourceURL, rpath);
         } catch (Exception e) {
-            log.log(Level.WARNING, "Unable to construct URL for resource [local=" + lpath +
+            log.warning("Unable to construct URL for resource [local=" + lpath +
                     ", remote=" + rpath + "].", e);
             return null;
         }

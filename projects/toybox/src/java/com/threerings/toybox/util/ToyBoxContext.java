@@ -102,7 +102,7 @@ public abstract class ToyBoxContext implements WhirledGameContext
         try {
             return getResourceManager().getImageResource(rsrcPath);
         } catch (IOException ioe) {
-            log.log(Level.WARNING,"Unable to load image resource [path=" + rsrcPath + "].", ioe);
+            log.warning("Unable to load image resource [path=" + rsrcPath + "].", ioe);
             // cope; return an error image of abitrary size
             return ImageUtil.createErrorImage(50, 50);
         }

@@ -55,7 +55,7 @@ public class ToyBoxUI
             fancyFont = fancyFont.deriveFont(Font.PLAIN, 52);
             in.close();
         } catch (Exception e) {
-            log.log(Level.WARNING, "Failed to load custom font, falling " +
+            log.warning("Failed to load custom font, falling " +
                     "back to default.", e);
             fancyFont = BORING_DEFAULT;
         }
