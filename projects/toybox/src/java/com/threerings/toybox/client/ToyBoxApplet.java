@@ -25,9 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 
-import com.samskivert.util.LoggingLogProvider;
-import com.samskivert.util.OneLineLogFormatter;
-
 import com.threerings.media.FrameManager;
 import com.threerings.media.ManagedJApplet;
 
@@ -57,10 +54,6 @@ public class ToyBoxApplet extends ManagedJApplet
     public void init ()
     {
         super.init();
-
-        // set up the proper logging services
-        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
-        OneLineLogFormatter.configureDefaultHandler();
 
         log.info("Java: " + System.getProperty("java.version") +
             ", " + System.getProperty("java.vendor") + ")");

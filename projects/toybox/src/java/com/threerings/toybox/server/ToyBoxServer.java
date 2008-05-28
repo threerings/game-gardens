@@ -26,8 +26,6 @@ import java.util.logging.Level;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
-import com.samskivert.util.LoggingLogProvider;
-import com.samskivert.util.OneLineLogFormatter;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.util.Name;
@@ -137,10 +135,6 @@ public class ToyBoxServer extends CrowdServer
 
     public static void main (String[] args)
     {
-        // set up the proper logging services
-        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
-        OneLineLogFormatter.configureDefaultHandler();
-
         ToyBoxServer server = new ToyBoxServer();
         try {
             server.init();

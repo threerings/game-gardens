@@ -27,9 +27,6 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.logging.Level;
 
-import com.samskivert.util.LoggingLogProvider;
-import com.samskivert.util.OneLineLogFormatter;
-
 import com.threerings.media.FrameManager;
 
 import com.threerings.presents.client.Client;
@@ -125,10 +122,6 @@ public class ToyBoxApp
                 dlog = null;
             }
         }
-
-        // set up the proper logging services
-        com.samskivert.util.Log.setLogProvider(new LoggingLogProvider());
-        OneLineLogFormatter.configureDefaultHandler();
 
         if (dlog != null) {
             log.info("Opened debug log '" + dlog + "'.");
