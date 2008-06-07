@@ -24,6 +24,9 @@ package com.threerings.toybox.server;
 import java.io.File;
 import java.util.logging.Level;
 
+import com.google.inject.Injector;
+import com.google.inject.Guice;
+
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
 import com.samskivert.util.StringUtil;
@@ -66,14 +69,11 @@ public class ToyBoxServer extends CrowdServer
     /** Handles ToyBox-specific functionality. */
     public static ToyBoxManager toymgr = new ToyBoxManager();
 
-    /**
-     * Initializes all of the server services and prepares for operation.
-     */
-    public void init ()
+    @Override // from CrowdServer
+    public void init (Injector injector)
         throws Exception
     {
-        // do the base server initialization
-        super.init();
+        super.init(injector);
 
         // configure the client manager to use the appropriate client class
         clmgr.setClientFactory(new ClientFactory() {
@@ -135,9 +135,10 @@ public class ToyBoxServer extends CrowdServer
 
     public static void main (String[] args)
     {
-        ToyBoxServer server = new ToyBoxServer();
+        Injector injector = Guice.createInjector(new Module());
+        ToyBoxServer server = injector.getInstance(ToyBoxServer.class);
         try {
-            server.init();
+            server.init(injector);
             server.run();
         } catch (Exception e) {
             log.warning("Unable to initialize server.", e);
