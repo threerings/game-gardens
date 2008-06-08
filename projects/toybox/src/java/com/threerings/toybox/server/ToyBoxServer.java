@@ -90,11 +90,11 @@ public class ToyBoxServer extends CrowdServer
 
         // configure the client manager to use the appropriate client class
         clmgr.setClientFactory(new ClientFactory() {
-            public PresentsClient createClient (AuthRequest areq) {
-                return new ToyBoxClient();
+            public Class<? extends PresentsClient> getClientClass (AuthRequest areq) {
+                return ToyBoxClient.class;
             }
-            public ClientResolver createClientResolver (Name username) {
-                return new ToyBoxClientResolver();
+            public Class<? extends ClientResolver> getClientResolverClass (Name username) {
+                return ToyBoxClientResolver.class;
             }
         });
 

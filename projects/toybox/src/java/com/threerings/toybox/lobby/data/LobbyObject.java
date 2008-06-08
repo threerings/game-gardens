@@ -8,7 +8,7 @@ import java.util.Iterator;
 import com.samskivert.util.ArrayIntSet;
 
 import com.threerings.presents.dobj.DSet;
-import com.threerings.presents.server.PresentsServer;
+import com.threerings.presents.dobj.RootDObjectManager;
 
 import com.threerings.crowd.data.PlaceObject;
 
@@ -77,7 +77,7 @@ public class LobbyObject extends PlaceObject
     /**
      * Counts up the occupants of this lobby and of all games hosted from this lobby.
      */
-    public int countOccupants ()
+    public int countOccupants (RootDObjectManager omgr)
     {
         // add the occupants of the room
         ArrayIntSet occids = new ArrayIntSet();
@@ -88,7 +88,7 @@ public class LobbyObject extends PlaceObject
             Table table = (Table)iter.next();
             if (table.gameOid > 0) {
                 // for now we can directly reference the game object
-                Object obj = PresentsServer.omgr.getObject(table.gameOid);
+                Object obj = omgr.getObject(table.gameOid);
                 if (obj instanceof PlaceObject) {
                     PlaceObject plobj = (PlaceObject)obj;
                     for (int ii = 0; ii < plobj.occupants.size(); ii++) {

@@ -399,7 +399,7 @@ public class ToyBoxManager
             if (lmgr == null) {
                 continue;
             }
-            occs.put(gameId, ((LobbyObject)lmgr.getPlaceObject()).countOccupants());
+            occs.put(gameId, ((LobbyObject)lmgr.getPlaceObject()).countOccupants(_omgr));
         }
 
         // then update the database
