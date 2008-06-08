@@ -47,6 +47,7 @@ import com.threerings.presents.server.ShutdownManager;
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdClient;
 import com.threerings.crowd.server.CrowdServer;
+import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.server.ParlorManager;
@@ -126,13 +127,16 @@ public class ToyBoxServer extends CrowdServer
     }
 
     protected static class ToyBoxPlaceRegistry extends PlaceRegistry {
-        @Inject public ToyBoxPlaceRegistry (
-            ShutdownManager shutmgr, InvocationManager invmgr, RootDObjectManager omgr) {
-            super(shutmgr, invmgr, omgr);
+        @Inject public ToyBoxPlaceRegistry (ShutdownManager shutmgr) {
+            super(shutmgr);
         }
-        @Override public ClassLoader getClassLoader (PlaceConfig config) {
+        @Override protected PlaceManager createPlaceManager (PlaceConfig config) throws Exception {
             ClassLoader loader = toymgr.getClassLoader(config);
-            return (loader == null) ? super.getClassLoader(config) : loader;
+            if (loader == null) {
+                return super.createPlaceManager(config);
+            }
+            return (PlaceManager)Class.forName(
+                config.getManagerClassName(), true, loader).newInstance();
         }
     }
 
