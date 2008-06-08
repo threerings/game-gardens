@@ -30,6 +30,7 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.server.Authenticator;
+import com.threerings.presents.server.DummyAuthenticator;
 
 import static com.threerings.toybox.Log.log;
 
@@ -61,21 +62,23 @@ public class ToyBoxConfig
     }
 
     /**
-     * Instantiates and returns the authenticator to be used by the
-     * server.
+     * Instantiates and returns the authenticator to be used by the server.
      */
-    public static Authenticator getAuthenticator ()
+    public static Class<? extends Authenticator> getAuthenticator ()
     {
         String authclass = config.getValue("server_auth", "");
-        try {
-            if (!StringUtil.isBlank(authclass)) {
-                return (Authenticator)Class.forName(authclass).newInstance();
-            }
-        } catch (Exception e) {
-            log.warning("Failed to instantiate custom " +
-                    "authenticator [class=" + authclass + "]", e);
+        if (StringUtil.isBlank(authclass)) {
+            return DummyAuthenticator.class;
         }
-        return null;
+
+        try {
+            @SuppressWarnings("unchecked") Class<? extends Authenticator> clazz =
+                (Class<? extends Authenticator>)Class.forName(authclass);
+            return clazz;
+        } catch (Exception e) {
+            log.warning("Failed to instantiate custom authenticator [class=" + authclass + "]", e);
+            return null;
+        }
     }
 
     /**

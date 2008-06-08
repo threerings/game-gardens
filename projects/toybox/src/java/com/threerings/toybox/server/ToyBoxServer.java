@@ -67,6 +67,7 @@ public class ToyBoxServer extends CrowdServer
         @Override protected void configure () {
             super.configure();
             bind(PlaceRegistry.class).to(ToyBoxPlaceRegistry.class);
+            bind(Authenticator.class).to(ToyBoxConfig.getAuthenticator());
         }
     }
 
@@ -99,17 +100,10 @@ public class ToyBoxServer extends CrowdServer
         // create our database connection provider
         conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());
 
-        // set up our authenticator
-        Authenticator auth = ToyBoxConfig.getAuthenticator();
-        if (auth != null) {
-            conmgr.setAuthenticator(auth);
-        }
-
         // initialize our managers
         parmgr.init(invmgr, plreg);
 
-        // determine whether we've been run in test mode with a single game
-        // configuration
+        // determine whether we've been run in test mode with a single game configuration
         String gconfig = System.getProperty("game_conf");
         ToyBoxRepository toyrepo = null;
         if (StringUtil.isBlank(gconfig)) {
@@ -124,8 +118,7 @@ public class ToyBoxServer extends CrowdServer
     }
 
     /**
-     * Returns the port on which the connection manager will listen for
-     * client connections.
+     * Returns the port on which the connection manager will listen for client connections.
      */
     protected int[] getListenPorts ()
     {
