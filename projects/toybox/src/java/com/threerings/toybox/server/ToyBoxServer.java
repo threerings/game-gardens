@@ -24,6 +24,7 @@ package com.threerings.toybox.server;
 import java.io.File;
 import java.util.logging.Level;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Guice;
 
@@ -41,6 +42,7 @@ import com.threerings.presents.server.ClientFactory;
 import com.threerings.presents.server.ClientResolver;
 import com.threerings.presents.server.InvocationManager;
 import com.threerings.presents.server.PresentsClient;
+import com.threerings.presents.server.ShutdownManager;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdClient;
@@ -59,6 +61,15 @@ import static com.threerings.toybox.Log.log;
  */
 public class ToyBoxServer extends CrowdServer
 {
+    /** Configures dependencies needed by the ToyBox services. */
+    public static class Module extends CrowdServer.Module
+    {
+        @Override protected void configure () {
+            super.configure();
+            bind(PlaceRegistry.class).to(ToyBoxPlaceRegistry.class);
+        }
+    }
+
     /** The connection provider used to obtain access to our JDBC
      * databases. */
     public static ConnectionProvider conprov;
@@ -121,16 +132,15 @@ public class ToyBoxServer extends CrowdServer
         return new int[] { ToyBoxConfig.getServerPort() };
     }
 
-    // documentation inherited
-    protected PlaceRegistry createPlaceRegistry (
-        InvocationManager invmgr, RootDObjectManager omgr)
-    {
-        return new PlaceRegistry(invmgr, omgr) {
-            public ClassLoader getClassLoader (PlaceConfig config) {
-                ClassLoader loader = toymgr.getClassLoader(config);
-                return (loader == null) ? super.getClassLoader(config) : loader;
-            }
-        };
+    protected static class ToyBoxPlaceRegistry extends PlaceRegistry {
+        @Inject public ToyBoxPlaceRegistry (
+            ShutdownManager shutmgr, InvocationManager invmgr, RootDObjectManager omgr) {
+            super(shutmgr, invmgr, omgr);
+        }
+        @Override public ClassLoader getClassLoader (PlaceConfig config) {
+            ClassLoader loader = toymgr.getClassLoader(config);
+            return (loader == null) ? super.getClassLoader(config) : loader;
+        }
     }
 
     public static void main (String[] args)
