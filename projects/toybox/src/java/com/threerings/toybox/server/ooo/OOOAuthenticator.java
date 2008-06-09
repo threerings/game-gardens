@@ -23,6 +23,8 @@ package com.threerings.toybox.server.ooo;
 
 import java.util.logging.Level;
 
+import com.google.inject.Singleton;
+
 import com.samskivert.io.PersistenceException;
 import com.samskivert.util.Invoker;
 import com.threerings.util.Name;
@@ -50,6 +52,7 @@ import static com.threerings.toybox.Log.log;
 /**
  * Delegates authentication to the OOO user manager.
  */
+@Singleton
 public class OOOAuthenticator extends Authenticator
 {
     public OOOAuthenticator ()
