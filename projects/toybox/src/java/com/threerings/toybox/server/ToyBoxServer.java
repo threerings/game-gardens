@@ -24,9 +24,10 @@ package com.threerings.toybox.server;
 import java.io.File;
 import java.util.logging.Level;
 
+import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Guice;
+import com.google.inject.Singleton;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
@@ -126,6 +127,7 @@ public class ToyBoxServer extends CrowdServer
         return new int[] { ToyBoxConfig.getServerPort() };
     }
 
+    @Singleton
     protected static class ToyBoxPlaceRegistry extends PlaceRegistry {
         @Inject public ToyBoxPlaceRegistry (ShutdownManager shutmgr) {
             super(shutmgr);
