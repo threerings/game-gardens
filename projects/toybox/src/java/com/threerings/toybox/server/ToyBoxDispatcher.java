@@ -21,19 +21,17 @@
 
 package com.threerings.toybox.server;
 
-import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.data.InvocationMarshaller;
 import com.threerings.presents.server.InvocationDispatcher;
 import com.threerings.presents.server.InvocationException;
-import com.threerings.toybox.client.ToyBoxService;
 import com.threerings.toybox.data.ToyBoxMarshaller;
 
 /**
  * Dispatches requests to the {@link ToyBoxProvider}.
  */
-public class ToyBoxDispatcher extends InvocationDispatcher
+public class ToyBoxDispatcher extends InvocationDispatcher<ToyBoxMarshaller>
 {
     /**
      * Creates a dispatcher that may be registered to dispatch invocation
@@ -44,13 +42,14 @@ public class ToyBoxDispatcher extends InvocationDispatcher
         this.provider = provider;
     }
 
-    // from InvocationDispatcher
-    public InvocationMarshaller createMarshaller ()
+    @Override // documentation inherited
+    public ToyBoxMarshaller createMarshaller ()
     {
         return new ToyBoxMarshaller();
     }
 
-    @SuppressWarnings("unchecked") // from InvocationDispatcher
+    @SuppressWarnings("unchecked")
+    @Override // documentation inherited
     public void dispatchRequest (
         ClientObject source, int methodId, Object[] args)
         throws InvocationException

@@ -23,10 +23,7 @@ package com.threerings.toybox.client {
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
-import com.threerings.presents.client.InvocationService_InvocationListener;
 import com.threerings.presents.client.InvocationService_ResultListener;
-import com.threerings.presents.data.InvocationMarshaller_ResultMarshaller;
-import com.threerings.toybox.client.ToyBoxService;
 
 /**
  * An ActionScript version of the Java ToyBoxService interface.

@@ -70,18 +70,25 @@ public class ToyBoxServer extends CrowdServer
             super.configure();
             bind(PlaceRegistry.class).to(ToyBoxPlaceRegistry.class);
             bind(Authenticator.class).to(ToyBoxConfig.getAuthenticator());
+            bind(ConnectionProvider.class).toInstance(
+                new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig()));
         }
     }
 
-    /** The connection provider used to obtain access to our JDBC
-     * databases. */
-    public static ConnectionProvider conprov;
-
-    /** The parlor manager in operation on this server. */
-    public static ParlorManager parmgr = new ParlorManager();
-
-    /** Handles ToyBox-specific functionality. */
-    public static ToyBoxManager toymgr = new ToyBoxManager();
+    /**
+     * The main entry point for the ToyBox server.
+     */
+    public static void main (String[] args)
+    {
+        Injector injector = Guice.createInjector(new Module());
+        ToyBoxServer server = injector.getInstance(ToyBoxServer.class);
+        try {
+            server.init(injector);
+            server.run();
+        } catch (Exception e) {
+            log.warning("Unable to initialize server.", e);
+        }
+    }
 
     @Override // from CrowdServer
     public void init (Injector injector)
@@ -90,7 +97,7 @@ public class ToyBoxServer extends CrowdServer
         super.init(injector);
 
         // configure the client manager to use the appropriate client class
-        clmgr.setClientFactory(new ClientFactory() {
+        _clmgr.setClientFactory(new ClientFactory() {
             public Class<? extends PresentsClient> getClientClass (AuthRequest areq) {
                 return ToyBoxClient.class;
             }
@@ -99,21 +106,15 @@ public class ToyBoxServer extends CrowdServer
             }
         });
 
-        // create our database connection provider
-        conprov = new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig());
-
-        // initialize our managers
-        parmgr.init(invmgr, plreg);
-
         // determine whether we've been run in test mode with a single game configuration
         String gconfig = System.getProperty("game_conf");
         ToyBoxRepository toyrepo = null;
         if (StringUtil.isBlank(gconfig)) {
-            toyrepo = new ToyBoxRepository(conprov);
+            toyrepo = new ToyBoxRepository(_conprov);
         }
-        toymgr.init(omgr, invoker, invmgr, plreg, toyrepo);
+        _toymgr.init(toyrepo);
         if (!StringUtil.isBlank(gconfig)) {
-            toymgr.setDevelopmentMode(new File(gconfig));
+            _toymgr.setDevelopmentMode(new File(gconfig));
         }
 
         log.info("ToyBox server initialized.");
@@ -133,24 +134,17 @@ public class ToyBoxServer extends CrowdServer
             super(shutmgr);
         }
         @Override protected PlaceManager createPlaceManager (PlaceConfig config) throws Exception {
-            ClassLoader loader = toymgr.getClassLoader(config);
+            ClassLoader loader = _toymgr.getClassLoader(config);
             if (loader == null) {
                 return super.createPlaceManager(config);
             }
             return (PlaceManager)Class.forName(
                 config.getManagerClassName(), true, loader).newInstance();
         }
+        @Inject protected ToyBoxManager _toymgr;
     }
 
-    public static void main (String[] args)
-    {
-        Injector injector = Guice.createInjector(new Module());
-        ToyBoxServer server = injector.getInstance(ToyBoxServer.class);
-        try {
-            server.init(injector);
-            server.run();
-        } catch (Exception e) {
-            log.warning("Unable to initialize server.", e);
-        }
-    }
+    @Inject protected ParlorManager _parmgr;
+    @Inject protected ToyBoxManager _toymgr;
+    @Inject protected ConnectionProvider _conprov;
 }

@@ -21,14 +21,12 @@
 
 package com.threerings.toybox.data {
 
-import com.threerings.util.*; // for Float, Integer, etc.
-
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService_ResultListener;
 import com.threerings.presents.data.InvocationMarshaller;
-import com.threerings.presents.data.InvocationMarshaller_ListenerMarshaller;
 import com.threerings.presents.data.InvocationMarshaller_ResultMarshaller;
 import com.threerings.toybox.client.ToyBoxService;
+import com.threerings.util.Integer;
 
 /**
  * Provides the implementation of the {@link ToyBoxService} interface

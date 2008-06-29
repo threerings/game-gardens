@@ -23,9 +23,11 @@ package com.threerings.toybox.server.ooo;
 
 import java.util.logging.Level;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.samskivert.io.PersistenceException;
+import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.util.Invoker;
 import com.threerings.util.Name;
 
@@ -55,23 +57,17 @@ import static com.threerings.toybox.Log.log;
 @Singleton
 public class OOOAuthenticator extends Authenticator
 {
-    public OOOAuthenticator ()
+    @Inject public OOOAuthenticator (ConnectionProvider conprov)
+        throws PersistenceException
     {
-        try {
-            // we get our user manager configuration from the ocean config
-            _usermgr = new OOOUserManager(
-                ToyBoxConfig.config.getSubProperties("oooauth"),
-                ToyBoxServer.conprov);
-            _authrep = (OOOUserRepository)_usermgr.getRepository();
-        } catch (PersistenceException pe) {
-            log.warning("Failed to initialize OOO authenticator. " +
-                    "Users will be unable to log in.", pe);
-        }
+        // we get our user manager configuration from the ocean config
+        _usermgr = new OOOUserManager(
+            ToyBoxConfig.config.getSubProperties("oooauth"), conprov);
+        _authrep = (OOOUserRepository)_usermgr.getRepository();
     }
 
     // from abstract Authenticator
-    protected void processAuthentication (
-        AuthingConnection conn, AuthResponse rsp)
+    protected void processAuthentication (AuthingConnection conn, AuthResponse rsp)
         throws PersistenceException
     {
         AuthRequest req = conn.getAuthRequest();
@@ -87,12 +83,11 @@ public class OOOAuthenticator extends Authenticator
         if (!(req.getCredentials() instanceof UsernamePasswordCreds)) {
             rdata.code = SERVER_ERROR;
             log.warning("Invalid credentials: " + req);
-            // note that the finally block will be executed and
-            // communicate our auth response back to the conmgr
+            // note that the finally block will be executed and communicate our auth response back
+            // to the conmgr
             return;
         }
-        UsernamePasswordCreds creds = (UsernamePasswordCreds)
-            req.getCredentials();
+        UsernamePasswordCreds creds = (UsernamePasswordCreds)req.getCredentials();
         String username = creds.getUsername().toString();
 
         // load up their user account record

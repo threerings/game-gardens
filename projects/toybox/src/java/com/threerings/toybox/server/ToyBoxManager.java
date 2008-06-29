@@ -30,11 +30,14 @@ import java.io.PrintWriter;
 
 import java.security.MessageDigest;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
+
+import com.google.common.collect.Maps;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
@@ -49,6 +52,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.threerings.getdown.data.Resource;
 
+import com.threerings.presents.annotation.MainInvoker;
 import com.threerings.presents.client.InvocationService.ResultListener;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
@@ -85,6 +89,7 @@ import static com.threerings.toybox.data.ToyBoxCodes.*;
 /**
  * Manages the server side of the ToyBox services.
  */
+@Singleton
 public class ToyBoxManager
     implements ToyBoxProvider
 {
@@ -106,25 +111,32 @@ public class ToyBoxManager
             throws PersistenceException;
     }
 
-    public ToyBoxManager ()
+    @Inject public ToyBoxManager (InvocationManager invmgr)
     {
+        // register ourselves as providing the toybox service
+        invmgr.registerDispatcher(new ToyBoxDispatcher(this), TOYBOX_GROUP);
     }
 
     /**
      * Prepares the toybox manager for operation.
      */
-    public void init (PresentsDObjectMgr omgr, Invoker invoker, InvocationManager invmgr,
-                      PlaceRegistry plreg, GameRepository gamerepo)
+    public void init (GameRepository gamerepo)
         throws PersistenceException
     {
         // make a note of our server services
         _gamerepo = gamerepo;
-        _omgr = omgr;
-        _invoker = invoker;
-        _plreg = plreg;
 
-        // perform common initializations
-        finishInit(invmgr);
+        if (_gamerepo != null) {
+            // periodically write our occupancy information to the database
+            _popval = new Interval(_omgr) {
+                public void expired () {
+                    publishOccupancy();
+                }
+            };
+            _popval.schedule(60 * 1000L, true);
+        }
+
+        log.info("ToyBoxManager ready [rsrcdir=" + ToyBoxConfig.getResourceDir() + "].");
     }
 
     /**
@@ -161,27 +173,6 @@ public class ToyBoxManager
         } catch (InvocationException ie) {
             log.warning("Failed to resolve lobby [game=" + game + "].", ie);
         }
-    }
-
-    /**
-     * Handles initialization common to our two modes of operation.
-     */
-    protected void finishInit (InvocationManager invmgr)
-    {
-        // register ourselves as providing the toybox service
-        invmgr.registerDispatcher(new ToyBoxDispatcher(this), TOYBOX_GROUP);
-
-        if (_gamerepo != null) {
-            // periodically write our occupancy information to the database
-            _popval = new Interval(_omgr) {
-                public void expired () {
-                    publishOccupancy();
-                }
-            };
-            _popval.schedule(60 * 1000L, true);
-        }
-
-        log.info("ToyBoxManager ready [rsrcdir=" + ToyBoxConfig.getResourceDir() + "].");
     }
 
     /**
@@ -245,8 +236,7 @@ public class ToyBoxManager
     }
 
     // documentation inherited from interface
-    public void getLobbyOid (ClientObject caller, final int gameId,
-                             final ResultListener rl)
+    public void getLobbyOid (ClientObject caller, final int gameId, final ResultListener rl)
         throws InvocationException
     {
         // look to see if we have already resolved a lobby for this game
@@ -256,8 +246,7 @@ public class ToyBoxManager
             return;
         }
 
-        // if we are currently loading this lobby, add this listener to
-        // the list of penders
+        // if we are currently loading this lobby, add this listener to the list of penders
         ResultListenerList<Integer> penders = _penders.get(gameId);
         if (penders != null) {
             penders.add(new ResultAdapter<Integer>(rl));
@@ -285,9 +274,8 @@ public class ToyBoxManager
     }
 
     /**
-     * Resolves a lobby for the specified game definition. When the lobby
-     * is fully resolved, all pending listeners will be notified of its
-     * creation. See {@link #_penders}.
+     * Resolves a lobby for the specified game definition. When the lobby is fully resolved, all
+     * pending listeners will be notified of its creation. See {@link #_penders}.
      *
      * @param game the metadata for the game whose lobby we will create.
      */
@@ -308,8 +296,7 @@ public class ToyBoxManager
             _lobbyOids.put(game.gameId, ploid);
 
             // inform any resolution penders of the lobby oid
-            ResultListenerList<Integer> listeners =
-                _penders.remove(game.gameId);
+            ResultListenerList<Integer> listeners = _penders.remove(game.gameId);
             if (listeners != null) {
                 listeners.requestCompleted(ploid);
             }
@@ -320,8 +307,7 @@ public class ToyBoxManager
             }
 
         } catch (InstantiationException e) {
-            log.warning("Failed to create game lobby " +
-                    "[game=" + game.which() + "]", e);
+            log.warning("Failed to create game lobby [game=" + game.which() + "]", e);
             throw new InvocationException(INTERNAL_ERROR);
         }
     }
@@ -422,41 +408,36 @@ public class ToyBoxManager
     protected GameRepository _gamerepo;
 
     /** Handles distributed object business. */
-    protected PresentsDObjectMgr _omgr;
+    @Inject protected PresentsDObjectMgr _omgr;
 
     /** Handles database business. */
-    protected Invoker _invoker;
+    @Inject protected @MainInvoker Invoker _invoker;
 
     /** Handles creation of places. */
-    protected PlaceRegistry _plreg;
+    @Inject protected PlaceRegistry _plreg;
 
-    /** Contains pending listeners for lobbies in the process of being
+    /** Contains pending listeners for lobbies in the process of being resolved. */
+    protected Map<Integer,ResultListenerList<Integer>> _penders = Maps.newHashMap();
+
+    /** Contains a mapping from game identifier strings to lobby oids for lobbies that have been
      * resolved. */
-    protected HashMap<Integer,ResultListenerList<Integer>> _penders =
-        new HashMap<Integer,ResultListenerList<Integer>>();
+    protected Map<Integer,Integer> _lobbyOids = Maps.newHashMap();
 
-    /** Contains a mapping from game identifier strings to lobby oids for
-     * lobbies that have been resolved. */
-    protected HashMap<Integer,Integer> _lobbyOids =
-        new HashMap<Integer,Integer>();
+    /** Maps game identifiers to custom class loaders. In general this will only have one mapping,
+     * but we'll be general just in case.  */
+    protected Map<String,ToyBoxClassLoader> _loaders = Maps.newHashMap();
 
-    /** Maps game identifiers to custom class loaders. In general this
-     * will only have one mapping, but we'll be general just in case.  */
-    protected HashMap<String,ToyBoxClassLoader> _loaders =
-        new HashMap<String,ToyBoxClassLoader>();
-
-    /** Periodically writes out the number of users online in each game to
-     * a file. */
+    /** Periodically writes out the number of users online in each game to a file. */
     protected Interval _popval;
 
     /** One minute in milliseconds. */
     protected static final double ONE_MINUTE = 60 * 1000L;
 
-    /** The maximum playtime we will record for a game, in minutes. (This
-     * is to avoid booching the stats if something goes awry.) */
+    /** The maximum playtime we will record for a game, in minutes. (This is to avoid booching the
+     * stats if something goes awry.) */
     protected static final int MAX_PLAYTIME = 60;
 
-    /** If a game is in play longer than this many minutes, we log a
-     * warning when recording its playtime to catch funny business. */
+    /** If a game is in play longer than this many minutes, we log a warning when recording its
+     * playtime to catch funny business. */
     protected static final int ODDLY_LONG = 120;
 }

@@ -23,7 +23,11 @@ package com.threerings.toybox.lobby.server;
 
 import java.util.logging.Level;
 
+import com.threerings.presents.dobj.RootDObjectManager;
 import com.threerings.presents.server.InvocationException;
+import com.threerings.presents.server.InvocationManager;
+
+import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.data.Table;
 import com.threerings.parlor.game.data.GameObject;
@@ -39,9 +43,10 @@ import static com.threerings.toybox.lobby.Log.log;
  */
 public class ToyBoxTableManager extends TableManager
 {
-    public ToyBoxTableManager (ToyBoxManager toymgr, LobbyManager lmgr)
+    public ToyBoxTableManager (RootDObjectManager omgr, InvocationManager invmgr,
+                               PlaceRegistry plreg, ToyBoxManager toymgr, LobbyManager lmgr)
     {
-        super(lmgr.getPlaceObject());
+        super(omgr, invmgr, plreg, lmgr.getPlaceObject());
         _toymgr = toymgr;
         _lmgr = lmgr;
     }

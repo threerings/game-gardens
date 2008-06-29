@@ -21,12 +21,10 @@
 
 package com.threerings.toybox.server;
 
-import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationProvider;
-import com.threerings.toybox.client.ToyBoxService;
 
 /**
  * Defines the server-side of the {@link ToyBoxService}.
