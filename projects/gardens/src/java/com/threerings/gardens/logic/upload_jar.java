@@ -15,8 +15,9 @@ import com.samskivert.servlet.util.FriendlyException;
 import com.samskivert.servlet.util.ParameterUtil;
 import com.samskivert.velocity.InvocationContext;
 
-import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.threerings.getdown.data.Resource;
 
@@ -43,10 +44,9 @@ public class upload_jar extends UserLogic
         ctx.put("website_url", ToyBoxConfig.getWebsiteURL());
 
         // TODO: check disk usage, set max size to current quota
-        DiskFileUpload fu = new DiskFileUpload();
+        DiskFileItemFactory fact = new DiskFileItemFactory(4096, new File("/tmp"));
+        ServletFileUpload fu = new ServletFileUpload(fact);
         fu.setSizeMax(MAX_GAME_JAR_SIZE);
-        fu.setSizeThreshold(4096); // memory buffer size
-        fu.setRepositoryPath("/tmp");
         Iterator iter = fu.parseRequest(req).iterator();
 
         // the first item should be the gameid
