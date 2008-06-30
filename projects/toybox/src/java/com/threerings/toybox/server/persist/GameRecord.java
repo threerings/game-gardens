@@ -23,7 +23,6 @@ package com.threerings.toybox.server.persist;
 
 import java.io.StringReader;
 import java.sql.Date;
-import java.util.logging.Level;
 
 import com.samskivert.util.StringUtil;
 

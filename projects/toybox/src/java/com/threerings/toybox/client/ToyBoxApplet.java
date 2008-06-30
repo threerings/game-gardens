@@ -23,7 +23,6 @@ package com.threerings.toybox.client;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
 
 import com.threerings.media.FrameManager;
 import com.threerings.media.ManagedJApplet;

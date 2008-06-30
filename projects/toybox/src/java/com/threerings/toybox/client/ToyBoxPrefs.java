@@ -26,8 +26,6 @@ import java.awt.Rectangle;
 import com.samskivert.util.PrefsConfig;
 import com.samskivert.util.StringUtil;
 
-import static com.threerings.toybox.Log.log;
-
 /**
  * Maintains preferences for the ToyBox client.
  */

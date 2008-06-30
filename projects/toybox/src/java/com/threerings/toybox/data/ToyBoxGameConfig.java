@@ -24,8 +24,6 @@ package com.threerings.toybox.data;
 import com.whirled.game.data.WhirledGameConfig;
 import com.whirled.game.data.GameDefinition;
 
-import static com.threerings.toybox.Log.log;
-
 /**
  * Provides configuration to ToyBox games. Everything is now handled by the whirled game framework.
  */

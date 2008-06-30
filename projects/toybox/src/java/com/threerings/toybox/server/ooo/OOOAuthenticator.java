@@ -21,15 +21,11 @@
 
 package com.threerings.toybox.server.ooo;
 
-import java.util.logging.Level;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
-import com.samskivert.util.Invoker;
-import com.threerings.util.Name;
 
 import com.threerings.user.OOOUser;
 import com.threerings.user.OOOUserManager;
@@ -46,7 +42,6 @@ import com.threerings.presents.server.net.AuthingConnection;
 import com.threerings.crowd.data.TokenRing;
 
 import com.threerings.toybox.server.ToyBoxConfig;
-import com.threerings.toybox.server.ToyBoxServer;
 
 import static com.threerings.presents.data.AuthCodes.*;
 import static com.threerings.toybox.Log.log;

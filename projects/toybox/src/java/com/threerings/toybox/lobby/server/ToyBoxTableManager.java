@@ -21,8 +21,6 @@
 
 package com.threerings.toybox.lobby.server;
 
-import java.util.logging.Level;
-
 import com.threerings.presents.dobj.RootDObjectManager;
 import com.threerings.presents.server.InvocationException;
 import com.threerings.presents.server.InvocationManager;
@@ -36,7 +34,6 @@ import com.threerings.parlor.server.TableManager;
 
 import com.threerings.toybox.server.ToyBoxManager;
 
-import static com.threerings.toybox.lobby.Log.log;
 
 /**
  * Customizes the normal table manager with ToyBox specific requirements.

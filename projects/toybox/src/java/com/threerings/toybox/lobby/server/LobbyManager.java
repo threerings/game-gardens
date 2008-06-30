@@ -38,8 +38,6 @@ import com.threerings.toybox.server.persist.GameRecord;
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 
-import static com.threerings.toybox.lobby.Log.log;
-
 /**
  * Takes care of the server side of a particular lobby.
  */

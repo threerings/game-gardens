@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.logging.Level;
 
 import com.samskivert.util.StringUtil;
 
@@ -48,7 +47,6 @@ import com.threerings.parlor.client.GameReadyObserver;
 import com.whirled.game.data.GameDefinition;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
-import com.threerings.toybox.lobby.data.LobbyObject;
 
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;

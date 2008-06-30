@@ -21,32 +21,23 @@
 
 package com.threerings.toybox.server;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import java.security.MessageDigest;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.samskivert.io.PersistenceException;
-import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.WriteOnlyUnit;
 import com.samskivert.util.IntIntMap;
 import com.samskivert.util.Interval;
 import com.samskivert.util.Invoker;
 import com.samskivert.util.ResultListenerList;
-import com.samskivert.util.StringUtil;
 
 import org.apache.commons.io.IOUtils;
 
@@ -62,12 +53,10 @@ import com.threerings.presents.util.PersistingUnit;
 import com.threerings.presents.util.ResultAdapter;
 
 import com.threerings.crowd.data.PlaceConfig;
-import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.game.data.GameConfig;
-import com.threerings.parlor.game.data.GameObject;
 import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.game.server.GameManagerDelegate;
 

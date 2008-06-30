@@ -32,9 +32,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -63,7 +60,6 @@ import com.samskivert.swing.event.AncestorAdapter;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.util.MessageBundle;
-import com.threerings.util.Name;
 
 import com.threerings.crowd.chat.client.ChatDirector;
 import com.threerings.crowd.chat.client.ChatDisplay;

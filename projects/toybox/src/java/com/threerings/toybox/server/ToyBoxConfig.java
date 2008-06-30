@@ -23,7 +23,6 @@ package com.threerings.toybox.server;
 
 import java.io.File;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import com.samskivert.util.Config;
 import com.samskivert.util.StringUtil;

@@ -23,7 +23,6 @@ package com.threerings.toybox.util;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import java.net.URL;
 

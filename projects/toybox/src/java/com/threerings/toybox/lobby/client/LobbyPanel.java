@@ -24,7 +24,6 @@ package com.threerings.toybox.lobby.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.io.InputStream;
@@ -42,12 +41,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 
-import java.util.logging.Level;
-
 import com.samskivert.swing.GroupLayout;
-import com.samskivert.swing.HGroupLayout;
 import com.samskivert.swing.MultiLineLabel;
-import com.samskivert.swing.Spacer;
 import com.samskivert.swing.VGroupLayout;
 import com.samskivert.swing.util.SwingUtil;
 

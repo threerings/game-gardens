@@ -22,7 +22,6 @@
 package com.threerings.toybox.server;
 
 import java.io.File;
-import java.util.logging.Level;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -35,18 +34,14 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.util.Name;
 
-import com.threerings.presents.client.Client;
-import com.threerings.presents.dobj.RootDObjectManager;
 import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.Authenticator;
 import com.threerings.presents.server.ClientFactory;
 import com.threerings.presents.server.ClientResolver;
-import com.threerings.presents.server.InvocationManager;
 import com.threerings.presents.server.PresentsClient;
 import com.threerings.presents.server.ShutdownManager;
 
 import com.threerings.crowd.data.PlaceConfig;
-import com.threerings.crowd.server.CrowdClient;
 import com.threerings.crowd.server.CrowdServer;
 import com.threerings.crowd.server.PlaceManager;
 import com.threerings.crowd.server.PlaceRegistry;

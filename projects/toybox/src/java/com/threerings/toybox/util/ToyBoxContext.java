@@ -23,7 +23,6 @@ package com.threerings.toybox.util;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import com.threerings.media.FrameManager;
 import com.threerings.media.image.ImageUtil;

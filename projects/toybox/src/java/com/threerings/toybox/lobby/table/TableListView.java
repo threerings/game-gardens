@@ -24,7 +24,6 @@ package com.threerings.toybox.lobby.table;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
-import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -51,7 +50,6 @@ import com.threerings.parlor.data.TableLobbyObject;
 import com.threerings.parlor.game.client.GameConfigurator;
 import com.threerings.parlor.game.client.SwingGameConfigurator;
 
-import com.whirled.game.data.GameDefinition;
 import com.whirled.game.data.TableMatchConfig;
 
 import com.threerings.toybox.data.ToyBoxGameConfig;

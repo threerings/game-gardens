@@ -25,7 +25,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 import java.io.InputStream;
-import java.util.logging.Level;
 
 import com.threerings.toybox.util.ToyBoxContext;
 

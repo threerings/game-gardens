@@ -21,17 +21,12 @@
 
 package com.threerings.toybox.client;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-
-import java.io.InputStream;
-import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -39,8 +34,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.samskivert.servlet.user.Password;
@@ -55,7 +48,6 @@ import com.threerings.media.image.ImageUtil;
 import com.threerings.media.image.Mirage;
 
 import com.threerings.util.MessageBundle;
-import com.threerings.util.Name;
 
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.ClientObserver;

@@ -25,7 +25,6 @@ import com.threerings.crowd.data.TokenRing;
 import com.threerings.crowd.server.CrowdClient;
 
 import com.threerings.toybox.data.ToyBoxUserObject;
-import com.threerings.toybox.server.ToyBoxConfig;
 
 /**
  * Extends {@link CrowdClient} and customizes it for the ToyBox system.
