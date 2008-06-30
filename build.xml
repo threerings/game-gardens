@@ -9,13 +9,14 @@
   <property name="extlibs.dir" value="lib"/>
 
   <!-- declare our subprojects and webapps -->
-  <property name="projects" value="samskivert,narya,nenya,vilya,toybox"/>
+  <property name="projects" value="samskivert,narya,nenya,vilya,whirled,toybox"/>
   <property name="webapps"  value="gardens"/>
   <import file="build/etc/build-support.xml"/>
 
   <!-- declare the libraries needed by the main thing -->
   <filelist dir="." id="dist.libs">
     <file name="${extlibs.dir}/ant.jar"/>
+    <file name="${extlibs.dir}/atunit.jar"/>
     <file name="${extlibs.dir}/activation.jar"/>
     <file name="${extlibs.dir}/commons-beanutils.jar"/>
     <file name="${extlibs.dir}/commons-collections.jar"/>
@@ -26,6 +27,7 @@
     <file name="${extlibs.dir}/commons-logging.jar"/>
     <file name="${extlibs.dir}/getdown.jar"/>
     <file name="${extlibs.dir}/google-collect.jar"/>
+    <file name="${extlibs.dir}/guice.jar"/>
     <file name="${extlibs.dir}/javassist.jar"/>
     <file name="${extlibs.dir}/junit-3.7.jar"/>
     <file name="${extlibs.dir}/junit4.jar"/>
@@ -37,7 +39,7 @@
   </filelist>
 
   <!-- creates the Proguarded Java client -->
-  <target name="client" depends="copydistlibs">
+  <target name="client" depends="prepare">
     <ant dir="projects/client" target="all" inheritAll="false"/>
   </target>
 
@@ -45,16 +47,17 @@
   <target name="all"/>
 
   <!-- prepares the build directories, ensures that a toybox.properties exists -->
-  <target name="prepare" depends="copydistlibs">
+  <target name="prepare">
+    <!-- Copy all the libs we depend on. -->
+    <copyfilelist dest="${deploy.dir}/lib">
+      <filelist refid="dist.libs"/>
+    </copyfilelist>
+
     <if><not><isset property="webapp_dir"/></not><then>
       <echo>Generating default toybox.properties.</echo>
       <copy tofile="toybox.properties" file="toybox.properties.dist"/>
     </then></if>
     <copy file="toybox.properties" todir="${deploy.dir}"/>
-    <!-- XXX legacy, remove when NWO released -->
-    <copy todir="${deploy.dir}/lib">
-      <fileset dir="lib" includes="threerings.jar"/> <!-- optional -->
-    </copy>
   </target>
 
   <!-- convenience targets that build specific projects and copy the results -->
