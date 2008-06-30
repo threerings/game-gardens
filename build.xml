@@ -58,6 +58,7 @@
       <copy tofile="toybox.properties" file="toybox.properties.dist"/>
     </then></if>
     <copy file="toybox.properties" todir="${deploy.dir}"/>
+    <copy file="gardens.conf" todir="${deploy.dir}"/>
   </target>
 
   <!-- convenience targets that build specific projects and copy the results -->
