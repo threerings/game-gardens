@@ -2,10 +2,6 @@
 <classpath>
 	<classpathentry kind="src" output="dist/classes" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/samskivert"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/narya"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/vilya"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/nenya"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/commons-beanutils.jar"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/commons-collections.jar"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/commons-digester.jar"/>
@@ -14,4 +10,6 @@
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/commons-logging.jar"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/getdown.jar"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/velocity-1.5-dev.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/whirled"/>
+	<classpathentry kind="output" path=""/>
 </classpath>
