@@ -14,6 +14,6 @@
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/commons-logging.jar"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/getdown.jar"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/velocity-1.5-dev.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/whirled"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/whirled"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
