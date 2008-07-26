@@ -34,8 +34,6 @@ import com.threerings.toybox.data.ToyBoxCodes;
 import com.threerings.toybox.data.ToyBoxGameDefinition;
 import com.threerings.toybox.xml.ToyBoxGameParser;
 
-import static com.threerings.toybox.Log.log;
-
 /**
  * Contains information about a game registration.
  */
