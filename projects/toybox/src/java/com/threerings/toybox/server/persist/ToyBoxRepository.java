@@ -127,9 +127,8 @@ public class ToyBoxRepository extends JORARepository
                 GameRecord game = null;
                 HashMap<Integer,GameRecord> games = new HashMap<Integer,GameRecord>();
                 if (buf.length() > 0) {
-                    Cursor c = _gtable.select(
-                        conn, "where GAME_ID in (" + buf + ")");
-                    while ((game = (GameRecord)c.next()) != null) {
+                    Cursor<GameRecord> c = _gtable.select(conn, "where GAME_ID in (" + buf + ")");
+                    while ((game = c.next()) != null) {
                         games.put(game.gameId, game);
                     }
                 }

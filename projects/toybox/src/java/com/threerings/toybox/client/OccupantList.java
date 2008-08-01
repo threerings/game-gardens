@@ -22,7 +22,6 @@
 package com.threerings.toybox.client;
 
 import java.awt.Dimension;
-import java.util.Iterator;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -65,9 +64,7 @@ public class OccupantList extends JList
     public void willEnterPlace (PlaceObject plobj)
     {
         // add all of the occupants of the place to our list
-        Iterator users = plobj.occupantInfo.iterator();
-        while (users.hasNext()) {
-            OccupantInfo info = (OccupantInfo)users.next();
+        for (OccupantInfo info : plobj.occupantInfo) {
             _model.addElement(info.username);
         }
     }

@@ -47,7 +47,6 @@ public class ToyBoxDispatcher extends InvocationDispatcher<ToyBoxMarshaller>
         return new ToyBoxMarshaller();
     }
 
-    @SuppressWarnings("unchecked")
     @Override // documentation inherited
     public void dispatchRequest (
         ClientObject source, int methodId, Object[] args)
@@ -56,8 +55,7 @@ public class ToyBoxDispatcher extends InvocationDispatcher<ToyBoxMarshaller>
         switch (methodId) {
         case ToyBoxMarshaller.GET_LOBBY_OID:
             ((ToyBoxProvider)provider).getLobbyOid(
-                source,
-                ((Integer)args[0]).intValue(), (InvocationService.ResultListener)args[1]
+                source, ((Integer)args[0]).intValue(), (InvocationService.ResultListener)args[1]
             );
             return;
 

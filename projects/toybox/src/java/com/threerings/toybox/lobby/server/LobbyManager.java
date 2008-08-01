@@ -27,6 +27,7 @@ import com.threerings.presents.dobj.SetAdapter;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.server.PlaceManager;
 
+import com.threerings.parlor.data.Table;
 import com.threerings.parlor.server.TableManager;
 
 import com.whirled.game.data.GameDefinition;
@@ -136,8 +137,8 @@ public class LobbyManager extends PlaceManager
 
     /** Listens for tables shutting down and reports us as empty if there
      * are no people in the lobby and our last table went away. */
-    protected SetAdapter _emptyListener = new SetAdapter() {
-        public void entryRemoved (EntryRemovedEvent event) {
+    protected SetAdapter<Table> _emptyListener = new SetAdapter<Table>() {
+        public void entryRemoved (EntryRemovedEvent<Table> event) {
             if (event.getName().equals(LobbyObject.TABLE_SET)) {
                 if (_lobobj.tableSet.size() == 0 &&
                     _lobobj.occupants.size() == 0) {

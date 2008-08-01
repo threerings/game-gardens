@@ -235,7 +235,7 @@ public class ToyBoxDirector extends BasicDirector
     protected void fetchServices (Client client)
     {
         super.fetchServices(client);
-        _toysvc = (ToyBoxService)client.requireService(ToyBoxService.class);
+        _toysvc = client.requireService(ToyBoxService.class);
     }
 
     /**

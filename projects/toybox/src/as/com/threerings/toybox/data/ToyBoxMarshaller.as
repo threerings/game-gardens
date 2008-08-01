@@ -29,7 +29,7 @@ import com.threerings.toybox.client.ToyBoxService;
 import com.threerings.util.Integer;
 
 /**
- * Provides the implementation of the {@link ToyBoxService} interface
+ * Provides the implementation of the <code>ToyBoxService</code> interface
  * that marshalls the arguments and delivers the request to the provider
  * on the server. Also provides an implementation of the response listener
  * interfaces that marshall the response arguments and deliver them back
@@ -38,7 +38,7 @@ import com.threerings.util.Integer;
 public class ToyBoxMarshaller extends InvocationMarshaller
     implements ToyBoxService
 {
-    /** The method id used to dispatch {@link #getLobbyOid} requests. */
+    /** The method id used to dispatch <code>getLobbyOid</code> requests. */
     public static const GET_LOBBY_OID :int = 1;
 
     // from interface ToyBoxService

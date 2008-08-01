@@ -12,7 +12,7 @@
   <property name="classes.dir"  value="${deploy.dir}/classes"/>
 
   <!-- import some targets to enumerate library dependencies -->
-  <property name="libs.dir" value="../../dist/lib"/>
+  <property name="libs.dir" value="lib"/>
   <import file="etc/libs-incl.xml"/>
 
   <!-- declare our classpath -->

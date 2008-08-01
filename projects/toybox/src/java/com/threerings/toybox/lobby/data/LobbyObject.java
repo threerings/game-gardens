@@ -3,8 +3,6 @@
 
 package com.threerings.toybox.lobby.data;
 
-import java.util.Iterator;
-
 import com.samskivert.util.ArrayIntSet;
 
 import com.threerings.presents.dobj.DSet;
@@ -69,7 +67,7 @@ public class LobbyObject extends PlaceObject
     }
 
     // from interface TableLobbyObject
-    public void removeFromTables (Comparable key)
+    public void removeFromTables (Comparable<?> key)
     {
         removeFromTableSet(key);
     }
@@ -84,8 +82,7 @@ public class LobbyObject extends PlaceObject
         for (int ii = 0; ii < occupants.size(); ii++) {
             occids.add(occupants.get(ii));
         }
-        for (Iterator iter = tableSet.iterator(); iter.hasNext(); ) {
-            Table table = (Table)iter.next();
+        for (Table table : tableSet) {
             if (table.gameOid > 0) {
                 // for now we can directly reference the game object
                 Object obj = omgr.getObject(table.gameOid);
@@ -134,7 +131,7 @@ public class LobbyObject extends PlaceObject
      * the <code>tableSet</code> set. The set will not change until the
      * event is actually propagated through the system.
      */
-    public void removeFromTableSet (Comparable key)
+    public void removeFromTableSet (Comparable<?> key)
     {
         requestEntryRemove(TABLE_SET, tableSet, key);
     }
@@ -159,11 +156,10 @@ public class LobbyObject extends PlaceObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setTableSet (DSet<com.threerings.parlor.data.Table> value)
+    public void setTableSet (DSet<Table> value)
     {
         requestAttributeChange(TABLE_SET, value, this.tableSet);
-        @SuppressWarnings("unchecked") DSet<com.threerings.parlor.data.Table> clone =
-            (value == null) ? null : value.typedClone();
+        DSet<Table> clone = (value == null) ? null : value.typedClone();
         this.tableSet = clone;
     }
 
