@@ -10,6 +10,7 @@
     <file name="commons-io.jar"/>
     <file name="commons-logging.jar"/>
     <file name="getdown.jar"/>
+    <file name="google-collect.jar"/>
     <file name="junit4.jar"/>
     <file name="mail.jar"/>
     <file name="mysql-connector-java.jar"/>
