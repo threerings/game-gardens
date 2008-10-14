@@ -34,7 +34,10 @@ public class view_game extends OptionalUserLogic
         }
         ctx.put("game", game);
         User creator = app.getUserManager().getRepository().loadUser(game.maintainerId);
-        ctx.put("creator", (creator == null) ? "???" : creator.username);
+        if (creator != null) {
+            ctx.put("creator", creator.username);
+            ctx.put("creator_profile", PROFILE_URL + creator.username);
+        }
         ctx.put("players", app.getToyBoxRepository().getOnlineCount(gameId));
         try {
             ctx.put("single_player", game.parseGameDefinition().isSinglePlayerPlayable());
@@ -44,4 +47,8 @@ public class view_game extends OptionalUserLogic
                             ", error=" + errmsg + "].");
         }
     }
+
+    // somewhat hacky link to creator profiles
+    protected static final String PROFILE_URL =
+        "http://forums.gamegardens.com/discussion/mvnforum/viewmember?member=";
 }

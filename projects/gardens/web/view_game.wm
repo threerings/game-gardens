@@ -10,8 +10,10 @@
 <a href="game_${game.gameId}.jnlp">$i18n.xlate("view_game.play")</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="play_game.wm?gameid=$game.gameId">$i18n.xlate("view_game.play_applet")</a>
+#if ($creator)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-$i18n.xlate("view_game.creator") <b>$creator</b>
+$i18n.xlate("view_game.creator") <b><a href="$creator_profile">$creator</a></b>
+#end
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 $i18n.xlate("view_game.back_to") <a href="browse.wm?category=$game.category">
 $i18n.xlate("category.$game.category")</a>
