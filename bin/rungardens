@@ -10,7 +10,8 @@ DESC="Gardens game server"
 
 GARDENS_HOME=`dirname $0`/..
 GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
-LOGFILE=$GARDENS_HOME/log/gardens.log
+LOGFILE=$GARDENS_HOME/log/stdout-gardens.log
+SERVER_MEMORY=384M
 
 # Load settings with those from gardens.conf
 if [ -f $GARDENS_HOME/dist/gardens.conf ]; then
@@ -21,10 +22,12 @@ else
 fi
 
 CLASS=com.threerings.toybox.server.ToyBoxServer
-JAVA_ARGS="-server -Dlog_level=$LOGLEVEL"
+JAVA_ARGS="-server -mx$SERVER_MEMORY \
+    -Dlog4j.configuration=log4j.properties \
+    -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger"
 SECURITY_POLICY="$GARDENS_HOME/etc/gardens.policy"
 if [ -f $SECURITY_POLICY ]; then
-    JAVA_ARGS="$JAVA_ARG5BS -Djava.security.manager"
+    JAVA_ARGS="$JAVA_ARGS -Djava.security.manager"
     JAVA_ARGS="$JAVA_ARGS -Djava.security.policy=$SECURITY_POLICY"
 fi
 umask 002
