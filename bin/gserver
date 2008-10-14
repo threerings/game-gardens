@@ -16,7 +16,7 @@ else
 fi
 
 CLASS=com.threerings.toybox.server.ToyBoxServer
-JAVA_ARGS="-server -Dlog_level=$LOGLEVEL"
+JAVA_ARGS="-server"
 umask 002
 
 # Start with the deployment directory
