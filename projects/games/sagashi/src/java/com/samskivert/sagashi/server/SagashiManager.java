@@ -19,7 +19,6 @@ import com.threerings.util.MessageBundle;
 
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationException;
-import com.threerings.presents.server.PresentsServer;
 
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.OccupantInfo;
@@ -130,9 +129,7 @@ public class SagashiManager extends GameManager
 
         // grab and set up our game object
         _sagaobj = (SagashiObject)_gameobj;
-        _sagaobj.setService(
-            (SagashiMarshaller)PresentsServer.invmgr.registerDispatcher(
-                new SagashiDispatcher(this)));
+        _sagaobj.setService(_invmgr.registerDispatcher(new SagashiDispatcher(this)));
         _sagaobj.setScores(new SagashiScore[0]);
 
         // load up our word list if we haven't already
@@ -214,7 +211,7 @@ public class SagashiManager extends GameManager
         super.didShutdown();
 
         // unregister our invocation dispatcher
-        PresentsServer.invmgr.clearDispatcher(_sagaobj.service);
+        _invmgr.clearDispatcher(_sagaobj.service);
 
         // shutdown our ticker
         _ticker.cancel();
@@ -293,7 +290,7 @@ public class SagashiManager extends GameManager
     }
 
     /** Ticks this manager every three seconds. */
-    protected Interval _ticker = new Interval(PresentsServer.omgr) {
+    protected Interval _ticker = new Interval(_omgr) {
         public void expired () {
             tick();
         }

@@ -7,7 +7,6 @@ import com.samskivert.sagashi.client.SagashiService;
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.InvocationMarshaller;
-import com.threerings.presents.dobj.InvocationResponseEvent;
 
 /**
  * Provides the implementation of the {@link SagashiService} interface
@@ -22,7 +21,7 @@ public class SagashiMarshaller extends InvocationMarshaller
     /** The method id used to dispatch {@link #submitWord} requests. */
     public static final int SUBMIT_WORD = 1;
 
-    // documentation inherited from interface
+    // from interface SagashiService
     public void submitWord (Client arg1, String arg2, InvocationService.ResultListener arg3)
     {
         InvocationMarshaller.ResultMarshaller listener3 = new InvocationMarshaller.ResultMarshaller();
@@ -31,5 +30,4 @@ public class SagashiMarshaller extends InvocationMarshaller
             arg2, listener3
         });
     }
-
 }
