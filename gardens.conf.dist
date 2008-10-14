@@ -10,14 +10,3 @@
 # the same directory as this configuration file).
 
 GARDENS_USER=gardens
-
-#
-# The address to which server-related emails will be sent.
-
-LOG_EMAIL=foo@bar.com
-
-#
-# The default log level as which to run the server. Other legal values:
-# debug, warning
-
-LOGLEVEL=info
