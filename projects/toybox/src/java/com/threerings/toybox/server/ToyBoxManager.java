@@ -358,7 +358,7 @@ public class ToyBoxManager
             throw new InvocationException(INTERNAL_ERROR);
 
         } catch (UnsupportedClassVersionError ucve) {
-            throw new InvocationException("e.code_version_incorrect");
+            throw new InvocationException(TOYBOX_MSGS, "e.code_version_incorrect");
         }
     }
 
