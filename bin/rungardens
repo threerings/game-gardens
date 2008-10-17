@@ -10,6 +10,7 @@ DESC="Gardens game server"
 
 GARDENS_HOME=`dirname $0`/..
 GARDENS_HOME=`echo $GARDENS_HOME | sed 's:/bin/..::g'`
+HOSTNAME=`hostname`
 LOGFILE=$GARDENS_HOME/log/stdout-gardens.log
 SERVER_MEMORY=384M
 
@@ -23,6 +24,7 @@ fi
 
 CLASS=com.threerings.toybox.server.ToyBoxServer
 JAVA_ARGS="-server -mx$SERVER_MEMORY \
+    -Dhostname=$HOSTNAME \
     -Dlog4j.configuration=log4j.properties \
     -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger"
 SECURITY_POLICY="$GARDENS_HOME/etc/gardens.policy"
