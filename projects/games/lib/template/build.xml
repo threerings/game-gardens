@@ -1,5 +1,7 @@
 <!-- build configuration -->
 <project name="@project@" default="compile" basedir=".">
   <property name="app.name" value="@project@"/>
+  <property name="app.package" value="@package@"/>
+  <property name="app.classpre" value="@classpre@"/>
   <import file="../lib/game-incl.xml"/>
 </project>

@@ -145,4 +145,14 @@
     <delete file="${deploy.dir}/server.policy"/>
   </target>
 
+  <!-- a target for running the game server -->
+  <target name="viewtest" depends="compile" description="Runs your view test code.">
+    <java classname="${app.package}.${app.classpre}BoardViewTest" fork="true">
+      <classpath>
+        <pathelement location="${deploy.dir}/classes"/>
+        <pathelement location="../client/gg-client.jar"/>
+      </classpath>
+    </java>
+  </target>
+
 </project>
