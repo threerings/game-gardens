@@ -23,9 +23,13 @@ package com.threerings.toybox.data;
 
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.TokenRing;
+import com.whirled.game.data.WhirledGameOccupantInfo;
+import com.whirled.game.data.WhirledPlayerObject;
 
 /**
  * Extends the {@link BodyObject} with some custom bits needed for ToyBox.
+ * NOTE: This intentionally does not subclass from {@link WhirledPlayerObject} because toybox does 
+ * not require {@link WhirledGameOccupantInfo} or other extra functionality as of yet.
  */
 public class ToyBoxUserObject extends BodyObject
 {
