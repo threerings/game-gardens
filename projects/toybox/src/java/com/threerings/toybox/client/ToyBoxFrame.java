@@ -78,7 +78,7 @@ public class ToyBoxFrame extends ManagedJFrame
         });
     }
 
-    // from interface ToyBoxClient.Shell
+    // from interface ToyBoxSession.Shell
     public void bindCloseAction (final ToyBoxClient client)
     {
         // log off when they close the window

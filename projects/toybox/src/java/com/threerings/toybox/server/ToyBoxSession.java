@@ -22,14 +22,14 @@
 package com.threerings.toybox.server;
 
 import com.threerings.crowd.data.TokenRing;
-import com.threerings.crowd.server.CrowdClient;
+import com.threerings.crowd.server.CrowdSession;
 
 import com.threerings.toybox.data.ToyBoxUserObject;
 
 /**
- * Extends {@link CrowdClient} and customizes it for the ToyBox system.
+ * Extends {@link CrowdSession} and customizes it for the ToyBox system.
  */
-public class ToyBoxClient extends CrowdClient
+public class ToyBoxSession extends CrowdSession
 {
     // documentation inherited
     protected void sessionWillStart ()

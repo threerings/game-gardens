@@ -38,7 +38,7 @@ import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.Authenticator;
 import com.threerings.presents.server.ClientFactory;
 import com.threerings.presents.server.ClientResolver;
-import com.threerings.presents.server.PresentsClient;
+import com.threerings.presents.server.PresentsSession;
 import com.threerings.presents.server.ShutdownManager;
 
 import com.threerings.crowd.data.PlaceConfig;
@@ -93,8 +93,8 @@ public class ToyBoxServer extends CrowdServer
 
         // configure the client manager to use the appropriate client class
         _clmgr.setClientFactory(new ClientFactory() {
-            public Class<? extends PresentsClient> getClientClass (AuthRequest areq) {
-                return ToyBoxClient.class;
+            public Class<? extends PresentsSession> getClientClass (AuthRequest areq) {
+                return ToyBoxSession.class;
             }
             public Class<? extends ClientResolver> getClientResolverClass (Name username) {
                 return ToyBoxClientResolver.class;

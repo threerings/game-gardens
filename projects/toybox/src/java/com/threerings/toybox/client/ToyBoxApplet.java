@@ -37,13 +37,13 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxApplet extends ManagedJApplet
     implements ToyBoxClient.Shell
 {
-    // from interface ToyBoxClient.Shell
+    // from interface ToyBoxSession.Shell
     public void setTitle (String title)
     {
         // TODO
     }
 
-    // from interface ToyBoxClient.Shell
+    // from interface ToyBoxSession.Shell
     public void bindCloseAction (ToyBoxClient client)
     {
         // no need to do anything here
@@ -65,7 +65,7 @@ public class ToyBoxApplet extends ManagedJApplet
             _client = createClient();
             _client.init(this);
         } catch (IOException ioe) {
-            log.warning("Failed to create ToyBoxClient.", ioe);
+            log.warning("Failed to create ToyBoxSession.", ioe);
             return;
         }
 
