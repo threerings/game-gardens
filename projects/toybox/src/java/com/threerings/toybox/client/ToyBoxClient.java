@@ -71,7 +71,6 @@ import static com.threerings.toybox.Log.log;
  * the necessary configuration and getting the client bootstrapped.
  */
 public class ToyBoxClient
-    implements RunQueue
 {
     /** Provides acccess to the context in which we're running, either an application or an
      * applet. */
@@ -223,7 +222,7 @@ public class ToyBoxClient
         throws IOException
     {
         // create the handles on our various services
-        _client = new Client(null, this);
+        _client = new Client(null, RunQueue.AWT);
 
         // we use this to handle i18n
         _msgmgr = new MessageManager(MESSAGE_MANAGER_PREFIX);
@@ -234,19 +233,6 @@ public class ToyBoxClient
         _chatdir = new ChatDirector(_ctx, _msgmgr, ChatPanel.CHAT_MSGS);
         _pardtr = new ParlorDirector(_ctx);
         _toydtr = new ToyBoxDirector(_ctx);
-    }
-
-    // documentation inherited from interface RunQueue
-    public void postRunnable (Runnable run)
-    {
-        // queue it on up on the awt thread
-        EventQueue.invokeLater(run);
-    }
-
-    // documentation inherited from interface RunQueue
-    public boolean isDispatchThread ()
-    {
-        return EventQueue.isDispatchThread();
     }
 
     /**
