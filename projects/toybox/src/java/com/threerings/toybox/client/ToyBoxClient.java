@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.EventQueue;
 import java.awt.Window;
 
 import javax.swing.JPanel;
