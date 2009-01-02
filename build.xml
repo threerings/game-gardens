@@ -9,7 +9,7 @@
   <property name="extlibs.dir" value="lib"/>
 
   <!-- declare our subprojects and webapps -->
-  <property name="projects" value="samskivert,narya,nenya,vilya,whirled,toybox"/>
+  <property name="projects" value="samskivert,depot,narya,nenya,vilya,whirled,toybox"/>
   <property name="webapps"  value="gardens"/>
   <import file="build/etc/build-support.xml"/>
 
