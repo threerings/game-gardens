@@ -34,7 +34,7 @@
     <!-- make sure the dobject class files are all compiled -->
     <javac srcdir="src/java" destdir="${deploy.dir}/classes"
            debug="on" optimize="${build.optimize}" deprecation="on"
-           source="1.6" target="1.5">
+           source="1.5" target="1.5">
       <classpath refid="classpath"/>
       <include name="**/*Object.java"/>
     </javac>
@@ -50,7 +50,7 @@
     <!-- make sure the service class files are all compiled -->
     <javac srcdir="src/java" destdir="${classes.dir}"
            debug="on" optimize="${build.optimize}" deprecation="on"
-           source="1.6" target="1.5">
+           source="1.5" target="1.5">
       <classpath refid="classpath"/>
       <include name="**/*Service.java"/>
     </javac>
@@ -97,7 +97,7 @@
   <!-- build the java class files -->
   <target name="compile" depends="prepare,check-available">
     <javac srcdir="src/java" destdir="${classes.dir}" debug="on" optimize="{$build.optimize}"
-           deprecation="on" includeAntRuntime="no" source="1.6" target="1.5">
+           deprecation="on" includeAntRuntime="no" source="1.5" target="1.5">
       <classpath refid="classpath"/>
       <exclude name="com/threerings/toybox/server/ooo/**"
                unless="threerings.present"/>
