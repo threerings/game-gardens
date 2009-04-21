@@ -110,7 +110,6 @@ public class LogonPanel extends JPanel
         // create a big fat label
         MultiLineLabel title = new MultiLineLabel(tstr, MultiLineLabel.CENTER);
         title.setFont(ToyBoxUI.fancyFont);
-        title.setAntiAliased(true);
         box.add(title);
 
         // float the logon bits side-by-side inside the wider panel

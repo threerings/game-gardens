@@ -101,7 +101,6 @@ public class LobbyPanel extends JPanel
         // set up the title and main panel
         _title = new MultiLineLabel("", MultiLineLabel.CENTER);
         _title.setFont(ToyBoxUI.fancyFont);
-        _title.setAntiAliased(true);
         add(_title, BorderLayout.NORTH);
         add(_main, BorderLayout.CENTER);
 
