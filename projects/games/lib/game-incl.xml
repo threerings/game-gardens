@@ -130,8 +130,13 @@
       <entry key="resource_dir" value="${deploy.dir}"/>
       <entry key="resource_url" value="file://${deploy.dir}"/>
     </propertyfile>
+    <!-- we have to convert basedir to forward slashes to make it work as a URL -->
+    <path id="codedir"><pathelement location="${basedir}/../lib"/></path>
+    <pathconvert targetos="unix" property="basedir.unix" refid="codedir"/>
+    <!-- we also have to stick an extra / in front of basedir.unix to make -->
+    <!-- things work on windows, fortunately it does not booch things on unix -->
     <echo file="${deploy.dir}/server.policy">
-      grant codeBase "file://${basedir}/../lib/-" {
+      grant codeBase "file:///${basedir.unix}/../lib/-" {
           permission java.security.AllPermission;
       };
     </echo>
