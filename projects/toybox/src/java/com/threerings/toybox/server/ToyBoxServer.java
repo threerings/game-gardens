@@ -30,13 +30,13 @@ import com.google.inject.Singleton;
 
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
+import com.samskivert.util.Lifecycle;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.util.Name;
 
 import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.Authenticator;
-import com.threerings.presents.server.LifecycleManager;
 import com.threerings.presents.server.SessionFactory;
 import com.threerings.presents.server.ClientResolver;
 import com.threerings.presents.server.PresentsSession;
@@ -125,8 +125,8 @@ public class ToyBoxServer extends CrowdServer
 
     @Singleton
     protected static class ToyBoxPlaceRegistry extends PlaceRegistry {
-        @Inject public ToyBoxPlaceRegistry (LifecycleManager lifemgr) {
-            super(lifemgr);
+        @Inject public ToyBoxPlaceRegistry (Lifecycle cycle) {
+            super(cycle);
         }
         @Override protected PlaceManager createPlaceManager (PlaceConfig config) throws Exception {
             ClassLoader loader = _toymgr.getClassLoader(config);
