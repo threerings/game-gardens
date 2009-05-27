@@ -36,10 +36,10 @@ import com.threerings.util.Name;
 
 import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.Authenticator;
+import com.threerings.presents.server.LifecycleManager;
 import com.threerings.presents.server.SessionFactory;
 import com.threerings.presents.server.ClientResolver;
 import com.threerings.presents.server.PresentsSession;
-import com.threerings.presents.server.ShutdownManager;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdServer;
@@ -125,8 +125,8 @@ public class ToyBoxServer extends CrowdServer
 
     @Singleton
     protected static class ToyBoxPlaceRegistry extends PlaceRegistry {
-        @Inject public ToyBoxPlaceRegistry (ShutdownManager shutmgr) {
-            super(shutmgr);
+        @Inject public ToyBoxPlaceRegistry (LifecycleManager lifemgr) {
+            super(lifemgr);
         }
         @Override protected PlaceManager createPlaceManager (PlaceConfig config) throws Exception {
             ClassLoader loader = _toymgr.getClassLoader(config);
