@@ -30,6 +30,7 @@ import com.samskivert.jdbc.ConnectionProvider;
 import com.threerings.user.OOOUser;
 import com.threerings.user.OOOUserManager;
 import com.threerings.user.OOOUserRepository;
+import com.threerings.util.Name;
 
 import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.net.AuthResponse;
@@ -56,8 +57,7 @@ public class OOOAuthenticator extends Authenticator
         throws PersistenceException
     {
         // we get our user manager configuration from the ocean config
-        _usermgr = new OOOUserManager(
-            ToyBoxConfig.config.getSubProperties("oooauth"), conprov);
+        _usermgr = new OOOUserManager(ToyBoxConfig.config.getSubProperties("oooauth"), conprov);
         _authrep = (OOOUserRepository)_usermgr.getRepository();
     }
 
@@ -97,6 +97,9 @@ public class OOOAuthenticator extends Authenticator
             rdata.code = INVALID_PASSWORD;
             return;
         }
+
+        // configure their auth name using the canonical case from the OOOUser record
+        conn.setAuthName(new Name(user.username));
 
         // configure a token ring for this user
         int tokens = 0;

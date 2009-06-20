@@ -92,7 +92,7 @@ public class ToyBoxServer extends CrowdServer
         super.init(injector);
 
         // configure the client manager to use the appropriate client class
-        _clmgr.setSessionFactory(new SessionFactory() {
+        _clmgr.setDefaultSessionFactory(new SessionFactory() {
             public Class<? extends PresentsSession> getSessionClass (AuthRequest areq) {
                 return ToyBoxSession.class;
             }
