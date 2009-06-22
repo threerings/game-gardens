@@ -63,24 +63,18 @@ public class OOOAuthenticator extends Authenticator
 
     // from abstract Authenticator
     protected void processAuthentication (AuthingConnection conn, AuthResponse rsp)
-        throws PersistenceException
+        throws Exception
     {
-        AuthRequest req = conn.getAuthRequest();
-        AuthResponseData rdata = rsp.getData();
-
         // make sure we were properly initialized
         if (_authrep == null) {
-            rdata.code = SERVER_ERROR;
-            return;
+            throw new AuthException(SERVER_ERROR);
         }
             
         // make sure they've sent valid credentials
+        AuthRequest req = conn.getAuthRequest();
         if (!(req.getCredentials() instanceof UsernamePasswordCreds)) {
-            rdata.code = SERVER_ERROR;
             log.warning("Invalid credentials: " + req);
-            // note that the finally block will be executed and communicate our auth response back
-            // to the conmgr
-            return;
+            throw new AuthException(SERVER_ERROR);
         }
         UsernamePasswordCreds creds = (UsernamePasswordCreds)req.getCredentials();
         String username = creds.getUsername().toString();
@@ -88,14 +82,12 @@ public class OOOAuthenticator extends Authenticator
         // load up their user account record
         OOOUser user = (OOOUser)_authrep.loadUser(username);
         if (user == null) {
-            rdata.code = NO_SUCH_USER;
-            return;
+            throw new AuthException(NO_SUCH_USER);
         }
 
         // now check their password
         if (!user.password.equals(creds.getPassword())) {
-            rdata.code = INVALID_PASSWORD;
-            return;
+            throw new AuthException(INVALID_PASSWORD);
         }
 
         // configure their auth name using the canonical case from the OOOUser record
@@ -109,7 +101,7 @@ public class OOOAuthenticator extends Authenticator
         rsp.authdata = new TokenRing(tokens);
 
         log.info("User logged on [user=" + username + "].");
-        rdata.code = AuthResponseData.SUCCESS;
+        rsp.getData().code = AuthResponseData.SUCCESS;
     }
 
     protected OOOUserRepository _authrep;
