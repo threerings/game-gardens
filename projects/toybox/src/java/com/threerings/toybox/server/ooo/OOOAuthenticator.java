@@ -58,7 +58,7 @@ public class OOOAuthenticator extends Authenticator
     {
         // we get our user manager configuration from the ocean config
         _usermgr = new OOOUserManager(ToyBoxConfig.config.getSubProperties("oooauth"), conprov);
-        _authrep = (OOOUserRepository)_usermgr.getRepository();
+        _authrep = _usermgr.getRepository();
     }
 
     // from abstract Authenticator
