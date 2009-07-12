@@ -4,18 +4,12 @@
   <fileset dir="${libs.dir}" id="toybox.libs">
     <!-- Java dependencies -->
     <include name="ant.jar"/>
-    <include name="commons-beanutils.jar"/>
-    <include name="commons-collections.jar"/>
-    <include name="commons-digester.jar"/>
-    <include name="commons-io.jar"/>
-    <include name="commons-lang.jar"/>
-    <include name="commons-logging.jar"/>
     <include name="getdown.jar"/>
     <include name="google-collect.jar"/>
     <include name="guice.jar"/>
-    <include name="velocity-1.5-dev.jar"/>
     <include name="narya-base.jar"/>
     <include name="narya-distrib.jar"/>
+    <include name="narya-tools.jar"/>
     <include name="nenya-media.jar"/>
     <include name="nenya-rsrc.jar"/>
     <include name="samskivert.jar"/>

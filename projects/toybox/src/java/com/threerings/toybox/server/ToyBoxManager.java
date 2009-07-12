@@ -33,13 +33,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.samskivert.io.PersistenceException;
+import com.samskivert.io.StreamUtil;
 import com.samskivert.jdbc.WriteOnlyUnit;
 import com.samskivert.util.IntIntMap;
 import com.samskivert.util.Interval;
 import com.samskivert.util.Invoker;
 import com.samskivert.util.ResultListenerList;
-
-import org.apache.commons.io.IOUtils;
 
 import com.threerings.getdown.data.Resource;
 
@@ -143,7 +142,7 @@ public class ToyBoxManager
             game.name = "test";
             game.maintainerId = 1;
             game.setStatus(Status.READY);
-            game.definition = IOUtils.toString(new FileReader(gameConfig));
+            game.definition = StreamUtil.toString(new FileReader(gameConfig));
 
             // compute the digests of all the files
             gamedef = game.parseGameDefinition();
