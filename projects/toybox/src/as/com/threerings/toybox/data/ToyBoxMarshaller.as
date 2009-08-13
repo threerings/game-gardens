@@ -42,12 +42,12 @@ public class ToyBoxMarshaller extends InvocationMarshaller
     public static const GET_LOBBY_OID :int = 1;
 
     // from interface ToyBoxService
-    public function getLobbyOid (arg1 :Client, arg2 :int, arg3 :InvocationService_ResultListener) :void
+    public function getLobbyOid (arg1 :int, arg2 :InvocationService_ResultListener) :void
     {
-        var listener3 :InvocationMarshaller_ResultMarshaller = new InvocationMarshaller_ResultMarshaller();
-        listener3.listener = arg3;
-        sendRequest(arg1, GET_LOBBY_OID, [
-            Integer.valueOf(arg2), listener3
+        var listener2 :InvocationMarshaller_ResultMarshaller = new InvocationMarshaller_ResultMarshaller();
+        listener2.listener = arg2;
+        sendRequest(GET_LOBBY_OID, [
+            Integer.valueOf(arg1), listener2
         ]);
     }
 }

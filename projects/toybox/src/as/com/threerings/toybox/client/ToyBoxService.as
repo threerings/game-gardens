@@ -31,6 +31,6 @@ import com.threerings.presents.client.InvocationService_ResultListener;
 public interface ToyBoxService extends InvocationService
 {
     // from Java interface ToyBoxService
-    function getLobbyOid (arg1 :Client, arg2 :int, arg3 :InvocationService_ResultListener) :void;
+    function getLobbyOid (arg1 :int, arg2 :InvocationService_ResultListener) :void;
 }
 }
