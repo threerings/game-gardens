@@ -295,7 +295,7 @@ public class ToyBoxClient
                 return super.createController(config);
             }
         }
-    };
+    }
 
     /**
      * The context implementation. This provides access to all of the objects and services that are

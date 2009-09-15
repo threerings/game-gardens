@@ -40,7 +40,7 @@ import com.threerings.toybox.xml.ToyBoxGameParser;
 public class GameRecord
 {
     /** Defines the possible values for {@link #status}. */
-    public enum Status { UNKNOWN, PENDING, READY, DISABLED };
+    public enum Status { UNKNOWN, PENDING, READY, DISABLED }
 
     /** A unique integer identifier for this game. */
     public int gameId;
