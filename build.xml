@@ -16,6 +16,7 @@
   <!-- declare the libraries needed by the main thing -->
   <filelist dir="." id="dist.libs">
     <file name="${extlibs.dir}/ant.jar"/>
+    <file name="${extlibs.dir}/aopalliance.jar"/>
     <file name="${extlibs.dir}/atunit.jar"/>
     <file name="${extlibs.dir}/activation.jar"/>
     <file name="${extlibs.dir}/commons-beanutils.jar"/>
