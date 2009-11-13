@@ -120,6 +120,12 @@ public class SagashiManager extends GameManager
         ToyBoxGameConfig config = (ToyBoxGameConfig)_config;
         _minLength = (Integer)config.params.get("min_length");
         _duration = (Integer)config.params.get("duration");
+
+        _ticker = _omgr.newInterval(new Runnable() {
+            public void run () {
+                tick();
+            }
+        });
     }
 
     @Override // documentation inherited
@@ -290,11 +296,7 @@ public class SagashiManager extends GameManager
     }
 
     /** Ticks this manager every three seconds. */
-    protected Interval _ticker = new Interval(_omgr) {
-        public void expired () {
-            tick();
-        }
-    };
+    protected Interval _ticker;
 
     /** A casted reference to our game object. */
     protected SagashiObject _sagaobj;
