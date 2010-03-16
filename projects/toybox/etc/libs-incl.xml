@@ -5,7 +5,7 @@
     <!-- Java dependencies -->
     <include name="ant.jar"/>
     <include name="getdown.jar"/>
-    <include name="google-collect.jar"/>
+    <include name="guava.jar"/>
     <include name="guice.jar"/>
     <include name="narya-base.jar"/>
     <include name="narya-distrib.jar"/>
