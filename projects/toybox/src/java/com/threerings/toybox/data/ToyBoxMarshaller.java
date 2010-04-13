@@ -21,6 +21,8 @@
 
 package com.threerings.toybox.data;
 
+import javax.annotation.Generated;
+
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.InvocationMarshaller;
@@ -33,6 +35,8 @@ import com.threerings.toybox.client.ToyBoxService;
  * interfaces that marshall the response arguments and deliver them back
  * to the requesting client.
  */
+@Generated(value={"com.threerings.presents.tools.GenServiceTask"},
+           comments="Derived from ToyBoxService.java.")
 public class ToyBoxMarshaller extends InvocationMarshaller
     implements ToyBoxService
 {

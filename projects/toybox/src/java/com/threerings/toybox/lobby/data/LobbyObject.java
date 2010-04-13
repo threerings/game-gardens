@@ -3,6 +3,7 @@
 
 package com.threerings.toybox.lobby.data;
 
+import javax.annotation.Generated;
 import com.samskivert.util.ArrayIntSet;
 
 import com.threerings.presents.dobj.DSet;
@@ -23,12 +24,15 @@ public class LobbyObject extends PlaceObject
 {
     // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>name</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String NAME = "name";
 
     /** The field name of the <code>tableSet</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String TABLE_SET = "tableSet";
 
     /** The field name of the <code>tableService</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String TABLE_SERVICE = "tableService";
     // AUTO-GENERATED: FIELDS END
 
@@ -108,6 +112,7 @@ public class LobbyObject extends PlaceObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setName (String value)
     {
         String ovalue = this.name;
@@ -121,6 +126,7 @@ public class LobbyObject extends PlaceObject
      * <code>tableSet</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void addToTableSet (Table elem)
     {
         requestEntryAdd(TABLE_SET, tableSet, elem);
@@ -131,6 +137,7 @@ public class LobbyObject extends PlaceObject
      * the <code>tableSet</code> set. The set will not change until the
      * event is actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void removeFromTableSet (Comparable<?> key)
     {
         requestEntryRemove(TABLE_SET, tableSet, key);
@@ -141,6 +148,7 @@ public class LobbyObject extends PlaceObject
      * <code>tableSet</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void updateTableSet (Table elem)
     {
         requestEntryUpdate(TABLE_SET, tableSet, elem);
@@ -156,6 +164,7 @@ public class LobbyObject extends PlaceObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setTableSet (DSet<Table> value)
     {
         requestAttributeChange(TABLE_SET, value, this.tableSet);
@@ -171,6 +180,7 @@ public class LobbyObject extends PlaceObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setTableService (TableMarshaller value)
     {
         TableMarshaller ovalue = this.tableService;

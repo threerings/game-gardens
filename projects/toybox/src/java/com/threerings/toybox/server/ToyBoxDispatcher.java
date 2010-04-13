@@ -21,6 +21,8 @@
 
 package com.threerings.toybox.server;
 
+import javax.annotation.Generated;
+
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.server.InvocationDispatcher;
@@ -30,6 +32,8 @@ import com.threerings.toybox.data.ToyBoxMarshaller;
 /**
  * Dispatches requests to the {@link ToyBoxProvider}.
  */
+@Generated(value={"com.threerings.presents.tools.GenServiceTask"},
+           comments="Derived from ToyBoxService.java.")
 public class ToyBoxDispatcher extends InvocationDispatcher<ToyBoxMarshaller>
 {
     /**
@@ -41,13 +45,13 @@ public class ToyBoxDispatcher extends InvocationDispatcher<ToyBoxMarshaller>
         this.provider = provider;
     }
 
-    @Override // documentation inherited
+    @Override
     public ToyBoxMarshaller createMarshaller ()
     {
         return new ToyBoxMarshaller();
     }
 
-    @Override // documentation inherited
+    @Override
     public void dispatchRequest (
         ClientObject source, int methodId, Object[] args)
         throws InvocationException

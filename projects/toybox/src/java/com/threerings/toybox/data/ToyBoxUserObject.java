@@ -21,6 +21,7 @@
 
 package com.threerings.toybox.data;
 
+import javax.annotation.Generated;
 import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.TokenRing;
 import com.whirled.game.data.WhirledGameOccupantInfo;
@@ -35,6 +36,7 @@ public class ToyBoxUserObject extends BodyObject
 {
     // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>tokens</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String TOKENS = "tokens";
     // AUTO-GENERATED: FIELDS END
 
@@ -56,6 +58,7 @@ public class ToyBoxUserObject extends BodyObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setTokens (TokenRing value)
     {
         TokenRing ovalue = this.tokens;
