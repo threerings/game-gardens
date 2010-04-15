@@ -32,7 +32,7 @@
       <libraryjar name="${rtClasses}"/>
       <injar path="${libs.dir}/commons-io.jar"
              filter="!META-INF/*"/>
-      <injar path="${libs.dir}/google-collect.jar"
+      <injar path="${libs.dir}/guava.jar"
              filter="!META-INF/*"/>
       <injar path="${libs.dir}/getdown.jar"
              filter="!META-INF/*,!**/tools/**"/>
