@@ -6,7 +6,7 @@
 
   <!-- things you probably don't want to change -->
   <property name="deploy.dir"  value="dist"/>
-  <property name="extlibs.dir" value="lib"/>
+  <property name="extlibs.dir" value="extlibs/java"/>
 
   <!-- declare our subprojects and webapps -->
   <property name="projects" value="samskivert,depot,narya,nenya,vilya,whirled,toybox"/>
@@ -27,7 +27,7 @@
     <file name="${extlibs.dir}/commons-lang.jar"/>
     <file name="${extlibs.dir}/commons-logging.jar"/>
     <file name="${extlibs.dir}/getdown.jar"/>
-    <file name="${extlibs.dir}/google-collect.jar"/>
+    <file name="${extlibs.dir}/guava.jar"/>
     <file name="${extlibs.dir}/guice.jar"/>
     <file name="${extlibs.dir}/javassist.jar"/>
     <file name="${extlibs.dir}/junit-3.7.jar"/>
