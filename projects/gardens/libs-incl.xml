@@ -16,6 +16,7 @@
     <file name="mysql-connector-java.jar"/>
     <file name="narya-base.jar"/>
     <file name="narya-distrib.jar"/>
+    <file name="narya-tools.jar"/>
     <file name="samskivert.jar"/>
     <file name="servlet-api.jar"/>
     <file name="toybox.jar"/>
