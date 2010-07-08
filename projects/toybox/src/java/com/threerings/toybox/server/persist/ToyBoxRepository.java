@@ -83,7 +83,7 @@ public class ToyBoxRepository extends JORARepository
     public ArrayList<GameRecord> loadGames (String category)
         throws PersistenceException
     {
-        category = StringUtil.replace(category, "'", "\\'");
+        category = category.replace("'", "\\'");
         return loadGamesBy("where category = '" + category + "'", "");
     }
 
