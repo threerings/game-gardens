@@ -67,7 +67,6 @@ public class ReversiPanel extends PlacePanel
 
         // add a big fat label
         MultiLineLabel vlabel = new MultiLineLabel(msgs.get("m.title"));
-        vlabel.setAntiAliased(true);
         vlabel.setFont(ToyBoxUI.fancyFont);
         sidePanel.add(vlabel, GroupLayout.FIXED);
 

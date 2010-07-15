@@ -4,6 +4,7 @@
 package com.samskivert.reversi;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -96,7 +97,7 @@ public class ReversiBoardView extends VirtualMediaPanel
     public void displayFloatingText (String text)
     {
         Label label = ScoreAnimation.createLabel(
-            text, Color.white, new Font("Helvetica", Font.BOLD, 48), this);
+            text, Color.white, new Font("Helvetica", Font.BOLD, 48), (Component)this);
         int lx = (getWidth() - label.getSize().width)/2;
         int ly = (getHeight() - label.getSize().height)/2;
         addAnimation(new FloatingTextAnimation(label, lx, ly));
