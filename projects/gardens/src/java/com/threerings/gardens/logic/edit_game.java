@@ -125,7 +125,7 @@ public class edit_game extends UserLogic
 
         // TODO: validate definition
         try {
-            ToyBoxGameDefinition gamedef = (ToyBoxGameDefinition)game.parseGameDefinition();
+            ToyBoxGameDefinition gamedef = game.parseGameDefinition();
         } catch (InvocationException ie) {
             String errmsg = "edit_game.error.malformed_definition";
             Throwable cause;
