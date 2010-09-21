@@ -23,7 +23,7 @@
   </target>
 
   <!-- fires up the webapp using the development sources -->
-  <target name="devmode" depends="dist">
+  <target name="devmode" depends="-init-jetty-ant,dist">
     <!-- Fire up the webapp against the live sources -->
     <propertycopy name="devmode.jetty.port" from="${app.name}.jetty.port"/>
     <jetty tempDirectory="${deploy.dir}/jetty-temp">
