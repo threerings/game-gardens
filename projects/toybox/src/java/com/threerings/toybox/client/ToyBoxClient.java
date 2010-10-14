@@ -229,7 +229,7 @@ public class ToyBoxClient
         // create our managers and directors
         _locdir = createLocationDirector();
         _occdir = new OccupantDirector(_ctx);
-        _chatdir = new ChatDirector(_ctx, _msgmgr, ChatPanel.CHAT_MSGS);
+        _chatdir = new ChatDirector(_ctx, ChatPanel.CHAT_MSGS);
         _pardtr = new ParlorDirector(_ctx);
         _toydtr = new ToyBoxDirector(_ctx);
     }
@@ -342,6 +342,11 @@ public class ToyBoxClient
             return _chatdir;
         }
 
+        public MessageManager getMessageManager ()
+        {
+            return _msgmgr;
+        }
+
         public ParlorDirector getParlorDirector ()
         {
             return _pardtr;
@@ -355,11 +360,6 @@ public class ToyBoxClient
         public void clearPlaceView (PlaceView view)
         {
             // we'll just let the next place view replace our old one
-        }
-
-        public MessageManager getMessageManager ()
-        {
-            return _msgmgr;
         }
 
         public ToyBoxDirector getToyBoxDirector ()
