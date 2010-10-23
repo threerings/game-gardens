@@ -36,9 +36,7 @@
              filter="!META-INF/*"/>
       <injar path="${libs.dir}/getdown.jar"
              filter="!META-INF/*,!**/tools/**"/>
-      <injar path="${libs.dir}/narya-base.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
-      <injar path="${libs.dir}/narya-distrib.jar"
+      <injar path="${libs.dir}/narya.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**,!**admin/web/**"/>
       <injar path="${libs.dir}/nenya-rsrc.jar"
              filter="!META-INF/*,!**/tools/**,!**/server/**"/>
