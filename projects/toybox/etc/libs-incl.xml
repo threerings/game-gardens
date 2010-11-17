@@ -16,7 +16,7 @@
     <include name="vilya-parlor.jar"/>
     <include name="whirled-code.jar"/>
     <!-- ActionScript dependencies -->
-    <include name="aspirin.swc"/>
+    <include name="aspirin*.swc"/>
     <include name="naryalib.swc"/>
     <include name="nenyalib.swc"/>
     <include name="vilyalib.swc"/>
