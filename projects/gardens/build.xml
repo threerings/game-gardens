@@ -1,5 +1,5 @@
 <!-- project build configuration -->
-<project name="Game Gardens" default="all" basedir=".">
+<project name="Game Gardens" default="all" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
   <!-- the base directory from which we get our bundles and jar files -->
   <property name="base.dir" value="../.."/>
@@ -12,13 +12,41 @@
   <property name="templates.location" value="web"/>
 
   <!-- import the generic webapp build file and library dependencies -->
+  <property name="libs.dir" value="lib"/>
+  <filelist id="gardens.libs" dir="${libs.dir}" files="toybox.jar"/>
   <import file="${base.dir}/build/etc/webapp-build.xml"/>
-  <import file="libs-incl.xml"/>
 
   <!-- prepares the application directories -->
   <target name="prepare">
     <antcall target="common-webapp-prepare"/>
-    <!-- optionally copy the threerings library if available -->
+
+    <!-- get most of our dependencies from Maven -->
+    <artifact:dependencies filesetId="maven.fileset">
+      <dependency groupId="com.google.guava" artifactId="guava" version="r05"/>
+      <dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
+      <dependency groupId="commons-digester" artifactId="commons-digester" version="2.0"/>
+      <dependency groupId="commons-fileupload" artifactId="commons-fileupload" version="1.2.1"/>
+      <dependency groupId="commons-io" artifactId="commons-io" version="1.4"/>
+      <dependency groupId="javax.mail" artifactId="mail" version="1.4.1"/>
+      <dependency groupId="javax.servlet" artifactId="servlet-api" version="2.5"/>
+      <dependency groupId="mysql" artifactId="mysql-connector-java" version="5.1.6"/>
+      <dependency groupId="org.apache.velocity" artifactId="velocity" version="1.6.4">
+        <exclusion groupId="oro" artifactId="oro"/>
+        <exclusion groupId="com.sun.jmx" artifactId="jmxri"/>
+        <exclusion groupId="junit" artifactId="junit"/>
+      </dependency>
+      <dependency groupId="com.samskivert" artifactId="samskivert" version="1.1"/>
+      <dependency groupId="com.threerings" artifactId="getdown" version="1.1-SNAPSHOT"/>
+      <dependency groupId="com.threerings" artifactId="narya" version="1.1"/>
+      <dependency groupId="com.threerings" artifactId="vilya" version="1.0-SNAPSHOT"/>
+      <dependency groupId="com.threerings" artifactId="whirled-code" version="1.0-SNAPSHOT"/>
+    </artifact:dependencies>
+    <copy todir="${deploy.dir}/lib">
+      <fileset refid="maven.fileset"/>
+      <mapper type="flatten"/>
+    </copy>
+
+    <!-- optionally copy the threerings library if available (TODO) -->
     <copy file="${libs.dir}/threerings.jar" todir="${deploy.dir}/lib" failonerror="false"/>
   </target>
 
