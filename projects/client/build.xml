@@ -1,84 +1,94 @@
-<!-- project build configuration -->
-<project name="Game Gardens Client" default="all" basedir=".">
-
-  <!-- load up our configuration information -->
+<?xml version="1.0"?>
+<project name="gg-client" default="all" basedir="." xmlns:artifact="urn:maven-artifact-ant">
   <property name="base.dir" value="../.."/>
-  <property file="${base.dir}/dist/build_settings.properties"/>
+  <property name="deploy.dir" value="dist"/>
+  <property name="client.dir" value="${base.dir}/pages/client"/>
 
-  <!-- define the places where we get and put things -->
-  <property name="libs.dir"  value="${base.dir}/dist/lib"/>
-  <property name="web.home"   value="${base.dir}/pages"/>
-  <property name="deploy.dir" value="${web.home}/client"/>
+  <property name="maven-ant.vers" value="2.1.1"/>
+  <property name="maven-ant.dir" value="${user.home}/.m2/ant-support"/>
+  <property name="maven-ant.jar" value="${maven-ant.dir}/maven-ant-tasks-${maven-ant.vers}.jar"/>
+  <property name="maven-ant.url"
+            value="http://mirrors.ibiblio.org/pub/mirrors/apache/maven/binaries"/>
+  <condition property="maven-ant.exists"><available file="${maven-ant.jar}"/></condition>
+  <target name="-download-maven-ant" unless="maven-ant.exists">
+    <mkdir dir="${maven-ant.dir}"/>
+    <get src="${maven-ant.url}/maven-ant-tasks-${maven-ant.vers}.jar"
+         dest="${maven-ant.jar}" usetimestamp="true"/>
+  </target>
 
-  <!-- removes unneeded code and generates one big jar file -->
-  <target name="proguard">
-    <!-- determine whether this is Darwin, so that we can do special magic -->
-    <condition property="platform.darwin">
-      <and><os family="mac"/><os family="unix"/></and>
+  <target name="-init-maven-ant" depends="-download-maven-ant">
+    <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
+             uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
+  </target>
+
+  <target name="proguard" depends="-init-maven-ant" description="Builds our client jar file.">
+    <!-- locate the platform classes -->
+    <condition property="rt.jar" value="${java.home}/../Classes/classes.jar">
+      <available file="${java.home}/../Classes/classes.jar"/>
+    </condition>
+    <condition property="rt.jar" value="${java.home}/lib/rt.jar">
+      <available file="${java.home}/lib/rt.jar"/>
     </condition>
 
-    <!-- figure out where the Java rt.jar file lives -->
-    <condition property="rtClasses" value="${java.home}/../Classes/classes.jar">
-      <istrue value="${platform.darwin}"/>
-    </condition>
-    <condition property="rtClasses" value="${java.home}/lib/rt.jar">
-      <isfalse value="${platform.darwin}"/>
-    </condition>
+    <!-- copy our dependencies somewhere that we can pass them to proguard -->
+    <artifact:pom id="pom" file="../toybox/pom.xml"/>
+    <artifact:dependencies filesetId="toybox.fileset" pomRefId="pom" useScope="compile"/>
+    <artifact:dependencies filesetId="jsr.fileset">
+      <dependency groupId="javax.annotation" artifactId="jsr250-api" version="1.0"/>
+      <dependency groupId="com.google.code.findbugs" artifactId="jsr305" version="1.3.7"/>
+    </artifact:dependencies>
     <mkdir dir="${deploy.dir}"/>
+    <mkdir dir="${deploy.dir}/proguard"/>
+    <copy todir="${deploy.dir}/proguard">
+      <fileset refid="toybox.fileset"/>
+      <fileset refid="jsr.fileset"/>
+      <mapper type="flatten"/>
+    </copy>
 
     <!-- do the proguardian deed -->
-    <taskdef resource="proguard/ant/task.properties" classpath="../../dist/lib/proguard.jar"/>
+    <artifact:dependencies pathId="proguard.classpath">
+      <dependency groupId="net.sf.proguard" artifactId="proguard" version="4.4"/>
+    </artifact:dependencies>
+    <taskdef resource="proguard/ant/task.properties" classpathref="proguard.classpath"/>
     <proguard configuration="lib/gg-client.pro">
-      <libraryjar name="${rtClasses}"/>
-      <injar path="${libs.dir}/commons-io.jar"
-             filter="!META-INF/*"/>
-      <injar path="${libs.dir}/guava.jar"
-             filter="!META-INF/*"/>
-      <injar path="${libs.dir}/getdown.jar"
-             filter="!META-INF/*,!**/tools/**"/>
-      <injar path="${libs.dir}/narya.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**,!**admin/web/**,!**/nio/**"/>
-      <injar path="${libs.dir}/nenya-rsrc.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
-      <injar path="${libs.dir}/nenya-media.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**"/>
-      <injar path="${libs.dir}/vilya-parlor.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
-      <injar path="${libs.dir}/whirled-code.jar"
-             filter="**/game/WhirledGame.class,**/game/data/**,**/game/client/**,**/game/util/**"/>
-      <injar path="${libs.dir}/samskivert.jar"
-             filter="!META-INF/*,**/io/**,**/util/**,**/net/**,**/swing/**,**/text/**,
-                     com/samskivert/Log.class,**/servlet/user/Password.class,
-                     **/servlet/user/UserUtil.class"/>
-      <injar path="${libs.dir}/toybox.jar"
-             filter="!META-INF/*,!**/tools/**,!**/server/**,!**/xml/**"/>
-      <outjar path="${deploy.dir}/gg-client.jar"/>
+      <libraryjar name="${rt.jar}"/>
+      <injar path="${deploy.dir}/proguard/jsr250-api-1.0.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/jsr305-1.3.7.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/guava-r07.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/getdown-1.1-SNAPSHOT.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/narya-1.2-SNAPSHOT.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/nenya-1.0-SNAPSHOT.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/vilya-1.0-SNAPSHOT.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/whirled-code-1.0-SNAPSHOT.jar" filter="!META-INF/*"/>
+      <injar path="${deploy.dir}/proguard/samskivert-1.1.jar" filter="!META-INF/*"/>
+      <injar path="../toybox/dist/toybox.jar" filter="!META-INF/*"/>
+      <outjar path="${client.dir}/gg-client.jar"/>
     </proguard>
 
     <!-- also copy the client jar into the game development directory -->
-    <copy file="${deploy.dir}/gg-client.jar" todir="../games/client"/>
+    <copy file="${client.dir}/gg-client.jar" todir="../games/client"/>
   </target>
 
-  <!-- signs the client jar files -->
-  <target name="sign">
+  <target name="sign" description="Signs our client jar file.">
+    <property file="${base.dir}/dist/build_settings.properties"/>
     <if><isset property="sign.alias"/><then>
-      <signjar lazy="true" alias="${sign.alias}" keystore="${sign.keystore}"
-        storepass="${sign.storepass}">
-        <fileset dir="${deploy.dir}" includes="*.jar"/>
+      <signjar lazy="true" alias="${sign.alias}"
+               keystore="${sign.keystore}" storepass="${sign.storepass}">
+        <fileset dir="${client.dir}" includes="*.jar"/>
       </signjar>
     </then><else>
       <echo>Not signing client. No keystore configured.</echo>
     </else></if>
-    <!-- also copy the client jar into the game development directory -->
-    <copy todir="../games/client" file="${deploy.dir}/gg-client.jar"/>
+    <!-- also copy the signed client jar into the game development directory -->
+    <copy todir="../games/client" file="${client.dir}/gg-client.jar"/>
   </target>
 
-  <!-- the default target is to build, install and sign the client -->
-  <target name="all" depends="proguard,sign"/>
+  <target name="all" depends="proguard,sign"
+          description="Builds and signs the client jar file."/>
 
-  <!-- cleans out the installed application -->
-  <target name="clean">
-    <delete><fileset dir="${deploy.dir}" includes="*.jar"/></delete>
+  <target name="clean" description="Cleans out build results.">
+    <delete dir="${deploy.dir}"/>
+    <delete><fileset dir="${client.dir}" includes="*.jar"/></delete>
     <delete file="../games/client/gg-client.jar"/>
   </target>
 </project>

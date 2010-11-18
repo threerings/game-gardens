@@ -1,58 +1,14 @@
-<!-- project build configuration -->
-<project name="Game Gardens" default="all" basedir=".">
-
-  <!-- load up our configuration information -->
+<?xml version="1.0"?>
+<project name="Game Gardens" default="client" basedir=".">
   <property file="toybox.properties"/>
-
-  <!-- things you probably don't want to change -->
   <property name="deploy.dir"  value="dist"/>
-  <property name="extlibs.dir" value="extlibs/java"/>
-
-  <!-- declare our subprojects and webapps -->
-  <property name="projects" value="samskivert,depot,narya,nenya,vilya,whirled,toybox"/>
+  <property name="projects" value="toybox"/>
   <property name="webapps"  value="gardens"/>
   <import file="build/etc/build-support.xml"/>
 
-  <!-- declare the libraries needed by the main thing -->
-  <filelist dir="." id="dist.libs">
-    <file name="${extlibs.dir}/ant.jar"/>
-    <file name="${extlibs.dir}/aopalliance.jar"/>
-    <file name="${extlibs.dir}/atunit.jar"/>
-    <file name="${extlibs.dir}/activation.jar"/>
-    <file name="${extlibs.dir}/commons-beanutils.jar"/>
-    <file name="${extlibs.dir}/commons-collections.jar"/>
-    <file name="${extlibs.dir}/commons-digester.jar"/>
-    <file name="${extlibs.dir}/commons-fileupload.jar"/>
-    <file name="${extlibs.dir}/commons-io.jar"/>
-    <file name="${extlibs.dir}/commons-lang.jar"/>
-    <file name="${extlibs.dir}/commons-logging.jar"/>
-    <file name="${extlibs.dir}/getdown.jar"/>
-    <file name="${extlibs.dir}/guava.jar"/>
-    <file name="${extlibs.dir}/guice.jar"/>
-    <file name="${extlibs.dir}/javassist.jar"/>
-    <file name="${extlibs.dir}/junit-3.7.jar"/>
-    <file name="${extlibs.dir}/junit4.jar"/>
-    <file name="${extlibs.dir}/mail.jar"/>
-    <file name="${extlibs.dir}/mysql-connector-java.jar"/>
-    <file name="${extlibs.dir}/proguard.jar"/>
-    <file name="${extlibs.dir}/servlet-api.jar"/>
-    <file name="${extlibs.dir}/velocity-1.5-dev.jar"/>
-  </filelist>
-
-  <!-- creates the Proguarded Java client -->
-  <target name="client" depends="prepare">
-    <ant dir="projects/client" target="all" inheritAll="false"/>
-  </target>
-
-  <!-- the default target is to install and sign the client -->
-  <target name="all"/>
-
-  <!-- prepares the build directories, ensures that a toybox.properties exists -->
-  <target name="prepare">
-    <!-- Copy all the libs we depend on. -->
-    <copyfilelist dest="${deploy.dir}/lib">
-      <filelist refid="dist.libs"/>
-    </copyfilelist>
+  <target name="prepare" description="Prepares build directories.">
+    <mkdir dir="${deploy.dir}"/>
+    <mkdir dir="${deploy.dir}/lib"/>
 
     <if><not><isset property="webapp_dir"/></not><then>
       <echo>Generating default toybox.properties.</echo>
@@ -62,7 +18,10 @@
     <copy file="gardens.conf" todir="${deploy.dir}"/>
   </target>
 
-  <!-- convenience targets that build specific projects and copy the results -->
+  <target name="client" depends="prepare" description="Creates the client jar file.">
+    <ant dir="projects/client" target="all" inheritAll="false"/>
+  </target>
+
   <target name="toybox">
     <antcall target="distprojects"><param name="projects" value="toybox"/></antcall>
   </target>
@@ -70,7 +29,6 @@
     <antcall target="distprojects"><param name="projects" value="gardens"/></antcall>
   </target>
 
-  <!-- rebuilds all subprojects and the top-level application -->
   <target name="distall" depends="prepare,distprojects,distwebapps,client">
     <!-- copy our jar files into a directory where the games can build against them -->
     <copy todir="projects/games/lib">
@@ -78,17 +36,15 @@
     </copy>
   </target>
 
-  <!-- cleans out the compiled code -->
-  <target name="clean">
+  <target name="clean" description="Cleans out build results.">
     <ant dir="projects/client" target="clean" inheritAll="false"/>
   </target>
 
-  <!-- fully cleans out the application -->
-  <target name="distclean" depends="clean">
+  <target name="distclean" depends="clean" description="Deletes all temporary files.">
     <delete dir="${deploy.dir}"/>
     <delete><fileset dir="projects/games/lib" includes="**/*.jar"/></delete>
   </target>
 
-  <!-- fully cleans out the application and all subprojects -->
-  <target name="distcleanall" depends="distcleanprojects,distcleanwebapps,distclean"/>
+  <target name="distcleanall" depends="distcleanprojects,distcleanwebapps,distclean"
+          description="Deletes all temporary files here and in subprojects."/>
 </project>

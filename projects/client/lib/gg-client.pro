@@ -6,6 +6,9 @@
 -dontskipnonpubliclibraryclasses
 -dontobfuscate
 
+# fuck you Proguard for not having a mode where you ignore dependencies for dead code
+-ignorewarnings
+
 # we need whatever we keep of samskivert to be around in its entirety so
 # that if a game uses the same classfile, the whole thing is there
 -keep public class com.samskivert.Log {
