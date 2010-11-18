@@ -16,11 +16,6 @@
     </developerConnection>
   </scm>
 
-<!--
-    <include name="threerings.jar"/>
-    <include name="whirled-code.jar"/>
--->
-
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -64,6 +59,14 @@
       <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
+<!-- TODO: sort out how to optionally include threerings.net
+    <dependency>
+      <groupId>com.threerings</groupId>
+      <artifactId>threerings</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+-->
     <dependency>
       <groupId>com.threerings</groupId>
       <artifactId>whirled-code</artifactId>
