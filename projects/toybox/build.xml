@@ -44,18 +44,6 @@
       <pathelement location="${classes.dir}"/>
       <pathelement location="${tclasses.dir}"/>
     </path>
-    <!-- TEMP: needed for ActionScript library build -->
-    <property name="libs.dir" value="lib"/>
-    <copy todir="${deploy.dir}/lib" flatten="true">
-      <fileset dir="${libs.dir}">
-        <include name="aspirin*.swc"/>
-        <include name="naryalib.swc"/>
-        <include name="nenyalib.swc"/>
-        <include name="vilyalib.swc"/>
-        <include name="whirledlib.swc"/>
-      </fileset>
-    </copy>
-    <!-- END TEMP -->
   </target>
 
   <target name="-preptools" depends="-prepare">
@@ -106,9 +94,22 @@
       </uptodate>
     </or></condition>
   </target>
+  <target name="-noteaslib" if="no_build_aslib"><echo>
+    NOTE: not building ActionScript library. Pass -Dflexsdk.dir=DIR to
+    activate ActionScript library build.
+  </echo></target>
 
-  <target name="aslib" unless="no_rebuild_aslib" depends="-checkaslib"
+  <target name="aslib" unless="no_rebuild_aslib" depends="-checkaslib,-noteaslib"
           description="Builds the ActionScript code">
+    <!-- obtain our ActionScript dependencies via Maven -->
+    <artifact:pom id="as-pom" file="as-pom.xml"/>
+    <artifact:dependencies filesetId="aslibs.fileset" pomRefId="as-pom" useScope="compile"/>
+    <copy todir="${deploy.dir}/lib">
+      <fileset dir="lib" includes="as3isolib-*.swc"/>
+      <fileset refid="aslibs.fileset"/>
+      <mapper type="flatten"/>
+    </copy>
+
     <copy file="etc/aslib-config.xml.in" tofile="${deploy.dir}/aslib-config.xml">
       <filterset>
         <filter token="flex_sdk_dir" value="${flexsdk.dir}"/>
@@ -249,6 +250,11 @@
     <artifact:deploy file="${deploy.dir}/${ant.project.name}.jar" uniqueVersion="false">
       <remoteRepository url="${maven.deploy.repo}"/>
       <pom refid="pom"/>
+    </artifact:deploy>
+    <artifact:pom id="as-pom" file="as-pom.xml"/>
+    <artifact:deploy file="${deploy.dir}/${ant.project.name}lib.swc" uniqueVersion="false">
+      <remoteRepository url="${maven.deploy.repo}"/>
+      <pom refid="as-pom"/>
     </artifact:deploy>
   </target>
 </project>
