@@ -4,7 +4,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>toyboxlib</artifactId>
   <packaging>swc</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>toyboxlib</name>
 
   <repositories>
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>com.threerings</groupId>
       <artifactId>whirledlib</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0</version>
       <scope>compile</scope>
       <type>swc</type>
     </dependency>
