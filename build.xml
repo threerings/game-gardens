@@ -19,6 +19,8 @@
   </target>
 
   <target name="client" depends="prepare" description="Creates the client jar file.">
+    <!-- we need to install our toybox artifact locally for projects/client to use -->
+    <ant dir="projects/toybox" target="maven-deploy" inheritAll="false"/>
     <ant dir="projects/client" target="all" inheritAll="false"/>
   </target>
 

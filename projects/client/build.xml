@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <project name="gg-client" default="all" basedir="." xmlns:artifact="urn:maven-artifact-ant">
   <property name="base.dir" value="../.."/>
-  <property name="deploy.dir" value="dist"/>
   <property name="client.dir" value="${base.dir}/pages/client"/>
 
   <property name="maven-ant.vers" value="2.1.1"/>
@@ -31,14 +30,9 @@
     </condition>
 
     <!-- copy our dependencies somewhere that we can pass them to proguard -->
-    <artifact:pom id="pom" file="../toybox/pom.xml"/>
-    <artifact:dependencies filesetId="toybox.fileset" pomRefId="pom" useScope="compile"/>
-    <mkdir dir="${deploy.dir}"/>
-    <mkdir dir="${deploy.dir}/proguard"/>
-    <copy todir="${deploy.dir}/proguard">
-      <fileset refid="toybox.fileset"/>
-      <mapper type="flatten"/>
-    </copy>
+    <artifact:dependencies filesetId="toybox.fileset">
+      <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
+    </artifact:dependencies>
 
     <!-- do the proguardian deed -->
     <artifact:dependencies pathId="proguard.classpath">
@@ -85,7 +79,6 @@
           description="Builds and signs the client jar file."/>
 
   <target name="clean" description="Cleans out build results.">
-    <delete dir="${deploy.dir}"/>
     <delete><fileset dir="${client.dir}" includes="*.jar"/></delete>
     <delete file="../games/client/gg-client.jar"/>
   </target>
