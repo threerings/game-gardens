@@ -21,23 +21,22 @@
     <antcall target="common-webapp-prepare"/>
 
     <!-- get most of our dependencies from Maven -->
+    <artifact:dependencies filesetId="ooo.maven.fileset">
+      <remoteRepository url="http://ooo-maven.googlecode.com/hg/repository" id="ooo-maven"/>
+      <dependency groupId="org.apache.velocity" artifactId="velocity-ooo" version="1.6.4"/>
+    </artifact:dependencies>
     <artifact:dependencies filesetId="maven.fileset">
-      <dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
       <dependency groupId="commons-digester" artifactId="commons-digester" version="2.0"/>
       <dependency groupId="commons-fileupload" artifactId="commons-fileupload" version="1.2.1"/>
       <dependency groupId="commons-io" artifactId="commons-io" version="1.4"/>
       <dependency groupId="javax.mail" artifactId="mail" version="1.4.1"/>
       <dependency groupId="javax.servlet" artifactId="servlet-api" version="2.5"/>
       <dependency groupId="mysql" artifactId="mysql-connector-java" version="5.1.6"/>
-      <dependency groupId="org.apache.velocity" artifactId="velocity" version="1.6.4">
-        <exclusion groupId="oro" artifactId="oro"/>
-        <exclusion groupId="com.sun.jmx" artifactId="jmxri"/>
-        <exclusion groupId="junit" artifactId="junit"/>
-      </dependency>
       <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
     </artifact:dependencies>
     <copy todir="${deploy.dir}/lib">
       <fileset refid="maven.fileset"/>
+      <fileset refid="ooo.maven.fileset"/>
       <mapper type="flatten"/>
     </copy>
 
