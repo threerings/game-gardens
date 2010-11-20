@@ -76,9 +76,11 @@ public class GameRecord extends PersistentRecord
     public int gameId;
 
     /** A short string indicating the category of this game. */
+    @Column(name="CATEGORY")
     public String category;
 
     /** The human readable name of this game. */
+    @Column(name="NAME")
     public String name;
 
     /** The user id of the maintainer of this game. */
@@ -87,27 +89,35 @@ public class GameRecord extends PersistentRecord
 
     /** The status of the game. We can't use the enumeration directly here as this class is
      * persisted and JORA doesn't (and can't be made to) automagically handle enums. */
+    @Column(name="STATUS")
     public String status;
 
     /** The server on which this game is hosted. */
+    @Column(name="HOST")
     public String host;
 
     /** The XML game definition associated with this version. */
+    @Column(name="DEFINITION")
     public String definition;
 
     /** The MD5 digest of the game jar file. */
+    @Column(name="DIGEST")
     public String digest;
 
     /** A brief description of the game. */
+    @Column(name="DESCRIPTION")
     public String description;
 
     /** Brief instructions on how to play the game. */
+    @Column(name="INSTRUCTIONS")
     public String instructions;
 
     /** Credits and license information for the game. */
+    @Column(name="CREDITS")
     public String credits;
 
     /** The date on which the game was created. */
+    @Column(name="CREATED")
     public Date created;
 
     /** The date on which the jar file was last updated. */

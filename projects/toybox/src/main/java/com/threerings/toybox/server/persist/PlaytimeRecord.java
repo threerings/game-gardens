@@ -48,9 +48,10 @@ public class PlaytimeRecord extends PersistentRecord
     @Id @Column(name="GAME_ID")
     public int gameId;
 
-    @Id
+    @Id @Column(name="PERIOD")
     public Date period;
 
+    @Column(name="PLAYTIME")
     public int playtime;
 
     // AUTO-GENERATED: METHODS START

@@ -47,6 +47,7 @@ public class OnlineRecord extends PersistentRecord
     public int gameId;
 
     /** The number of players online. */
+    @Column(name="PLAYERS")
     public int players;
 
     // AUTO-GENERATED: METHODS START
