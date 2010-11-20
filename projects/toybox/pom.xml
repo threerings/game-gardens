@@ -72,18 +72,17 @@
       <version>1.0</version>
       <scope>compile</scope>
     </dependency>
-<!-- TODO: sort out how to optionally include threerings.net
-    <dependency>
-      <groupId>com.threerings</groupId>
-      <artifactId>threerings</artifactId>
-      <version>1.0</version>
-      <scope>compile</scope>
-    </dependency>
--->
     <dependency>
       <groupId>com.threerings</groupId>
       <artifactId>whirled-code</artifactId>
       <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- when we upgrade to whirled-code-1.1 it will provide this dependency -->
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>2.0</version>
       <scope>compile</scope>
     </dependency>
 
