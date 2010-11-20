@@ -36,10 +36,10 @@
         <exclusion groupId="junit" artifactId="junit"/>
       </dependency>
       <dependency groupId="com.samskivert" artifactId="samskivert" version="1.1"/>
-      <dependency groupId="com.threerings" artifactId="getdown" version="1.1-SNAPSHOT"/>
+      <dependency groupId="com.threerings" artifactId="getdown" version="1.1"/>
       <dependency groupId="com.threerings" artifactId="narya" version="1.1"/>
-      <dependency groupId="com.threerings" artifactId="vilya" version="1.0-SNAPSHOT"/>
-      <dependency groupId="com.threerings" artifactId="whirled-code" version="1.0-SNAPSHOT"/>
+      <dependency groupId="com.threerings" artifactId="vilya" version="1.0"/>
+      <dependency groupId="com.threerings" artifactId="whirled-code" version="1.0"/>
     </artifact:dependencies>
     <copy todir="${deploy.dir}/lib">
       <fileset refid="maven.fileset"/>
