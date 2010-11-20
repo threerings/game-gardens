@@ -41,8 +41,10 @@
       <mapper type="flatten"/>
     </copy>
 
-    <!-- optionally copy the threerings library if available (TODO) -->
-    <copy file="${libs.dir}/threerings.jar" todir="${deploy.dir}/lib" failonerror="false"/>
+    <!-- optionally copy the threerings library if available -->
+    <copy todir="${deploy.dir}/lib" failonerror="false">
+      <fileset dir="${libs.dir}" includes="threerings-*.jar"/>
+    </copy>
   </target>
 
   <!-- fires up the webapp using the development sources -->
