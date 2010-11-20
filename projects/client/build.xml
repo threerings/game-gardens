@@ -53,7 +53,7 @@
              filter="!META-INF/*,!**/jdbc/**,!**/servlet/**"/>
       <injar path="${com.samskivert:samskivert:jar}"
              filter="**/user/Password.class,**/user/UserUtil.class"/>
-      <injar path="../toybox/dist/toybox.jar" filter="!META-INF/*"/>
+      <injar path="${com.threerings:toybox:jar}" filter="!META-INF/*"/>
       <outjar path="${client.dir}/gg-client.jar"/>
     </proguard>
 
