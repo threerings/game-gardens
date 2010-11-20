@@ -13,7 +13,7 @@
 
   <!-- import the generic webapp build file and library dependencies -->
   <property name="libs.dir" value="lib"/>
-  <filelist id="gardens.libs" dir="${libs.dir}" files="toybox.jar"/>
+  <filelist id="gardens.libs" dir="etc" files="ignoreme.txt"/>
   <import file="${base.dir}/build/etc/webapp-build.xml"/>
 
   <!-- prepares the application directories -->
@@ -22,7 +22,6 @@
 
     <!-- get most of our dependencies from Maven -->
     <artifact:dependencies filesetId="maven.fileset">
-      <dependency groupId="com.google.guava" artifactId="guava" version="r05"/>
       <dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
       <dependency groupId="commons-digester" artifactId="commons-digester" version="2.0"/>
       <dependency groupId="commons-fileupload" artifactId="commons-fileupload" version="1.2.1"/>
@@ -35,11 +34,7 @@
         <exclusion groupId="com.sun.jmx" artifactId="jmxri"/>
         <exclusion groupId="junit" artifactId="junit"/>
       </dependency>
-      <dependency groupId="com.samskivert" artifactId="samskivert" version="1.1"/>
-      <dependency groupId="com.threerings" artifactId="getdown" version="1.1"/>
-      <dependency groupId="com.threerings" artifactId="narya" version="1.1"/>
-      <dependency groupId="com.threerings" artifactId="vilya" version="1.0"/>
-      <dependency groupId="com.threerings" artifactId="whirled-code" version="1.0"/>
+      <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
     </artifact:dependencies>
     <copy todir="${deploy.dir}/lib">
       <fileset refid="maven.fileset"/>
