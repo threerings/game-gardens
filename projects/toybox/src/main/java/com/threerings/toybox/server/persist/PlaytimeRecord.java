@@ -21,45 +21,49 @@
 
 package com.threerings.toybox.server.persist;
 
+import java.sql.Date;
+
 import com.samskivert.depot.Key;
 import com.samskivert.depot.PersistentRecord;
-import com.samskivert.depot.expression.ColumnExp;
 import com.samskivert.depot.annotation.Column;
 import com.samskivert.depot.annotation.Entity;
 import com.samskivert.depot.annotation.Id;
+import com.samskivert.depot.expression.ColumnExp;
 
 /**
- * Tracks the number of players currently online in a particular game.
+ * Contains information about recorded playtime.
  */
-@Entity(name="ONLINE")
-public class OnlineRecord extends PersistentRecord
+@Entity(name="PLAYTIME")
+public class PlaytimeRecord extends PersistentRecord
 {
     // AUTO-GENERATED: FIELDS START
-    public static final Class<OnlineRecord> _R = OnlineRecord.class;
+    public static final Class<PlaytimeRecord> _R = PlaytimeRecord.class;
     public static final ColumnExp GAME_ID = colexp(_R, "gameId");
-    public static final ColumnExp PLAYERS = colexp(_R, "players");
+    public static final ColumnExp PERIOD = colexp(_R, "period");
+    public static final ColumnExp PLAYTIME = colexp(_R, "playtime");
     // AUTO-GENERATED: FIELDS END
 
     public static final int SCHEMA_VERSION = 1;
 
-    /** The game in question. */
     @Id @Column(name="GAME_ID")
     public int gameId;
 
-    /** The number of players online. */
-    public int players;
+    @Id
+    public Date period;
+
+    public int playtime;
 
     // AUTO-GENERATED: METHODS START
     /**
-     * Create and return a primary {@link Key} to identify a {@link OnlineRecord}
+     * Create and return a primary {@link Key} to identify a {@link PlaytimeRecord}
      * with the supplied key values.
      */
-    public static Key<OnlineRecord> getKey (int gameId)
+    public static Key<PlaytimeRecord> getKey (int gameId, Date period)
     {
-        return newKey(_R, gameId);
+        return newKey(_R, gameId, period);
     }
 
     /** Register the key fields in an order matching the getKey() factory. */
-    static { registerKeyFields(GAME_ID); }
+    static { registerKeyFields(GAME_ID, PERIOD); }
     // AUTO-GENERATED: METHODS END
 }

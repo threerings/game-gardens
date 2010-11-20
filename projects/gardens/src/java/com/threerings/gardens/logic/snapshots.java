@@ -3,7 +3,7 @@
 
 package com.threerings.gardens.logic;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 import com.samskivert.servlet.util.ParameterUtil;
@@ -28,24 +28,24 @@ public class snapshots
         final GardensApp gtapp = (GardensApp)app;
         String category = ParameterUtil.getParameter(ctx.getRequest(), "type", ADDED);
 
-        ArrayList<GameRecord> games;
+        List<GameRecord> games;
         if (POPULAR.equals(category)) {
             games = getGames(POPULAR, new RefreshFunc() {
-                public ArrayList<GameRecord> refresh () throws Exception {
+                public List<GameRecord> refresh () throws Exception {
                     return gtapp.getToyBoxRepository().loadPopularGames(SNAPSHOT_COUNT);
                 }
             });
 
         } else if (UPDATED.equals(category)) {
             games = getGames(UPDATED, new RefreshFunc() {
-                public ArrayList<GameRecord> refresh () throws Exception {
+                public List<GameRecord> refresh () throws Exception {
                     return gtapp.getToyBoxRepository().loadRecentlyUpdated(SNAPSHOT_COUNT);
                 }
             });
 
         } else { // ADDED or whatever
             games = getGames(ADDED, new RefreshFunc() {
-                public ArrayList<GameRecord> refresh () throws Exception {
+                public List<GameRecord> refresh () throws Exception {
                     return gtapp.getToyBoxRepository().loadRecentlyAdded(SNAPSHOT_COUNT);
                 }
             });
@@ -54,7 +54,7 @@ public class snapshots
         ctx.put("games", games);
     }
 
-    protected ArrayList<GameRecord> getGames (String category, RefreshFunc func)
+    protected List<GameRecord> getGames (String category, RefreshFunc func)
         throws Exception
     {
         CachedGames games = _cache.get(category);
@@ -71,13 +71,13 @@ public class snapshots
 
     protected static interface RefreshFunc
     {
-        public ArrayList<GameRecord> refresh () throws Exception;
+        public List<GameRecord> refresh () throws Exception;
     }
 
     protected static class CachedGames
     {
         public long loadStamp;
-        public ArrayList<GameRecord> games;
+        public List<GameRecord> games;
     }
 
     protected HashMap<String,CachedGames> _cache = new HashMap<String,CachedGames>();

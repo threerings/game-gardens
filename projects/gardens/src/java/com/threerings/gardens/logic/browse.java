@@ -3,7 +3,7 @@
 
 package com.threerings.gardens.logic;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -28,7 +28,7 @@ public class browse extends OptionalUserLogic
         String category = ParameterUtil.getParameter(
             ctx.getRequest(), "category", false);
 
-        ArrayList<GameRecord> games = category.equals("") ?
+        List<GameRecord> games = category.equals("") ?
             // load up the metadata for all of our games
             app.getToyBoxRepository().loadGames() :
             // load up the metadata for the games in this category

@@ -5,11 +5,12 @@ package com.threerings.gardens.logic;
 
 import java.util.List;
 
+import com.samskivert.util.Tuple;
 import com.samskivert.velocity.Application;
 import com.samskivert.velocity.InvocationContext;
 import com.samskivert.velocity.Logic;
 
-import com.threerings.toybox.server.persist.FullOnlineRecord;
+import com.threerings.toybox.server.persist.OnlineRecord;
 
 import com.threerings.gardens.GardensApp;
 
@@ -32,7 +33,7 @@ public class online
         ctx.put("online", _online);
     }
 
-    protected List<FullOnlineRecord> _online;
+    protected List<Tuple<String,OnlineRecord>> _online;
     protected long _lastUpdated;
 
     protected static final long UPDATE_INTERVAL = 60 * 1000L;

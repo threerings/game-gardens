@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import com.samskivert.depot.PersistenceContext;
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
 import com.samskivert.util.Lifecycle;
@@ -103,9 +104,13 @@ public class ToyBoxServer extends CrowdServer
 
         // determine whether we've been run in test mode with a single game configuration
         String gconfig = System.getProperty("game_conf");
+        PersistenceContext pctx = null;
         ToyBoxRepository toyrepo = null;
         if (StringUtil.isBlank(gconfig)) {
-            toyrepo = new ToyBoxRepository(_conprov);
+            pctx = new PersistenceContext();
+            toyrepo = new ToyBoxRepository(pctx);
+            pctx.init(ToyBoxRepository.GAME_DB_IDENT, _conprov, null);
+            pctx.initializeRepositories(true);
         }
         _toymgr.init(toyrepo);
         if (!StringUtil.isBlank(gconfig)) {

@@ -9,11 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 
+import com.samskivert.depot.PersistenceContext;
 import com.samskivert.jdbc.StaticConnectionProvider;
 import com.samskivert.util.StringUtil;
 
@@ -36,9 +37,11 @@ public class UpdateSnapshots
         String docroot = args[0];
 
         try {
-            ToyBoxRepository toyrepo =
-                new ToyBoxRepository(
-                    new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig()));
+            PersistenceContext pctx = new PersistenceContext();
+            pctx.init(ToyBoxRepository.GAME_DB_IDENT,
+                      new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig()), null);
+            ToyBoxRepository toyrepo = new ToyBoxRepository(pctx);
+            pctx.initializeRepositories(true);
 
             String path = docroot + File.separator + "recently_added_incl.html";
             writeGameList(toyrepo.loadRecentlyAdded(9), new File(path));
@@ -57,7 +60,7 @@ public class UpdateSnapshots
         }
     }
 
-    protected static void writeGameList (ArrayList<GameRecord> games, File target)
+    protected static void writeGameList (List<GameRecord> games, File target)
     {
         try {
             PrintWriter out = new PrintWriter(
@@ -75,7 +78,7 @@ public class UpdateSnapshots
         }
     }
 
-    protected static void writeExtGameList (ArrayList<GameRecord> games, File target)
+    protected static void writeExtGameList (List<GameRecord> games, File target)
     {
         // sort them by name
         Collections.sort(games, new Comparator<GameRecord>() {

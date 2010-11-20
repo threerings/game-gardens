@@ -24,6 +24,15 @@ package com.threerings.toybox.server.persist;
 import java.io.StringReader;
 import java.sql.Date;
 
+import com.samskivert.depot.Key;
+import com.samskivert.depot.PersistentRecord;
+import com.samskivert.depot.annotation.Column;
+import com.samskivert.depot.annotation.Entity;
+import com.samskivert.depot.annotation.GeneratedValue;
+import com.samskivert.depot.annotation.GenerationType;
+import com.samskivert.depot.annotation.Id;
+import com.samskivert.depot.annotation.Index;
+import com.samskivert.depot.expression.ColumnExp;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
@@ -37,12 +46,33 @@ import com.threerings.toybox.xml.ToyBoxGameParser;
 /**
  * Contains information about a game registration.
  */
-public class GameRecord
+@Entity(name="GAMES")
+public class GameRecord extends PersistentRecord
 {
+    // AUTO-GENERATED: FIELDS START
+    public static final Class<GameRecord> _R = GameRecord.class;
+    public static final ColumnExp GAME_ID = colexp(_R, "gameId");
+    public static final ColumnExp CATEGORY = colexp(_R, "category");
+    public static final ColumnExp NAME = colexp(_R, "name");
+    public static final ColumnExp MAINTAINER_ID = colexp(_R, "maintainerId");
+    public static final ColumnExp STATUS = colexp(_R, "status");
+    public static final ColumnExp HOST = colexp(_R, "host");
+    public static final ColumnExp DEFINITION = colexp(_R, "definition");
+    public static final ColumnExp DIGEST = colexp(_R, "digest");
+    public static final ColumnExp DESCRIPTION = colexp(_R, "description");
+    public static final ColumnExp INSTRUCTIONS = colexp(_R, "instructions");
+    public static final ColumnExp CREDITS = colexp(_R, "credits");
+    public static final ColumnExp CREATED = colexp(_R, "created");
+    public static final ColumnExp LAST_UPDATED = colexp(_R, "lastUpdated");
+    // AUTO-GENERATED: FIELDS END
+
+    public static final int SCHEMA_VERSION = 1;
+
     /** Defines the possible values for {@link #status}. */
     public enum Status { UNKNOWN, PENDING, READY, DISABLED }
 
     /** A unique integer identifier for this game. */
+    @Id @Column(name="GAME_ID") @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int gameId;
 
     /** A short string indicating the category of this game. */
@@ -52,6 +82,7 @@ public class GameRecord
     public String name;
 
     /** The user id of the maintainer of this game. */
+    @Column(name="MAINTAINER_ID") @Index
     public int maintainerId;
 
     /** The status of the game. We can't use the enumeration directly here as this class is
@@ -80,6 +111,7 @@ public class GameRecord
     public Date created;
 
     /** The date on which the jar file was last updated. */
+    @Column(name="LAST_UPDATED")
     public Date lastUpdated;
 
     /** Returns the status of this game. */
@@ -149,4 +181,18 @@ public class GameRecord
 
     /** Used to parse our game definitions. */
     protected static WhirledGameParser _parser;
+
+    // AUTO-GENERATED: METHODS START
+    /**
+     * Create and return a primary {@link Key} to identify a {@link GameRecord}
+     * with the supplied key values.
+     */
+    public static Key<GameRecord> getKey (int gameId)
+    {
+        return newKey(_R, gameId);
+    }
+
+    /** Register the key fields in an order matching the getKey() factory. */
+    static { registerKeyFields(GAME_ID); }
+    // AUTO-GENERATED: METHODS END
 }

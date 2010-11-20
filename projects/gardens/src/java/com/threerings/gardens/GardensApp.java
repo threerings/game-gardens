@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
+import com.samskivert.depot.PersistenceContext;
 import com.samskivert.io.PersistenceException;
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
@@ -75,7 +76,7 @@ public class GardensApp extends Application
     {
         super.willInit(config);
 
-	try {
+        try {
             // load up our configuration properties
             _config = ToyBoxConfig.config.getSubProperties("web");
 
@@ -86,31 +87,33 @@ public class GardensApp extends Application
             // create our repositories and managers
             String umclass = _config.getProperty(
                 "webapp_auth", UserManager.class.getName());
-	    _usermgr = (UserManager)Class.forName(umclass).newInstance();
+            _usermgr = (UserManager)Class.forName(umclass).newInstance();
             _usermgr.init(_config, _conprov);
-            _tbrepo = new ToyBoxRepository(_conprov);
+
+            PersistenceContext pctx = new PersistenceContext();
+            pctx.init(ToyBoxRepository.GAME_DB_IDENT, _conprov, null);
+            _tbrepo = new ToyBoxRepository(pctx);
+            pctx.initializeRepositories(true);
 
             // load up our build stamp so that we can report it
-            String bstamp = PropertiesUtil.loadAndGet(
-                "build.properties", "build.time");
-	    log.info("Game Gardens application initialized " +
-                     "[built=" + bstamp + "].");
+            String bstamp = PropertiesUtil.loadAndGet("build.properties", "build.time");
+            log.info("Game Gardens application initialized [built=" + bstamp + "].");
 
-	} catch (Throwable t) {
-	    log.log(Level.WARNING, "Error initializing application", t);
-	}
+        } catch (Throwable t) {
+            log.log(Level.WARNING, "Error initializing application", t);
+        }
     }
 
     /** Shut down the user management application. */
     public void shutdown ()
     {
-	try {
-	    _usermgr.shutdown();
-	    log.info("Game Gardens application shutdown.");
+        try {
+            _usermgr.shutdown();
+            log.info("Game Gardens application shutdown.");
 
-	} catch (Throwable t) {
-	    log.log(Level.WARNING, "Error shutting down repository", t);
-	}
+        } catch (Throwable t) {
+            log.log(Level.WARNING, "Error shutting down repository", t);
+        }
     }
 
     /** We want a special site identifier. */
