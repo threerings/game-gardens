@@ -33,15 +33,10 @@
     <!-- copy our dependencies somewhere that we can pass them to proguard -->
     <artifact:pom id="pom" file="../toybox/pom.xml"/>
     <artifact:dependencies filesetId="toybox.fileset" pomRefId="pom" useScope="compile"/>
-    <artifact:dependencies filesetId="jsr.fileset">
-      <dependency groupId="javax.annotation" artifactId="jsr250-api" version="1.0"/>
-      <dependency groupId="com.google.code.findbugs" artifactId="jsr305" version="1.3.7"/>
-    </artifact:dependencies>
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/proguard"/>
     <copy todir="${deploy.dir}/proguard">
       <fileset refid="toybox.fileset"/>
-      <fileset refid="jsr.fileset"/>
       <mapper type="flatten"/>
     </copy>
 
@@ -52,15 +47,18 @@
     <taskdef resource="proguard/ant/task.properties" classpathref="proguard.classpath"/>
     <proguard configuration="lib/gg-client.pro">
       <libraryjar name="${rt.jar}"/>
-      <injar path="${deploy.dir}/proguard/jsr250-api-1.0.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/jsr305-1.3.7.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/guava-r07.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/getdown-1.1-SNAPSHOT.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/narya-1.2-SNAPSHOT.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/nenya-1.0-SNAPSHOT.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/vilya-1.0-SNAPSHOT.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/whirled-code-1.0-SNAPSHOT.jar" filter="!META-INF/*"/>
-      <injar path="${deploy.dir}/proguard/samskivert-1.1.jar" filter="!META-INF/*"/>
+      <injar path="${com.google.guava:guava:jar}" filter="!META-INF/*"/>
+      <injar path="${com.threerings:getdown:jar}" filter="!META-INF/*,!**/tools/**"/>
+      <injar path="${com.threerings:narya:jar}"
+             filter="!META-INF/*,!**/admin/**,!**/tools/**"/>
+      <injar path="${com.threerings:nenya:jar}" filter="!META-INF/*,!**/tools/**"/>
+      <injar path="${com.threerings:vilya:jar}" filter="!META-INF/*,!**/tools/**"/>
+      <injar path="${com.threerings:whirled-code:jar}"
+             filter="!META-INF/*,!**/server/**,!**/persist/**"/>
+      <injar path="${com.samskivert:samskivert:jar}"
+             filter="!META-INF/*,!**/jdbc/**,!**/servlet/**"/>
+      <injar path="${com.samskivert:samskivert:jar}"
+             filter="**/user/Password.class,**/user/UserUtil.class"/>
       <injar path="../toybox/dist/toybox.jar" filter="!META-INF/*"/>
       <outjar path="${client.dir}/gg-client.jar"/>
     </proguard>

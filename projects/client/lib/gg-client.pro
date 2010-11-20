@@ -6,8 +6,34 @@
 -dontskipnonpubliclibraryclasses
 -dontobfuscate
 
-# fuck you Proguard for not having a mode where you ignore dependencies for dead code
--ignorewarnings
+# we ignore a ton of stuff that we know not to be used
+-dontwarn ca.beq.util.win32.registry.**
+-dontwarn com.google.inject.**
+-dontwarn com.jcraft.**
+-dontwarn com.samskivert.depot.**
+-dontwarn com.samskivert.mustache.**
+-dontwarn com.samskivert.servlet.user.UserUtil
+-dontwarn com.samskivert.velocity.**
+-dontwarn com.samskivert.xml.**
+-dontwarn com.threerings.**.server.**
+-dontwarn com.threerings.getdown.tools.**
+-dontwarn com.whirled.DataPack*
+-dontwarn com.whirled.game.server.PropertySpaceHelper
+-dontwarn com.whirled.game.xml.**
+-dontwarn javax.annotation.**
+-dontwarn javax.mail.**
+-dontwarn javax.servlet.**
+-dontwarn javazoom.jl.decoder.**
+-dontwarn net.sf.ehcache.**
+-dontwarn org.apache.commons.codec.**
+-dontwarn org.apache.commons.collections.**
+-dontwarn org.apache.commons.digester.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.mina.**
+-dontwarn org.apache.tools.ant.**
+-dontwarn org.apache.velocity.**
+-dontwarn org.lwjgl.**
 
 # we need whatever we keep of samskivert to be around in its entirety so
 # that if a game uses the same classfile, the whole thing is there
