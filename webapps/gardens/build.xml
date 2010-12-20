@@ -45,6 +45,11 @@
       <fileset refid="ooo.maven.fileset"/>
       <mapper type="flatten"/>
     </copy>
+
+    <!-- optionally copy the ooo-toybox-auth library if available -->
+    <copy todir="${deploy.dir}/lib" failonerror="false">
+      <fileset dir="../../${deploy.dir}/lib" includes="ooo-toybox-auth.jar"/>
+    </copy>
   </target>
 
   <target name="compile" depends="prepare">
