@@ -28,7 +28,9 @@
   </target>
 
   <property name="ant-support.dir" value="${maven.dir}/ant-support/${ooo-build.vers}"/>
-  <condition property="build-support.exists"><available file="${ant-support.dir}/build-support.xml"/></condition>
+  <condition property="build-support.exists">
+    <available file="${ant-support.dir}/build-support.xml"/>
+  </condition>
   <target name="-extract-ooo-build" depends="-download-ooo-build" unless="build-support.exists">
     <mkdir dir="${ant-support.dir}"/>
     <unjar src="${ooo-build.local.file}" dest="${ant-support.dir}"/>
