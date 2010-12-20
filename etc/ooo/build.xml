@@ -109,7 +109,7 @@
   <target name="package" depends="distall,gamesdist,server-package,webapp-package,wiki-package"/>
 
   <!-- defines properties needed by the individual foo-package targets -->
-  <target name="prepare-package">
+  <target name="prepare-package" depends="-init-copy">
     <!-- define the directory from which we're going to build our packages -->
     <property name="pkgroot.root" value="${deploy.dir}/packages"/>
     <mkdir dir="${pkgroot.root}"/>
