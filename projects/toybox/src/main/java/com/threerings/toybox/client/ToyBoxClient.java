@@ -283,12 +283,12 @@ public class ToyBoxClient
             if (config instanceof ToyBoxGameConfig) {
                 ToyBoxGameConfig toycfg = (ToyBoxGameConfig)config;
                 String ccls = toycfg.getGameDefinition().controller;
+                ClassLoader loader = _toydtr.getClassLoader(config);
                 try {
-                    ClassLoader loader = _toydtr.getClassLoader(config);
                     return (PlaceController)Class.forName(ccls, true, loader).newInstance();
                 } catch (Exception e) {
-                    log.warning("Failed to instantiate game controller " +
-                            "[class=" + ccls + "]", e);
+                    log.warning("Failed to instantiate game controller", "class", ccls,
+                                "cloader", loader, e);
                     return null;
                 }
             } else {

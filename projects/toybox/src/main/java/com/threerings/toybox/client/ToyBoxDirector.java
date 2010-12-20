@@ -109,6 +109,7 @@ public class ToyBoxDirector extends BasicDirector
             _gameLoader = ToyBoxUtil.createClassLoader(_cacheDir, gameId, gamedef);
             _cache.put(ident, _gameLoader);
         }
+        log.info("Configured game class loader", "game", ident, "loader", _gameLoader);
 
         // configure the resource manager to load files from the game's class loader
         _gameResource.setClassLoader(_gameLoader);
