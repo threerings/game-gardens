@@ -3,4 +3,4 @@ etc/gardens.conf
 etc/toybox.properties
 pages/client/gg-client.jar
 projects/games/client/gg-client.jar
-projects/games/lib/toybox.jar
+projects/games/lib/*.jar
