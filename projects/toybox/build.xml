@@ -164,6 +164,7 @@
   <property name="test" value=""/>
   <target name="tests" depends="compile"
           description="Runs unit tests. Use -Dtest=Foo to run only FooTest.">
+<!-- uncomment if we ever have test code
     <taskdef name="unit" classpathref="test.classpath"
       classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
     <mkdir dir="${deploy.dir}/test-reports"/>
@@ -176,6 +177,7 @@
         <fileset dir="${tsrc.dir}" includes="**/*${test}*Test.java"/>
       </batchtest>
     </unit>
+-->
   </target>
 
   <target name="dist" depends="compile,aslib" description="Builds jar files.">

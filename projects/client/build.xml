@@ -3,22 +3,8 @@
   <property name="base.dir" value="../.."/>
   <property name="client.dir" value="${base.dir}/pages/client"/>
 
-  <property name="maven-ant.vers" value="2.1.1"/>
-  <property name="maven-ant.dir" value="${user.home}/.m2/ant-support"/>
-  <property name="maven-ant.jar" value="${maven-ant.dir}/maven-ant-tasks-${maven-ant.vers}.jar"/>
-  <property name="maven-ant.url"
-            value="http://mirrors.ibiblio.org/pub/mirrors/apache/maven/binaries"/>
-  <condition property="maven-ant.exists"><available file="${maven-ant.jar}"/></condition>
-  <target name="-download-maven-ant" unless="maven-ant.exists">
-    <mkdir dir="${maven-ant.dir}"/>
-    <get src="${maven-ant.url}/maven-ant-tasks-${maven-ant.vers}.jar"
-         dest="${maven-ant.jar}" usetimestamp="true"/>
-  </target>
-
-  <target name="-init-maven-ant" depends="-download-maven-ant">
-    <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
-             uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
-  </target>
+  <!-- boilerplate for downloading maven ant task jar -->
+  <import file="${base.dir}/maven-ant.xml"/>
 
   <target name="proguard" depends="-init-maven-ant" description="Builds our client jar file.">
     <!-- locate the platform classes -->
@@ -61,17 +47,16 @@
     <copy file="${client.dir}/gg-client.jar" todir="../games/client"/>
   </target>
 
-  <target name="sign" description="Signs our client jar file.">
-    <property file="${base.dir}/dist/build_settings.properties"/>
-    <if><isset property="sign.alias"/><then>
-      <signjar lazy="true" alias="${sign.alias}"
-               keystore="${sign.keystore}" storepass="${sign.storepass}">
-        <fileset dir="${client.dir}" includes="*.jar"/>
-      </signjar>
-    </then><else>
-      <echo>Not signing client. No keystore configured.</echo>
-    </else></if>
-    <!-- also copy the signed client jar into the game development directory -->
+  <property file="${base.dir}/dist/build_settings.properties"/>
+  <target name="-maybe-sign" if="sign.alias">
+    <signjar lazy="true" alias="${sign.alias}"
+             keystore="${sign.keystore}" storepass="${sign.storepass}">
+      <fileset dir="${client.dir}" includes="*.jar"/>
+    </signjar>
+  </target>
+
+  <target name="sign" depends="-maybe-sign" description="Signs our client jar file.">
+    <!-- copy the signed client jar into the game development directory -->
     <copy todir="../games/client" file="${client.dir}/gg-client.jar"/>
   </target>
 

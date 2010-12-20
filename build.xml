@@ -1,20 +1,10 @@
 <?xml version="1.0"?>
-<project name="Game Gardens" default="client" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+<project name="game-gardens" default="client" basedir="." xmlns:artifact="urn:maven-artifact-ant">
   <property file="etc/toybox.properties"/>
   <property name="deploy.dir"  value="dist"/>
 
   <!-- boilerplate for downloading maven ant task jar -->
-  <property name="maven-ant.vers" value="2.1.1"/>
-  <property name="maven-ant.dir" value="${user.home}/.m2/ant-support"/>
-  <property name="maven-ant.jar" value="${maven-ant.dir}/maven-ant-tasks-${maven-ant.vers}.jar"/>
-  <property name="maven-ant.url"
-            value="http://mirrors.ibiblio.org/pub/mirrors/apache/maven/binaries"/>
-  <condition property="maven-ant.exists"><available file="${maven-ant.jar}"/></condition>
-  <target name="-download-maven-ant" unless="maven-ant.exists">
-    <mkdir dir="${maven-ant.dir}"/>
-    <get src="${maven-ant.url}/maven-ant-tasks-${maven-ant.vers}.jar"
-         dest="${maven-ant.jar}" usetimestamp="true"/>
-  </target>
+  <import file="maven-ant.xml"/>
 
   <target name="-gen-default-config" unless="resource_dir">
     <echo>Generating default properties.</echo>
@@ -22,10 +12,7 @@
     <copy tofile="etc/build_settings.properties" file="etc/build_settings.properties.dist"/>
   </target>
 
-  <target name="-prepare" depends="-download-maven-ant,-gen-default-config">
-    <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
-             uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
-
+  <target name="-prepare" depends="-init-maven-ant,-gen-default-config">
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/lib"/>
 
@@ -33,19 +20,18 @@
     <copy file="etc/build_settings.properties" todir="${deploy.dir}"/>
   </target>
 
-  <target name="-dist-project">
-    <ant dir="projects/${project}" target="dist" inheritAll="false"/>
+  <target name="toybox" description="Builds the toybox subproject.">
+    <ant dir="projects/toybox" target="dist" inheritAll="false"/>
     <copy todir="${deploy.dir}/lib">
-      <fileset dir="projects/${project}/dist" includes="*.jar"/>
+      <fileset dir="projects/toybox/dist" includes="*.jar"/>
     </copy>
   </target>
 
-  <target name="toybox" description="Builds the toybox subproject.">
-    <antcall target="-dist-project"><param name="project" value="toybox"/></antcall>
-  </target>
-
   <target name="gardens" description="Builds the gardens webapp.">
-    <antcall target="-dist-project"><param name="project" value="gardens"/></antcall>
+    <ant dir="projects/gardens" target="dist" inheritAll="false"/>
+    <copy todir="${deploy.dir}">
+      <fileset dir="projects/gardens/dist" includes="*.war"/>
+    </copy>
   </target>
 
   <target name="client" depends="-prepare" description="Creates the client jar file.">
