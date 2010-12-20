@@ -1,9 +1,9 @@
 # Game Gardens
 
 Game Gardens is a platform for hosting simple multiplayer games written in
-Java. It is built atop the
-[Narya multiplayer game platform](http://code.google.com/p/narya) and the
-[Vilya parlor game services](http://code.google.com/p/vilya/).
+Java. It is built atop the [Narya](http://code.google.com/p/narya),
+[Nenya](http://code.google.com/p/nenya/), and
+[Vilya](http://code.google.com/p/vilya/) multiplayer game libraries.
 
 This project contains the under-the-hood moving parts that make up the Game
 Gardens hosting platform. If you are looking to develop a game that runs on
