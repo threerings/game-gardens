@@ -203,7 +203,7 @@ public class ChatPanel extends JPanel
      * the send button can be removed to leave more space for the text
      * input box.
      *
-     * @deprectated Pass non-horizontal to the constructor instead.
+     * @deprecated Pass non-horizontal to the constructor instead.
      */
     public void removeSendButton ()
     {
