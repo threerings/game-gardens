@@ -1,0 +1,751 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<!-- -->
+<TITLE>
+ToyBoxManager
+</TITLE>
+
+<META NAME="date" CONTENT="2010-12-20">
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ToyBoxManager";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/threerings/toybox/server/ToyBoxDispatcher.html" title="class in com.threerings.toybox.server"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/threerings/toybox/server/ToyBoxManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ToyBoxManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.threerings.toybox.server</FONT>
+<BR>
+Class ToyBoxManager</H2>
+<PRE>
+<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>com.threerings.toybox.server.ToyBoxManager</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationProvider.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationProvider</A>, <A HREF="../../../../com/threerings/toybox/server/ToyBoxProvider.html" title="interface in com.threerings.toybox.server">ToyBoxProvider</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>ToyBoxManager</B><DT>extends <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A><DT>implements <A HREF="../../../../com/threerings/toybox/server/ToyBoxProvider.html" title="interface in com.threerings.toybox.server">ToyBoxProvider</A></DL>
+</PRE>
+
+<P>
+Manages the server side of the ToyBox services.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server">ToyBoxManager.GameRepository</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Provides access to <A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist"><CODE>GameRecord</CODE></A> info for the ToyBox manager.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server">ToyBoxManager.GameRepository</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_gamerepo">_gamerepo</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Provides information on <A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist"><CODE>GameRecord</CODE></A>s.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/util/Invoker.html?is-external=true" title="class or interface in com.samskivert.util">Invoker</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_invoker">_invoker</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Handles database business.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="../../../../com/threerings/toybox/util/ToyBoxClassLoader.html" title="class in com.threerings.toybox.util">ToyBoxClassLoader</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_loaders">_loaders</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maps game identifiers to custom class loaders.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>,<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_lobbyOids">_lobbyOids</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contains a mapping from game identifier strings to lobby oids for lobbies that have been
+ resolved.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/PresentsDObjectMgr.html?is-external=true" title="class or interface in com.threerings.presents.server">PresentsDObjectMgr</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_omgr">_omgr</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Handles distributed object business.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>,<A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/util/ResultListenerList.html?is-external=true" title="class or interface in com.samskivert.util">ResultListenerList</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_penders">_penders</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contains pending listeners for lobbies in the process of being resolved.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/crowd/server/PlaceRegistry.html?is-external=true" title="class or interface in com.threerings.crowd.server">PlaceRegistry</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_plreg">_plreg</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Handles creation of places.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/util/Interval.html?is-external=true" title="class or interface in com.samskivert.util">Interval</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_popval">_popval</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Periodically writes out the number of users online in each game to a file.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#MAX_PLAYTIME">MAX_PLAYTIME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The maximum playtime we will record for a game, in minutes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#ODDLY_LONG">ODDLY_LONG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If a game is in play longer than this many minutes, we log a warning when recording its
+ playtime to catch funny business.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#ONE_MINUTE">ONE_MINUTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One minute in milliseconds.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#ToyBoxManager(com.threerings.presents.server.InvocationManager)">ToyBoxManager</A></B>(<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationManager.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationManager</A>&nbsp;invmgr)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://www.threerings.net/code/vilya/docs/api/com/threerings/parlor/game/server/GameManager.html?is-external=true" title="class or interface in com.threerings.parlor.game.server">GameManager</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#createGame(com.threerings.toybox.server.persist.GameRecord, com.threerings.parlor.game.data.GameConfig)">createGame</A></B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game,
+           <A HREF="http://www.threerings.net/code/vilya/docs/api/com/threerings/parlor/game/data/GameConfig.html?is-external=true" title="class or interface in com.threerings.parlor.game.data">GameConfig</A>&nbsp;config)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a game based on the supplied configuration.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang">ClassLoader</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#getClassLoader(com.threerings.crowd.data.PlaceConfig)">getClassLoader</A></B>(<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/crowd/data/PlaceConfig.html?is-external=true" title="class or interface in com.threerings.crowd.data">PlaceConfig</A>&nbsp;config)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the custom class loader that should be used for the
+ specified place.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#getLobbyOid(com.threerings.presents.data.ClientObject, int, com.threerings.presents.client.InvocationService.ResultListener)">getLobbyOid</A></B>(<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/data/ClientObject.html?is-external=true" title="class or interface in com.threerings.presents.data">ClientObject</A>&nbsp;caller,
+            int&nbsp;gameId,
+            <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/client/InvocationService.ResultListener.html?is-external=true" title="class or interface in com.threerings.presents.client">InvocationService.ResultListener</A>&nbsp;rl)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Handles a <A HREF="../../../../com/threerings/toybox/client/ToyBoxService.html#getLobbyOid(com.threerings.presents.client.Client, int, com.threerings.presents.client.InvocationService.ResultListener)"><CODE>ToyBoxService.getLobbyOid(com.threerings.presents.client.Client, int, com.threerings.presents.client.InvocationService.ResultListener)</CODE></A> request.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#init(com.threerings.toybox.server.ToyBoxManager.GameRepository)">init</A></B>(<A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server">ToyBoxManager.GameRepository</A>&nbsp;gamerepo)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prepares the toybox manager for operation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#lobbyDidShutdown(com.threerings.toybox.server.persist.GameRecord)">lobbyDidShutdown</A></B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called by the <A HREF="../../../../com/threerings/toybox/lobby/server/LobbyManager.html" title="class in com.threerings.toybox.lobby.server"><CODE>LobbyManager</CODE></A> when it shuts down.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#publishOccupancy()">publishOccupancy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Publishes our lobby and game occupancy figures to the database.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#recordPlaytime(com.threerings.toybox.server.persist.GameRecord, long)">recordPlaytime</A></B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game,
+               long&nbsp;playtime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called to report the total playtime in a particular game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#resolveLobby(com.threerings.toybox.server.persist.GameRecord, com.threerings.presents.client.InvocationService.ResultListener)">resolveLobby</A></B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game,
+             <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/client/InvocationService.ResultListener.html?is-external=true" title="class or interface in com.threerings.presents.client">InvocationService.ResultListener</A>&nbsp;rl)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves a lobby for the specified game definition.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#setDevelopmentMode(java.io.File)">setDevelopmentMode</A></B>(<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</A>&nbsp;gameConfig)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prepares the toybox manager for operation in development mode where it only hosts the lobby
+ for a single game, which we will create immediately rather than on-demand.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="_gamerepo"><!-- --></A><H3>
+_gamerepo</H3>
+<PRE>
+protected <A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server">ToyBoxManager.GameRepository</A> <B>_gamerepo</B></PRE>
+<DL>
+<DD>Provides information on <A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist"><CODE>GameRecord</CODE></A>s.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_omgr"><!-- --></A><H3>
+_omgr</H3>
+<PRE>
+<FONT SIZE="-1">@Inject
+</FONT>protected <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/PresentsDObjectMgr.html?is-external=true" title="class or interface in com.threerings.presents.server">PresentsDObjectMgr</A> <B>_omgr</B></PRE>
+<DL>
+<DD>Handles distributed object business.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_invoker"><!-- --></A><H3>
+_invoker</H3>
+<PRE>
+<FONT SIZE="-1">@Inject
+</FONT>protected <A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/util/Invoker.html?is-external=true" title="class or interface in com.samskivert.util">Invoker</A> <B>_invoker</B></PRE>
+<DL>
+<DD>Handles database business.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_plreg"><!-- --></A><H3>
+_plreg</H3>
+<PRE>
+<FONT SIZE="-1">@Inject
+</FONT>protected <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/crowd/server/PlaceRegistry.html?is-external=true" title="class or interface in com.threerings.crowd.server">PlaceRegistry</A> <B>_plreg</B></PRE>
+<DL>
+<DD>Handles creation of places.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_penders"><!-- --></A><H3>
+_penders</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>,<A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/util/ResultListenerList.html?is-external=true" title="class or interface in com.samskivert.util">ResultListenerList</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>&gt;&gt; <B>_penders</B></PRE>
+<DL>
+<DD>Contains pending listeners for lobbies in the process of being resolved.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_lobbyOids"><!-- --></A><H3>
+_lobbyOids</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>,<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</A>&gt; <B>_lobbyOids</B></PRE>
+<DL>
+<DD>Contains a mapping from game identifier strings to lobby oids for lobbies that have been
+ resolved.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_loaders"><!-- --></A><H3>
+_loaders</H3>
+<PRE>
+protected <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</A>&lt;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A>,<A HREF="../../../../com/threerings/toybox/util/ToyBoxClassLoader.html" title="class in com.threerings.toybox.util">ToyBoxClassLoader</A>&gt; <B>_loaders</B></PRE>
+<DL>
+<DD>Maps game identifiers to custom class loaders. In general this will only have one mapping,
+ but we'll be general just in case.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_popval"><!-- --></A><H3>
+_popval</H3>
+<PRE>
+protected <A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/util/Interval.html?is-external=true" title="class or interface in com.samskivert.util">Interval</A> <B>_popval</B></PRE>
+<DL>
+<DD>Periodically writes out the number of users online in each game to a file.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="ONE_MINUTE"><!-- --></A><H3>
+ONE_MINUTE</H3>
+<PRE>
+protected static final double <B>ONE_MINUTE</B></PRE>
+<DL>
+<DD>One minute in milliseconds.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#com.threerings.toybox.server.ToyBoxManager.ONE_MINUTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_PLAYTIME"><!-- --></A><H3>
+MAX_PLAYTIME</H3>
+<PRE>
+protected static final int <B>MAX_PLAYTIME</B></PRE>
+<DL>
+<DD>The maximum playtime we will record for a game, in minutes. (This is to avoid booching the
+ stats if something goes awry.)
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#com.threerings.toybox.server.ToyBoxManager.MAX_PLAYTIME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ODDLY_LONG"><!-- --></A><H3>
+ODDLY_LONG</H3>
+<PRE>
+protected static final int <B>ODDLY_LONG</B></PRE>
+<DL>
+<DD>If a game is in play longer than this many minutes, we log a warning when recording its
+ playtime to catch funny business.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#com.threerings.toybox.server.ToyBoxManager.ODDLY_LONG">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ToyBoxManager(com.threerings.presents.server.InvocationManager)"><!-- --></A><H3>
+ToyBoxManager</H3>
+<PRE>
+<FONT SIZE="-1">@Inject
+</FONT>public <B>ToyBoxManager</B>(<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationManager.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationManager</A>&nbsp;invmgr)</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="init(com.threerings.toybox.server.ToyBoxManager.GameRepository)"><!-- --></A><H3>
+init</H3>
+<PRE>
+public void <B>init</B>(<A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server">ToyBoxManager.GameRepository</A>&nbsp;gamerepo)
+          throws <A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/io/PersistenceException.html?is-external=true" title="class or interface in com.samskivert.io">PersistenceException</A></PRE>
+<DL>
+<DD>Prepares the toybox manager for operation.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/io/PersistenceException.html?is-external=true" title="class or interface in com.samskivert.io">PersistenceException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDevelopmentMode(java.io.File)"><!-- --></A><H3>
+setDevelopmentMode</H3>
+<PRE>
+public void <B>setDevelopmentMode</B>(<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</A>&nbsp;gameConfig)
+                        throws <A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/io/PersistenceException.html?is-external=true" title="class or interface in com.samskivert.io">PersistenceException</A></PRE>
+<DL>
+<DD>Prepares the toybox manager for operation in development mode where it only hosts the lobby
+ for a single game, which we will create immediately rather than on-demand.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://samskivert.googlecode.com/svn/apidocs/com/samskivert/io/PersistenceException.html?is-external=true" title="class or interface in com.samskivert.io">PersistenceException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getClassLoader(com.threerings.crowd.data.PlaceConfig)"><!-- --></A><H3>
+getClassLoader</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/ClassLoader.html?is-external=true" title="class or interface in java.lang">ClassLoader</A> <B>getClassLoader</B>(<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/crowd/data/PlaceConfig.html?is-external=true" title="class or interface in com.threerings.crowd.data">PlaceConfig</A>&nbsp;config)</PRE>
+<DL>
+<DD>Returns the custom class loader that should be used for the
+ specified place.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="recordPlaytime(com.threerings.toybox.server.persist.GameRecord, long)"><!-- --></A><H3>
+recordPlaytime</H3>
+<PRE>
+public void <B>recordPlaytime</B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game,
+                           long&nbsp;playtime)</PRE>
+<DL>
+<DD>Called to report the total playtime in a particular game. This
+ records the playtime persistently.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>game</CODE> - the game whose time is being reported.<DD><CODE>playtime</CODE> - the total playtime in milliseconds.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLobbyOid(com.threerings.presents.data.ClientObject, int, com.threerings.presents.client.InvocationService.ResultListener)"><!-- --></A><H3>
+getLobbyOid</H3>
+<PRE>
+public void <B>getLobbyOid</B>(<A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/data/ClientObject.html?is-external=true" title="class or interface in com.threerings.presents.data">ClientObject</A>&nbsp;caller,
+                        int&nbsp;gameId,
+                        <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/client/InvocationService.ResultListener.html?is-external=true" title="class or interface in com.threerings.presents.client">InvocationService.ResultListener</A>&nbsp;rl)
+                 throws <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></PRE>
+<DL>
+<DD><B>Description copied from interface: <CODE><A HREF="../../../../com/threerings/toybox/server/ToyBoxProvider.html#getLobbyOid(com.threerings.presents.data.ClientObject, int, com.threerings.presents.client.InvocationService.ResultListener)">ToyBoxProvider</A></CODE></B></DD>
+<DD>Handles a <A HREF="../../../../com/threerings/toybox/client/ToyBoxService.html#getLobbyOid(com.threerings.presents.client.Client, int, com.threerings.presents.client.InvocationService.ResultListener)"><CODE>ToyBoxService.getLobbyOid(com.threerings.presents.client.Client, int, com.threerings.presents.client.InvocationService.ResultListener)</CODE></A> request.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../com/threerings/toybox/server/ToyBoxProvider.html#getLobbyOid(com.threerings.presents.data.ClientObject, int, com.threerings.presents.client.InvocationService.ResultListener)">getLobbyOid</A></CODE> in interface <CODE><A HREF="../../../../com/threerings/toybox/server/ToyBoxProvider.html" title="interface in com.threerings.toybox.server">ToyBoxProvider</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolveLobby(com.threerings.toybox.server.persist.GameRecord, com.threerings.presents.client.InvocationService.ResultListener)"><!-- --></A><H3>
+resolveLobby</H3>
+<PRE>
+public void <B>resolveLobby</B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game,
+                         <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/client/InvocationService.ResultListener.html?is-external=true" title="class or interface in com.threerings.presents.client">InvocationService.ResultListener</A>&nbsp;rl)
+                  throws <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></PRE>
+<DL>
+<DD>Resolves a lobby for the specified game definition. When the lobby is fully resolved, all
+ pending listeners will be notified of its creation. See <A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.html#_penders"><CODE>_penders</CODE></A>.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>game</CODE> - the metadata for the game whose lobby we will create.
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lobbyDidShutdown(com.threerings.toybox.server.persist.GameRecord)"><!-- --></A><H3>
+lobbyDidShutdown</H3>
+<PRE>
+public void <B>lobbyDidShutdown</B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game)</PRE>
+<DL>
+<DD>Called by the <A HREF="../../../../com/threerings/toybox/lobby/server/LobbyManager.html" title="class in com.threerings.toybox.lobby.server"><CODE>LobbyManager</CODE></A> when it shuts down.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createGame(com.threerings.toybox.server.persist.GameRecord, com.threerings.parlor.game.data.GameConfig)"><!-- --></A><H3>
+createGame</H3>
+<PRE>
+public <A HREF="http://www.threerings.net/code/vilya/docs/api/com/threerings/parlor/game/server/GameManager.html?is-external=true" title="class or interface in com.threerings.parlor.game.server">GameManager</A> <B>createGame</B>(<A HREF="../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&nbsp;game,
+                              <A HREF="http://www.threerings.net/code/vilya/docs/api/com/threerings/parlor/game/data/GameConfig.html?is-external=true" title="class or interface in com.threerings.parlor.game.data">GameConfig</A>&nbsp;config)
+                       throws <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></PRE>
+<DL>
+<DD>Creates a game based on the supplied configuration.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="publishOccupancy()"><!-- --></A><H3>
+publishOccupancy</H3>
+<PRE>
+protected void <B>publishOccupancy</B>()</PRE>
+<DL>
+<DD>Publishes our lobby and game occupancy figures to the database.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../com/threerings/toybox/server/ToyBoxDispatcher.html" title="class in com.threerings.toybox.server"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../com/threerings/toybox/server/ToyBoxManager.GameRepository.html" title="interface in com.threerings.toybox.server"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?com/threerings/toybox/server/ToyBoxManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ToyBoxManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

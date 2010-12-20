@@ -1,0 +1,993 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<!-- -->
+<TITLE>
+GameRecord
+</TITLE>
+
+<META NAME="date" CONTENT="2010-12-20">
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="GameRecord";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/threerings/toybox/server/persist/GameRecord.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="GameRecord.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+com.threerings.toybox.server.persist</FONT>
+<BR>
+Class GameRecord</H2>
+<PRE>
+<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</A>
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true" title="class or interface in com.samskivert.depot">com.samskivert.depot.PersistentRecord</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>com.threerings.toybox.server.persist.GameRecord</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/j2se/1.5/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Cloneable.html?is-external=true" title="class or interface in java.lang">Cloneable</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>GameRecord</B><DT>extends <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true" title="class or interface in com.samskivert.depot">PersistentRecord</A></DL>
+</PRE>
+
+<P>
+Contains information about a game registration.
+<P>
+
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../serialized-form.html#com.threerings.toybox.server.persist.GameRecord">Serialized Form</A></DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist">GameRecord.Status</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defines the possible values for <A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#status"><CODE>status</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;com.whirled.game.xml.WhirledGameParser</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#_parser">_parser</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Used to parse our game definitions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#_R">_R</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#category">category</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A short string indicating the category of this game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#CATEGORY">CATEGORY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/sql/Date.html?is-external=true" title="class or interface in java.sql">Date</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#created">created</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The date on which the game was created.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#CREATED">CREATED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#credits">credits</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Credits and license information for the game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#CREDITS">CREDITS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#definition">definition</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The XML game definition associated with this version.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#DEFINITION">DEFINITION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#description">description</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A brief description of the game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#DESCRIPTION">DESCRIPTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#digest">digest</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The MD5 digest of the game jar file.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#DIGEST">DIGEST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#GAME_ID">GAME_ID</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#gameId">gameId</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A unique integer identifier for this game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#host">host</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The server on which this game is hosted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#HOST">HOST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#instructions">instructions</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Brief instructions on how to play the game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#INSTRUCTIONS">INSTRUCTIONS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#LAST_UPDATED">LAST_UPDATED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/sql/Date.html?is-external=true" title="class or interface in java.sql">Date</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#lastUpdated">lastUpdated</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The date on which the jar file was last updated.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#MAINTAINER_ID">MAINTAINER_ID</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#maintainerId">maintainerId</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The user id of the maintainer of this game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#name">name</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The human readable name of this game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#NAME">NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#SCHEMA_VERSION">SCHEMA_VERSION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#status">status</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The status of the game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#STATUS">STATUS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#GameRecord()">GameRecord</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;com.whirled.game.xml.WhirledGameParser</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#createParser()">createParser</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the parser we'll use to turn our text configuration (probably XML) into a game
+ definition.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/Key.html?is-external=true" title="class or interface in com.samskivert.depot">Key</A>&lt;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#getKey(int)">getKey</A></B>(int&nbsp;gameId)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create and return a primary <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/Key.html?is-external=true" title="class or interface in com.samskivert.depot"><CODE>Key</CODE></A> to identify a <A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist"><CODE>GameRecord</CODE></A>
+ with the supplied key values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist">GameRecord.Status</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#getStatus()">getStatus</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the status of this game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../com/threerings/toybox/data/ToyBoxGameDefinition.html" title="class in com.threerings.toybox.data">ToyBoxGameDefinition</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#parseGameDefinition()">parseGameDefinition</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses this game's definition and returns</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#setStatus(com.threerings.toybox.server.persist.GameRecord.Status)">setStatus</A></B>(<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist">GameRecord.Status</A>&nbsp;status)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Updates the status of this game.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Provides a string representation of this instance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html#which()">which</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a brief description of this game.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_com.samskivert.depot.PersistentRecord"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class com.samskivert.depot.<A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true" title="class or interface in com.samskivert.depot">PersistentRecord</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true#clone()" title="class or interface in com.samskivert.depot">clone</A>, <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true#colexp(java.lang.Class, java.lang.String)" title="class or interface in com.samskivert.depot">colexp</A>, <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true#newKey(java.lang.Class, java.lang.Comparable...)" title="class or interface in com.samskivert.depot">newKey</A>, <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/PersistentRecord.html?is-external=true#registerKeyFields(com.samskivert.depot.expression.ColumnExp...)" title="class or interface in com.samskivert.depot">registerKeyFields</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.<A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</A>, <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="_R"><!-- --></A><H3>
+_R</H3>
+<PRE>
+public static final <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</A>&lt;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&gt; <B>_R</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="GAME_ID"><!-- --></A><H3>
+GAME_ID</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>GAME_ID</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="CATEGORY"><!-- --></A><H3>
+CATEGORY</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>CATEGORY</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="NAME"><!-- --></A><H3>
+NAME</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>NAME</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="MAINTAINER_ID"><!-- --></A><H3>
+MAINTAINER_ID</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>MAINTAINER_ID</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="STATUS"><!-- --></A><H3>
+STATUS</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>STATUS</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="HOST"><!-- --></A><H3>
+HOST</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>HOST</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="DEFINITION"><!-- --></A><H3>
+DEFINITION</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>DEFINITION</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="DIGEST"><!-- --></A><H3>
+DIGEST</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>DIGEST</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="DESCRIPTION"><!-- --></A><H3>
+DESCRIPTION</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>DESCRIPTION</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="INSTRUCTIONS"><!-- --></A><H3>
+INSTRUCTIONS</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>INSTRUCTIONS</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="CREDITS"><!-- --></A><H3>
+CREDITS</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>CREDITS</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="CREATED"><!-- --></A><H3>
+CREATED</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>CREATED</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="LAST_UPDATED"><!-- --></A><H3>
+LAST_UPDATED</H3>
+<PRE>
+public static final <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/expression/ColumnExp.html?is-external=true" title="class or interface in com.samskivert.depot.expression">ColumnExp</A> <B>LAST_UPDATED</B></PRE>
+<DL>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="SCHEMA_VERSION"><!-- --></A><H3>
+SCHEMA_VERSION</H3>
+<PRE>
+public static final int <B>SCHEMA_VERSION</B></PRE>
+<DL>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#com.threerings.toybox.server.persist.GameRecord.SCHEMA_VERSION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="gameId"><!-- --></A><H3>
+gameId</H3>
+<PRE>
+public int <B>gameId</B></PRE>
+<DL>
+<DD>A unique integer identifier for this game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="category"><!-- --></A><H3>
+category</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>category</B></PRE>
+<DL>
+<DD>A short string indicating the category of this game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="name"><!-- --></A><H3>
+name</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>name</B></PRE>
+<DL>
+<DD>The human readable name of this game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="maintainerId"><!-- --></A><H3>
+maintainerId</H3>
+<PRE>
+public int <B>maintainerId</B></PRE>
+<DL>
+<DD>The user id of the maintainer of this game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="status"><!-- --></A><H3>
+status</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>status</B></PRE>
+<DL>
+<DD>The status of the game. We can't use the enumeration directly here as this class is
+ persisted and JORA doesn't (and can't be made to) automagically handle enums.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="host"><!-- --></A><H3>
+host</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>host</B></PRE>
+<DL>
+<DD>The server on which this game is hosted.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="definition"><!-- --></A><H3>
+definition</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>definition</B></PRE>
+<DL>
+<DD>The XML game definition associated with this version.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="digest"><!-- --></A><H3>
+digest</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>digest</B></PRE>
+<DL>
+<DD>The MD5 digest of the game jar file.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="description"><!-- --></A><H3>
+description</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>description</B></PRE>
+<DL>
+<DD>A brief description of the game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="instructions"><!-- --></A><H3>
+instructions</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>instructions</B></PRE>
+<DL>
+<DD>Brief instructions on how to play the game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="credits"><!-- --></A><H3>
+credits</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>credits</B></PRE>
+<DL>
+<DD>Credits and license information for the game.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="created"><!-- --></A><H3>
+created</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/sql/Date.html?is-external=true" title="class or interface in java.sql">Date</A> <B>created</B></PRE>
+<DL>
+<DD>The date on which the game was created.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="lastUpdated"><!-- --></A><H3>
+lastUpdated</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/sql/Date.html?is-external=true" title="class or interface in java.sql">Date</A> <B>lastUpdated</B></PRE>
+<DL>
+<DD>The date on which the jar file was last updated.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="_parser"><!-- --></A><H3>
+_parser</H3>
+<PRE>
+protected static com.whirled.game.xml.WhirledGameParser <B>_parser</B></PRE>
+<DL>
+<DD>Used to parse our game definitions.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="GameRecord()"><!-- --></A><H3>
+GameRecord</H3>
+<PRE>
+public <B>GameRecord</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getStatus()"><!-- --></A><H3>
+getStatus</H3>
+<PRE>
+public <A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist">GameRecord.Status</A> <B>getStatus</B>()</PRE>
+<DL>
+<DD>Returns the status of this game.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStatus(com.threerings.toybox.server.persist.GameRecord.Status)"><!-- --></A><H3>
+setStatus</H3>
+<PRE>
+public void <B>setStatus</B>(<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist">GameRecord.Status</A>&nbsp;status)</PRE>
+<DL>
+<DD>Updates the status of this game.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseGameDefinition()"><!-- --></A><H3>
+parseGameDefinition</H3>
+<PRE>
+public <A HREF="../../../../../com/threerings/toybox/data/ToyBoxGameDefinition.html" title="class in com.threerings.toybox.data">ToyBoxGameDefinition</A> <B>parseGameDefinition</B>()
+                                         throws <A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></PRE>
+<DL>
+<DD>Parses this game's definition and returns
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="http://www.threerings.net/code/narya/docs/api/com/threerings/presents/server/InvocationException.html?is-external=true" title="class or interface in com.threerings.presents.server">InvocationException</A></CODE></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="which()"><!-- --></A><H3>
+which</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>which</B>()</PRE>
+<DL>
+<DD>Returns a brief description of this game.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public <A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</A> <B>toString</B>()</PRE>
+<DL>
+<DD>Provides a string representation of this instance.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</A></CODE> in class <CODE><A HREF="http://java.sun.com/j2se/1.5/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createParser()"><!-- --></A><H3>
+createParser</H3>
+<PRE>
+protected com.whirled.game.xml.WhirledGameParser <B>createParser</B>()</PRE>
+<DL>
+<DD>Creates the parser we'll use to turn our text configuration (probably XML) into a game
+ definition.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKey(int)"><!-- --></A><H3>
+getKey</H3>
+<PRE>
+public static <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/Key.html?is-external=true" title="class or interface in com.samskivert.depot">Key</A>&lt;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist">GameRecord</A>&gt; <B>getKey</B>(int&nbsp;gameId)</PRE>
+<DL>
+<DD>Create and return a primary <A HREF="http://depot.googlecode.com/svn/apidocs/com/samskivert/depot/Key.html?is-external=true" title="class or interface in com.samskivert.depot"><CODE>Key</CODE></A> to identify a <A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.html" title="class in com.threerings.toybox.server.persist"><CODE>GameRecord</CODE></A>
+ with the supplied key values.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../com/threerings/toybox/server/persist/GameRecord.Status.html" title="enum in com.threerings.toybox.server.persist"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?com/threerings/toybox/server/persist/GameRecord.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="GameRecord.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>
