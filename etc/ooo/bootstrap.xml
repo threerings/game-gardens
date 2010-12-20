@@ -13,7 +13,7 @@
   -->
 
   <property name="maven.dir" value="${user.home}/.m2"/>
-  <property name="ooo-build.vers" value="1.1"/>
+  <property name="ooo-build.vers" value="1.2"/>
   <property name="ooo-build.path"
     value="com/threerings/ooo-build/${ooo-build.vers}"/>
   <property name="ooo-build.jar"
