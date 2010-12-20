@@ -73,6 +73,7 @@
       <exclude name="com/threerings/toybox/server/ooo/**" unless="threerings.present"/>
     </javac>
 
+<!-- uncomment if we ever have test code
     <mkdir dir="${tclasses.dir}"/>
     <copy todir="${tclasses.dir}"><fileset dir="src/test/resources" includes="**"/></copy>
     <javac srcdir="${tsrc.dir}" destdir="${tclasses.dir}" includeAntRuntime="false"
@@ -81,6 +82,7 @@
       <compilerarg value="-Xlint"/>
       <compilerarg value="-Xlint:-serial"/>
     </javac>
+-->
   </target>
 
   <target name="-checkaslib">
