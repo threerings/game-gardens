@@ -29,9 +29,9 @@
   </target>
 
   <target name="gardens" description="Builds the gardens webapp.">
-    <ant dir="projects/gardens" target="dist" inheritAll="false"/>
+    <ant dir="webapps/gardens" target="dist" inheritAll="false"/>
     <copy todir="${deploy.dir}">
-      <fileset dir="projects/gardens/dist" includes="*.war"/>
+      <fileset dir="webapps/gardens/dist" includes="*.war"/>
     </copy>
   </target>
 
@@ -58,7 +58,7 @@
   <target name="distcleanall" depends="distclean"
           description="Deletes all temporary files here and in subprojects.">
     <ant dir="projects/toybox" target="distclean" inheritAll="false"/>
-    <ant dir="projects/gardens" target="distclean" inheritAll="false"/>
+    <ant dir="webapps/gardens" target="distclean" inheritAll="false"/>
   </target>
 
   <target name="server" depends="-prepare">
