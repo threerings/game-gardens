@@ -1,4 +1,4 @@
-<project name="bootstrap" default="extract-ooo-build">
+<project name="bootstrap" default="-extract-ooo-build">
   <!--
        Pulls in ooo-build from our maven repository to make our base build system available.
        From svn+ssh://src.earth.threerings.net/package/trunk/etc/bootstrap.xml
@@ -13,7 +13,7 @@
   -->
 
   <property name="maven.dir" value="${user.home}/.m2"/>
-  <property name="ooo-build.vers" value="1.0"/>
+  <property name="ooo-build.vers" value="1.1"/>
   <property name="ooo-build.path"
     value="com/threerings/ooo-build/${ooo-build.vers}"/>
   <property name="ooo-build.jar"
@@ -21,7 +21,7 @@
   <property name="ooo-build.local.dir" value="${maven.dir}/repository/${ooo-build.path}"/>
   <property name="ooo-build.local.file" value="${ooo-build.local.dir}/${ooo-build.jar}"/>
   <condition property="ooo-build.exists"><available file="${ooo-build.local.file}"/></condition>
-  <target name="download-ooo-build" unless="ooo-build.exists">
+  <target name="-download-ooo-build" unless="ooo-build.exists">
     <mkdir dir="${ooo-build.local.dir}"/>
     <get src="http://build.earth.threerings.net/maven-repository/${ooo-build.path}/${ooo-build.jar}"
       dest="${ooo-build.local.file}" usetimestamp="true"/>
@@ -29,7 +29,7 @@
 
   <property name="ant-support.dir" value="${maven.dir}/ant-support/${ooo-build.vers}"/>
   <condition property="build-support.exists"><available file="${ant-support.dir}/build-support.xml"/></condition>
-  <target name="extract-ooo-build" depends="download-ooo-build" unless="build-support.exists">
+  <target name="-extract-ooo-build" depends="-download-ooo-build" unless="build-support.exists">
     <mkdir dir="${ant-support.dir}"/>
     <unjar src="${ooo-build.local.file}" dest="${ant-support.dir}"/>
   </target>
