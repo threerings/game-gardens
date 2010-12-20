@@ -133,11 +133,14 @@
   <target name="javadoc" depends="-prepare" description="Builds the Java documentation">
     <mkdir dir="${deploy.dir}/docs"/>
     <javadoc sourcepath="${src.dir}" packagenames="com.threerings.*"
-             destdir="${deploy.dir}/docs" stylesheetfile="docs/stylesheet.css"
-             additionalparam="-breakiterator"
-             link="http://www.threerings.net/code/vilya/docs/api">
+             destdir="${deploy.dir}/docs" additionalparam="-breakiterator">
       <classpath refid="compile.classpath"/>
       <link href="http://java.sun.com/j2se/1.5/docs/api/"/>
+      <link href="http://samskivert.googlecode.com/svn/apidocs/"/>
+      <link href="http://depot.googlecode.com/svn/apidocs/"/>
+      <link href="http://www.threerings.net/code/narya/docs/api"/>
+      <link href="http://www.threerings.net/code/vilya/docs/api"/>
+      <link href="http://www.threerings.net/code/nenya/docs/api"/>
     </javadoc>
     <copy todir="${deploy.dir}/docs">
       <fileset dir="${src.dir}" includes="**/*.png"/>
