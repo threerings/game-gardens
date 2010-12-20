@@ -33,13 +33,11 @@
              filter="!META-INF/*,!**/admin/**,!**/tools/**"/>
       <injar path="${com.threerings:nenya:jar}" filter="!META-INF/*,!**/tools/**"/>
       <injar path="${com.threerings:vilya:jar}" filter="!META-INF/*,!**/tools/**"/>
-      <injar path="${com.threerings:whirled-code:jar}"
-             filter="!META-INF/*,!**/server/**,!**/persist/**"/>
       <injar path="${com.samskivert:samskivert:jar}"
              filter="!META-INF/*,!**/jdbc/**,!**/servlet/**"/>
       <injar path="${com.samskivert:samskivert:jar}"
              filter="**/user/Password.class,**/user/UserUtil.class"/>
-      <injar path="${com.threerings:toybox:jar}" filter="!META-INF/*"/>
+      <injar path="${com.threerings:toybox:jar}" filter="!META-INF/*,!*/xml/*"/>
       <outjar path="${client.dir}/gg-client.jar"/>
     </proguard>
 

@@ -21,7 +21,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.threerings.getdown.data.Resource;
 
-import com.threerings.toybox.data.ToyBoxGameDefinition;
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.server.ToyBoxConfig;
 import com.threerings.toybox.server.persist.GameRecord;
 
@@ -76,7 +76,7 @@ public class upload_jar extends UserLogic
         ctx.put("gameid", gameId);
 
         // get a handle on the game definition
-        ToyBoxGameDefinition gamedef = game.parseGameDefinition();
+        GameDefinition gamedef = game.parseGameDefinition();
         MessageDigest md = MessageDigest.getInstance("MD5");
 
         // TODO: put game jars in gameId subdirectories

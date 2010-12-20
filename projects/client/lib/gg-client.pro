@@ -17,9 +17,7 @@
 -dontwarn com.samskivert.xml.**
 -dontwarn com.threerings.**.server.**
 -dontwarn com.threerings.getdown.tools.**
--dontwarn com.whirled.DataPack*
--dontwarn com.whirled.game.server.PropertySpaceHelper
--dontwarn com.whirled.game.xml.**
+-dontwarn com.threerings.toybox.xml.**
 -dontwarn javax.annotation.**
 -dontwarn javax.mail.**
 -dontwarn javax.servlet.**
@@ -70,8 +68,5 @@
 
 # similarly for all of the narya, etc. libraries
 -keep public class com.threerings.** {
-    public protected *;
-}
--keep public class com.whirled.** {
     public protected *;
 }
