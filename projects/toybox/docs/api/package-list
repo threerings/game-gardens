@@ -1,0 +1,13 @@
+com.threerings.toybox
+com.threerings.toybox.client
+com.threerings.toybox.data
+com.threerings.toybox.lobby
+com.threerings.toybox.lobby.client
+com.threerings.toybox.lobby.data
+com.threerings.toybox.lobby.server
+com.threerings.toybox.lobby.table
+com.threerings.toybox.server
+com.threerings.toybox.server.persist
+com.threerings.toybox.tools
+com.threerings.toybox.util
+com.threerings.toybox.xml
