@@ -46,9 +46,10 @@
       <mapper type="flatten"/>
     </copy>
 
-    <!-- optionally copy the ooo-toybox-auth library if available -->
+    <!-- optionally copy the ooo-toybox-auth and threerings jars if available -->
     <copy todir="${deploy.dir}/lib" failonerror="false">
       <fileset dir="../../${deploy.dir}/lib" includes="ooo-toybox-auth.jar"/>
+      <fileset dir="../../${deploy.dir}/lib" includes="threerings-*.jar"/>
     </copy>
   </target>
 

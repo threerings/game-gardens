@@ -43,8 +43,6 @@
       <remoteRepository refid="ooo.maven.depends.repo"/>
       <dependency groupId="com.threerings" artifactId="threerings" version="1.0"/>
       <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
-    </artifact:dependencies>
-    <artifact:dependencies filesetId="ext.dependency.fileset">
       <dependency groupId="javax.mail" artifactId="mail" version="1.4.1"/>
       <dependency groupId="mysql" artifactId="mysql-connector-java" version="5.1.6"/>
       <dependency groupId="org.slf4j" artifactId="slf4j-api" version="1.6.1"/>
@@ -52,7 +50,6 @@
     </artifact:dependencies>
     <copy todir="${deploy.dir}/lib">
       <fileset refid="dependency.fileset"/>
-      <fileset refid="ext.dependency.fileset"/>
       <flattenmapper/>
     </copy>
   </target>
