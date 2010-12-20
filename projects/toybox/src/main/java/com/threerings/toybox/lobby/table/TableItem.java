@@ -41,8 +41,7 @@ import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
 import com.threerings.parlor.data.Table;
 
-import com.whirled.game.data.GameDefinition;
-
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.lobby.data.LobbyCodes;
 import com.threerings.toybox.util.ToyBoxContext;

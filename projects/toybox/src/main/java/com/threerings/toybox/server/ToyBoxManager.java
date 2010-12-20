@@ -59,12 +59,11 @@ import com.threerings.parlor.game.data.GameConfig;
 import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.game.server.GameManagerDelegate;
 
-import com.whirled.game.data.GameDefinition;
-
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.lobby.server.LobbyManager;
 
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.server.persist.GameRecord.Status;
 import com.threerings.toybox.server.persist.GameRecord;

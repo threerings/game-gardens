@@ -37,11 +37,9 @@ import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.server.InvocationException;
 
-import com.whirled.game.xml.WhirledGameParser;
-
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxCodes;
-import com.threerings.toybox.data.ToyBoxGameDefinition;
-import com.threerings.toybox.xml.ToyBoxGameParser;
+import com.threerings.toybox.xml.GameParser;
 
 /**
  * Contains information about a game registration.
@@ -139,7 +137,7 @@ public class GameRecord extends PersistentRecord
     /**
      * Parses this game's definition and returns
      */
-    public ToyBoxGameDefinition parseGameDefinition ()
+    public GameDefinition parseGameDefinition ()
         throws InvocationException
     {
         if (_parser == null) {
@@ -147,9 +145,9 @@ public class GameRecord extends PersistentRecord
         }
 
         try {
-            ToyBoxGameDefinition gamedef;
+            GameDefinition gamedef;
             synchronized (_parser) {
-                gamedef = (ToyBoxGameDefinition)_parser.parseGame(new StringReader(definition));
+                gamedef = _parser.parseGame(new StringReader(definition));
             }
 
             // fill in things that only we know
@@ -184,13 +182,13 @@ public class GameRecord extends PersistentRecord
      * Creates the parser we'll use to turn our text configuration (probably XML) into a game
      * definition.
      */
-    protected WhirledGameParser createParser ()
+    protected GameParser createParser ()
     {
-        return new ToyBoxGameParser();
+        return new GameParser();
     }
 
     /** Used to parse our game definitions. */
-    protected static WhirledGameParser _parser;
+    protected static GameParser _parser;
 
     // AUTO-GENERATED: METHODS START
     /**

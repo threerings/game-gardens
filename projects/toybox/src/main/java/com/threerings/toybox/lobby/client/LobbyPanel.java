@@ -54,12 +54,11 @@ import com.threerings.util.MessageBundle;
 import com.threerings.crowd.client.PlaceView;
 import com.threerings.crowd.data.PlaceObject;
 
-import com.whirled.game.data.GameDefinition;
-import com.whirled.game.data.TableMatchConfig;
-
 import com.threerings.toybox.client.ChatPanel;
 import com.threerings.toybox.client.OccupantList;
 import com.threerings.toybox.client.ToyBoxUI;
+import com.threerings.toybox.data.GameDefinition;
+import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 

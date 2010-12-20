@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import java.net.URL;
 
-import com.whirled.game.data.GameDefinition;
+import com.threerings.toybox.data.GameDefinition;
 
 import static com.threerings.toybox.Log.log;
 

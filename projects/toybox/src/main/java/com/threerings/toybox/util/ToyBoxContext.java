@@ -34,7 +34,7 @@ import com.threerings.util.MessageManager;
 import com.threerings.util.Name;
 
 import com.threerings.crowd.data.BodyObject;
-import com.whirled.game.util.WhirledGameContext;
+import com.threerings.parlor.util.ParlorContext;
 
 import com.threerings.toybox.client.ToyBoxDirector;
 
@@ -43,7 +43,7 @@ import static com.threerings.toybox.Log.log;
 /**
  * Aggregates the various bits that are needed on the ToyBox client.
  */
-public abstract class ToyBoxContext implements WhirledGameContext
+public abstract class ToyBoxContext implements ParlorContext
 {
     /**
      * Returns a reference to the message manager used by the client to

@@ -238,15 +238,7 @@
     <!-- now generate the associated files -->
     <genascript header="lib/SOURCE_HEADER" asroot="${asrc.dir}">
       <fileset dir="${src.dir}">
-        <include name="**/parlor/data/*.java"/>
-        <include name="**/parlor/**/data/*.java"/>
-        <exclude name="**/parlor/game/data/GameConfig.java"/> <!-- fiddly bits -->
-        <exclude name="**/parlor/tourney/**"/>
-        <include name="**/ezgame/data/*.java"/>
-        <include name="**/whirled/data/*.java"/>
-        <include name="**/whirled/**/data/*.java"/>
-        <exclude name="**/whirled/spot/data/Cluster.java"/> <!-- fiddly bits -->
-        <include name="**/stage/data/*.java"/>
+        <include name="**/data/*.java"/>
       </fileset>
     </genascript>
   </target>

@@ -44,10 +44,10 @@ import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.data.PlaceObject;
 
 import com.threerings.parlor.client.GameReadyObserver;
-import com.whirled.game.data.GameDefinition;
 
 import com.threerings.toybox.lobby.data.LobbyConfig;
 
+import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 import com.threerings.toybox.util.ToyBoxUtil;

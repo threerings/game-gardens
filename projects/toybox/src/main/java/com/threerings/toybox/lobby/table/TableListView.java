@@ -49,8 +49,7 @@ import com.threerings.parlor.data.TableLobbyObject;
 import com.threerings.parlor.game.client.GameConfigurator;
 import com.threerings.parlor.game.client.SwingGameConfigurator;
 
-import com.whirled.game.data.TableMatchConfig;
-
+import com.threerings.toybox.data.TableMatchConfig;
 import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
