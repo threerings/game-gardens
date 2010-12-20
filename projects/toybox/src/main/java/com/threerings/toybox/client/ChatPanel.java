@@ -178,15 +178,7 @@ public class ChatPanel extends JPanel
         add(epanel, GroupLayout.FIXED);
 
         // load up our chat background image
-        try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream(
-                "rsrc/media/chat_background.png");
-            if (in != null) {
-                _bgimg = ImageIO.read(in);
-            }
-        } catch (Exception e) {
-            log.warning("Failed to load background image.", e);
-        }
+        _bgimg = _ctx.loadImage("media/chat_background.png");
 
         // listen to ancestor events to request focus when added
         addAncestorListener(new AncestorAdapter() {
@@ -205,7 +197,7 @@ public class ChatPanel extends JPanel
      *
      * @deprecated Pass non-horizontal to the constructor instead.
      */
-    public void removeSendButton ()
+    @Deprecated public void removeSendButton ()
     {
         // this is now handled by specifying a horizontal or vertical
         // layout when creating the chat panel
