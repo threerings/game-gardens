@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import com.samskivert.util.StringUtil;
 
 import com.threerings.getdown.data.Resource;
@@ -248,7 +252,7 @@ public class ToyBoxDirector extends BasicDirector
         int gameId, GameDefinition gamedef, HTTPDownloader.Observer obs)
     {
         // determine whether the game's libraries, or its game jar file need to be downloaded
-        ArrayList<Resource> rsrcs = new ArrayList<Resource>();
+        ArrayList<Resource> rsrcs = Lists.newArrayList();
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -328,9 +332,9 @@ public class ToyBoxDirector extends BasicDirector
     protected ResourceManager _gameResource = new ResourceManager("rsrc");
 
     /** Contains an entry for all resources in the process of being downloaded. */
-    protected HashSet<File> _pending = new HashSet<File>();
+    protected HashSet<File> _pending = Sets.newHashSet();
 
     /** We have to cache our classloaders as we must preserve the same classloader for the lifetime
      * of the session so that the class cache held by the ObjectInputStream remains valid. */
-    protected HashMap<String,ClassLoader> _cache = new HashMap<String,ClassLoader>();
+    protected HashMap<String,ClassLoader> _cache = Maps.newHashMap();
 }

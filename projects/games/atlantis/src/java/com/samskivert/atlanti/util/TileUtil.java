@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import com.samskivert.util.RandomUtil;
 
 import com.threerings.presents.dobj.DSet;
@@ -43,7 +45,7 @@ public class TileUtil implements TileCodes
     {
         // we need to deep copy the default tile set, so we can't just use
         // clone
-        List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
+        List<AtlantiTile> tiles = Lists.newArrayList();
         int tsize = TILE_SET.size();
         for (int i = 0; i < tsize; i++) {
             // when testing, we prune out most tiles to make games quicker
@@ -201,7 +203,7 @@ public class TileUtil implements TileCodes
      */
     public static void inheritClaims (List<AtlantiTile> tiles, AtlantiTile tile)
     {
-        List<TileFeature> flist = new ArrayList<TileFeature>();
+        List<TileFeature> flist = Lists.newArrayList();
 
         // for each feature in the tile, load up its claim group and make sure all features in
         // that group (which will include our new feature) now have the same claim number
@@ -259,7 +261,7 @@ public class TileUtil implements TileCodes
         List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex, int claimGroup)
     {
         // load up this feature group
-        List<TileFeature> flist = new ArrayList<TileFeature>();
+        List<TileFeature> flist = Lists.newArrayList();
         enumerateGroup(tiles, tile, featureIndex, flist);
 
         // and assign the claim number to all features in the group
@@ -297,7 +299,7 @@ public class TileUtil implements TileCodes
 
         // if we're here, it's a road or city feature, which we score by loading up the group and
         // counting the number of tiles in it
-        List<TileFeature> flist = new ArrayList<TileFeature>();
+        List<TileFeature> flist = Lists.newArrayList();
         boolean complete = enumerateGroup(tiles, tile, featureIndex, flist);
 
         // we sort the group which will order the tile feature objects by their tiles, ensuring
@@ -365,7 +367,7 @@ public class TileUtil implements TileCodes
      */
     public static void prepCitiesForScoring (List<AtlantiTile> tiles)
     {
-        List<TileFeature> flist = new ArrayList<TileFeature>();
+        List<TileFeature> flist = Lists.newArrayList();
 
         // iterate over the tiles, marking every city completed or not
         for (AtlantiTile tile : tiles) {
@@ -664,7 +666,7 @@ public class TileUtil implements TileCodes
     };
 
     /** The standard tile set for a game of Atlantissonne. */
-    protected static ArrayList<AtlantiTile> TILE_SET = new ArrayList<AtlantiTile>();
+    protected static ArrayList<AtlantiTile> TILE_SET = Lists.newArrayList();
 
     // create our standard tile set
     static {

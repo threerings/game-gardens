@@ -33,6 +33,8 @@ import java.util.regex.Pattern;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import com.google.common.collect.Maps;
+
 /**
  * An ant task that generates a new game project from a template file and some user input.
  */
@@ -89,7 +91,7 @@ public class NewGameProjectTask extends Task
         makeDir(rdir);
 
         // customize the template files and copy them into the right place
-        HashMap<String, String> subs = new HashMap<String, String>();
+        HashMap<String, String> subs = Maps.newHashMap();
         subs.put("project", ident);
         subs.put("package", fullpkg);
         subs.put("classpre", classpre);

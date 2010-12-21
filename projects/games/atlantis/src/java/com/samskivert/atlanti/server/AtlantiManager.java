@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import com.samskivert.util.HashIntMap;
 import com.samskivert.util.Interator;
 import com.samskivert.util.RandomUtil;
@@ -338,7 +340,7 @@ public class AtlantiManager extends GameManager
         }
 
         // enumerate all legal moves
-        ArrayList<AtlantiTile> moves = new ArrayList<AtlantiTile>();
+        ArrayList<AtlantiTile> moves = Lists.newArrayList();
         for (tile.y = miny - 1; tile.y <= maxy+1; tile.y++) {
             for (tile.x = minx - 1; tile.x <= maxx+1; tile.x++) {
                 // we can't place on top of existing tiles
@@ -798,9 +800,8 @@ public class AtlantiManager extends GameManager
         // stick the piece in the tile to update the claim groups
         tile.setPiecen(piecen, _tiles);
 
-        // and add the piecen to the game object. when we receive
-        // the piecen added event, we'll score it and then end the
-        // turn
+        // and add the piecen to the game object. when we receive the piecen added event, we'll
+        // score it and then end the turn
         _atlobj.addToPiecens(piecen);
     }
 
@@ -814,7 +815,7 @@ public class AtlantiManager extends GameManager
     protected List<AtlantiTile> _tilesInBox;
 
     /** A sorted list of the tiles that have been placed on the board. */
-    protected List<AtlantiTile> _tiles = new ArrayList<AtlantiTile>();
+    protected List<AtlantiTile> _tiles = Lists.newArrayList();
 
     /** Used to score features groups. */
     protected int[] _claimGroupVector;

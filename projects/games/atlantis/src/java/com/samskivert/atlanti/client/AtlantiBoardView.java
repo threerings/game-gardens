@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -605,7 +607,7 @@ public class AtlantiBoardView extends JPanel
         board.setTileToBePlaced(placing);
 
         // set a feature group to test propagation
-        List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
+        List<AtlantiTile> tiles = Lists.newArrayList();
         CollectionUtil.addAll(tiles, set.iterator());
         Collections.sort(tiles);
 
@@ -637,7 +639,7 @@ public class AtlantiBoardView extends JPanel
     protected AtlantiController _ctrl;
 
     /** A reference to our tile set. */
-    protected ArrayList<AtlantiTile> _tiles = new ArrayList<AtlantiTile>();
+    protected ArrayList<AtlantiTile> _tiles = Lists.newArrayList();
 
     /** The tile currently being placed by the user. */
     protected AtlantiTile _placingTile;

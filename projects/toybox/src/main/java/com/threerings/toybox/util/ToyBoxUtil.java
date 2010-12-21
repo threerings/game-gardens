@@ -24,6 +24,8 @@ import java.util.ArrayList;
 
 import java.net.URL;
 
+import com.google.common.collect.Lists;
+
 import com.threerings.toybox.data.GameDefinition;
 
 import static com.threerings.toybox.Log.log;
@@ -41,7 +43,7 @@ public class ToyBoxUtil
     public static ToyBoxClassLoader createClassLoader (
         File root, int gameId, GameDefinition gamedef)
     {
-        ArrayList<URL> ulist = new ArrayList<URL>();
+        ArrayList<URL> ulist = Lists.newArrayList();
         String path = "";
         try {
             // add the game jar file

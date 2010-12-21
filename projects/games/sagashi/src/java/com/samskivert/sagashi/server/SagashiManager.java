@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import com.samskivert.util.ArrayIntSet;
 import com.samskivert.util.Interval;
 import com.threerings.util.MessageBundle;
@@ -307,15 +310,13 @@ public class SagashiManager extends GameManager
     protected long _nextEvent;
 
     /** Contains a record for all words played in this game. */
-    protected HashMap<String,ArrayIntSet> _plays =
-        new HashMap<String,ArrayIntSet>();
+    protected HashMap<String,ArrayIntSet> _plays = Maps.newHashMap();
 
     /** Contains score records for all participating players. */
-    protected HashMap<Integer,SagashiScore> _scores =
-        new HashMap<Integer,SagashiScore>();
+    protected HashMap<Integer,SagashiScore> _scores = Maps.newHashMap();
 
     /** Contains the set of all valid words. */
-    protected static HashSet<String> _words = new HashSet<String>();
+    protected static HashSet<String> _words = Sets.newHashSet();
 
     /** Yay for English! */
     protected static int[] _frequency = new int[SagashiBoard.LETTERS];
