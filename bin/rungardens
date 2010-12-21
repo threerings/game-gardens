@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id: rungardens 260 2004-12-03 17:55:21Z mdb $
-#
 # A script to invoke the Game Gardens server and archive the generated
 # logs when it eventually exits.
 

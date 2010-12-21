@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id$
-#
 # Command line launcher for the ToyBox server
 
 if [ -z "$1" ]; then

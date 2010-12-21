@@ -1,6 +1,4 @@
 #
-# $Id$
-#
 # Proguard configuration file for Game Gardens client
 
 -dontskipnonpubliclibraryclasses

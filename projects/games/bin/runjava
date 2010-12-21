@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id$
-#
 # Invokes java with proper classpath and arguments
 
 ROOT=`dirname $0`/..

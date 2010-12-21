@@ -1,5 +1,4 @@
 <?xml version="1.0" standalone="yes"?>
-<!-- $Id$ -->
 <!-- A sample game definition file for a table game. -->
 <game ident="tabula_rasa">
   <!-- Herein we define how the game is matchmade and configured. -->

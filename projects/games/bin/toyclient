@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id$
-#
 # Command line launcher for the ToyBox client
 
 ROOT=`dirname $0`/..

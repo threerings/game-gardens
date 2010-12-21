@@ -1,5 +1,3 @@
-$Id$
-
 In this directory, we store the jar files and all other data for the
 hosted games. We also store the standard libraries that are available for
 use by all of the games.

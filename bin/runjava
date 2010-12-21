@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
 #
-# $Id$
-#
 # Used to invoke the JVM when running the server and other tools
 
 use Getopt::Long;

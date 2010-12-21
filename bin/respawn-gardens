@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
 #
-# $Id: respawn 202 2004-06-23 09:33:31Z mdb $
-#
 # A script to respawn the Game Gardens server over and over again,
 # assuming that it exits cleanly each time.
 

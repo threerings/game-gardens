@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id: yoreboot.sh 204 2004-06-23 09:34:17Z mdb $
-#
 # Gracefully reboots all Game Gardens game servers running on this machine.
 
 PIDS=`ps auxww | grep ToyBoxServer | grep -v grep | awk '{ print $2 }' | sort -n`

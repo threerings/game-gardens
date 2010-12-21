@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id: gardens 255 2004-11-19 01:48:22Z mdb $
-#
 # Startup script for the Game Gardens game server. Currently works on
 # Debian and Redhat 9.
 

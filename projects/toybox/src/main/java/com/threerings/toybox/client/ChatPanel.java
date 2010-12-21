@@ -1,9 +1,7 @@
 //
-// $Id: ChatPanel.java 3273 2004-12-14 20:12:59Z mdb $
-//
-// Narya library - tools for developing networked games
-// Copyright (C) 2002-2004 Three Rings Design, Inc., All Rights Reserved
-// http://www.threerings.net/code/narya/
+// ToyBox library - framework for matchmaking networked games
+// Copyright (C) 2005-2011 Three Rings Design, Inc., All Rights Reserved
+// http://github.com/samskivert/game-gardens
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published

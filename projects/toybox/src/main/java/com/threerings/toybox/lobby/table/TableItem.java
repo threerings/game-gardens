@@ -1,9 +1,7 @@
 //
-// $Id: TableItem.java 3098 2004-08-27 02:12:55Z mdb $
-//
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2004 Three Rings Design, Inc., All Rights Reserved
-// http://www.gamegardens.com/code/
+// Copyright (C) 2005-2011 Three Rings Design, Inc., All Rights Reserved
+// http://github.com/samskivert/game-gardens
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published

@@ -1,6 +1,4 @@
 #
-# $Id$
-#
 # Web crawler control file
 
 User-agent: *
