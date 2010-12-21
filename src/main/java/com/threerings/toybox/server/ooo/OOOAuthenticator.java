@@ -98,7 +98,7 @@ public class OOOAuthenticator extends Authenticator
         }
         rsp.authdata = new TokenRing(tokens);
 
-        log.info("User logged on [user=" + username + "].");
+        log.info("User logged on", "user", username);
         rsp.getData().code = AuthResponseData.SUCCESS;
     }
 

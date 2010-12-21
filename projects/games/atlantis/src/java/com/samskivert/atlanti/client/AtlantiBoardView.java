@@ -48,8 +48,7 @@ public class AtlantiBoardView extends JPanel
     {
         _ctrl = ctrl;
 
-        // create mouse adapters that will let us know when interesting
-        // mouse events happen
+        // create mouse adapters that will let us know when interesting mouse events happen
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked (MouseEvent evt) {
@@ -87,8 +86,7 @@ public class AtlantiBoardView extends JPanel
         // sort the list
         Collections.sort(_tiles);
 
-        // recompute our desired dimensions and then have our parent
-        // adjust to our changed size
+        // recompute our desired dimensions and then have our parent adjust to our changed size
         computeDimensions();
     }
 
@@ -129,8 +127,7 @@ public class AtlantiBoardView extends JPanel
         // have the new tile inherit its claim groups
         TileUtil.inheritClaims(_tiles, tile);
 
-        // recompute our desired dimensions and then have our parent
-        // adjust to our changed size
+        // recompute our desired dimensions and then have our parent adjust to our changed size
         computeDimensions();
     }
 
@@ -432,8 +429,7 @@ public class AtlantiBoardView extends JPanel
     {
         boolean updated = false;
 
-        // convert mouse coordinates into tile coordinates and offset them
-        // by the origin
+        // convert mouse coordinates into tile coordinates and offset them by the origin
         int x = MathUtil.floorDiv(_mouseX, TILE_WIDTH) - _origX;
         int y = MathUtil.floorDiv(_mouseY, TILE_HEIGHT) - _origY;
 
@@ -456,8 +452,7 @@ public class AtlantiBoardView extends JPanel
             // we also need to recompute the valid orientations for the tile in this new position
             _validOrients = TileUtil.computeValidOrients(_tiles, _placingTile);
 
-            // if we've changed positions, clear out our valid placement
-            // flag
+            // if we've changed positions, clear out our valid placement flag
             _validPlacement = false;
         }
 

@@ -154,18 +154,16 @@ public class TileUtil implements TileCodes
                 // they're neighbors, we may have a match
                 int targetEdge = EDGE_MAP[(ydiff+1)*3 + xdiff+1];
 
-                // we want the edge of the placed tile that matches up
-                // with the tile in the candidate location, but we also
-                // need to take into account the orientation of the placed
-                // tile
+                // we want the edge of the placed tile that matches up we want the edge of the
+                // placed tile that matches up with the tile in the candidate location, but we also
+                // need to take into account the orientation of the placed tile
                 int tileEdge = (targetEdge+(4-tile.orientation)+2) % 4;
 
                 // now rotate the target edge according to our orientation
                 targetEdge = ((targetEdge+(4-target.orientation)) % 4);
 
                 // see if the edges match
-                if (getEdge(tile.type, tileEdge) ==
-                    getEdge(target.type, targetEdge)) {
+                if (getEdge(tile.type, tileEdge) == getEdge(target.type, targetEdge)) {
                     // make a note that we matched at least one edge
                     matchedAnEdge = true;
 
@@ -224,8 +222,7 @@ public class TileUtil implements TileCodes
                 }
             }
 
-            // if we found no non-zero claim number, we've nothing to
-            // inherit
+            // if we found no non-zero claim number, we've nothing to inherit
             if (claimGroup == 0) {
                 continue;
             }

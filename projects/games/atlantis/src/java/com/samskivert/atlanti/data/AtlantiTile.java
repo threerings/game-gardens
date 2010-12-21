@@ -44,8 +44,7 @@ public class AtlantiTile
     public static final AtlantiTile STARTING_TILE =
         new AtlantiTile(CITY_ONE_ROAD_STRAIGHT, false, NORTH, 0, 0);
 
-    /** Activate this to render a piecen on every feature (useful for the
-     * tile geometry test). */
+    /** Activate this to render a piecen on every feature (useful for the tile geometry test). */
     public static boolean piecenDebug = false;
 
     /** The tile type. */
@@ -77,8 +76,7 @@ public class AtlantiTile
     /**
      * Constructs a tile with all of the supplied tile information.
      */
-    public AtlantiTile (int type, boolean hasShield, int orientation,
-                        int x, int y)
+    public AtlantiTile (int type, boolean hasShield, int orientation, int x, int y)
     {
         this.type = type;
         this.hasShield = hasShield;
@@ -139,12 +137,10 @@ public class AtlantiTile
     }
 
     /**
-     * Looks for a feature in this tile that matches the supplied feature
-     * edge mask and returns the index of that feature in this tile's
-     * {@link #claims} array.
+     * Looks for a feature in this tile that matches the supplied feature edge mask and returns
+     * the index of that feature in this tile's {@link #claims} array.
      *
-     * @return the index of the matching feature or -1 if no feature
-     * matched.
+     * @return the index of the matching feature or -1 if no feature matched.
      */
     public int getFeatureIndex (int edgeMask)
     {
@@ -163,12 +159,11 @@ public class AtlantiTile
     }
 
     /**
-     * Returns the index of the feature that contains the supplied mouse
-     * coordinates (which will have been translated relative to the tile's
-     * origin).
+     * Returns the index of the feature that contains the supplied mouse coordinates (which will
+     * have been translated relative to the tile's origin).
      *
-     * @return the index of the feature that contains the mouse
-     * coordinates. Some feature should always contain the mouse.
+     * @return the index of the feature that contains the mouse coordinates. Some feature should
+     * always contain the mouse.
      */
     public int getFeatureIndex (int mouseX, int mouseY)
     {
@@ -188,13 +183,11 @@ public class AtlantiTile
     }
 
     /**
-     * Looks for a feature in this tile that matches the supplied feature
-     * edge mask and returns the claim group to which that feature belongs
-     * (which may be zero).
+     * Looks for a feature in this tile that matches the supplied feature edge mask and returns
+     * the claim group to which that feature belongs (which may be zero).
      *
-     * @return the claim group to which the feature that matches the
-     * supplied mask belongs, or zero if no feature matched the supplied
-     * mask.
+     * @return the claim group to which the feature that matches the supplied mask belongs, or
+     * zero if no feature matched the supplied mask.
      */
     public int getFeatureGroup (int edgeMask)
     {
@@ -203,9 +196,8 @@ public class AtlantiTile
     }
 
     /**
-     * Sets the claim group for the feature with the specified index. This
-     * also updates the claim group for any piecen that was placed on that
-     * feature as well.
+     * Sets the claim group for the feature with the specified index. This also updates the claim
+     * group for any piecen that was placed on that feature as well.
      *
      * @param featureIndex the index of the feature to update.
      * @param claimGroup the claim group to associate with the feature.
@@ -223,28 +215,25 @@ public class AtlantiTile
     }
 
     /**
-     * Places the specified piecen on this tile. The {@link
-     * Piecen#featureIndex} field is assumed to be initialized to the
-     * feature index of this tile on which the piecen is to be placed.
+     * Places the specified piecen on this tile. The {@link Piecen#featureIndex} field is assumed
+     * to be initialized to the feature index of this tile on which the piecen is to be placed.
      *
-     * <p> Note that this will call {@link TileUtil#setClaimGroup} to
-     * propagate the claiming of this feature to all neighboring tiles if
-     * a non-null tiles array is supplied to the function.
+     * <p> Note that this will call {@link TileUtil#setClaimGroup} to propagate the claiming of
+     * this feature to all neighboring tiles if a non-null tiles array is supplied to the
+     * function.
      *
-     * @param piecen the piecen to place on this tile (with an
-     * appropriately configured feature index).
-     * @param tiles a sorted list of all of the tiles on the board that
-     * we can use to propagate our new claim group to all features
-     * connected to this newly claimed feature or null if propagation of
-     * the claim group is not desired at this time.
+     * @param piecen the piecen to place on this tile (with an appropriately configured feature
+     * index).
+     * @param tiles a sorted list of all of the tiles on the board that we can use to propagate
+     * our new claim group to all features connected to this newly claimed feature or null if
+     * propagation of the claim group is not desired at this time.
      */
     public void setPiecen (Piecen piecen, List<AtlantiTile> tiles)
     {
         int claimGroup = 0;
 
-        // if we're adding a piecen to a feature that's already claimed,
-        // we want to inherit the claim number (this could happen when we
-        // show up in an in progress game)
+        // if we're adding a piecen to a feature that's already claimed, we want to inherit the
+        // claim number (this could happen when we show up in an in progress game)
         if (claims[piecen.featureIndex] != 0) {
             log.warning("Requested to add a piecen to a feature that has already been claimed",
                 "tile", this, "piecen", piecen);
@@ -262,19 +251,18 @@ public class AtlantiTile
         piecen.x = x;
         piecen.y = y;
 
-        // assign a brand spanking new claim group to the feature and the
-        // piecen and propagate it to neighboring features
+        // assign a brand spanking new claim group to the feature and the piecen and propagate it
+        // to neighboring features
         if (tiles != null) {
-            TileUtil.setClaimGroup(
-                tiles, this, piecen.featureIndex, claimGroup);
+            TileUtil.setClaimGroup(tiles, this, piecen.featureIndex, claimGroup);
             // update our piecen with the claim group as well
             piecen.claimGroup = claimGroup;
         }
     }
 
     /**
-     * Clears out any piecen reference that was previously set (does not
-     * clear out its associated claim group, however).
+     * Clears out any piecen reference that was previously set (does not clear out its associated
+     * claim group, however).
      */
     public void clearPiecen ()
     {
@@ -282,15 +270,12 @@ public class AtlantiTile
     }
 
     /**
-     * Paints this tile to the specified graphics context at its assigned
-     * location, accounting for the supplied x and y offsets of the
-     * origin.
+     * Paints this tile to the specified graphics context at its assigned location, accounting for
+     * the supplied x and y offsets of the origin.
      *
      * @param g the graphics context to use when painting the tile.
-     * @param xoff the offset (in tile units) of the origin in the x
-     * direction.
-     * @param yoff the offset (in tile units) of the origin in the y
-     * direction.
+     * @param xoff the offset (in tile units) of the origin in the x direction.
+     * @param yoff the offset (in tile units) of the origin in the y direction.
      */
     public void paint (Graphics2D g, int xoff, int yoff)
     {
@@ -367,9 +352,6 @@ public class AtlantiTile
         g.translate(-sx, -sy);
     }
 
-    /**
-     * Returns a copy of this tile object.
-     */
     @Override
     public AtlantiTile clone ()
     {
@@ -469,8 +451,7 @@ public class AtlantiTile
     {
         // load up the tile set if we haven't already
         if (_stset == null) {
-            _stset = _tmgr.loadTileSet(
-                SHIELD_IMG_PATH, SHIELD_SIZE, SHIELD_SIZE);
+            _stset = _tmgr.loadTileSet(SHIELD_IMG_PATH, SHIELD_SIZE, SHIELD_SIZE);
         }
 
         // fetch the tile

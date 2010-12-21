@@ -100,8 +100,7 @@ public class AtlantiManager extends GameManager
                 "who", player.who(), "turnHolder", _atlobj.turnHolder);
 
         } else {
-            // player doesn't want to place anything, so we just end
-            // the turn
+            // player doesn't want to place anything, so we just end the turn
             _turndel.endTurn();
         }
     }
@@ -528,8 +527,7 @@ public class AtlantiManager extends GameManager
         HashIntMap<int[]> cities = new HashIntMap<int[]>();
         int[] cityScores = new int[getPlayerCount()];
 
-        // clear out the claims for incompleted cities and claim unclaimed
-        // completed cities
+        // clear out the claims for incompleted cities and claim unclaimed completed cities
         TileUtil.prepCitiesForScoring(_tiles);
 
         // do the big process-ola
