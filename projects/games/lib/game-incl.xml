@@ -20,6 +20,7 @@
       <dependency groupId="commons-digester" artifactId="commons-digester" version="2.0"/>
       <dependency groupId="javassist" artifactId="javassist" version="3.8.0.GA"/>
       <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
+      <dependency groupId="com.samskivert" artifactId="jmustache" version="1.0"/>
     </artifact:dependencies>
     <path id="classpath">
       <path refid="maven.classpath"/>
