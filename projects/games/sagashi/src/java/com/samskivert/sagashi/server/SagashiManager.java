@@ -31,7 +31,6 @@ import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.samskivert.sagashi.client.SagashiService;
 import com.samskivert.sagashi.data.SagashiBoard;
 import com.samskivert.sagashi.data.SagashiCodes;
-import com.samskivert.sagashi.data.SagashiMarshaller;
 import com.samskivert.sagashi.data.SagashiObject;
 import com.samskivert.sagashi.data.SagashiScore;
 

@@ -19,11 +19,8 @@
 
 package com.threerings.carddemo;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import javax.swing.JComponent;
 
-import com.threerings.media.util.LinePath;
 import com.threerings.parlor.card.data.Card;
 import com.threerings.parlor.card.data.Hand;
 

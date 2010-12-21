@@ -9,18 +9,13 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Shape;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
-
 import com.samskivert.util.StringUtil;
 
 import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.util.FeatureUtil;
-import com.samskivert.atlanti.util.TileUtil;
 
 /**
  * Represents all of the necessary information for a particular feature of

@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Polygon;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -20,7 +18,6 @@ import java.util.List;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.media.image.ImageManager;
-import com.threerings.media.tile.Tile;
 import com.threerings.media.tile.TileManager;
 import com.threerings.media.tile.UniformTileSet;
 

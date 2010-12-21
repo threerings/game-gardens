@@ -41,7 +41,6 @@ import com.samskivert.depot.clause.OrderBy;
 import com.samskivert.depot.clause.Where;
 
 import com.samskivert.io.PersistenceException;
-import com.samskivert.util.StringUtil;
 import com.samskivert.util.Tuple;
 
 import com.threerings.toybox.server.ToyBoxManager;

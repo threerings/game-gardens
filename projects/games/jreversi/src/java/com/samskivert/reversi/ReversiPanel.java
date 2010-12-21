@@ -6,14 +6,12 @@ package com.samskivert.reversi;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Polygon;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.samskivert.swing.GroupLayout;

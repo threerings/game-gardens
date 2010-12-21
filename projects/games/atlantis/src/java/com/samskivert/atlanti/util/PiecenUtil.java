@@ -6,7 +6,6 @@ package com.samskivert.atlanti.util;
 
 import java.awt.Image;
 
-import com.threerings.media.tile.Tile;
 import com.threerings.media.tile.TileManager;
 import com.threerings.media.tile.UniformTileSet;
 
