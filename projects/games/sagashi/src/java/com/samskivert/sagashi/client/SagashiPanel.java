@@ -79,7 +79,6 @@ public class SagashiPanel extends PlacePanel
 
         // add a big fat label because we love it!
         MultiLineLabel vlabel = new MultiLineLabel(_msgs.get("m.title"));
-        vlabel.setAntiAliased(true);
         vlabel.setFont(ToyBoxUI.fancyFont);
         panel.add(vlabel, VGroupLayout.FIXED);
 
@@ -123,7 +122,6 @@ public class SagashiPanel extends PlacePanel
 
         // add a chat box
         ChatPanel chat = new ChatPanel(ctx);
-        chat.removeSendButton();
         sidePanel.add(chat);
 
         // add a "back" button

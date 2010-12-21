@@ -78,7 +78,6 @@ public class AtlantiPanel extends JPanel
 
         // add a big fat label because we love it!
         MultiLineLabel vlabel = new MultiLineLabel(msgs.get("m.title"));
-        vlabel.setAntiAliased(true);
         vlabel.setFont(ToyBoxUI.fancyFont);
         sidePanel.add(vlabel, VGroupLayout.FIXED);
 
@@ -108,7 +107,6 @@ public class AtlantiPanel extends JPanel
 
         // add a chat box
         ChatPanel chat = new ChatPanel(ctx);
-        chat.removeSendButton();
         chat.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         pane.addTab(msgs.get("m.chat_header"), chat);
 

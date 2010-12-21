@@ -69,7 +69,6 @@ public class GameSidePanel extends JPanel
 
         // we always add chat
         ChatPanel chat = new ChatPanel(ctx);
-        chat.removeSendButton();
         chat.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         pane.addTab(msgs.get("m.chat_header"), chat);
 
