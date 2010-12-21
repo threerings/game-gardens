@@ -181,7 +181,6 @@ public class FeatureUtil implements TileCodes
     protected static int xlateMask (
         int[] map, int featureMask, int orientation)
     {
-        int index = 0;
         for (int i = 0; i < map.length; i++) {
             if (map[i] == featureMask) {
                 return map[(i + 4 + orientation) % 4];

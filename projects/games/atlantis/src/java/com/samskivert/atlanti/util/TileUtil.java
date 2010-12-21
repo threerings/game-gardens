@@ -471,7 +471,6 @@ public class TileUtil implements TileCodes
         group.add(feat);
 
         boolean complete = true;
-        int ftype = tile.features[featureIndex].type;
         int fmask = tile.features[featureIndex].edgeMask;
 
         // iterate over all of the possible adjacency possibilities

@@ -296,8 +296,6 @@ public class AtlantiTile
      */
     public void paint (Graphics2D g, int xoff, int yoff)
     {
-        int tidx = type-1;
-
         // obtain our tile image
         if (_tileImage == null) {
             _tileImage = getTileImage(type);
