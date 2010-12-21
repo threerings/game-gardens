@@ -2,15 +2,15 @@
 <classpath>
 	<classpathentry kind="src" output="dist/classes" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/r07/guava-r07.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/inject/guice/2.0/guice-2.0.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/samskivert/samskivert/1.1/samskivert-1.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/samskivert/depot/1.1/depot-1.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/threerings/getdown/1.1/getdown-1.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/threerings/narya/1.2/narya-1.2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/threerings/nenya/1.0/nenya-1.0.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/threerings/vilya/1.0/vilya-1.0.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-digester/commons-digester/2.0/commons-digester-2.0.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/ant/ant/1.7.1/ant-1.7.1.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/google/guava/guava/r07/guava-r07.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/google/inject/guice/2.0/guice-2.0.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/samskivert/samskivert/1.1/samskivert-1.1.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/samskivert/depot/1.1/depot-1.1.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/threerings/getdown/1.1/getdown-1.1.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/threerings/narya/1.2/narya-1.2.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/threerings/nenya/1.0/nenya-1.0.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/threerings/vilya/1.0/vilya-1.0.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/commons-digester/commons-digester/2.0/commons-digester-2.0.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/org/apache/ant/ant/1.7.1/ant-1.7.1.jar"/>
 	<classpathentry kind="output" path="dist/classes"/>
 </classpath>
