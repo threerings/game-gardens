@@ -136,6 +136,7 @@ public class AtlantiPanel extends JPanel
     }
 
     // documentation inherited
+    @Override
     public void addNotify ()
     {
         super.addNotify();

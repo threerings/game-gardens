@@ -55,6 +55,7 @@ public class ReversiBoardView extends VirtualMediaPanel
 
         // listen for mouse motion and presses
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed (MouseEvent e) {
                 ReversiObject.Piece piece = _cursor.getPiece();
                 if (_logic.isLegalMove(piece)) {
@@ -64,6 +65,7 @@ public class ReversiBoardView extends VirtualMediaPanel
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
             public void mouseMoved (MouseEvent e) {
                 int tx = e.getX() / PieceSprite.SIZE;
                 int ty = e.getY() / PieceSprite.SIZE;

@@ -30,6 +30,7 @@ import com.threerings.toybox.data.ToyBoxUserObject;
 public class ToyBoxSession extends CrowdSession
 {
     // documentation inherited
+    @Override
     protected void sessionWillStart ()
     {
         super.sessionWillStart();

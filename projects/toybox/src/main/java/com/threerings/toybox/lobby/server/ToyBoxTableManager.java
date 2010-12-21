@@ -47,6 +47,7 @@ public class ToyBoxTableManager extends TableManager
     }
 
     // documentation inherited
+    @Override
     protected int createGame (Table table)
         throws InvocationException
     {

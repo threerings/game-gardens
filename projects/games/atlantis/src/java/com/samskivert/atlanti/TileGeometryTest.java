@@ -35,6 +35,7 @@ public class TileGeometryTest extends JPanel
         }
     }
 
+    @Override
     public void paintComponent (Graphics g)
     {
         super.paintComponent(g);
@@ -45,6 +46,7 @@ public class TileGeometryTest extends JPanel
         }
     }
 
+    @Override
     public Dimension getPreferredSize ()
     {
         // we want to be five tiles wide by four tiles tall

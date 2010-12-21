@@ -42,6 +42,7 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
+    @Override
     protected void didInit ()
     {
         super.didInit();
@@ -51,6 +52,7 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
+    @Override
     protected PlaceView createPlaceView (CrowdContext ctx)
     {
         _panel = new AtlantiPanel((ToyBoxContext)ctx, this);
@@ -58,6 +60,7 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
+    @Override
     public void willEnterPlace (PlaceObject plobj)
     {
         super.willEnterPlace(plobj);

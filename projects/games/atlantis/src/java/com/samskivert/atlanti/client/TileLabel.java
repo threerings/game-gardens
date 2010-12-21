@@ -32,6 +32,7 @@ public class TileLabel extends JComponent
     }
 
     // documentation inherited
+    @Override
     public void paintComponent (Graphics g)
     {
         super.paintComponent(g);
@@ -43,6 +44,7 @@ public class TileLabel extends JComponent
     }
 
     // documentation inherited
+    @Override
     public Dimension getPreferredSize ()
     {
         return new Dimension(TILE_WIDTH, TILE_HEIGHT);

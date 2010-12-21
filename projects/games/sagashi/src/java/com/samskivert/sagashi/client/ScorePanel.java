@@ -71,11 +71,13 @@ public class ScorePanel extends JPanel
             }
         }
 
+        @Override
         public String getColumnName (int col) {
             return _ctx.xlate(SagashiCodes.SAGASHI_MSG_BUNDLE,
                               "m.col_" + COLUMNS[col]);
         }
 
+        @Override
         public Class getColumnClass (int col) {
             return (col == 0) ? String.class : Integer.class;
         }
@@ -100,10 +102,12 @@ public class ScorePanel extends JPanel
             }
         }
 
+        @Override
         public boolean isCellEditable (int row, int col) {
             return false;
         }
 
+        @Override
         public void setValueAt (Object value, int row, int col) {
             // nada
         }

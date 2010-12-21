@@ -46,6 +46,7 @@ public class ClientController extends Controller
 
         // we want to know about logon/logoff
         _ctx.getClient().addClientObserver(new ClientAdapter() {
+            @Override
             public void clientDidLogoff (Client client) {
                 _client.setMainPanel(_logonPanel);
             }
@@ -65,6 +66,7 @@ public class ClientController extends Controller
     }
 
     // documentation inherited
+    @Override
     public boolean handleAction (ActionEvent action)
     {
 	String cmd = action.getActionCommand();

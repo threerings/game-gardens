@@ -67,9 +67,11 @@ public class ToyBoxFrame extends ManagedJFrame
 
         // listen for changes in size and position and record them
         addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized (ComponentEvent e) {
                 ToyBoxPrefs.setClientBounds(_gameId, _username, getBounds());
             }
+            @Override
             public void componentMoved (ComponentEvent e) {
                 ToyBoxPrefs.setClientBounds(_gameId, _username, getBounds());
             }
@@ -81,6 +83,7 @@ public class ToyBoxFrame extends ManagedJFrame
     {
         // log off when they close the window
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing (WindowEvent evt) {
                 // if we're logged on, log off
                 if (client.getContext().getClient().isLoggedOn()) {

@@ -376,6 +376,7 @@ public class AtlantiTile
     /**
      * Returns a copy of this tile object.
      */
+    @Override
     public AtlantiTile clone ()
     {
         return new AtlantiTile(type, hasShield, orientation, x, y);
@@ -391,6 +392,7 @@ public class AtlantiTile
     }
 
     // documentation inherited
+    @Override
     public boolean equals (Object other)
     {
         if (other instanceof AtlantiTile) {
@@ -440,6 +442,7 @@ public class AtlantiTile
     /**
      * Generates a string representation of this tile instance.
      */
+    @Override
     public String toString ()
     {
         return "[type=" + type + ", shield=" + hasShield +

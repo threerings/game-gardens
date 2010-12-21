@@ -136,6 +136,7 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     // documentation inherited
+    @Override
     public void clientDidLogon (Client client)
     {
         super.clientDidLogon(client);
@@ -197,6 +198,7 @@ public class ToyBoxDirector extends BasicDirector
         // create a thread that will resolve the resources as we at least have to some MD5 grindy
         // grindy if not some downloading
         Thread t = new Thread() {
+            @Override
             public void run () {
                 resolveResourcesAsync(gameId, gamedef, obs);
             }
@@ -211,9 +213,11 @@ public class ToyBoxDirector extends BasicDirector
 
         // wire up a location observer that can detect if we fail to make it into our lobby
         LocationAdapter obs = new LocationAdapter() {
+            @Override
             public void locationDidChange (PlaceObject place) {
                 _ctx.getLocationDirector().removeLocationObserver(this);
             }
+            @Override
             public void locationChangeFailed (int placeId, String reason) {
                 // TODO: report this error graphically
                 log.warning("Failed to enter lobby: " + reason + ".");

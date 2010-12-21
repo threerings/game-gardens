@@ -40,11 +40,13 @@ public class AtlantiBoardView extends JPanel
         // create mouse adapters that will let us know when interesting
         // mouse events happen
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked (MouseEvent evt) {
                 AtlantiBoardView.this.mouseClicked(evt);
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
             public void mouseMoved (MouseEvent evt) {
                 AtlantiBoardView.this.mouseMoved(evt);
             }
@@ -224,6 +226,7 @@ public class AtlantiBoardView extends JPanel
     }
 
     // documentation inherited
+    @Override
     public void doLayout ()
     {
         super.doLayout();
@@ -244,6 +247,7 @@ public class AtlantiBoardView extends JPanel
     }
 
     // documentation inherited
+    @Override
     public void paintComponent (Graphics g)
     {
         super.paintComponent(g);
@@ -521,6 +525,7 @@ public class AtlantiBoardView extends JPanel
     }
 
     // documentation inherited
+    @Override
     public Dimension getPreferredSize ()
     {
         if (_tiles.size() == 0) {

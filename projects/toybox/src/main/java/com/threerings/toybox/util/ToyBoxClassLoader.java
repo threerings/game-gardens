@@ -57,6 +57,7 @@ public class ToyBoxClassLoader extends URLClassLoader
     }
 
     // documentation inherited
+    @Override
     protected PermissionCollection getPermissions (CodeSource codesource)
     {
         PermissionCollection perms = super.getPermissions(codesource);

@@ -343,6 +343,7 @@ public class Feature
     /**
      * Generates a string representation of this feature.
      */
+    @Override
     public String toString ()
     {
         return "[type=" + FeatureUtil.typeToString(type) +

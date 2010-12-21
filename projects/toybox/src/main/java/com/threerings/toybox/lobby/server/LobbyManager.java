@@ -78,6 +78,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    @Override
     protected void didInit ()
     {
         super.didInit();
@@ -86,6 +87,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    @Override
     protected void didStartup ()
     {
         super.didStartup();
@@ -95,6 +97,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    @Override
     protected void placeBecameEmpty ()
     {
         // we don't want to do the standard "became empty" processing
@@ -105,6 +108,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    @Override
     protected long idleUnloadPeriod ()
     {
         // unload our lobbies very quickly after they become empty; unless
@@ -113,6 +117,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    @Override
     protected void didShutdown ()
     {
         super.didShutdown();
@@ -127,6 +132,7 @@ public class LobbyManager extends PlaceManager
     }
 
     // documentation inherited
+    @Override
     protected PlaceObject createPlaceObject ()
     {
         return new LobbyObject();
@@ -135,6 +141,7 @@ public class LobbyManager extends PlaceManager
     /** Listens for tables shutting down and reports us as empty if there
      * are no people in the lobby and our last table went away. */
     protected SetAdapter<Table> _emptyListener = new SetAdapter<Table>() {
+        @Override
         public void entryRemoved (EntryRemovedEvent<Table> event) {
             if (event.getName().equals(LobbyObject.TABLE_SET)) {
                 if (_lobobj.tableSet.size() == 0 &&

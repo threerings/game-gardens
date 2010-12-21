@@ -66,6 +66,7 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxGameConfigurator extends SwingGameConfigurator
 {
     // documentation inherited
+    @Override
     protected void gotGameConfig ()
     {
         super.gotGameConfig();
@@ -92,6 +93,7 @@ public class ToyBoxGameConfigurator extends SwingGameConfigurator
     }
 
     // documentation inherited
+    @Override
     protected void flushGameConfig ()
     {
         super.flushGameConfig();
@@ -209,6 +211,7 @@ public class ToyBoxGameConfigurator extends SwingGameConfigurator
         public String choice;
         public String label;
 
+        @Override
         public String toString () {
             return label;
         }

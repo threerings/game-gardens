@@ -640,6 +640,7 @@ public class TileUtil implements TileCodes
         }
 
         /** Properly implement equality. */
+        @Override
         public boolean equals (Object other)
         {
             if (other == null ||
@@ -660,6 +661,7 @@ public class TileUtil implements TileCodes
         }
 
         /** Generate a string representation. */
+        @Override
         public String toString ()
         {
             return "[tile=" + tile + ", fidx=" + featureIndex + "]";

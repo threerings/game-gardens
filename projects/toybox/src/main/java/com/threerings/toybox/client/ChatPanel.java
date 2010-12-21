@@ -111,9 +111,11 @@ public class ChatPanel extends JPanel
         // we need to create an ultra-custom scroll pane that combines the
         // safe-scroll-pane stuff with a painted background image
         add(new JScrollPane(_text) {
+            @Override
             protected JViewport createViewport ()
             {
                 JViewport vp = new JViewport() {
+                    @Override
                     public void setViewPosition (Point p) {
                         super.setViewPosition(p);
                         // simple scroll mode results in setViewPosition
@@ -125,6 +127,7 @@ public class ChatPanel extends JPanel
                             ((JComponent)c).revalidate();
                         }
                     }
+                    @Override
                     public void paintComponent (Graphics g) {
                         super.paintComponent(g);
                         // start with the light blue background
@@ -177,6 +180,7 @@ public class ChatPanel extends JPanel
 
         // listen to ancestor events to request focus when added
         addAncestorListener(new AncestorAdapter() {
+            @Override
             public void ancestorAdded (AncestorEvent e) {
                 if (_focus) {
                     _entry.requestFocus();
@@ -380,7 +384,7 @@ public class ChatPanel extends JPanel
         _room = null;
     }
 
-    // documentation inherited
+    @Override
     public Dimension getPreferredSize ()
     {
         Dimension size = super.getPreferredSize();

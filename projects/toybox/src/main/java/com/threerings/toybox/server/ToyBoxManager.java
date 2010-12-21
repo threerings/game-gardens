@@ -114,6 +114,7 @@ public class ToyBoxManager
         if (_gamerepo != null) {
             // periodically write our occupancy information to the database
             _popval = new Interval(_omgr) {
+                @Override
                 public void expired () {
                     publishOccupancy();
                 }
@@ -214,6 +215,7 @@ public class ToyBoxManager
 
         final int fmins = mins;
         _invoker.postUnit(new WriteOnlyUnit("updatePlaytime(" + game.gameId + ", " + mins + ")") {
+            @Override
             public void invokePersist () throws Exception {
                 _gamerepo.incrementPlaytime(game.gameId, fmins);
             }
@@ -240,11 +242,13 @@ public class ToyBoxManager
 
         // load the game information from the database
         _invoker.postUnit(new PersistingUnit("resolveLobby(" + gameId + ")", rl) {
+            @Override
             public void invokePersistent () throws Exception {
                 if ((_game = _gamerepo.loadGame(gameId)) == null) {
                     throw new InvocationException(INTERNAL_ERROR);
                 }
             }
+            @Override
             public void handleSuccess () {
                 try {
                     // start the lobby resolution. if this fails we will catch the failure and
@@ -312,6 +316,7 @@ public class ToyBoxManager
         if (_gamerepo != null) {
             // clear out the number of players online count for this game
             _invoker.postUnit(new Invoker.Unit() {
+                @Override
                 public boolean invoke () {
                     try {
                         _gamerepo.updateOnlineCount(game.gameId, 0);
@@ -337,9 +342,11 @@ public class ToyBoxManager
 
             // add a delegate that will record the game's playtime upon completion
             pmgr.addDelegate(new GameManagerDelegate() {
+                @Override
                 public void gameWillStart () {
                     _started = System.currentTimeMillis();
                 }
+                @Override
                 public void gameDidEnd () {
                     long playtime = System.currentTimeMillis() - _started;
                     recordPlaytime(game, playtime);
@@ -375,6 +382,7 @@ public class ToyBoxManager
 
         // then update the database
         _invoker.postUnit(new Invoker.Unit() {
+            @Override
             public boolean invoke () {
                 for (IntIntMap.IntIntEntry entry : occs.entrySet()) {
                     try {

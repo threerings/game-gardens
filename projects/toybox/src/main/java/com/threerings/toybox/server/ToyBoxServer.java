@@ -92,9 +92,11 @@ public class ToyBoxServer extends CrowdServer
 
         // configure the client manager to use the appropriate client class
         _clmgr.setDefaultSessionFactory(new SessionFactory() {
+            @Override
             public Class<? extends PresentsSession> getSessionClass (AuthRequest areq) {
                 return ToyBoxSession.class;
             }
+            @Override
             public Class<? extends ClientResolver> getClientResolverClass (Name username) {
                 return ToyBoxClientResolver.class;
             }
@@ -121,6 +123,7 @@ public class ToyBoxServer extends CrowdServer
     /**
      * Returns the port on which the connection manager will listen for client connections.
      */
+    @Override
     protected int[] getListenPorts ()
     {
         return new int[] { ToyBoxConfig.getServerPort() };

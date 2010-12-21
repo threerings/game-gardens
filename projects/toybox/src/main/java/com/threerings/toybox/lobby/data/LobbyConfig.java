@@ -48,12 +48,14 @@ public class LobbyConfig extends PlaceConfig
     }
 
     // documentation inherited
+    @Override
     public PlaceController createController ()
     {
         return new LobbyController();
     }
 
     // documentation inherited
+    @Override
     public String getManagerClassName ()
     {
         return "com.threerings.toybox.lobby.server.LobbyManager";
@@ -76,6 +78,7 @@ public class LobbyConfig extends PlaceConfig
     }
 
     // documentation inherited
+    @Override
     protected void toString (StringBuilder buf)
     {
         super.toString(buf);

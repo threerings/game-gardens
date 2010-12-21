@@ -138,6 +138,7 @@ public class SagashiBoard
     }
 
     /** Returns a string representation of the board. */
+    @Override
     public String toString ()
     {
         StringBuffer buf = new StringBuffer();

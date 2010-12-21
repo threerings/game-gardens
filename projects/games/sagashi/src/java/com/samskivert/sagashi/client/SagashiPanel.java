@@ -89,6 +89,7 @@ public class SagashiPanel extends PlacePanel
         hpanel.setOpaque(false);
         hpanel.add(new JLabel(_msgs.xlate("m.enter_word")));
         hpanel.add(_input = new JTextField() {
+            @Override
             public Dimension getPreferredSize () {
                 Dimension d = super.getPreferredSize();
                 d.width = Math.max(150, d.width);
@@ -162,6 +163,7 @@ public class SagashiPanel extends PlacePanel
     }
 
     // documentation inherited from interface
+    @Override
     public void willEnterPlace (PlaceObject plobj)
     {
         super.willEnterPlace(plobj);
@@ -174,6 +176,7 @@ public class SagashiPanel extends PlacePanel
     }
 
     // documentation inherited from interface
+    @Override
     public void didLeavePlace (PlaceObject plobj)
     {
         super.didLeavePlace(plobj);
@@ -222,6 +225,7 @@ public class SagashiPanel extends PlacePanel
             expired();
         }
 
+        @Override
         public void expired () {
             int remain = (int)(_estimate - System.currentTimeMillis())/1000;
             remain = Math.max(0, remain);

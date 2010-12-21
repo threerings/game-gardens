@@ -48,6 +48,7 @@ public class AtlantiManager extends GameManager
     {
         // we're a turn based game, so we use a turn game manager delegate
         addDelegate(_turndel = new TurnGameManagerDelegate() {
+            @Override
             protected void setNextTurnHolder () {
                 // if we have tiles left, we move to the next player as normal
                 if (_tilesInBox.size() > 0) {

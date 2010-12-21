@@ -126,12 +126,15 @@ public class ToyBoxClient
 
         // start our idle tracker
         IdleTracker idler = new IdleTracker(ChatCodes.DEFAULT_IDLE_TIME, LOGOFF_DELAY) {
+            @Override
             protected long getTimeStamp () {
                 return _shell.getFrameManager().getTimeStamp();
             }
+            @Override
             protected void idledIn () {
                 updateIdle(false);
             }
+            @Override
             protected void idledOut () {
                 updateIdle(true);
             }
@@ -142,6 +145,7 @@ public class ToyBoxClient
                     bsvc.setIdle(_ctx.getClient(), isIdle);
                 }
             }
+            @Override
             protected void abandonedShip () {
                 if (_client.isLoggedOn()) {
                     _client.logoff(true);
@@ -277,6 +281,7 @@ public class ToyBoxClient
             super(ToyBoxClient.this._ctx);
         }
 
+        @Override
         protected PlaceController createController (PlaceConfig config) {
             if (config instanceof ToyBoxGameConfig) {
                 ToyBoxGameConfig toycfg = (ToyBoxGameConfig)config;
@@ -340,6 +345,7 @@ public class ToyBoxClient
             return _chatdir;
         }
 
+        @Override
         public MessageManager getMessageManager ()
         {
             return _msgmgr;
@@ -360,16 +366,19 @@ public class ToyBoxClient
             // we'll just let the next place view replace our old one
         }
 
+        @Override
         public ToyBoxDirector getToyBoxDirector ()
         {
             return _toydtr;
         }
 
+        @Override
         public FrameManager getFrameManager ()
         {
             return _shell.getFrameManager();
         }
 
+        @Override
         public KeyDispatcher getKeyDispatcher ()
         {
             return _keydisp;
