@@ -54,7 +54,8 @@
 
   <!-- generates marshaller and dispatcher classes for all invocation -->
   <!-- service declarations -->
-  <target name="genservice" description="Updates invocation service generated classes.">
+  <target name="genservice" depends="prepare"
+          description="Updates invocation service generated classes.">
     <taskdef name="service" classpathref="classpath"
              classname="com.threerings.presents.tools.GenServiceTask"/>
     <!-- make sure the service class files are all compiled -->
