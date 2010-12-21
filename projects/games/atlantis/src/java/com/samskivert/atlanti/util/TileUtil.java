@@ -27,8 +27,8 @@ public class TileUtil implements TileCodes
     public static final boolean TESTING = false;
 
     /**
-     * Returns an instance of the starting tile (properly cloned so that
-     * it can be messed with by the server).
+     * Returns an instance of the starting tile (properly cloned so that it can be messed with by
+     * the server).
      */
     public static AtlantiTile getStartingTile ()
     {
@@ -36,9 +36,8 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Returns a list containing the standard tile set for the
-     * Atlantissonne game. The list is a clone, so it can be bent, folded
-     * and modified by the caller.
+     * Returns a list containing the standard tile set for the Atlantissonne game. The list is a
+     * clone, so it can be bent, folded and modified by the caller.
      */
     public static List<AtlantiTile> getStandardTileSet ()
     {
@@ -56,23 +55,21 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Scans the supplied tile set to determine which of the four
-     * orientations of the supplied target tile would result in a valid
-     * placement of that tile (valid placement meaning that all of its
-     * edges match up with neighboring tiles, it abuts at least one tile
-     * and it does not occupy the same space as any existing tile). The
-     * position of the target tile is assumed to be the desired placement
-     * position and the current orientation of the target tile is ignored.
+     * Scans the supplied tile set to determine which of the four orientations of the supplied
+     * target tile would result in a valid placement of that tile (valid placement meaning that
+     * all of its edges match up with neighboring tiles, it abuts at least one tile and it does
+     * not occupy the same space as any existing tile). The position of the target tile is assumed
+     * to be the desired placement position and the current orientation of the target tile is
+     * ignored.
      *
      * @param tiles a list of the tiles on the board.
      * @param target the tile whose valid orientations we wish to compute.
      *
-     * @return an array of boolean values indicating whether or not the
-     * tile can be placed in each of the cardinal directions (which match
-     * up with the direction constants specified in {@link TileCodes}.
+     * @return an array of boolean values indicating whether or not the tile can be placed in each
+     * of the cardinal directions (which match up with the direction constants specified in
+     * {@link TileCodes}.
      */
-    public static boolean[] computeValidOrients (
-        List<AtlantiTile> tiles, AtlantiTile target)
+    public static boolean[] computeValidOrients (List<AtlantiTile> tiles, AtlantiTile target)
     {
         // this contains a count of tiles that match up with the candidate
         // tile in each of its four orientations
@@ -92,30 +89,25 @@ public class TileUtil implements TileCodes
                 // they're neighbors, we may have a match
                 int targetEdge = EDGE_MAP[(ydiff+1)*3 + xdiff+1];
 
-                // we want the edge of the placed tile that matches up
-                // with the tile in the candidate location, but we also
-                // need to take into account the orientation of the placed
-                // tile
+                // we want the edge of the placed tile that matches up with the tile in the
+                // candidate location, but we also need to take into account the orientation of
+                // the placed tile
                 int tileEdge = (targetEdge+(4-tile.orientation)+2) % 4;
 
-                // we iterate over the four possible orientations of the
-                // target tile
+                // we iterate over the four possible orientations of the target tile
                 for (int o = 0; o < 4; o++) {
-                    // we compare the edge of the placed tile (which never
-                    // changes) with the edge of the target tile which is
-                    // adjusted based on the target tile's orientation
+                    // we compare the edge of the placed tile (which never changes) with the edge
+                    // of the target tile which is adjusted based on the target tile's orientation
                     if (getEdge(tile.type, tileEdge) ==
                         getEdge(target.type, (targetEdge+(4-o)) % 4)) {
                         // increment the edge matches
                         matches[o]++;
 
                     } else {
-                        // if we have a mismatch, we want to ensure that
-                        // we screw this orientation up for good, so we
-                        // deduct a large value from the array to ensure
-                        // that it will remain less than zero regardless
-                        // of which of the other three tiles match in this
-                        // orientation
+                        // if we have a mismatch, we want to ensure that we screw this orientation
+                        // up for good, so we deduct a large value from the array to ensure that
+                        // it will remain less than zero regardless of which of the other three
+                        // tiles match in this orientation
                         matches[o] -= 10;
                     }
                 }
@@ -132,17 +124,16 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Returns true if the position and orientation of the target tile is
-     * legal given the placement of all of the existing tiles.
+     * Returns true if the position and orientation of the target tile is legal given the
+     * placement of all of the existing tiles.
      *
      * @param tiles a list of the tiles already on the board.
      * @param target the tile whose validity we want to determine.
      *
-     * @return true if the target tile is configured with a valid position
-     * and orientation, false if it is not.
+     * @return true if the target tile is configured with a valid position and orientation, false
+     * if it is not.
      */
-    public static boolean isValidPlacement (
-        List<AtlantiTile> tiles, AtlantiTile target)
+    public static boolean isValidPlacement (List<AtlantiTile> tiles, AtlantiTile target)
     {
         boolean matchedAnEdge = false;
 
@@ -194,29 +185,26 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * When a tile is placed on the board, this method should be called on
-     * it to propagate existing claims to the appropriate features on this
-     * tile.  It will determine if any city features are connected to
-     * cities that are already claimed, and if any road features are
-     * connected to roads that are already claimed and if any grassland is
-     * connected to grassland that is claimed.
+     * When a tile is placed on the board, this method should be called on it to propagate
+     * existing claims to the appropriate features on this tile. It will determine if any city
+     * features are connected to cities that are already claimed, and if any road features are
+     * connected to roads that are already claimed and if any grassland is connected to grassland
+     * that is claimed.
      *
-     * <p> If, in the process of initializing the claims for this tile, we
-     * discover that this tile connects two previously disconnected
-     * claims, those claims will be joined. The affected tiles and piecens
-     * will have their claim groups updated.
+     * <p> If, in the process of initializing the claims for this tile, we discover that this tile
+     * connects two previously disconnected claims, those claims will be joined. The affected
+     * tiles and piecens will have their claim groups updated.
      *
-     * @param tiles a sorted list of the tiles on the board (which need
-     * not include the tile whose features are being configured).
+     * @param tiles a sorted list of the tiles on the board (which need not include the tile whose
+     * features are being configured).
      * @param tile the tile whose features should be configured.
      */
     public static void inheritClaims (List<AtlantiTile> tiles, AtlantiTile tile)
     {
         List<TileFeature> flist = new ArrayList<TileFeature>();
 
-        // for each feature in the tile, load up its claim group and make
-        // sure all features in that group (which will include our new
-        // feature) now have the same claim number
+        // for each feature in the tile, load up its claim group and make sure all features in
+        // that group (which will include our new feature) now have the same claim number
         for (int i = 0; i < tile.features.length; i ++) {
             int claimGroup = 0;
 
@@ -242,9 +230,8 @@ public class TileUtil implements TileCodes
                 continue;
             }
 
-            // otherwise, assign our new claim number to all members of
-            // the group (potentially causing some to inherit the new
-            // claim number)
+            // otherwise, assign our new claim number to all members of the group (potentially
+            // causing some to inherit the new claim number)
             for (int t = 0; t < flist.size(); t++) {
                 TileFeature feat = flist.get(t);
                 // set the claim group in the tile
@@ -260,18 +247,16 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Sets the claim group for the specified feature in this tile and
-     * propagates that claim group to all connected features.
+     * Sets the claim group for the specified feature in this tile and propagates that claim group
+     * to all connected features.
      *
      * @param tiles a sorted list of the tiles on the board.
-     * @param tile the tile that contains the feature whose claim group is
-     * being set.
+     * @param tile the tile that contains the feature whose claim group is being set.
      * @param featureIndex the index of the feature.
      * @param claimGroup the claim group value to set.
      */
     public static void setClaimGroup (
-        List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex,
-        int claimGroup)
+        List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex, int claimGroup)
     {
         // load up this feature group
         List<TileFeature> flist = new ArrayList<TileFeature>();
@@ -285,18 +270,16 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Computes the score for the specified feature and returns it. If the
-     * feature is complete (has no unconnected edges), the score will be
-     * positive. If it is incomplete, the score will be negative.
+     * Computes the score for the specified feature and returns it. If the feature is complete
+     * (has no unconnected edges), the score will be positive. If it is incomplete, the score will
+     * be negative.
      *
      * @param tiles a sorted list of the tiles on the board.
-     * @param tile the tile that contains the feature whose score should
-     * be computed.
-     * @param featureIndex the index of the feature in the containing
-     * tile.
+     * @param tile the tile that contains the feature whose score should be computed.
+     * @param featureIndex the index of the feature in the containing tile.
      *
-     * @return a positive score for a completed feature group, a negative
-     * score for a partial feature group.
+     * @return a positive score for a completed feature group, a negative score for a partial
+     * feature group.
      */
     public static int computeFeatureScore (
         List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex)
@@ -312,14 +295,14 @@ public class TileUtil implements TileCodes
             return 0;
         }
 
-        // if we're here, it's a road or city feature, which we score by
-        // loading up the group and counting the number of tiles in it
+        // if we're here, it's a road or city feature, which we score by loading up the group and
+        // counting the number of tiles in it
         List<TileFeature> flist = new ArrayList<TileFeature>();
         boolean complete = enumerateGroup(tiles, tile, featureIndex, flist);
 
-        // we sort the group which will order the tile feature objects by
-        // their tiles, ensuring that features on the same tile are next
-        // to one another, so that we can only count them once
+        // we sort the group which will order the tile feature objects by their tiles, ensuring
+        // that features on the same tile are next to one another, so that we can only count them
+        // once
         Collections.sort(flist);
 
         // now iterate over the list, counting only unique tiles
@@ -334,9 +317,8 @@ public class TileUtil implements TileCodes
             }
         }
 
-        // for city groups, we need to add a bonus of one for every tile
-        // that contains a shield and mutiply by two if the city is
-        // complete and larger than two tiles
+        // for city groups, we need to add a bonus of one for every tile that contains a shield
+        // and mutiply by two if the city is complete and larger than two tiles
         if (feature.type == CITY) {
             for (int t = 0; t < flist.size(); t++) {
                 TileFeature feat = flist.get(t);
@@ -354,11 +336,9 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * A helper function for {@link
-     * #computeFeatureScore(List,AtlantiTile,int)}.
+     * A helper function for {@link #computeFeatureScore(List,AtlantiTile,int)}.
      */
-    protected static int computeCloisterScore (
-        List<AtlantiTile> tiles, AtlantiTile tile)
+    protected static int computeCloisterScore (List<AtlantiTile> tiles, AtlantiTile tile)
     {
         int score = 0;
 
@@ -377,9 +357,9 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Clears out the claim group information for incomplete cities so
-     * that we can ignore them during farm scoring. Assigns new claim
-     * group values to any completed cities that were unclaimed.
+     * Clears out the claim group information for incomplete cities so that we can ignore them
+     * during farm scoring. Assigns new claim group values to any completed cities that were
+     * unclaimed.
      *
      * @param tiles a sorted list of tiles on the board.
      */
@@ -438,20 +418,16 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Enumerates all of the features that are in the group of which the
-     * specified feature is a member.
+     * Enumerates all of the features that are in the group of which the specified feature is a
+     * member.
      *
      * @param tiles a sorted list of the tiles on the board.
-     * @param tile the tile that contains the feature whose group is to be
-     * enumerated.
-     * @param featureIndex the index of the feature whose group is to be
-     * enumerated.
-     * @param group the list into which instances of {@link TileFeature}
-     * will be placed that represent the features that are members of the
-     * group.
+     * @param tile the tile that contains the feature whose group is to be enumerated.
+     * @param featureIndex the index of the feature whose group is to be enumerated.
+     * @param group the list into which instances of {@link TileFeature} will be placed that
+     * represent the features that are members of the group.
      *
-     * @return true if the group is complete (has no unconnected
-     * features), false if it is not.
+     * @return true if the group is complete (has no unconnected features), false if it is not.
      */
     protected static boolean enumerateGroup (
         List<AtlantiTile> tiles, AtlantiTile tile, int featureIndex,
@@ -533,8 +509,8 @@ public class TileUtil implements TileCodes
      *
      * @param tiles a sorted list of tiles.
      *
-     * @return the tile with the requested coordinates or null if no tile
-     * exists at those coordinates.
+     * @return the tile with the requested coordinates or null if no tile exists at those
+     * coordinates.
      */
     public static AtlantiTile findTile (List<AtlantiTile> tiles, int x, int y)
     {
@@ -546,14 +522,12 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Returns the number of piecens on the board owned the specified
-     * player. This can be used when we need to count piecens and the
-     * server potentially hasn't gotten around to processing piecen
-     * removal events quite yet.
+     * Returns the number of piecens on the board owned the specified player. This can be used
+     * when we need to count piecens and the server potentially hasn't gotten around to processing
+     * piecen removal events quite yet.
      *
      * @param tiles a list of the tiles on the board.
-     * @param playerIndex the index of the player whose piecen count is
-     * desired.
+     * @param playerIndex the index of the player whose piecen count is desired.
      */
     public static int countPiecens (List<AtlantiTile> tiles, int playerIndex)
     {
@@ -569,12 +543,10 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Returns the number of piecens on the board owned the specified
-     * player.
+     * Returns the number of piecens on the board owned the specified player.
      *
      * @param piecens the piecens set from the game object.
-     * @param playerIndex the index of the player whose piecen count is
-     * desired.
+     * @param playerIndex the index of the player whose piecen count is desired.
      */
     public static int countPiecens (DSet<Piecen> piecens, int playerIndex)
     {
@@ -588,12 +560,10 @@ public class TileUtil implements TileCodes
     }
 
     /**
-     * Returns the edge type for specified edge of the specified tile
-     * type.
+     * Returns the edge type for specified edge of the specified tile type.
      *
      * @param tileType the type of the tile in question.
-     * @param edge the direction constant indicating the edge in which we
-     * are interested.
+     * @param edge the direction constant indicating the edge in which we are interested.
      *
      * @return the edge constant for the edge in question.
      */
@@ -611,8 +581,7 @@ public class TileUtil implements TileCodes
     }
 
     /** Used to generate our standard tile set. */
-    protected static void addTiles (
-        int count, List<AtlantiTile> list, AtlantiTile tile)
+    protected static void addTiles (int count, List<AtlantiTile> list, AtlantiTile tile)
     {
         for (int i = 0; i  < count; i++) {
             list.add(tile);
@@ -630,16 +599,14 @@ public class TileUtil implements TileCodes
         public int featureIndex;
 
         /** Constructs a new tile feature. */
-        public TileFeature (AtlantiTile tile, int featureIndex)
-        {
+        public TileFeature (AtlantiTile tile, int featureIndex) {
             this.tile = tile;
             this.featureIndex = featureIndex;
         }
 
         /** Properly implement equality. */
         @Override
-        public boolean equals (Object other)
-        {
+        public boolean equals (Object other) {
             if (other == null ||
                 !(other instanceof TileFeature)) {
                 return false;
@@ -652,15 +619,12 @@ public class TileUtil implements TileCodes
         }
 
         /** We sort based on our tiles. */
-        public int compareTo (TileFeature other)
-        {
+        public int compareTo (TileFeature other) {
             return tile.compareTo(other.tile);
         }
 
-        /** Generate a string representation. */
         @Override
-        public String toString ()
-        {
+        public String toString () {
             return "[tile=" + tile + ", fidx=" + featureIndex + "]";
         }
     }
@@ -668,8 +632,7 @@ public class TileUtil implements TileCodes
     /** Used to generate claim group values. */
     protected static int _claimGroupCounter;
 
-    /** Used to figure out which edges match up to which when comparing
-     * adjacent tiles. */
+    /** Used to figure out which edges match up to which when comparing adjacent tiles. */
     protected static final int[] EDGE_MAP = {
         -1, NORTH, -1,
         WEST, -1, EAST,
@@ -701,8 +664,7 @@ public class TileUtil implements TileCodes
     };
 
     /** The standard tile set for a game of Atlantissonne. */
-    protected static ArrayList<AtlantiTile> TILE_SET =
-        new ArrayList<AtlantiTile>();
+    protected static ArrayList<AtlantiTile> TILE_SET = new ArrayList<AtlantiTile>();
 
     // create our standard tile set
     static {

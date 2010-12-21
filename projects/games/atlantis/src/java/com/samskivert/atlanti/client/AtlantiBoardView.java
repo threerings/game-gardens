@@ -62,8 +62,8 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Called when we first enter the game room and subsequently if {@link
-     * AtlantiObject#TILES} is set.
+     * Called when we first enter the game room and subsequently if {@link AtlantiObject#TILES} is
+     * set.
      */
     public void tilesChanged (DSet<AtlantiTile> tset)
     {
@@ -82,8 +82,8 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Called when we first enter the game room and subsequently if {@link
-     * AtlantiObject#PIECENS} is set.
+     * Called when we first enter the game room and subsequently if {@link AtlantiObject#PIECENS}
+     * is set.
      */
     public void piecensChanged (DSet<Piecen> piecens)
     {
@@ -171,11 +171,10 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Turn off the ability to place a piecen on the most recently played
-     * tile. This function assumes that the mouse will not be over a valid
-     * piecen placement at the time this function is called (it expects
-     * that it will be over a button of some sort that says something to
-     * the effect of "skip placement for this turn").
+     * Turn off the ability to place a piecen on the most recently played tile. This function
+     * assumes that the mouse will not be over a valid piecen placement at the time this function
+     * is called (it expects that it will be over a button of some sort that says something to the
+     * effect of "skip placement for this turn").
      */
     public void cancelPiecenPlacement ()
     {
@@ -183,8 +182,8 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * If we freed up a placeable piecen that we didn't have when we
-     * placed our tile, this can be called to reenable piecen placement.
+     * If we freed up a placeable piecen that we didn't have when we placed our tile, this can be
+     * called to reenable piecen placement.
      */
     public void enablePiecenPlacement ()
     {
@@ -192,17 +191,15 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Sets the tile to be placed on the board. The tile will be displayed in
-     * the square under the mouse cursor where it can be legally placed and its
-     * orientation will be determined based on the pointer's proximity to the
-     * edges of the target square. When the user clicks the mouse while the
-     * tile is in a placeable position, a {@link AtlantiController#tilePlaced}
-     * command will be dispatched. The coordinates and orientation of the tile
-     * will be available by fetching the tile back via {@link
-     * #getPlacedTile}. The tile provided to this method will not be modified.
+     * Sets the tile to be placed on the board. The tile will be displayed in the square under the
+     * mouse cursor where it can be legally placed and its orientation will be determined based on
+     * the pointer's proximity to the edges of the target square. When the user clicks the mouse
+     * while the tile is in a placeable position, a {@link AtlantiController#tilePlaced} command
+     * will be dispatched. The coordinates and orientation of the tile will be available by
+     * fetching the tile back via {@link #getPlacedTile}. The tile provided to this method will
+     * not be modified.
      *
-     * @param tile the new tile to be placed or null if no tile is to currently
-     * be placed.
+     * @param tile the new tile to be placed or null if no tile is to currently be placed.
      */
     public void setTileToBePlaced (AtlantiTile tile)
     {
@@ -225,7 +222,6 @@ public class AtlantiBoardView extends JPanel
         return _placedTile;
     }
 
-    // documentation inherited
     @Override
     public void doLayout ()
     {
@@ -246,7 +242,6 @@ public class AtlantiBoardView extends JPanel
         repaint(offx, offy, TILE_WIDTH, TILE_HEIGHT);
     }
 
-    // documentation inherited
     @Override
     public void paintComponent (Graphics g)
     {
@@ -382,16 +377,14 @@ public class AtlantiBoardView extends JPanel
             _ctrl.placeNothing();
 
         } else {
-            // ignore non-button one presses other than cancel piecen
-            // placement
+            // ignore non-button one presses other than cancel piecen placement
             if ((modifiers & MouseEvent.BUTTON1_MASK) == 0) {
                 return;
             }
         }
 
-        // if we have a placing tile and it's in a valid position, we want
-        // to dispatch an action letting the controller know that the user
-        // placed it
+        // if we have a placing tile and it's in a valid position, we want to dispatch an action
+        // letting the controller know that the user placed it
         if (_placingTile != null && _validPlacement) {
             // move the placing tile to the placed tile
             _placedTile = _placingTile;
@@ -421,9 +414,8 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Updates the coordinates and orientation of the placing tile based
-     * on the last known coordinates of the mouse and causes it to be
-     * repainted.
+     * Updates the coordinates and orientation of the placing tile based on the last known
+     * coordinates of the mouse and causes it to be repainted.
      */
     protected void updatePlacingInfo (boolean force)
     {
@@ -450,8 +442,7 @@ public class AtlantiBoardView extends JPanel
             // make a note that we moved
             updated = true;
 
-            // we also need to recompute the valid orientations for the
-            // tile in this new position
+            // we also need to recompute the valid orientations for the tile in this new position
             _validOrients = TileUtil.computeValidOrients(_tiles, _placingTile);
 
             // if we've changed positions, clear out our valid placement
@@ -488,17 +479,15 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Converts mouse coordinates which are relative to a particular tile,
-     * into an orientation based on the position within that tile. A tile
-     * is divided up into four quadrants by lines connecting its four
-     * corners. If the tile is in a quadrant closes to an edge, it is
+     * Converts mouse coordinates which are relative to a particular tile, into an orientation
+     * based on the position within that tile. A tile is divided up into four quadrants by lines
+     * connecting its four corners. If the tile is in a quadrant closes to an edge, it is
      * converted to the orientation corresponding with that edge.
      *
      * @param rx the mouse coordinates modulo tile width.
      * @param ry the mouse coordinates modulo tile height.
      *
-     * @return the orientation desired for the tile in which the mouse
-     * resides.
+     * @return the orientation desired for the tile in which the mouse resides.
      */
     protected int coordToOrient (int rx, int ry)
     {
@@ -517,14 +506,15 @@ public class AtlantiBoardView extends JPanel
         }
     }
 
-    /** Divides the two integers returning the floor of the divided value
-     * rather than its truncation. */
+    /**
+     * Divides the two integers returning the floor of the divided value
+     * rather than its truncation.
+     */
     protected static int divFloor (int value, int divisor)
     {
         return (int)Math.floor((double)value/divisor);
     }
 
-    // documentation inherited
     @Override
     public Dimension getPreferredSize ()
     {
@@ -537,9 +527,8 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Determines how big we want to be based on where the tiles have been
-     * laid out. This will cause the component to be re-layed out if the
-     * dimensions change or repainted if not.
+     * Determines how big we want to be based on where the tiles have been laid out. This will
+     * cause the component to be re-layed out if the dimensions change or repainted if not.
      */
     protected void computeDimensions ()
     {
@@ -586,8 +575,7 @@ public class AtlantiBoardView extends JPanel
             revalidate();
         }
 
-        // always repaint because revalidation doesn't always seem to
-        // result in a repaint
+        // always repaint because revalidation doesn't always seem to result in a repaint
         repaint();
     }
 
@@ -625,11 +613,9 @@ public class AtlantiBoardView extends JPanel
         one.setPiecen(new Piecen(Piecen.BLUE, 0, 0, 0), tiles);
         two.setPiecen(new Piecen(Piecen.RED, 0, 0, 1), tiles);
 
-        Log.info("Incomplete road: " +
-                 TileUtil.computeFeatureScore(tiles, zero, 2));
+        Log.info("Incomplete road: " + TileUtil.computeFeatureScore(tiles, zero, 2));
 
-        Log.info("Completed city: " +
-                 TileUtil.computeFeatureScore(tiles, two, 1));
+        Log.info("Completed city: " + TileUtil.computeFeatureScore(tiles, two, 1));
 
         Log.info("Incomplete city: " +
                  TileUtil.computeFeatureScore(tiles, one, 2));
@@ -642,8 +628,7 @@ public class AtlantiBoardView extends JPanel
 
     protected static class TestDSet extends DSet<AtlantiTile>
     {
-        public void addTile (AtlantiTile tile)
-        {
+        public void addTile (AtlantiTile tile) {
             add(tile);
         }
     }
@@ -666,8 +651,7 @@ public class AtlantiBoardView extends JPanel
     /** A flag indicating whether or not we're placing a piecen. */
     protected boolean _placingPiecen = false;
 
-    /** Whether or not the current position and orientation of the placing
-     * tile is valid. */
+    /** Whether or not the current position and orientation of the placing tile is valid. */
     protected boolean _validPlacement = false;
 
     /** An array indicating which of the four directions are valid

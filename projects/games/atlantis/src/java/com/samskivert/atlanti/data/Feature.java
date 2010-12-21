@@ -368,5 +368,5 @@ public class Feature
 
     /** For rendering piecens with alpha. */
     protected static final Composite ALPHA_PLACING =
-	AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
+        AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
 }

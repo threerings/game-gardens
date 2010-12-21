@@ -50,13 +50,13 @@ public class AtlantiPanel extends JPanel
      */
     public AtlantiPanel (ToyBoxContext ctx, AtlantiController controller)
     {
-	// give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // give ourselves a wee bit of a border
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-	HGroupLayout gl = new HGroupLayout(
+        HGroupLayout gl = new HGroupLayout(
             HGroupLayout.STRETCH, 10, HGroupLayout.CENTER);
-	gl.setOffAxisPolicy(HGroupLayout.STRETCH);
-	setLayout(gl);
+        gl.setOffAxisPolicy(HGroupLayout.STRETCH);
+        setLayout(gl);
 
         // create the board
         board = new AtlantiBoardView(controller);

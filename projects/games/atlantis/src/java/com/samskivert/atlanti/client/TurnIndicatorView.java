@@ -30,7 +30,7 @@ public class TurnIndicatorView extends JPanel
      */
     public TurnIndicatorView ()
     {
-	setLayout(new VGroupLayout());
+        setLayout(new VGroupLayout());
 
         // add our turn holder display
         _whoLabel = new JLabel();

@@ -357,8 +357,7 @@ public class AtlantiTile
 
                 } else if (piecen.featureIndex == i) {
                     Image pimg = PiecenUtil.getPiecenImage(piecen.owner);
-                    features[i].paintPiecen(
-                        g, orientation, pimg, piecen.claimGroup);
+                    features[i].paintPiecen(g, orientation, pimg, piecen.claimGroup);
                 }
             }
         }
@@ -389,7 +388,6 @@ public class AtlantiTile
             ((tile.x == x) ? y - tile.y : x - tile.x);
     }
 
-    // documentation inherited
     @Override
     public boolean equals (Object other)
     {
@@ -408,8 +406,7 @@ public class AtlantiTile
     }
 
     /**
-     * After we've been unserialized we have to initialize some derived
-     * fields.
+     * After we've been unserialized we have to initialize some derived fields.
      */
     public void readObject (ObjectInputStream in)
         throws IOException, ClassNotFoundException
@@ -431,8 +428,7 @@ public class AtlantiTile
             claims = new int[features.length];
 
         } else {
-            Log.warning("Requested to init features without valid type " +
-                        this + ".");
+            Log.warning("Requested to init features without valid type " + this + ".");
             Thread.dumpStack();
         }
     }
@@ -451,8 +447,7 @@ public class AtlantiTile
     }
 
     /**
-     * Someone needs to configure this so that we can display tiles on
-     * screen.
+     * Someone needs to configure this so that we can display tiles on screen.
      */
     public static void setManagers (ImageManager imgr, TileManager tmgr)
     {
@@ -513,8 +508,7 @@ public class AtlantiTile
     /** The size of the shield image (width and height). */
     protected static final int SHIELD_SIZE = 17;
 
-    /** Three affine transforms for rendering an image in three rotated
-     * orientations. */
+    /** Three affine transforms for rendering an image in three rotated orientations. */
     protected static AffineTransform[] _xforms;
 
     static {
@@ -534,5 +528,5 @@ public class AtlantiTile
 
     /** For rendering shields with alpha. */
     protected static final Composite ALPHA_PLACING =
-	AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f);
+        AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f);
 }

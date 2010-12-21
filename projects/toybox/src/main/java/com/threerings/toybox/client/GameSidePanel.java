@@ -51,8 +51,8 @@ public class GameSidePanel extends JPanel
     }
 
     /**
-     * Create a standard-issue GameSidePanel with the specified pre-translated
-     * info text, which may be HTML.
+     * Create a standard-issue GameSidePanel with the specified pre-translated info text, which
+     * may be HTML.
      */
     public GameSidePanel (final ToyBoxContext ctx, String info)
     {
@@ -61,10 +61,9 @@ public class GameSidePanel extends JPanel
 
         MessageBundle msgs = ctx.getMessageManager().getBundle(TOYBOX_MSGS);
 
-        // for now, we use a tabbed pane, but maybe someday we'll have a
-        // niftier widget that acts half like a pane with draggable resizing
-        // areas that can collapse, but also the collapsed bits can be
-        // switched to like tabs
+        // for now, we use a tabbed pane, but maybe someday we'll have a niftier widget that acts
+        // half like a pane with draggable resizing areas that can collapse, but also the collapsed
+        // bits can be switched to like tabs
         JTabbedPane pane = new JTabbedPane();
 
         // we always add chat

@@ -48,8 +48,7 @@ public class SagashiPanel extends PlacePanel
     /**
      * Creates a Sagashi panel and its associated interface components.
      */
-    public SagashiPanel (ToyBoxContext ctx, ToyBoxGameConfig config,
-                         SagashiController ctrl)
+    public SagashiPanel (ToyBoxContext ctx, ToyBoxGameConfig config, SagashiController ctrl)
     {
         super(ctrl);
         _ctx = ctx;
@@ -58,17 +57,16 @@ public class SagashiPanel extends PlacePanel
         _minLength = (Integer)config.params.get("min_length");
 
         // give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-	HGroupLayout gl = new HGroupLayout(HGroupLayout.STRETCH);
-	gl.setOffAxisPolicy(HGroupLayout.STRETCH);
-	setLayout(gl);
+        HGroupLayout gl = new HGroupLayout(HGroupLayout.STRETCH);
+        gl.setOffAxisPolicy(HGroupLayout.STRETCH);
+        setLayout(gl);
 
         // create the panel to display the list of found words
         JPanel wpanel = VGroupLayout.makeVStretchBox(5);
         wpanel.setOpaque(false);
-        wpanel.add(_wtitle = new JLabel(_msgs.get("m.your_words")),
-                   VGroupLayout.FIXED);
+        wpanel.add(_wtitle = new JLabel(_msgs.get("m.your_words")), VGroupLayout.FIXED);
         wpanel.add(new SafeScrollPane(_words = new JTextArea()));
         wpanel.setPreferredSize(new Dimension(150, 10));
         add(wpanel, HGroupLayout.FIXED);
@@ -83,8 +81,7 @@ public class SagashiPanel extends PlacePanel
         panel.add(vlabel, VGroupLayout.FIXED);
 
         panel.add(_bview = new SagashiBoardView(ctx));
-        JPanel hpanel = HGroupLayout.makeHBox(
-            HGroupLayout.NONE, HGroupLayout.CENTER);
+        JPanel hpanel = HGroupLayout.makeHBox(HGroupLayout.NONE, HGroupLayout.CENTER);
         hpanel.setOpaque(false);
         hpanel.add(new JLabel(_msgs.xlate("m.enter_word")));
         hpanel.add(_input = new JTextField() {
@@ -216,8 +213,7 @@ public class SagashiPanel extends PlacePanel
     protected class Ticker extends Interval
         implements AttributeChangeListener
     {
-        public Ticker (RunQueue queue)
-        {
+        public Ticker (RunQueue queue) {
             super(queue);
             updateEstimate();
             expired();
@@ -251,10 +247,8 @@ public class SagashiPanel extends PlacePanel
             }
         }
 
-        protected void updateEstimate ()
-        {
-            _estimate = System.currentTimeMillis() +
-                1000L * _sagaobj.secondsUntil;
+        protected void updateEstimate () {
+            _estimate = System.currentTimeMillis() + 1000L * _sagaobj.secondsUntil;
         }
 
         protected long _estimate;

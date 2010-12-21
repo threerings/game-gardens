@@ -70,7 +70,7 @@ public class FeatureUtil implements TileCodes
     /** A mapping for city tiles to the grass features that are adjacent
      * to the city tiles. */
     public static final int[][] CITY_GRASS_MAP = new int[][] {
-        { }, 
+        { },
         { 1 }, // CITY_THREE
         { 1, 2 }, // CITY_THREE_ROAD
         { 1 }, // CITY_TWO
@@ -83,12 +83,12 @@ public class FeatureUtil implements TileCodes
         { 0 }, // CITY_ONE_ROAD_LEFT
         { 0 }, // CITY_ONE_ROAD_TEE
         { 0 }, // CITY_ONE_ROAD_STRAIGHT
-        { }, 
-        { }, 
-        { }, 
-        { }, 
-        { }, 
-        { }, 
+        { },
+        { },
+        { },
+        { },
+        { },
+        { },
     };
 
     /**
@@ -178,8 +178,7 @@ public class FeatureUtil implements TileCodes
     }
 
     /** {@link #translateMask} helper function. */
-    protected static int xlateMask (
-        int[] map, int featureMask, int orientation)
+    protected static int xlateMask (int[] map, int featureMask, int orientation)
     {
         for (int i = 0; i < map.length; i++) {
             if (map[i] == featureMask) {
@@ -286,7 +285,7 @@ public class FeatureUtil implements TileCodes
           { ROAD, EAST_F|SOUTH_F, 3,3, 2,4, 4,2 } },
 
         { { EW_CITY }, // CITY_TWO_ACROSS
-          { GRASS, NORTH_F, 2,-1, 0,0, 1,1, 3,1, 4,0 }, 
+          { GRASS, NORTH_F, 2,-1, 0,0, 1,1, 3,1, 4,0 },
           { S_GRASS } },
 
         { { GRASS, WEST_F|SOUTH_F, // TWO_CITY_TWO

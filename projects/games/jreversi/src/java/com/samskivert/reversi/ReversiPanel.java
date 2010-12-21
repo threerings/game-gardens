@@ -47,7 +47,7 @@ public class ReversiPanel extends PlacePanel
         MessageBundle msgs = _ctx.getMessageManager().getBundle("reversi");
 
         // give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
 
         // give ourself a soothing blue background
