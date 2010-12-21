@@ -4,6 +4,7 @@
 
 package com.samskivert.atlanti.data;
 
+import javax.annotation.Generated;
 import com.threerings.util.Name;
 import com.threerings.presents.dobj.DSet;
 
@@ -18,18 +19,23 @@ public class AtlantiObject extends GameObject
 {
     // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>turnHolder</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String TURN_HOLDER = "turnHolder";
 
     /** The field name of the <code>tiles</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String TILES = "tiles";
 
     /** The field name of the <code>currentTile</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String CURRENT_TILE = "currentTile";
 
     /** The field name of the <code>piecens</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String PIECENS = "piecens";
 
     /** The field name of the <code>scores</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String SCORES = "scores";
     // AUTO-GENERATED: FIELDS END
 
@@ -78,6 +84,7 @@ public class AtlantiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setTurnHolder (Name value)
     {
         Name ovalue = this.turnHolder;
@@ -91,6 +98,7 @@ public class AtlantiObject extends GameObject
      * <code>tiles</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void addToTiles (AtlantiTile elem)
     {
         requestEntryAdd(TILES, tiles, elem);
@@ -101,7 +109,8 @@ public class AtlantiObject extends GameObject
      * the <code>tiles</code> set. The set will not change until the
      * event is actually propagated through the system.
      */
-    public void removeFromTiles (Comparable key)
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void removeFromTiles (Comparable<?> key)
     {
         requestEntryRemove(TILES, tiles, key);
     }
@@ -111,6 +120,7 @@ public class AtlantiObject extends GameObject
      * <code>tiles</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void updateTiles (AtlantiTile elem)
     {
         requestEntryUpdate(TILES, tiles, elem);
@@ -126,11 +136,11 @@ public class AtlantiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setTiles (DSet<com.samskivert.atlanti.data.AtlantiTile> value)
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void setTiles (DSet<AtlantiTile> value)
     {
         requestAttributeChange(TILES, value, this.tiles);
-        @SuppressWarnings("unchecked") DSet<com.samskivert.atlanti.data.AtlantiTile> clone =
-            (value == null) ? null : value.typedClone();
+        DSet<AtlantiTile> clone = (value == null) ? null : value.clone();
         this.tiles = clone;
     }
 
@@ -142,6 +152,7 @@ public class AtlantiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setCurrentTile (AtlantiTile value)
     {
         AtlantiTile ovalue = this.currentTile;
@@ -155,6 +166,7 @@ public class AtlantiObject extends GameObject
      * <code>piecens</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void addToPiecens (Piecen elem)
     {
         requestEntryAdd(PIECENS, piecens, elem);
@@ -165,7 +177,8 @@ public class AtlantiObject extends GameObject
      * the <code>piecens</code> set. The set will not change until the
      * event is actually propagated through the system.
      */
-    public void removeFromPiecens (Comparable key)
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void removeFromPiecens (Comparable<?> key)
     {
         requestEntryRemove(PIECENS, piecens, key);
     }
@@ -175,6 +188,7 @@ public class AtlantiObject extends GameObject
      * <code>piecens</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void updatePiecens (Piecen elem)
     {
         requestEntryUpdate(PIECENS, piecens, elem);
@@ -190,11 +204,11 @@ public class AtlantiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setPiecens (DSet<com.samskivert.atlanti.data.Piecen> value)
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void setPiecens (DSet<Piecen> value)
     {
         requestAttributeChange(PIECENS, value, this.piecens);
-        @SuppressWarnings("unchecked") DSet<com.samskivert.atlanti.data.Piecen> clone =
-            (value == null) ? null : value.typedClone();
+        DSet<Piecen> clone = (value == null) ? null : value.clone();
         this.piecens = clone;
     }
 
@@ -206,6 +220,7 @@ public class AtlantiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setScores (int[] value)
     {
         int[] ovalue = this.scores;
@@ -223,6 +238,7 @@ public class AtlantiObject extends GameObject
      * will apply the value change when they received the attribute
      * changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setScoresAt (int value, int index)
     {
         int ovalue = this.scores[index];

@@ -4,6 +4,8 @@
 
 package com.samskivert.sagashi.server;
 
+import javax.annotation.Generated;
+
 import com.samskivert.sagashi.data.SagashiMarshaller;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.ClientObject;
@@ -13,6 +15,8 @@ import com.threerings.presents.server.InvocationException;
 /**
  * Dispatches requests to the {@link SagashiProvider}.
  */
+@Generated(value={"com.threerings.presents.tools.GenServiceTask"},
+           comments="Derived from SagashiService.java.")
 public class SagashiDispatcher extends InvocationDispatcher<SagashiMarshaller>
 {
     /**
@@ -24,13 +28,13 @@ public class SagashiDispatcher extends InvocationDispatcher<SagashiMarshaller>
         this.provider = provider;
     }
 
-    @Override // documentation inherited
+    @Override
     public SagashiMarshaller createMarshaller ()
     {
         return new SagashiMarshaller();
     }
 
-    @Override // documentation inherited
+    @Override
     public void dispatchRequest (
         ClientObject source, int methodId, Object[] args)
         throws InvocationException
