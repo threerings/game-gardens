@@ -26,19 +26,17 @@ import com.threerings.crowd.data.PlaceObject;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiObject;
 import com.samskivert.atlanti.data.Feature;
+import com.samskivert.atlanti.data.Piecen;
 import com.samskivert.atlanti.util.TileUtil;
 
 /**
- * Displays each of the players in the game, their piece color and their
- * score.
+ * Displays each of the players in the game, their piece color and their score.
  */
-public class PlayerInfoView
-    extends JPanel
-    implements PlaceView, AttributeChangeListener, SetListener
+public class PlayerInfoView extends JPanel
+    implements PlaceView, AttributeChangeListener, SetListener<Piecen>
 {
     /**
-     * Constructs a new player info panel, ready for insertion into the
-     * game panel.
+     * Constructs a new player info panel, ready for insertion into the game panel.
      */
     public PlayerInfoView ()
     {
@@ -122,18 +120,18 @@ public class PlayerInfoView
     }
 
     // documentation inherited
-    public void entryAdded (EntryAddedEvent event)
+    public void entryAdded (EntryAddedEvent<Piecen> event)
     {
         updatePiecenCount();
     }
 
     // documentation inherited
-    public void entryUpdated (EntryUpdatedEvent event)
+    public void entryUpdated (EntryUpdatedEvent<Piecen> event)
     {
     }
 
     // documentation inherited
-    public void entryRemoved (EntryRemovedEvent event)
+    public void entryRemoved (EntryRemovedEvent<Piecen> event)
     {
         updatePiecenCount();
     }

@@ -8,6 +8,7 @@ import com.samskivert.util.ListUtil;
 
 import com.threerings.util.Name;
 
+import com.threerings.presents.dobj.DSet;
 import com.threerings.presents.dobj.DynamicListener;
 
 import com.threerings.crowd.client.PlaceView;
@@ -77,7 +78,7 @@ public class AtlantiController extends GameController
 
         // wire up our board to be notified when our object state changes and
         // configure it with its starting state
-        _atlobj.addListener(new DynamicListener(_panel.board));
+        _atlobj.addListener(new DynamicListener<DSet.Entry>(_panel.board));
         _panel.board.tilesChanged(_atlobj.tiles);
         _panel.board.piecensChanged(_atlobj.piecens);
 

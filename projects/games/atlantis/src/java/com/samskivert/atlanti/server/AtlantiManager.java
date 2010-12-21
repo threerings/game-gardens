@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.samskivert.util.HashIntMap;
+import com.samskivert.util.Interator;
 import com.samskivert.util.RandomUtil;
 import com.samskivert.util.StringUtil;
 
@@ -273,7 +274,7 @@ public class AtlantiManager extends GameManager
         _atlobj = (AtlantiObject)_gameobj;
 
         // dynamically dispatch events to methods
-        _atlobj.addListener(new DynamicListener(this));
+        _atlobj.addListener(new DynamicListener<DSet.Entry>(this));
     }
 
     @Override // from GameManager
@@ -314,9 +315,9 @@ public class AtlantiManager extends GameManager
         // compute the final scores by iterating over each tile and
         // scoring its features
         Piecen[] piecens = getPiecens();
-        Iterator iter = _atlobj.tiles.iterator();
+        Iterator<AtlantiTile> iter = _atlobj.tiles.iterator();
         while (iter.hasNext()) {
-            AtlantiTile tile = (AtlantiTile)iter.next();
+            AtlantiTile tile = iter.next();
             scoreFeatures(tile, piecens, true);
         }
 
@@ -378,9 +379,9 @@ public class AtlantiManager extends GameManager
     {
         // create a piecen array that we can manipulate while scoring
         Piecen[] piecens = new Piecen[_atlobj.piecens.size()];
-        Iterator iter = _atlobj.piecens.iterator();
+        Iterator<Piecen> iter = _atlobj.piecens.iterator();
         for (int i = 0; iter.hasNext(); i++) {
-            piecens[i] = (Piecen)iter.next();
+            piecens[i] = iter.next();
         }
         return piecens;
     }
@@ -624,16 +625,16 @@ public class AtlantiManager extends GameManager
 
         // now for each city, we look to see who has the most piecens that
         // are connected to the city by farms
-        Iterator iter = cities.keys();
+        Interator iter = cities.keys();
         while (iter.hasNext()) {
-            int cityClaim = ((Integer)iter.next()).intValue();
+            int cityClaim = iter.next();
             int[] farmClaims = cities.get(cityClaim);
             int[] pcount = new int[getPlayerCount()];
             int max = 0;
 
-            Iterator piter = _atlobj.piecens.iterator();
+            Iterator<Piecen> piter = _atlobj.piecens.iterator();
             while (piter.hasNext()) {
-                Piecen p = (Piecen)piter.next();
+                Piecen p = piter.next();
                 // see if the piecen is on any of the farms
                 for (int farmClaim : farmClaims) {
                     if (p.claimGroup == farmClaim) {

@@ -76,7 +76,7 @@ public class Piecen
     }
 
     // documentation inherited
-    public Comparable getKey ()
+    public Comparable<?> getKey ()
     {
         // our key is our coordinates conflated into one integer
         return new Integer((x + 128) * 256 + y + 128);

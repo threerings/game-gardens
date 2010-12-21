@@ -78,7 +78,7 @@ public class ScorePanel extends JPanel
         }
 
         @Override
-        public Class getColumnClass (int col) {
+        public Class<?> getColumnClass (int col) {
             return (col == 0) ? String.class : Integer.class;
         }
 

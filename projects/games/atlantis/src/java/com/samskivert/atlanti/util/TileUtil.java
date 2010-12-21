@@ -6,7 +6,6 @@ package com.samskivert.atlanti.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import com.samskivert.util.RandomUtil;
@@ -577,12 +576,11 @@ public class TileUtil implements TileCodes
      * @param playerIndex the index of the player whose piecen count is
      * desired.
      */
-    public static int countPiecens (DSet piecens, int playerIndex)
+    public static int countPiecens (DSet<Piecen> piecens, int playerIndex)
     {
         int count = 0;
-        Iterator iter = piecens.iterator();
-        while (iter.hasNext()) {
-            if (((Piecen)iter.next()).owner == playerIndex) {
+        for (Piecen p : piecens) {
+            if (p.owner == playerIndex) {
                 count++;
             }
         }

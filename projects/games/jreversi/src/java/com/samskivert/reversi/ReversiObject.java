@@ -37,7 +37,7 @@ public class ReversiObject extends GameObject
         public int owner;
         public int x, y;
 
-        public Comparable getKey () {
+        public Comparable<?> getKey () {
             return pieceId;
         }
     }

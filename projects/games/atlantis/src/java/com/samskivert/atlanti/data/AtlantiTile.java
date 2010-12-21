@@ -401,7 +401,7 @@ public class AtlantiTile
     }
 
     // documentation inherited
-    public Comparable getKey ()
+    public Comparable<?> getKey ()
     {
         // a key is the coordinates conflated into one integer
         return new Integer((x + 128) * 256 + y + 128);
