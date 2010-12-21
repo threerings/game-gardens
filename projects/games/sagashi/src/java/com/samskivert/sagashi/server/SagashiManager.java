@@ -186,8 +186,7 @@ public class SagashiManager extends GameManager
         // figure out who won
         StringBuffer buf = new StringBuffer();
         int high = 0;
-        for (int ii = 0; ii < _sagaobj.scores.length; ii++) {
-            SagashiScore score = _sagaobj.scores[ii];
+        for (SagashiScore score : _sagaobj.scores) {
             OccupantInfo info = _sagaobj.occupantInfo.get(score.userOid);
             if (info == null) {
                 continue;

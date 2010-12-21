@@ -41,8 +41,8 @@ public class TileGeometryTest extends JPanel
         super.paintComponent(g);
 
         // paint our tiles
-        for (int i = 0; i < _tiles.length; i++) {
-            _tiles[i].paint((Graphics2D)g, 0, 0);
+        for (AtlantiTile tile : _tiles) {
+            tile.paint((Graphics2D)g, 0, 0);
         }
     }
 

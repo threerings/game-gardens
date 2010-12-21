@@ -332,8 +332,7 @@ public class AtlantiManager extends GameManager
     {
         // determine the extent of the board
         int minx = 0, miny = 0, maxx = 0, maxy = 0;
-        for (Iterator iter = _atlobj.tiles.iterator(); iter.hasNext(); ) {
-            AtlantiTile ptile = (AtlantiTile)iter.next();
+        for (AtlantiTile ptile : _atlobj.tiles) {
             if (ptile.x < minx) {
                 minx = ptile.x;
             } else if (ptile.x > maxx) {
@@ -594,14 +593,14 @@ public class AtlantiManager extends GameManager
                 // connected to city features on this tile and add their
                 // claim groups the list for this city feature
                 int[] grasses = FeatureUtil.CITY_GRASS_MAP[tile.type-1];
-                for (int g = 0; g < grasses.length; g++) {
-                    int farmClaim = tile.claims[grasses[g]];
+                for (int grasse : grasses) {
+                    int farmClaim = tile.claims[grasse];
 
                     // only worry about claimed grass regions
                     if (farmClaim == 0) {
                         Log.debug("Ignoring unclaimed farm group " +
                                   "[tile=" + tile +
-                                  ", fidx=" + grasses[g] + "].");
+                                  ", fidx=" + grasse + "].");
                         continue;
                     }
 
@@ -636,10 +635,10 @@ public class AtlantiManager extends GameManager
             while (piter.hasNext()) {
                 Piecen p = (Piecen)piter.next();
                 // see if the piecen is on any of the farms
-                for (int c = 0; c < farmClaims.length; c++) {
-                    if (p.claimGroup == farmClaims[c]) {
+                for (int farmClaim : farmClaims) {
+                    if (p.claimGroup == farmClaim) {
                         Log.debug("Counting piecen [cityClaim=" + cityClaim +
-                                  ", farmClaim=" + farmClaims[c] +
+                                  ", farmClaim=" + farmClaim +
                                   ", piecen=" + p + "].");
                         // increment their count and track the max
                         if (max < ++pcount[p.owner]) {
@@ -704,8 +703,7 @@ public class AtlantiManager extends GameManager
 
         // iterate over the piecens
         int max = 0;
-        for (int i = 0; i < piecens.length; i++) {
-            Piecen piecen = piecens[i];
+        for (Piecen piecen : piecens) {
             if (piecen == null) {
                 continue;
             } else if (piecen.claimGroup == claimGroup) {
@@ -743,9 +741,8 @@ public class AtlantiManager extends GameManager
 
         // if this isn't the final tally, we also clear 'em from the board
         if (!finalTally) {
-            Object[] pvec = _atlobj.piecens.toArray(null);
-            for (int ii = 0; ii < pvec.length; ii++) {
-                Piecen p = (Piecen)pvec[ii];
+            Piecen[] pvec = _atlobj.piecens.toArray(null);
+            for (Piecen p : pvec) {
                 if (p.claimGroup == claimGroup) {
                     removePiecen(p, true);
                 }

@@ -129,8 +129,8 @@ public class AtlantiTile
     public int getUnclaimedCount ()
     {
         int count = 0;
-        for (int ii = 0; ii < claims.length; ii++) {
-            if (claims[ii] == 0) {
+        for (int claim : claims) {
+            if (claim == 0) {
                 count++;
             }
         }

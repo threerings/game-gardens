@@ -210,8 +210,8 @@ public class SagashiPanel extends PlacePanel
     {
         _wtitle.setText(_msgs.get("m.everyones_words"));
         _words.setText("");
-        for (int ii = 0; ii < _sagaobj.allWords.length; ii++) {
-            _words.append(_sagaobj.allWords[ii] + "\n");
+        for (String word : _sagaobj.allWords) {
+            _words.append(word + "\n");
         }
     }
 

@@ -37,6 +37,7 @@ import com.threerings.util.Name;
 
 import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
+import com.threerings.parlor.data.Parameter;
 import com.threerings.parlor.data.Table;
 
 import com.threerings.toybox.data.GameDefinition;
@@ -93,10 +94,10 @@ public class TableItem extends JPanel
         if (_tconfig.isPartyGame()) {
             MessageBundle msgs = ctx.getMessageManager().getBundle(_tconfig.getGameIdent());
             GameDefinition gdef = _tconfig.getGameDefinition();
-            for (int ii = 0; ii < gdef.params.length; ii++) {
-                confdesc.append(msgs.xlate(gdef.params[ii].getLabel()));
+            for (Parameter param : gdef.params) {
+                confdesc.append(msgs.xlate(param.getLabel()));
                 confdesc.append(": ");
-                confdesc.append(_tconfig.params.get(gdef.params[ii].ident));
+                confdesc.append(_tconfig.params.get(param.ident));
                 confdesc.append("<br>\n");
             }
         }
