@@ -51,8 +51,7 @@ public class ToyBoxUtil
             ulist.add(new URL(path));
 
         } catch (Exception e) {
-            log.warning("Failed to create URL for class loader [root=" + root +
-                    ", path=" + path + "].", e);
+            log.warning("Failed to create URL for class loader", "root", root, "path", path, e);
         }
 
         return new ToyBoxClassLoader(ulist.toArray(new URL[ulist.size()]));

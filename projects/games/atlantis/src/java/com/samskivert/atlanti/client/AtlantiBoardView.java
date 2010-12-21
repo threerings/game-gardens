@@ -458,8 +458,7 @@ public class AtlantiBoardView extends JPanel
         int ry = _mouseY % TILE_HEIGHT;
         int orient = coordToOrient(rx, ry);
 
-        // scan for a legal orientation that is closest to our desired
-        // orientation
+        // scan for a legal orientation that is closest to our desired orientation
         for (int i = 0; i < 4; i++) {
             int candOrient = (orient+i)%4;
             if (_validOrients[candOrient]) {
@@ -509,8 +508,8 @@ public class AtlantiBoardView extends JPanel
     }
 
     /**
-     * Divides the two integers returning the floor of the divided value
-     * rather than its truncation.
+     * Divides the two integers returning the floor of the divided value rather than its
+     * truncation.
      */
     protected static int divFloor (int value, int divisor)
     {
@@ -619,8 +618,7 @@ public class AtlantiBoardView extends JPanel
 
         Log.info("Completed city: " + TileUtil.computeFeatureScore(tiles, two, 1));
 
-        Log.info("Incomplete city: " +
-                 TileUtil.computeFeatureScore(tiles, one, 2));
+        Log.info("Incomplete city: " + TileUtil.computeFeatureScore(tiles, one, 2));
 
         frame.getContentPane().add(board, BorderLayout.CENTER);
         frame.pack();

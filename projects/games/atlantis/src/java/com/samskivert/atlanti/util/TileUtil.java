@@ -43,8 +43,7 @@ public class TileUtil implements TileCodes
      */
     public static List<AtlantiTile> getStandardTileSet ()
     {
-        // we need to deep copy the default tile set, so we can't just use
-        // clone
+        // we need to deep copy the default tile set, so we can't just use clone
         List<AtlantiTile> tiles = Lists.newArrayList();
         int tsize = TILE_SET.size();
         for (int i = 0; i < tsize; i++) {
@@ -615,8 +614,7 @@ public class TileUtil implements TileCodes
 
             } else {
                 TileFeature feat = (TileFeature)other;
-                return (feat.tile == tile &&
-                        feat.featureIndex == featureIndex);
+                return (feat.tile == tile && feat.featureIndex == featureIndex);
             }
         }
 

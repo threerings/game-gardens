@@ -209,7 +209,7 @@ public class ReversiBoardView extends VirtualMediaPanel
     protected Dimension _size = new Dimension(8, 8);
 
     /** Contains a mapping from piece id to the sprite for that piece. */
-    protected HashMap<Comparable<?>,PieceSprite> _sprites = Maps.newHashMap();
+    protected HashMap<Comparable<?>, PieceSprite> _sprites = Maps.newHashMap();
 
     /** Displays a cursor when we're allowing the user to place a piece. */
     protected CursorSprite _cursor = new CursorSprite();

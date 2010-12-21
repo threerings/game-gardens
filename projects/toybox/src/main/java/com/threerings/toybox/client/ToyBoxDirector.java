@@ -167,11 +167,10 @@ public class ToyBoxDirector extends BasicDirector
             }
             public void requestFailed (String cause) {
                 // TODO: report this error graphically
-                log.warning("Failed to get lobby oid [gameId=" + _gameId +
-                            ", error=" + cause + "].");
+                log.warning("Failed to get lobby oid", "gameId", _gameId, "error", cause);
             }
         };
-        log.debug("Requesting lobby oid [game=" + _gameId + "].");
+        log.debug("Requesting lobby oid", "game", _gameId);
         _toysvc.getLobbyOid(client, _gameId, rl);
     }
 
@@ -190,7 +189,7 @@ public class ToyBoxDirector extends BasicDirector
     public void resolveResources (final int gameId, final GameDefinition gamedef,
                                   final HTTPDownloader.Observer obs)
     {
-        log.info("Resolving resources [game=" + gameId + ", rurl=" + _resourceURL + "].");
+        log.info("Resolving resources", "game", gameId, "rurl", _resourceURL);
 
         // if our resource URL is a file: URL, we can ignore this whole process as we're running in
         // testing mode and needn't worry
@@ -311,8 +310,7 @@ public class ToyBoxDirector extends BasicDirector
                 }
 
             } catch (Exception e) {
-                log.info("Failed to compute digest, refetching [rsrc=" + rsrc +
-                         ", error=" + e + "].");
+                log.info("Failed to compute digest, refetching", "rsrc", rsrc, "error", e);
             }
         }
 
@@ -336,5 +334,5 @@ public class ToyBoxDirector extends BasicDirector
 
     /** We have to cache our classloaders as we must preserve the same classloader for the lifetime
      * of the session so that the class cache held by the ObjectInputStream remains valid. */
-    protected HashMap<String,ClassLoader> _cache = Maps.newHashMap();
+    protected HashMap<String, ClassLoader> _cache = Maps.newHashMap();
 }
