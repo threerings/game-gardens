@@ -4,3 +4,5 @@ etc/toybox.properties
 pages/client/gg-client.jar
 projects/games/client/gg-client.jar
 projects/games/lib/*.jar
+projects/games/*/dist
+projects/toybox/dist
