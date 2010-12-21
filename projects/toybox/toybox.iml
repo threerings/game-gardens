@@ -46,7 +46,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="whirled" />
     <orderEntry type="module" module-name="samskivert" />
     <orderEntry type="module" module-name="narya" />
     <orderEntry type="module" module-name="nenya" />
