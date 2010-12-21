@@ -15,8 +15,6 @@ import com.google.common.collect.Lists;
 import com.samskivert.util.HashIntMap;
 import com.samskivert.util.Interator;
 import com.samskivert.util.RandomUtil;
-import com.samskivert.util.StringUtil;
-
 import com.threerings.util.MessageBundle;
 
 import com.threerings.presents.dobj.DSet;
@@ -31,7 +29,6 @@ import com.threerings.parlor.game.server.GameManager;
 import com.threerings.parlor.turn.server.TurnGameManager;
 import com.threerings.parlor.turn.server.TurnGameManagerDelegate;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiObject;
 import com.samskivert.atlanti.data.AtlantiTile;
@@ -40,6 +37,8 @@ import com.samskivert.atlanti.data.Piecen;
 import com.samskivert.atlanti.data.TileCodes;
 import com.samskivert.atlanti.util.FeatureUtil;
 import com.samskivert.atlanti.util.TileUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * The main coordinator of the Atlantissonne game on the server side.
@@ -71,24 +70,21 @@ public class AtlantiManager extends GameManager
      */
     public void placeTile (BodyObject player, AtlantiTile tile)
     {
-        Log.info("Got place tile request [who=" + player.who() +
-            ", tile=" + tile + "].");
+        log.info("Got place tile request", "who", player.who(), "tile", tile);
 
         int pidx = _turndel.getTurnHolderIndex();
 
         // make sure it's this player's turn
         if (_playerOids[pidx] != player.getOid()) {
-            Log.warning("Requested to place tile by non-turn holder " +
-                "[who=" + player.who() +
-                ", turnHolder=" + _atlobj.turnHolder + "].");
+            log.warning("Requested to place tile by non-turn holder",
+                "who", player.who(), "turnHolder", _atlobj.turnHolder);
 
         // make sure this is a valid placement
         } else if (TileUtil.isValidPlacement(_tiles, tile)) {
             placeTile(pidx, tile);
 
         } else {
-            Log.warning("Received invalid placement " +
-                "[who=" + player.who() + ", tile=" + tile + ".");
+            log.warning("Received invalid placement", "who", player.who(), "tile", tile);
         }
     }
 
@@ -100,9 +96,8 @@ public class AtlantiManager extends GameManager
     {
         int pidx = _turndel.getTurnHolderIndex();
         if (_playerOids[pidx] != player.getOid()) {
-            Log.warning("Requested to place nothing by non-turn holder " +
-                "[who=" + player.who() +
-                ", turnHolder=" + _atlobj.turnHolder + "].");
+            log.warning("Requested to place nothing by non-turn holder",
+                "who", player.who(), "turnHolder", _atlobj.turnHolder);
 
         } else {
             // player doesn't want to place anything, so we just end
@@ -123,23 +118,21 @@ public class AtlantiManager extends GameManager
 
         // make sure it's this player's turn
         if (_playerOids[pidx] != player.getOid()) {
-            Log.warning("Requested to place piecen by non-turn holder " +
-                "[who=" + player.who() +
-                ", turnHolder=" + _atlobj.turnHolder + "].");
+            log.warning("Requested to place piecen by non-turn holder",
+                "who", player.who(), "turnHolder", _atlobj.turnHolder);
 
         // do some checking before we place the piecen
         } else if (pcount >= PIECENS_PER_PLAYER) {
-            Log.warning("Requested to place piecen for player that " +
-                "has all of their piecens in play " +
-                "[who=" + player.who() + "].");
+            log.warning(
+                "Requested to place piecen for player that has all of their piecens in play",
+                "who", player.who());
 
         } else if (tile == null) {
-            Log.warning("Can't find tile for requested piecen " +
-                "placement " + piecen + ".");
+            log.warning("Can't find tile for requested piecen placement", "piecen", piecen);
 
         } else if (tile.claims[piecen.featureIndex] != 0) {
-            Log.warning("Requested to place piecen on claimed feature " +
-                "[tile=" + tile + ", piecen=" + piecen + "].");
+            log.warning("Requested to place piecen on claimed feature",
+                "tile", tile, "piecen", piecen);
 
         } else {
             placePiecen(tile, piecen);
@@ -159,7 +152,7 @@ public class AtlantiManager extends GameManager
         // make sure this is a valid placement
         AtlantiTile tile = _atlobj.tiles.get(piecen.getKey());
         if (tile == null) {
-            Log.warning("Can't find tile for piecen scoring " + piecen + ".");
+            log.warning("Can't find tile for piecen scoring", "piecen", piecen);
 
         } else {
             // check to see if we added the piecen to a completed
@@ -208,7 +201,7 @@ public class AtlantiManager extends GameManager
         AtlantiTile tile = _atlobj.currentTile.clone();
         ArrayList<AtlantiTile> moves = enumerateLegalMoves(tile);
         if (moves.size() == 0) {
-            Log.warning("Ack! No legal moves!");
+            log.warning("Ack! No legal moves!");
             _turndel.endTurn();
             return;
         }
@@ -403,9 +396,8 @@ public class AtlantiManager extends GameManager
             int[] cgv = getClaimGroupVector(cgroup, piecens);
             if (cgv == null) {
                 // if not, we don't have anything to score
-                Log.debug("Not scoring unclaimed feature " +
-                          "[ttype=" + tile.type + ", feat=" + f +
-                          ", cgroup=" + cgroup + "].");
+                log.debug("Not scoring unclaimed feature",
+                    "ttype", tile.type, "feat", f, "cgroup", cgroup);
                 continue;
             }
 
@@ -442,7 +434,7 @@ public class AtlantiManager extends GameManager
                     MessageBundle.taint(names));
                 systemMessage(ATLANTI_MESSAGE_BUNDLE, msg);
 
-                Log.debug("New scores: " + StringUtil.toString(_atlobj.scores));
+                log.debug("New scores", "scores", _atlobj.scores);
 
                 // broadcast the new scores if this isn't the final tally
                 if (!finalTally) {
@@ -453,9 +445,8 @@ public class AtlantiManager extends GameManager
                 removePiecens(cgroup, piecens, finalTally);
 
             } else {
-                Log.debug("Not scoring incomplete feature " +
-                          "[ttype=" + tile.type + ", feat=" + f +
-                          ", score=" + score + "].");
+                log.debug("Not scoring incomplete feature",
+                    "ttype", tile.type, "feat", f, "score", score);
             }
         }
 
@@ -480,17 +471,15 @@ public class AtlantiManager extends GameManager
 
                     // tile has a piecen
                     if (p == null) {
-                        Log.debug("Skipping non-piecen having " +
-                                  "cloister tile [tile=" + neighbor +
-                                  ", feat=" + f + "].");
+                        log.debug("Skipping non-piecen having cloister tile",
+                            "tile", neighbor, "feat", f);
                         continue;
                     }
 
                     // piecen is on cloister feature
                     if (neighbor.claims[i] != p.claimGroup) {
-                        Log.debug("Skipping cloister tile with piecen on " +
-                                  "non-cloister [tile=" + neighbor +
-                                  ", feat=" + f + "].");
+                        log.debug("Skipping cloister tile with piecen on non-cloister",
+                            "tile", neighbor, "feat", f);
                         continue;
                     }
 
@@ -579,9 +568,7 @@ public class AtlantiManager extends GameManager
 
                     // only worry about claimed grass regions
                     if (farmClaim == 0) {
-                        Log.debug("Ignoring unclaimed farm group " +
-                                  "[tile=" + tile +
-                                  ", fidx=" + grass + "].");
+                        log.debug("Ignoring unclaimed farm group", "tile", tile, "fidx", grass);
                         continue;
                     }
 
@@ -592,10 +579,8 @@ public class AtlantiManager extends GameManager
                             break;
                         } else if (claims[c] == 0) {
                             claims[c] = farmClaim;
-                            Log.debug("Noting city/farm abuttal " +
-                                      "[tile=" + tile +
-                                      ", cityClaim=" + cityClaim +
-                                      ", farmClaim=" + farmClaim + "].");
+                            log.debug("Noting city/farm abuttal",
+                                "tile", tile, "cityClaim", cityClaim, "farmClaim", farmClaim);
                             break;
                         }
                     }
@@ -618,9 +603,8 @@ public class AtlantiManager extends GameManager
                 // see if the piecen is on any of the farms
                 for (int farmClaim : farmClaims) {
                     if (p.claimGroup == farmClaim) {
-                        Log.debug("Counting piecen [cityClaim=" + cityClaim +
-                                  ", farmClaim=" + farmClaim +
-                                  ", piecen=" + p + "].");
+                        log.debug("Counting piecen",
+                            "cityClaim", cityClaim, "farmClaim", farmClaim, "piecen", p);
                         // increment their count and track the max
                         if (max < ++pcount[p.owner]) {
                             max = pcount[p.owner];
@@ -629,8 +613,7 @@ public class AtlantiManager extends GameManager
                 }
             }
 
-            Log.debug("Counted city [cityClaim=" + cityClaim +
-                      ", counts=" + StringUtil.toString(pcount) + "].");
+            log.debug("Counted city", "cityClaim", cityClaim, "counts", pcount);
 
             // ignore this city if no one has any farmers nearby
             if (max == 0) {
@@ -640,9 +623,8 @@ public class AtlantiManager extends GameManager
             // now score four points for every player that has the max
             for (int i = 0; i < pcount.length; i++) {
                 if (pcount[i] == max) {
-                    Log.debug("Scoring city for player [cgroup=" + cityClaim +
-                              ", player=" + getPlayerName(i) +
-                              ", pcount=" + pcount[i] + "].");
+                    log.debug("Scoring city for player",
+                        "cgroup", cityClaim, "player", getPlayerName(i), "pcount", pcount[i]);
                     cityScores[i] += 4;
                 }
             }
@@ -739,8 +721,8 @@ public class AtlantiManager extends GameManager
         // locate the tile that contains this piecen
         int tidx = _tiles.indexOf(new AtlantiTile(piecen.x, piecen.y));
         if (tidx == -1) {
-            Log.warning("Requested to remove piecen that is not " +
-                        "associated with any tile [piecen=" + piecen + "].");
+            log.warning("Requested to remove piecen that is not associated with any tile",
+                "piecen", piecen);
         } else {
             AtlantiTile tile = _tiles.get(tidx);
             // and clear the piecen
@@ -779,7 +761,7 @@ public class AtlantiManager extends GameManager
         // placing a piece may have completed road or city features; if it did, we score them now
         scoreFeatures(tile, getPiecens(), false);
 
-        Log.debug("Placed tile " + tile + ".");
+        log.debug("Placed tile", "tile", tile);
 
         // if the player has no free piecens or if there are no unclaimed
         // features on this tile, we end their turn straight away

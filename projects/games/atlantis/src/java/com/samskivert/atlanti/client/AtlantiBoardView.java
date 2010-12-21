@@ -19,12 +19,13 @@ import com.samskivert.util.CollectionUtil;
 
 import com.threerings.presents.dobj.DSet;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiTile;
 import com.samskivert.atlanti.data.Piecen;
 import com.samskivert.atlanti.data.TileCodes;
 import com.samskivert.atlanti.util.TileUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * Displays the tiles that make up the board.
@@ -100,7 +101,7 @@ public class AtlantiBoardView extends JPanel
      */
     public void tilesAdded (AtlantiTile tile)
     {
-        Log.info("Adding tile to board " + tile + ".");
+        log.info("Adding tile to board " + tile + ".");
 
         // if we add a tile that is the same as our most recently placed
         // tile, leave the placed tile. otherwise clear it out
@@ -133,7 +134,7 @@ public class AtlantiBoardView extends JPanel
         // if we still have a placed tile, we get rid of it
         _placedTile = null;
 
-        Log.info("Placing " + piecen + ".");
+        log.info("Placing " + piecen + ".");
 
         // locate the tile associated with this piecen
         int tidx = _tiles.indexOf(new AtlantiTile(piecen.x, piecen.y));
@@ -146,8 +147,8 @@ public class AtlantiBoardView extends JPanel
             repaintTile(tile);
 
         } else {
-            Log.warning("Requested to place piecen for which we could " +
-                        "find no associated tile! [piecen=" + piecen + "].");
+            log.warning("Requested to place piecen for which we could find no associated tile!",
+                "piecen", piecen);
         }
     }
 
@@ -168,8 +169,8 @@ public class AtlantiBoardView extends JPanel
             }
         }
 
-        Log.warning("Requested to clear piecen for which we could " +
-                    "find no associated tile! [key=" + key + "].");
+        log.warning("Requested to clear piecen for which we could find no associated tile!",
+            "key", key);
     }
 
     /**
@@ -205,7 +206,7 @@ public class AtlantiBoardView extends JPanel
      */
     public void setTileToBePlaced (AtlantiTile tile)
     {
-        Log.info("Setting tile to be placed [tile=" + tile + "].");
+        log.info("Setting tile to be placed", "tile", tile);
 
         // make a copy of this tile so that we can play with it
         _placingTile = tile.clone();;
@@ -614,11 +615,11 @@ public class AtlantiBoardView extends JPanel
         one.setPiecen(new Piecen(Piecen.BLUE, 0, 0, 0), tiles);
         two.setPiecen(new Piecen(Piecen.RED, 0, 0, 1), tiles);
 
-        Log.info("Incomplete road: " + TileUtil.computeFeatureScore(tiles, zero, 2));
+        log.info("Incomplete road: " + TileUtil.computeFeatureScore(tiles, zero, 2));
 
-        Log.info("Completed city: " + TileUtil.computeFeatureScore(tiles, two, 1));
+        log.info("Completed city: " + TileUtil.computeFeatureScore(tiles, two, 1));
 
-        Log.info("Incomplete city: " + TileUtil.computeFeatureScore(tiles, one, 2));
+        log.info("Incomplete city: " + TileUtil.computeFeatureScore(tiles, one, 2));
 
         frame.getContentPane().add(board, BorderLayout.CENTER);
         frame.pack();

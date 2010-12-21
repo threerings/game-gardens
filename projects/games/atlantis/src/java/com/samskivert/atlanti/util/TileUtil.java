@@ -14,11 +14,12 @@ import com.samskivert.util.RandomUtil;
 
 import com.threerings.presents.dobj.DSet;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiTile;
 import com.samskivert.atlanti.data.Feature;
 import com.samskivert.atlanti.data.Piecen;
 import com.samskivert.atlanti.data.TileCodes;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * Utility functions relating to the Atlantissonne tiles.
@@ -146,8 +147,7 @@ public class TileUtil implements TileCodes
 
             if (sum == 0) {
                 // they overlap, nothing doing
-                Log.warning("Tile overlaps another [candidate=" + target +
-                            ", overlapped=" + tile + "].");
+                log.warning("Tile overlaps another", "candidate", target, "overlapped", tile);
                 return false;
 
             } else if (sum ==  1) {
@@ -171,10 +171,9 @@ public class TileUtil implements TileCodes
 
                 } else {
                     // the edges don't match, nothing doing
-                    Log.warning("Edge mismatch [candidate=" + target +
-                                ", tile=" + tile +
-                                ", candidateEdge=" + targetEdge +
-                                ", tileEdge=" + tileEdge + "].");
+                    log.warning("Edge mismatch",
+                        "candidate", target, "tile", tile, "candidateEdge", targetEdge,
+                        "tileEdge", tileEdge);
                     return false;
                 }
             }
@@ -395,9 +394,8 @@ public class TileUtil implements TileCodes
                         TileFeature feat = flist.get(t);
                         feat.tile.claims[feat.featureIndex] = claimGroup;
                         if (t == 0) {
-                            Log.debug("Claiming complete city " +
-                                      "[claim=" + feat.tile.claims[
-                                          feat.featureIndex] + "].");
+                            log.debug("Claiming complete city",
+                                "claim", feat.tile.claims[feat.featureIndex]);
                         }
                     }
 
@@ -407,9 +405,8 @@ public class TileUtil implements TileCodes
                     for (int t = 0; t < flist.size(); t++) {
                         TileFeature feat = flist.get(t);
                         if (t == 0) {
-                            Log.debug("Clearing incomplete city " +
-                                      "[claim=" + feat.tile.claims[
-                                          feat.featureIndex] + "].");
+                            log.debug("Clearing incomplete city",
+                                "claim", feat.tile.claims[feat.featureIndex]);
                         }
                         feat.tile.claims[feat.featureIndex] = 0;
                     }
@@ -485,12 +482,9 @@ public class TileUtil implements TileCodes
             // obtain the index of the feature on the opposing tile
             int nFeatureIndex = neighbor.getFeatureIndex(opp_mask);
             if (nFeatureIndex < 0) {
-                Log.warning("Tile mismatch while grouping [tile=" + tile +
-                            "featIdx=" + featureIndex +
-                            ", neighbor=" + neighbor +
-                            ", nFeatIdx=" + nFeatureIndex +
-                            ", srcEdge=" + mask +
-                            ", destEdge=" + opp_mask + "].");
+                log.warning("Tile mismatch while grouping",
+                    "tile", tile, "featIdx", featureIndex, "neighbor", neighbor,
+                    "nFeatIdx", nFeatureIndex, "srcEdge", mask, "destEdge", opp_mask);
                 continue;
             }
 

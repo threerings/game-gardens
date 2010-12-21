@@ -24,10 +24,11 @@ import com.threerings.media.tile.UniformTileSet;
 import com.threerings.io.ObjectInputStream;
 import com.threerings.presents.dobj.DSet;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.util.FeatureUtil;
 import com.samskivert.atlanti.util.PiecenUtil;
 import com.samskivert.atlanti.util.TileUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * Represents a single tile in play on the game board.
@@ -181,9 +182,8 @@ public class AtlantiTile
         }
 
         // something is hosed; fake it
-        Log.warning("Didn't find matching feature for mouse coordinates!? " +
-                    "[tile=" + this + ", mx=" + mouseX +
-                    ", my=" + mouseY + "].");
+        log.warning("Didn't find matching feature for mouse coordinates!?",
+            "tile", this, "mx", mouseX, "my", mouseY);
         return 0;
     }
 
@@ -246,17 +246,15 @@ public class AtlantiTile
         // we want to inherit the claim number (this could happen when we
         // show up in an in progress game)
         if (claims[piecen.featureIndex] != 0) {
-            Log.warning("Requested to add a piecen to a feature " +
-                        "that has already been claimed [tile=" + this +
-                        ", piecen=" + piecen + "]. Inheriting.");
+            log.warning("Requested to add a piecen to a feature that has already been claimed",
+                "tile", this, "piecen", piecen);
             claimGroup = claims[piecen.featureIndex];
 
         } else {
             // otherwise we generate a new claim group
             claimGroup = TileUtil.nextClaimGroup();
-            Log.debug("Creating claim group [cgroup=" + claimGroup +
-                      ", tile=" + this +
-                      ", fidx=" + piecen.featureIndex + "].");
+            log.debug("Creating claim group",
+                "cgroup", claimGroup, "tile", this, "fidx", piecen.featureIndex);
         }
 
         // keep a reference to this piecen and configure its position
@@ -317,8 +315,7 @@ public class AtlantiTile
             }
 
         } else {
-            Log.warning("No tile image!? [type=" + type +
-                        ", img=" + _tileImage + "].");
+            log.warning("No tile image!?", "type", type, "img", _tileImage);
         }
 
 //         // render our features
@@ -424,7 +421,7 @@ public class AtlantiTile
             claims = new int[features.length];
 
         } else {
-            Log.warning("Requested to init features without valid type " + this + ".");
+            log.warning("Requested to init features without valid type", "tile", this);
             Thread.dumpStack();
         }
     }

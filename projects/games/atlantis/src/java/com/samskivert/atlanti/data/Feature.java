@@ -12,10 +12,9 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import com.samskivert.util.StringUtil;
-
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.util.FeatureUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * Represents all of the necessary information for a particular feature of
@@ -87,8 +86,7 @@ public class Feature
                     desc[4], desc[5], desc[6], desc[7], desc[8], desc[9]);
 
             } else {
-                Log.warning("Feature constructed with bogus road geometry " +
-                            "[desc=" + StringUtil.toString(desc) + "].");
+                log.warning("Feature constructed with bogus road geometry", "desc", desc);
             }
 
         } else {

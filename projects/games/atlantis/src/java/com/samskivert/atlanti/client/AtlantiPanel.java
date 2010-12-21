@@ -28,10 +28,11 @@ import com.threerings.toybox.client.OccupantList;
 import com.threerings.toybox.client.ToyBoxUI;
 import com.threerings.toybox.util.ToyBoxContext;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiTile;
 import com.samskivert.atlanti.util.PiecenUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * The top-level user interface component for the game display.
@@ -151,13 +152,13 @@ public class AtlantiPanel extends JPanel
     // documentation inherited
     public void willEnterPlace (PlaceObject plobj)
     {
-        Log.info("Panel entered place.");
+        log.info("Panel entered place.");
     }
 
     // documentation inherited
     public void didLeavePlace (PlaceObject plobj)
     {
-        Log.info("Panel left place.");
+        log.info("Panel left place.");
     }
 
     // documentation inherited
