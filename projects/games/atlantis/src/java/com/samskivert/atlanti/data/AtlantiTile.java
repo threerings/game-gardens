@@ -391,11 +391,7 @@ public class AtlantiTile
     @Override
     public boolean equals (Object other)
     {
-        if (other instanceof AtlantiTile) {
-            return (compareTo((AtlantiTile)other) == 0);
-        } else {
-            return false;
-        }
+        return (other instanceof AtlantiTile) && (compareTo((AtlantiTile)other) == 0);
     }
 
     // documentation inherited
