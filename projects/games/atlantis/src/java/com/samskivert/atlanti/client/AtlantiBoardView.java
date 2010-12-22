@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import com.samskivert.swing.util.SwingUtil;
 import com.samskivert.util.CollectionUtil;
 
+import com.threerings.media.util.MathUtil;
 import com.threerings.presents.dobj.DSet;
 
 import com.samskivert.atlanti.data.AtlantiCodes;
@@ -433,8 +434,8 @@ public class AtlantiBoardView extends JPanel
 
         // convert mouse coordinates into tile coordinates and offset them
         // by the origin
-        int x = divFloor(_mouseX, TILE_WIDTH) - _origX;
-        int y = divFloor(_mouseY, TILE_HEIGHT) - _origY;
+        int x = MathUtil.floorDiv(_mouseX, TILE_WIDTH) - _origX;
+        int y = MathUtil.floorDiv(_mouseY, TILE_HEIGHT) - _origY;
 
         // if these are different than the values currently in the placing
         // tile, update the tile coordinates
@@ -513,15 +514,6 @@ public class AtlantiBoardView extends JPanel
                 return WEST;
             }
         }
-    }
-
-    /**
-     * Divides the two integers returning the floor of the divided value rather than its
-     * truncation.
-     */
-    protected static int divFloor (int value, int divisor)
-    {
-        return (int)Math.floor((double)value/divisor);
     }
 
     @Override
