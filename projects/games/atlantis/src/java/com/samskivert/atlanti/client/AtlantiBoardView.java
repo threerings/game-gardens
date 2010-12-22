@@ -4,15 +4,22 @@
 
 package com.samskivert.atlanti.client;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
 import com.google.common.collect.Lists;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.samskivert.swing.util.SwingUtil;
 import com.samskivert.util.CollectionUtil;

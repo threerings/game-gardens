@@ -5,8 +5,11 @@
 package com.samskivert.atlanti.client;
 
 import java.awt.Color;
-import javax.swing.*;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
