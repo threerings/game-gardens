@@ -21,7 +21,6 @@ package com.threerings.toybox.server;
 
 import java.io.File;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
