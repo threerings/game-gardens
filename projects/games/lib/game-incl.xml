@@ -32,60 +32,8 @@
   <property name="src.dir"    value="src/java"/>
   <property name="deploy.dir" value="dist"/>
 
-  <!-- generates additional methods for distributed object classes -->
-  <target name="gendobj" depends="prepare"
-          description="Updates distributed object auto-generated methods.">
-    <taskdef name="dobj" classpathref="classpath"
-             classname="com.threerings.presents.tools.GenDObjectTask"/>
-    <!-- make sure the dobject class files are all compiled -->
-    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
-           debug="on" optimize="${build.optimize}" deprecation="on"
-           includeAntRuntime="false">
-      <classpath refid="classpath"/>
-      <include name="**/*Object.java"/>
-      <compilerarg value="-Xlint"/>
-      <compilerarg value="-Xlint:-serial"/>
-    </javac>
-    <!-- now generate the associated files -->
-    <dobj classpathref="classpath">
-      <fileset dir="src/java" includes="**/*Object.java"/>
-    </dobj>
-  </target>
-
-  <!-- generates marshaller and dispatcher classes for all invocation -->
-  <!-- service declarations -->
-  <target name="genservice" depends="prepare"
-          description="Updates invocation service generated classes.">
-    <taskdef name="service" classpathref="classpath"
-             classname="com.threerings.presents.tools.GenServiceTask"/>
-    <!-- make sure the service class files are all compiled -->
-    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
-           debug="on" optimize="${build.optimize}" deprecation="on"
-           includeAntRuntime="false">
-      <classpath refid="classpath"/>
-      <include name="**/*Service.java"/>
-      <compilerarg value="-Xlint"/>
-      <compilerarg value="-Xlint:-serial"/>
-    </javac>
-    <!-- now generate the associated files -->
-    <service header="lib/SOURCE_HEADER" classpathref="classpath">
-      <fileset dir="src/java" includes="**/*Service.java"/>
-    </service>
-  </target>
-
-  <!-- adds readField and writeField methods to Stremable classes -->
-  <target name="procstream" depends="prepare">
-    <taskdef name="instream" classpathref="classpath"
-             classname="com.threerings.presents.tools.InstrumentStreamableTask"/>
-    <!-- now instrument the associated files -->
-    <instream outdir="${deploy.dir}/classes">
-      <path refid="classpath"/>
-      <fileset dir="${deploy.dir}/classes" includes="**/*.class"/>
-    </instream>
-  </target>
-
   <!-- prepares the application directories -->
-  <target name="prepare" depends="-init-maven-ant">
+  <target name="-prepare" depends="-init-maven-ant">
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/classes"/>
     <mkdir dir="${deploy.dir}/classes/rsrc"/>
@@ -97,13 +45,57 @@
     </copy>
   </target>
 
+  <target name="-preptools" depends="-prepare">
+    <artifact:dependencies pathId="tools.classpath">
+      <dependency groupId="com.threerings" artifactId="narya-tools" version="1.2"/>
+    </artifact:dependencies>
+    <taskdef resource="com/threerings/presents/tools.properties" classpathref="tools.classpath"/>
+  </target>
+
+  <target name="gendobj" depends="-preptools"
+          description="Updates distributed object auto-generated methods.">
+    <!-- make sure the dobject class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
+           debug="on" optimize="${build.optimize}" deprecation="on" includeAntRuntime="false">
+      <classpath refid="classpath"/>
+      <include name="**/*Object.java"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+    </javac>
+    <gendobj classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Object.java"/>
+    </gendobj>
+  </target>
+
+  <target name="genservice" depends="-preptools"
+          description="Updates invocation service generated classes.">
+    <!-- make sure the service class files are all compiled -->
+    <javac srcdir="src/java" destdir="${deploy.dir}/classes" target="1.5"
+           debug="on" optimize="${build.optimize}" deprecation="on" includeAntRuntime="false">
+      <classpath refid="classpath"/>
+      <include name="**/*Service.java"/>
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+    </javac>
+    <genservice header="lib/SOURCE_HEADER" classpathref="classpath">
+      <fileset dir="src/java" includes="**/*Service.java"/>
+    </genservice>
+  </target>
+
+  <target name="-procstream" depends="-preptools">
+    <instream outdir="${deploy.dir}/classes">
+      <path refid="classpath"/>
+      <fileset dir="${deploy.dir}/classes" includes="**/*.class"/>
+    </instream>
+  </target>
+
   <!-- cleans out the installed application -->
   <target name="clean" description="Cleans out the build results.">
     <delete dir="${deploy.dir}"/>
   </target>
 
   <!-- build the java class files -->
-  <target name="compile" depends="prepare" description="Compiles the game code.">
+  <target name="compile" depends="-prepare" description="Compiles the game code.">
     <javac srcdir="${src.dir}" destdir="${deploy.dir}/classes" target="1.5"
            debug="on" optimize="${build.optimize}" deprecation="on"
            includeAntRuntime="false">
@@ -114,7 +106,7 @@
   </target>
 
   <!-- builds our distribution files (war and jar) -->
-  <target name="dist" depends="prepare,compile,procstream"
+  <target name="dist" depends="compile,-procstream"
           description="Compiles and builds the game jar file.">
     <jar file="${deploy.dir}/${app.name}.jar"
          basedir="${deploy.dir}/classes"/>
