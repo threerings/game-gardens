@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import com.samskivert.util.ArrayIntSet;
 import com.samskivert.util.Interval;
 import com.threerings.util.MessageBundle;
@@ -31,7 +34,6 @@ import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.samskivert.sagashi.client.SagashiService;
 import com.samskivert.sagashi.data.SagashiBoard;
 import com.samskivert.sagashi.data.SagashiCodes;
-import com.samskivert.sagashi.data.SagashiMarshaller;
 import com.samskivert.sagashi.data.SagashiObject;
 import com.samskivert.sagashi.data.SagashiScore;
 
@@ -44,8 +46,7 @@ public class SagashiManager extends GameManager
     implements SagashiCodes, SagashiProvider
 {
     // from interface SagashiProvider
-    public void submitWord (ClientObject caller, String word,
-                            SagashiService.ResultListener rl)
+    public void submitWord (ClientObject caller, String word, SagashiService.ResultListener rl)
         throws InvocationException
     {
         BodyObject user = (BodyObject)caller;
@@ -106,13 +107,13 @@ public class SagashiManager extends GameManager
         rl.requestProcessed(score);
     }
 
-    @Override // documentation inherited
+    @Override
     protected PlaceObject createPlaceObject ()
     {
         return new SagashiObject();
     }
 
-    @Override // documentation inherited
+    @Override
     protected void didInit ()
     {
         super.didInit();
@@ -129,7 +130,7 @@ public class SagashiManager extends GameManager
         });
     }
 
-    @Override // documentation inherited
+    @Override
     protected void didStartup ()
     {
         super.didStartup();
@@ -152,7 +153,7 @@ public class SagashiManager extends GameManager
         _ticker.schedule(3000L, true);
     }
 
-    @Override // documentation inherited
+    @Override
     protected void gameWillStart ()
     {
         super.gameWillStart();
@@ -168,7 +169,7 @@ public class SagashiManager extends GameManager
         _sagaobj.setBoard(new SagashiBoard(size, _frequency));
     }
 
-    @Override // documentation inherited
+    @Override
     protected void gameDidEnd ()
     {
         super.gameDidEnd();
@@ -187,8 +188,7 @@ public class SagashiManager extends GameManager
         // figure out who won
         StringBuffer buf = new StringBuffer();
         int high = 0;
-        for (int ii = 0; ii < _sagaobj.scores.length; ii++) {
-            SagashiScore score = _sagaobj.scores[ii];
+        for (SagashiScore score : _sagaobj.scores) {
             OccupantInfo info = _sagaobj.occupantInfo.get(score.userOid);
             if (info == null) {
                 continue;
@@ -212,7 +212,7 @@ public class SagashiManager extends GameManager
         systemMessage(SagashiCodes.SAGASHI_MSG_BUNDLE, msg);
     }
 
-    @Override // documentation inherited
+    @Override
     protected void didShutdown ()
     {
         super.didShutdown();
@@ -275,8 +275,7 @@ public class SagashiManager extends GameManager
     protected void loadWords ()
     {
         try {
-            InputStream win =
-                getClass().getClassLoader().getResourceAsStream(WORDS_PATH);
+            InputStream win = getClass().getClassLoader().getResourceAsStream(WORDS_PATH);
             BufferedReader bin = new BufferedReader(new InputStreamReader(win));
             String word;
             while ((word = bin.readLine()) != null) {
@@ -309,15 +308,13 @@ public class SagashiManager extends GameManager
     protected long _nextEvent;
 
     /** Contains a record for all words played in this game. */
-    protected HashMap<String,ArrayIntSet> _plays =
-        new HashMap<String,ArrayIntSet>();
+    protected HashMap<String, ArrayIntSet> _plays = Maps.newHashMap();
 
     /** Contains score records for all participating players. */
-    protected HashMap<Integer,SagashiScore> _scores =
-        new HashMap<Integer,SagashiScore>();
+    protected HashMap<Integer, SagashiScore> _scores = Maps.newHashMap();
 
     /** Contains the set of all valid words. */
-    protected static HashSet<String> _words = new HashSet<String>();
+    protected static HashSet<String> _words = Sets.newHashSet();
 
     /** Yay for English! */
     protected static int[] _frequency = new int[SagashiBoard.LETTERS];

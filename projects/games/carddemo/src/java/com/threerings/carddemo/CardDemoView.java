@@ -20,14 +20,9 @@
 package com.threerings.carddemo;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-
 import com.threerings.media.image.ImageManager;
 import com.threerings.media.image.Mirage;
 import com.threerings.media.tile.TileManager;
-import com.threerings.media.tile.UniformTileSet;
-
 import com.threerings.parlor.card.data.Card;
 import com.threerings.parlor.card.client.CardPanel;
 

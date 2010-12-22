@@ -168,6 +168,7 @@ public class LobbyPanel extends JPanel
     }
 
     // documentation inherited
+    @Override
     protected void paintComponent (Graphics g)
     {
         super.paintComponent(g);

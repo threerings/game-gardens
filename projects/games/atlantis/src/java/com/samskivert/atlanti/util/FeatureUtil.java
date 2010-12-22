@@ -70,7 +70,7 @@ public class FeatureUtil implements TileCodes
     /** A mapping for city tiles to the grass features that are adjacent
      * to the city tiles. */
     public static final int[][] CITY_GRASS_MAP = new int[][] {
-        { }, 
+        { },
         { 1 }, // CITY_THREE
         { 1, 2 }, // CITY_THREE_ROAD
         { 1 }, // CITY_TWO
@@ -83,12 +83,12 @@ public class FeatureUtil implements TileCodes
         { 0 }, // CITY_ONE_ROAD_LEFT
         { 0 }, // CITY_ONE_ROAD_TEE
         { 0 }, // CITY_ONE_ROAD_STRAIGHT
-        { }, 
-        { }, 
-        { }, 
-        { }, 
-        { }, 
-        { }, 
+        { },
+        { },
+        { },
+        { },
+        { },
+        { },
     };
 
     /**
@@ -101,15 +101,15 @@ public class FeatureUtil implements TileCodes
 
         // initialize it with features from the repeated feature table or
         // with newly constructed features
-        for (int i = 0; i < features.length; i++) {
-            int[] desc = TILE_FEATURES[type-1][i];
+        for (int ii = 0; ii < features.length; ii++) {
+            int[] desc = TILE_FEATURES[type-1][ii];
             // if the description is a length one array, it is the index
             // into the reused feature table of the desired feature
             if (desc.length == 1) {
-                features[i] = _reusedFeatures[desc[0]];
+                features[ii] = _reusedFeatures[desc[0]];
             } else {
                 // otherwise it is the description of this unique feature
-                features[i] = new Feature(desc);
+                features[ii] = new Feature(desc);
             }
         }
 
@@ -178,13 +178,11 @@ public class FeatureUtil implements TileCodes
     }
 
     /** {@link #translateMask} helper function. */
-    protected static int xlateMask (
-        int[] map, int featureMask, int orientation)
+    protected static int xlateMask (int[] map, int featureMask, int orientation)
     {
-        int index = 0;
-        for (int i = 0; i < map.length; i++) {
-            if (map[i] == featureMask) {
-                return map[(i + 4 + orientation) % 4];
+        for (int ii = 0; ii < map.length; ii++) {
+            if (map[ii] == featureMask) {
+                return map[(ii + 4 + orientation) % 4];
             }
         }
         return featureMask;
@@ -287,7 +285,7 @@ public class FeatureUtil implements TileCodes
           { ROAD, EAST_F|SOUTH_F, 3,3, 2,4, 4,2 } },
 
         { { EW_CITY }, // CITY_TWO_ACROSS
-          { GRASS, NORTH_F, 2,-1, 0,0, 1,1, 3,1, 4,0 }, 
+          { GRASS, NORTH_F, 2,-1, 0,0, 1,1, 3,1, 4,0 },
           { S_GRASS } },
 
         { { GRASS, WEST_F|SOUTH_F, // TWO_CITY_TWO
@@ -393,8 +391,8 @@ public class FeatureUtil implements TileCodes
     // create our reused features table
     static {
         _reusedFeatures = new Feature[FEATURES.length];
-        for (int i = 0; i < FEATURES.length; i++) {
-            _reusedFeatures[i] = new Feature(FEATURES[i]);
+        for (int ii = 0; ii < FEATURES.length; ii++) {
+            _reusedFeatures[ii] = new Feature(FEATURES[ii]);
         }
         _shieldFeature = new Feature(SHIELD_FEATURE);
     }

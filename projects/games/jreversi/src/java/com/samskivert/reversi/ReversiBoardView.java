@@ -17,6 +17,8 @@ import java.awt.event.MouseAdapter;
 
 import java.util.HashMap;
 
+import com.google.common.collect.Maps;
+
 import com.samskivert.swing.Label;
 
 import com.threerings.media.VirtualMediaPanel;
@@ -38,7 +40,7 @@ import com.threerings.crowd.data.PlaceObject;
  * Displays the main game interface (the board).
  */
 public class ReversiBoardView extends VirtualMediaPanel
-    implements PlaceView, SetListener
+    implements PlaceView, SetListener<ReversiObject.Piece>
 {
     /**
      * Constructs a view which will initialize itself and prepare to display
@@ -55,6 +57,7 @@ public class ReversiBoardView extends VirtualMediaPanel
 
         // listen for mouse motion and presses
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed (MouseEvent e) {
                 ReversiObject.Piece piece = _cursor.getPiece();
                 if (_logic.isLegalMove(piece)) {
@@ -64,6 +67,7 @@ public class ReversiBoardView extends VirtualMediaPanel
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
             public void mouseMoved (MouseEvent e) {
                 int tx = e.getX() / PieceSprite.SIZE;
                 int ty = e.getY() / PieceSprite.SIZE;
@@ -127,26 +131,26 @@ public class ReversiBoardView extends VirtualMediaPanel
     }
 
     // from interface SetListener
-    public void entryAdded (EntryAddedEvent event)
+    public void entryAdded (EntryAddedEvent<ReversiObject.Piece> event)
     {
         if (event.getName().equals(ReversiObject.PIECES)) {
             // add a sprite for the newly created piece
-            addPieceSprite((ReversiObject.Piece)event.getEntry());
+            addPieceSprite(event.getEntry());
         }
     }
 
     // from interface SetListener
-    public void entryUpdated (EntryUpdatedEvent event)
+    public void entryUpdated (EntryUpdatedEvent<ReversiObject.Piece> event)
     {
         if (event.getName().equals(ReversiObject.PIECES)) {
             // update the sprite that is displaying the updated piece
-            ReversiObject.Piece piece = (ReversiObject.Piece)event.getEntry();
+            ReversiObject.Piece piece = event.getEntry();
             _sprites.get(piece.getKey()).updatePiece(piece);
         }
     }
 
     // from interface SetListener
-    public void entryRemoved (EntryRemovedEvent event)
+    public void entryRemoved (EntryRemovedEvent<ReversiObject.Piece> event)
     {
         // nothing to do here
     }
@@ -205,8 +209,7 @@ public class ReversiBoardView extends VirtualMediaPanel
     protected Dimension _size = new Dimension(8, 8);
 
     /** Contains a mapping from piece id to the sprite for that piece. */
-    protected HashMap<Comparable,PieceSprite> _sprites =
-        new HashMap<Comparable,PieceSprite>();
+    protected HashMap<Comparable<?>, PieceSprite> _sprites = Maps.newHashMap();
 
     /** Displays a cursor when we're allowing the user to place a piece. */
     protected CursorSprite _cursor = new CursorSprite();

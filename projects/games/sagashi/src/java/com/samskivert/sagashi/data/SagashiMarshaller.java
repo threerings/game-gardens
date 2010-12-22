@@ -4,6 +4,8 @@
 
 package com.samskivert.sagashi.data;
 
+import javax.annotation.Generated;
+
 import com.samskivert.sagashi.client.SagashiService;
 import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
@@ -16,6 +18,8 @@ import com.threerings.presents.data.InvocationMarshaller;
  * interfaces that marshall the response arguments and deliver them back
  * to the requesting client.
  */
+@Generated(value={"com.threerings.presents.tools.GenServiceTask"},
+           comments="Derived from SagashiService.java.")
 public class SagashiMarshaller extends InvocationMarshaller
     implements SagashiService
 {

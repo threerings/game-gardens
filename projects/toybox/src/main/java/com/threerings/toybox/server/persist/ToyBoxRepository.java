@@ -41,7 +41,6 @@ import com.samskivert.depot.clause.OrderBy;
 import com.samskivert.depot.clause.Where;
 
 import com.samskivert.io.PersistenceException;
-import com.samskivert.util.StringUtil;
 import com.samskivert.util.Tuple;
 
 import com.threerings.toybox.server.ToyBoxManager;
@@ -191,7 +190,7 @@ public class ToyBoxRepository extends DepotRepository
     {
         Date when = getWeek(0);
         // first try updating
-        int mods = updatePartial(PlaytimeRecord.class, 
+        int mods = updatePartial(PlaytimeRecord.class,
                                  new Where(PlaytimeRecord.GAME_ID.eq(gameId).and(
                                                PlaytimeRecord.PERIOD.eq(when))), null,
                                  PlaytimeRecord.PLAYTIME, PlaytimeRecord.PLAYTIME.plus(minutes));

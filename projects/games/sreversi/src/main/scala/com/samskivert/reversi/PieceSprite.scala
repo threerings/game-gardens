@@ -27,7 +27,7 @@ class PieceSprite (piece :Reversi.Piece) extends Sprite(PieceSprite.SIZE, PieceS
     invalidate()
   }
 
-  override def  paint (gfx :Graphics2D) {
+  override def paint (gfx :Graphics2D) {
     // set our color depending on the player that owns this piece
     gfx.setColor(if (_piece.owner == Reversi.Black) Color.darkGray else Color.white)
 

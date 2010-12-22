@@ -76,7 +76,7 @@ public class Piecen
     }
 
     // documentation inherited
-    public Comparable getKey ()
+    public Comparable<?> getKey ()
     {
         // our key is our coordinates conflated into one integer
         return new Integer((x + 128) * 256 + y + 128);
@@ -103,6 +103,7 @@ public class Piecen
     }
 
     // documentation inherited
+    @Override
     public boolean equals (Object other)
     {
         // we will either be compared to a tile or to a piecen
@@ -126,6 +127,7 @@ public class Piecen
     /**
      * Generates a string representation of this piecen.
      */
+    @Override
     public String toString ()
     {
         return "[owner=" + owner + ", pos=" + x + "/" + y +

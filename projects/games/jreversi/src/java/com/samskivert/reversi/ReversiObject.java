@@ -4,6 +4,7 @@
 
 package com.samskivert.reversi;
 
+import javax.annotation.Generated;
 import com.threerings.util.Name;
 
 import com.threerings.presents.dobj.DSet;
@@ -18,9 +19,11 @@ public class ReversiObject extends GameObject
 {
     // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>pieces</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String PIECES = "pieces";
 
     /** The field name of the <code>turnHolder</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String TURN_HOLDER = "turnHolder";
     // AUTO-GENERATED: FIELDS END
 
@@ -37,7 +40,7 @@ public class ReversiObject extends GameObject
         public int owner;
         public int x, y;
 
-        public Comparable getKey () {
+        public Comparable<?> getKey () {
             return pieceId;
         }
     }
@@ -85,6 +88,7 @@ public class ReversiObject extends GameObject
      * <code>pieces</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void addToPieces (ReversiObject.Piece elem)
     {
         requestEntryAdd(PIECES, pieces, elem);
@@ -95,7 +99,8 @@ public class ReversiObject extends GameObject
      * the <code>pieces</code> set. The set will not change until the
      * event is actually propagated through the system.
      */
-    public void removeFromPieces (Comparable key)
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void removeFromPieces (Comparable<?> key)
     {
         requestEntryRemove(PIECES, pieces, key);
     }
@@ -105,6 +110,7 @@ public class ReversiObject extends GameObject
      * <code>pieces</code> set. The set will not change until the event is
      * actually propagated through the system.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void updatePieces (ReversiObject.Piece elem)
     {
         requestEntryUpdate(PIECES, pieces, elem);
@@ -120,11 +126,11 @@ public class ReversiObject extends GameObject
      * change. Proxied copies of this object (on clients) will apply the
      * value change when they received the attribute changed notification.
      */
-    public void setPieces (DSet<com.samskivert.reversi.ReversiObject.Piece> value)
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void setPieces (DSet<ReversiObject.Piece> value)
     {
         requestAttributeChange(PIECES, value, this.pieces);
-        @SuppressWarnings("unchecked") DSet<com.samskivert.reversi.ReversiObject.Piece> clone =
-            (value == null) ? null : value.typedClone();
+        DSet<ReversiObject.Piece> clone = (value == null) ? null : value.clone();
         this.pieces = clone;
     }
 
@@ -136,6 +142,7 @@ public class ReversiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setTurnHolder (Name value)
     {
         Name ovalue = this.turnHolder;

@@ -25,6 +25,7 @@ import com.threerings.util.StreamableHashMap;
 
 import com.threerings.crowd.client.PlaceController;
 
+import com.threerings.parlor.data.Parameter;
 import com.threerings.parlor.game.client.GameConfigurator;
 import com.threerings.parlor.game.data.GameConfig;
 
@@ -54,8 +55,8 @@ public class ToyBoxGameConfig extends GameConfig
 
         if (gameDef.params != null) {
             // set the default values for our parameters
-            for (int ii = 0; ii < gameDef.params.length; ii++) {
-                params.put(gameDef.params[ii].ident, gameDef.params[ii].getDefaultValue());
+            for (Parameter param : gameDef.params) {
+                params.put(param.ident, param.getDefaultValue());
             }
         }
     }

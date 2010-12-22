@@ -97,6 +97,7 @@ public class GameDefinition implements Streamable
     }
 
     /** Generates a string representation of this instance. */
+    @Override
     public String toString ()
     {
         return StringUtil.fieldsToString(this);

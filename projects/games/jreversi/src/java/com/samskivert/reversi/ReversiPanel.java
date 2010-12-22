@@ -6,14 +6,12 @@ package com.samskivert.reversi;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Polygon;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.samskivert.swing.GroupLayout;
@@ -49,7 +47,7 @@ public class ReversiPanel extends PlacePanel
         MessageBundle msgs = _ctx.getMessageManager().getBundle("reversi");
 
         // give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
 
         // give ourself a soothing blue background

@@ -4,17 +4,13 @@
 
 package com.samskivert.atlanti.client;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-
-import javax.swing.*;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
 import com.samskivert.swing.Controller;
 import com.samskivert.swing.ControllerProvider;
 import com.samskivert.swing.HGroupLayout;
@@ -35,10 +31,11 @@ import com.threerings.toybox.client.OccupantList;
 import com.threerings.toybox.client.ToyBoxUI;
 import com.threerings.toybox.util.ToyBoxContext;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiTile;
 import com.samskivert.atlanti.util.PiecenUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * The top-level user interface component for the game display.
@@ -57,13 +54,13 @@ public class AtlantiPanel extends JPanel
      */
     public AtlantiPanel (ToyBoxContext ctx, AtlantiController controller)
     {
-	// give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // give ourselves a wee bit of a border
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-	HGroupLayout gl = new HGroupLayout(
+        HGroupLayout gl = new HGroupLayout(
             HGroupLayout.STRETCH, 10, HGroupLayout.CENTER);
-	gl.setOffAxisPolicy(HGroupLayout.STRETCH);
-	setLayout(gl);
+        gl.setOffAxisPolicy(HGroupLayout.STRETCH);
+        setLayout(gl);
 
         // create the board
         board = new AtlantiBoardView(controller);
@@ -85,7 +82,6 @@ public class AtlantiPanel extends JPanel
 
         // add a big fat label because we love it!
         MultiLineLabel vlabel = new MultiLineLabel(msgs.get("m.title"));
-        vlabel.setAntiAliased(true);
         vlabel.setFont(ToyBoxUI.fancyFont);
         sidePanel.add(vlabel, VGroupLayout.FIXED);
 
@@ -115,7 +111,6 @@ public class AtlantiPanel extends JPanel
 
         // add a chat box
         ChatPanel chat = new ChatPanel(ctx);
-        chat.removeSendButton();
         chat.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         pane.addTab(msgs.get("m.chat_header"), chat);
 
@@ -142,13 +137,12 @@ public class AtlantiPanel extends JPanel
         _ctx = ctx;
     }
 
-    // documentation inherited
+    @Override
     public void addNotify ()
     {
         super.addNotify();
 
-        // we can't create our image manager until we have access to our
-        // containing frame
+        // we can't create our image manager until we have access to our containing frame
         JRootPane rpane = getRootPane();
         ImageManager imgr = new ImageManager(_ctx.getResourceManager(), rpane);
         TileManager tmgr = new TileManager(imgr);
@@ -159,13 +153,13 @@ public class AtlantiPanel extends JPanel
     // documentation inherited
     public void willEnterPlace (PlaceObject plobj)
     {
-        Log.info("Panel entered place.");
+        log.info("Panel entered place.");
     }
 
     // documentation inherited
     public void didLeavePlace (PlaceObject plobj)
     {
-        Log.info("Panel left place.");
+        log.info("Panel left place.");
     }
 
     // documentation inherited

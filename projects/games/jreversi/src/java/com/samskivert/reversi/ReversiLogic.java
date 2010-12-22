@@ -7,6 +7,8 @@ package com.samskivert.reversi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.google.common.collect.Lists;
+
 /**
  * Performs some analysis of Reversi board state to determine move legality and
  * piece flipping.
@@ -122,8 +124,7 @@ public class ReversiLogic
      */
     public void flipPieces (ReversiObject.Piece placed, ReversiObject gameobj)
     {
-        ArrayList<ReversiObject.Piece> toflip =
-            new ArrayList<ReversiObject.Piece>();
+        ArrayList<ReversiObject.Piece> toflip = Lists.newArrayList();
 
         // determine where this piece "captures" pieces of the opposite color
         for (int ii = 0; ii < DX.length; ii++) {

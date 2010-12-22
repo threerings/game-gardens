@@ -46,14 +46,12 @@ public class ToyBoxUI
         // try to load our fancy font
         try {
             InputStream in =
-                ToyBoxUI.class.getClassLoader().getResourceAsStream(
-                    "rsrc/media/porc.ttf");
+                ToyBoxUI.class.getClassLoader().getResourceAsStream("rsrc/media/porc.ttf");
             fancyFont = Font.createFont(Font.TRUETYPE_FONT, in);
             fancyFont = fancyFont.deriveFont(Font.PLAIN, 52);
             in.close();
         } catch (Exception e) {
-            log.warning("Failed to load custom font, falling " +
-                    "back to default.", e);
+            log.warning("Failed to load custom font, falling back to default.", e);
             fancyFont = BORING_DEFAULT;
         }
     }
@@ -61,6 +59,5 @@ public class ToyBoxUI
     protected static ToyBoxContext _ctx;
 
     /** The boring default font used if the custom font can't be loaded. */
-    protected static final Font BORING_DEFAULT =
-        new Font("Dialog", Font.PLAIN, 12);
+    protected static final Font BORING_DEFAULT = new Font("Dialog", Font.PLAIN, 12);
 }

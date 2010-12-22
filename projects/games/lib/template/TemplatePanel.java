@@ -53,7 +53,7 @@ public class @classpre@Panel extends PlacePanel
         MessageBundle msgs = _ctx.getMessageManager().getBundle("@project@");
 
         // give ourselves a wee bit of a border
-	setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
 
         // create and add our board view

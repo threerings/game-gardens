@@ -98,6 +98,7 @@ public class OccupantList extends JList
     }
 
     // documentation inherited
+    @Override
     public Dimension getPreferredSize ()
     {
         Dimension d = super.getPreferredSize();

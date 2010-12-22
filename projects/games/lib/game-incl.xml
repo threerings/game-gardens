@@ -20,6 +20,7 @@
       <dependency groupId="commons-digester" artifactId="commons-digester" version="2.0"/>
       <dependency groupId="javassist" artifactId="javassist" version="3.8.0.GA"/>
       <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
+      <dependency groupId="com.samskivert" artifactId="jmustache" version="1.0"/>
     </artifact:dependencies>
     <path id="classpath">
       <path refid="maven.classpath"/>
@@ -53,7 +54,8 @@
 
   <!-- generates marshaller and dispatcher classes for all invocation -->
   <!-- service declarations -->
-  <target name="genservice" description="Updates invocation service generated classes.">
+  <target name="genservice" depends="prepare"
+          description="Updates invocation service generated classes.">
     <taskdef name="service" classpathref="classpath"
              classname="com.threerings.presents.tools.GenServiceTask"/>
     <!-- make sure the service class files are all compiled -->
@@ -72,7 +74,7 @@
   </target>
 
   <!-- adds readField and writeField methods to Stremable classes -->
-  <target name="procstream">
+  <target name="procstream" depends="prepare">
     <taskdef name="instream" classpathref="classpath"
              classname="com.threerings.presents.tools.InstrumentStreamableTask"/>
     <!-- now instrument the associated files -->

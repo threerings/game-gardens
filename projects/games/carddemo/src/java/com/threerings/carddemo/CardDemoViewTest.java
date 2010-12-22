@@ -19,11 +19,8 @@
 
 package com.threerings.carddemo;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import javax.swing.JComponent;
 
-import com.threerings.media.util.LinePath;
 import com.threerings.parlor.card.data.Card;
 import com.threerings.parlor.card.data.Hand;
 
@@ -41,11 +38,13 @@ public class CardDemoViewTest extends GameViewTest
         test.display();
     }
 
+    @Override
     protected JComponent createInterface (ToyBoxContext ctx)
     {
         return _view = new CardDemoView(ctx, new CardDemoController());
     }
 
+    @Override
     protected void initInterface ()
     {
         // position the hand at the bottom center of the view

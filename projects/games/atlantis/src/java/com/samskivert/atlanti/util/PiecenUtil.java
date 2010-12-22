@@ -6,7 +6,6 @@ package com.samskivert.atlanti.util;
 
 import java.awt.Image;
 
-import com.threerings.media.tile.Tile;
 import com.threerings.media.tile.TileManager;
 import com.threerings.media.tile.UniformTileSet;
 
@@ -20,8 +19,8 @@ public class PiecenUtil
         UniformTileSet piecenSet = tmgr.loadTileSet(
             PIECEN_IMG_PATH, PIECEN_WIDTH, PIECEN_HEIGHT);
         _images = new Image[PIECEN_TYPES];
-        for (int i = 0; i < PIECEN_TYPES; i++) {
-            _images[i] = piecenSet.getRawTileImage(i);
+        for (int ii = 0; ii < PIECEN_TYPES; ii++) {
+            _images[ii] = piecenSet.getRawTileImage(ii);
         }
     }
 

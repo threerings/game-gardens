@@ -4,17 +4,14 @@
 
 package com.samskivert.atlanti.client;
 
-import java.awt.event.ActionEvent;
 import com.samskivert.util.ListUtil;
 
 import com.threerings.util.Name;
 
-import com.threerings.presents.dobj.AttributeChangedEvent;
 import com.threerings.presents.dobj.DSet;
 import com.threerings.presents.dobj.DynamicListener;
 
 import com.threerings.crowd.client.PlaceView;
-import com.threerings.crowd.data.BodyObject;
 import com.threerings.crowd.data.PlaceObject;
 import com.threerings.crowd.util.CrowdContext;
 
@@ -24,7 +21,6 @@ import com.threerings.parlor.turn.client.TurnGameControllerDelegate;
 
 import com.threerings.toybox.util.ToyBoxContext;
 
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiObject;
 import com.samskivert.atlanti.data.AtlantiTile;
@@ -47,6 +43,7 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
+    @Override
     protected void didInit ()
     {
         super.didInit();
@@ -56,6 +53,7 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
+    @Override
     protected PlaceView createPlaceView (CrowdContext ctx)
     {
         _panel = new AtlantiPanel((ToyBoxContext)ctx, this);
@@ -63,6 +61,7 @@ public class AtlantiController extends GameController
     }
 
     // documentation inherited
+    @Override
     public void willEnterPlace (PlaceObject plobj)
     {
         super.willEnterPlace(plobj);
@@ -79,7 +78,7 @@ public class AtlantiController extends GameController
 
         // wire up our board to be notified when our object state changes and
         // configure it with its starting state
-        _atlobj.addListener(new DynamicListener(_panel.board));
+        _atlobj.addListener(new DynamicListener<DSet.Entry>(_panel.board));
         _panel.board.tilesChanged(_atlobj.tiles);
         _panel.board.piecensChanged(_atlobj.piecens);
 

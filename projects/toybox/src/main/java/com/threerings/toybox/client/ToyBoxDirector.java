@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import com.samskivert.util.StringUtil;
 
 import com.threerings.getdown.data.Resource;
@@ -136,6 +140,7 @@ public class ToyBoxDirector extends BasicDirector
     }
 
     // documentation inherited
+    @Override
     public void clientDidLogon (Client client)
     {
         super.clientDidLogon(client);
@@ -162,11 +167,10 @@ public class ToyBoxDirector extends BasicDirector
             }
             public void requestFailed (String cause) {
                 // TODO: report this error graphically
-                log.warning("Failed to get lobby oid [gameId=" + _gameId +
-                            ", error=" + cause + "].");
+                log.warning("Failed to get lobby oid", "gameId", _gameId, "error", cause);
             }
         };
-        log.debug("Requesting lobby oid [game=" + _gameId + "].");
+        log.debug("Requesting lobby oid", "game", _gameId);
         _toysvc.getLobbyOid(client, _gameId, rl);
     }
 
@@ -185,7 +189,7 @@ public class ToyBoxDirector extends BasicDirector
     public void resolveResources (final int gameId, final GameDefinition gamedef,
                                   final HTTPDownloader.Observer obs)
     {
-        log.info("Resolving resources [game=" + gameId + ", rurl=" + _resourceURL + "].");
+        log.info("Resolving resources", "game", gameId, "rurl", _resourceURL);
 
         // if our resource URL is a file: URL, we can ignore this whole process as we're running in
         // testing mode and needn't worry
@@ -197,6 +201,7 @@ public class ToyBoxDirector extends BasicDirector
         // create a thread that will resolve the resources as we at least have to some MD5 grindy
         // grindy if not some downloading
         Thread t = new Thread() {
+            @Override
             public void run () {
                 resolveResourcesAsync(gameId, gamedef, obs);
             }
@@ -211,9 +216,11 @@ public class ToyBoxDirector extends BasicDirector
 
         // wire up a location observer that can detect if we fail to make it into our lobby
         LocationAdapter obs = new LocationAdapter() {
+            @Override
             public void locationDidChange (PlaceObject place) {
                 _ctx.getLocationDirector().removeLocationObserver(this);
             }
+            @Override
             public void locationChangeFailed (int placeId, String reason) {
                 // TODO: report this error graphically
                 log.warning("Failed to enter lobby: " + reason + ".");
@@ -244,7 +251,7 @@ public class ToyBoxDirector extends BasicDirector
         int gameId, GameDefinition gamedef, HTTPDownloader.Observer obs)
     {
         // determine whether the game's libraries, or its game jar file need to be downloaded
-        ArrayList<Resource> rsrcs = new ArrayList<Resource>();
+        ArrayList<Resource> rsrcs = Lists.newArrayList();
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -303,8 +310,7 @@ public class ToyBoxDirector extends BasicDirector
                 }
 
             } catch (Exception e) {
-                log.info("Failed to compute digest, refetching [rsrc=" + rsrc +
-                         ", error=" + e + "].");
+                log.info("Failed to compute digest, refetching", "rsrc", rsrc, "error", e);
             }
         }
 
@@ -324,9 +330,9 @@ public class ToyBoxDirector extends BasicDirector
     protected ResourceManager _gameResource = new ResourceManager("rsrc");
 
     /** Contains an entry for all resources in the process of being downloaded. */
-    protected HashSet<File> _pending = new HashSet<File>();
+    protected HashSet<File> _pending = Sets.newHashSet();
 
     /** We have to cache our classloaders as we must preserve the same classloader for the lifetime
      * of the session so that the class cache held by the ObjectInputStream remains valid. */
-    protected HashMap<String,ClassLoader> _cache = new HashMap<String,ClassLoader>();
+    protected HashMap<String, ClassLoader> _cache = Maps.newHashMap();
 }

@@ -4,6 +4,7 @@
 
 package com.samskivert.sagashi.data;
 
+import javax.annotation.Generated;
 import com.threerings.parlor.game.data.GameObject;
 
 /**
@@ -13,18 +14,23 @@ public class SagashiObject extends GameObject
 {
     // AUTO-GENERATED: FIELDS START
     /** The field name of the <code>service</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String SERVICE = "service";
 
     /** The field name of the <code>board</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String BOARD = "board";
 
     /** The field name of the <code>secondsUntil</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String SECONDS_UNTIL = "secondsUntil";
 
     /** The field name of the <code>scores</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String SCORES = "scores";
 
     /** The field name of the <code>allWords</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String ALL_WORDS = "allWords";
     // AUTO-GENERATED: FIELDS END
 
@@ -53,6 +59,7 @@ public class SagashiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setService (SagashiMarshaller value)
     {
         SagashiMarshaller ovalue = this.service;
@@ -69,6 +76,7 @@ public class SagashiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setBoard (SagashiBoard value)
     {
         SagashiBoard ovalue = this.board;
@@ -85,6 +93,7 @@ public class SagashiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setSecondsUntil (int value)
     {
         int ovalue = this.secondsUntil;
@@ -101,6 +110,7 @@ public class SagashiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setScores (SagashiScore[] value)
     {
         SagashiScore[] ovalue = this.scores;
@@ -118,6 +128,7 @@ public class SagashiObject extends GameObject
      * will apply the value change when they received the attribute
      * changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setScoresAt (SagashiScore value, int index)
     {
         SagashiScore ovalue = this.scores[index];
@@ -134,6 +145,7 @@ public class SagashiObject extends GameObject
      * clients) will apply the value change when they received the
      * attribute changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setAllWords (String[] value)
     {
         String[] ovalue = this.allWords;
@@ -151,6 +163,7 @@ public class SagashiObject extends GameObject
      * will apply the value change when they received the attribute
      * changed notification.
      */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public void setAllWordsAt (String value, int index)
     {
         String ovalue = this.allWords[index];

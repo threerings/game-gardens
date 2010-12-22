@@ -33,9 +33,10 @@ import java.util.regex.Pattern;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import com.google.common.collect.Maps;
+
 /**
- * An ant task that generates a new game project from a template file and some
- * user input.
+ * An ant task that generates a new game project from a template file and some user input.
  */
 public class NewGameProjectTask extends Task
 {
@@ -90,7 +91,7 @@ public class NewGameProjectTask extends Task
         makeDir(rdir);
 
         // customize the template files and copy them into the right place
-        HashMap<String, String> subs = new HashMap<String, String>();
+        HashMap<String, String> subs = Maps.newHashMap();
         subs.put("project", ident);
         subs.put("package", fullpkg);
         subs.put("classpre", classpre);
@@ -107,11 +108,9 @@ public class NewGameProjectTask extends Task
                 new File(sdir, classpre + cname + ".java"), subs);
         }
 
-        System.out.println(
-            "Done! Your new game has been created in '" + pdir + "'.");
+        System.out.println("Done! Your new game has been created in '" + pdir + "'.");
         System.out.println("");
-        System.out.println(
-            "Go into that directory and try the following commands:");
+        System.out.println("Go into that directory and try the following commands:");
         System.out.println("  Build the game: ant dist");
         System.out.println("  Run the server: ant server");
         System.out.println("  Run a client: ant -Dusername=NAME client");
@@ -150,22 +149,19 @@ public class NewGameProjectTask extends Task
     {
         if (!(dir.exists() && dir.isDirectory())) {
             if (!dir.mkdirs()) {
-                throw new BuildException(
-                    "Failed to create directory '" + dir + "'.");
+                throw new BuildException("Failed to create directory '" + dir + "'.");
             }
         }
     }
 
     protected void copyFile (
-        BufferedReader input, File source, File dest,
-        HashMap<String, String> subs)
+        BufferedReader input, File source, File dest, HashMap<String, String> subs)
     {
         // ask whether to overwrite if the file already exists
         if (dest.exists()) {
             if (!_overwriteAll) {
                 String response = readInput(
-                    input, "File '" + dest + "' already exists. " +
-                    "Overwrite? [y/n/A]");
+                    input, "File '" + dest + "' already exists. Overwrite? [y/n/A]");
                 if (response.equalsIgnoreCase("y")) {
                     // fall through and overwrite
                 } else if (response.equals("A")) {
@@ -208,8 +204,7 @@ public class NewGameProjectTask extends Task
     protected boolean _overwriteAll;
     protected Pattern _subre = Pattern.compile("@([A-Za-z0-9]+)@");
 
-    protected static final String LINE_SEP =
-        System.getProperty("line.separator");
+    protected static final String LINE_SEP = System.getProperty("line.separator");
 
     protected static final String[] CLASSES = {
         "BoardView", "BoardViewTest", "Controller", "Panel", "Manager", "Object"

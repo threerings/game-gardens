@@ -9,18 +9,12 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Shape;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
-
-import com.samskivert.util.StringUtil;
-
-import com.samskivert.atlanti.Log;
 import com.samskivert.atlanti.util.FeatureUtil;
-import com.samskivert.atlanti.util.TileUtil;
+
+import static com.samskivert.atlanti.Log.log;
 
 /**
  * Represents all of the necessary information for a particular feature of
@@ -92,17 +86,16 @@ public class Feature
                     desc[4], desc[5], desc[6], desc[7], desc[8], desc[9]);
 
             } else {
-                Log.warning("Feature constructed with bogus road geometry " +
-                            "[desc=" + StringUtil.toString(desc) + "].");
+                log.warning("Feature constructed with bogus road geometry", "desc", desc);
             }
 
         } else {
             GeneralPath poly = new GeneralPath();
-            for (int i = 4; i < desc.length; i += 2) {
+            for (int ii = 4; ii < desc.length; ii += 2) {
                 // scale the coords accordingly
-                int fx = (desc[i] * TILE_WIDTH) / 4;
-                int fy = (desc[i+1] * TILE_HEIGHT) / 4;
-                if (i == 4) {
+                int fx = (desc[ii] * TILE_WIDTH) / 4;
+                int fy = (desc[ii+1] * TILE_HEIGHT) / 4;
+                if (ii == 4) {
                     poly.moveTo(fx, fy);
                 } else {
                     poly.lineTo(fx, fy);
@@ -348,6 +341,7 @@ public class Feature
     /**
      * Generates a string representation of this feature.
      */
+    @Override
     public String toString ()
     {
         return "[type=" + FeatureUtil.typeToString(type) +
@@ -372,5 +366,5 @@ public class Feature
 
     /** For rendering piecens with alpha. */
     protected static final Composite ALPHA_PLACING =
-	AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
+        AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
 }

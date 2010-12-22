@@ -29,7 +29,7 @@ public class SagashiScore extends SimpleStreamableObject
     }
 
     // documentation inherited from interface DSet.Entry
-    public Comparable getKey ()
+    public Comparable<?> getKey ()
     {
         if (_key == null) {
             _key = new Integer(userOid);

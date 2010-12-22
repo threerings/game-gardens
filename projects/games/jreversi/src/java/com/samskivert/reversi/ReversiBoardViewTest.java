@@ -23,11 +23,13 @@ public class ReversiBoardViewTest extends GameViewTest
         test.display();
     }
 
+    @Override
     protected JComponent createInterface (ToyBoxContext ctx)
     {
         return _view = new ReversiBoardView(ctx, new ReversiController());
     }
 
+    @Override
     protected void initInterface ()
     {
         // add a couple of pieces to the view

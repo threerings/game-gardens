@@ -124,18 +124,23 @@ public abstract class GameViewTest extends ManagedJFrame
         public void clearPlaceView (PlaceView view) {
             // not needed
         }
+        @Override
         public ResourceManager getResourceManager () {
             return _rsrcmgr;
         }
+        @Override
         public MessageManager getMessageManager () {
             return _msgmgr;
         }
+        @Override
         public ToyBoxDirector getToyBoxDirector () {
             return null;
         }
+        @Override
         public FrameManager getFrameManager () {
             return _framemgr;
         }
+        @Override
         public KeyDispatcher getKeyDispatcher () {
             return _keydisp;
         }

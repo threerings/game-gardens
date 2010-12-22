@@ -30,21 +30,23 @@ public class TileGeometryTest extends JPanel
 {
     public TileGeometryTest ()
     {
-        for (int i = 0; i < TILE_TYPES; i++) {
-            _tiles[i] = new AtlantiTile(i+1, true, NORTH, i % 5, i / 5);
+        for (int ii = 0; ii < TILE_TYPES; ii++) {
+            _tiles[ii] = new AtlantiTile(ii+1, true, NORTH, ii % 5, ii / 5);
         }
     }
 
+    @Override
     public void paintComponent (Graphics g)
     {
         super.paintComponent(g);
 
         // paint our tiles
-        for (int i = 0; i < _tiles.length; i++) {
-            _tiles[i].paint((Graphics2D)g, 0, 0);
+        for (AtlantiTile tile : _tiles) {
+            tile.paint((Graphics2D)g, 0, 0);
         }
     }
 
+    @Override
     public Dimension getPreferredSize ()
     {
         // we want to be five tiles wide by four tiles tall

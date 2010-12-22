@@ -73,6 +73,7 @@ public class LogonPanel extends JPanel
         JPanel box = new JPanel(
             new VGroupLayout(VGroupLayout.NONE, VGroupLayout.NONE,
                              5, VGroupLayout.CENTER)) {
+            @Override
             public Dimension getPreferredSize () {
                 Dimension psize = super.getPreferredSize();
                 psize.width = Math.max(psize.width, 300);
@@ -254,6 +255,7 @@ public class LogonPanel extends JPanel
     }
 
     // documentation inherited
+    @Override
     protected void paintComponent (Graphics g)
     {
         super.paintComponent(g);
@@ -301,7 +303,7 @@ public class LogonPanel extends JPanel
         ToyBoxPrefs.setUsername(username);
         boolean remember = _remember.isSelected();
         ToyBoxPrefs.setPassword(remember ? encPw.getEncrypted() : "");
-        ToyBoxPrefs.setPasswordLength(remember ? pwLen : 0); 
+        ToyBoxPrefs.setPasswordLength(remember ? pwLen : 0);
         ToyBoxPrefs.setRememberPassword(remember);
 
         // configure the client with some credentials and logon

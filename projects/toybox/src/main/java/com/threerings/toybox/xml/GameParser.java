@@ -61,6 +61,7 @@ public class GameParser
     {
         // create and configure our digester
         _digester = new Digester() {
+            @Override
             public void fatalError (SAXParseException exception)
                 throws SAXException {
                 // the standard digester needlessly logs a fatal warning here
@@ -77,6 +78,7 @@ public class GameParser
         _digester.addRule("game/manager", new SetFieldRule("manager"));
 
         _digester.addRule("game/match", new Rule() {
+            @Override
             public void begin (String namespace, String name, Attributes attrs) throws Exception {
                 String type = attrs.getValue("type");
                 if (StringUtil.isBlank(type)) {
@@ -85,6 +87,7 @@ public class GameParser
                 }
                 addMatchParsingRules(digester, type);
             }
+            @Override
             public void end (String namespace, String name) throws Exception {
                 MatchConfig match = (MatchConfig)digester.pop();
                 ((GameDefinition)digester.peek()).match = match;

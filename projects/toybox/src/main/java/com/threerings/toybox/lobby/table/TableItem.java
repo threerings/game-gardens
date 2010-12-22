@@ -37,6 +37,7 @@ import com.threerings.util.Name;
 
 import com.threerings.parlor.client.SeatednessObserver;
 import com.threerings.parlor.client.TableDirector;
+import com.threerings.parlor.data.Parameter;
 import com.threerings.parlor.data.Table;
 
 import com.threerings.toybox.data.GameDefinition;
@@ -93,10 +94,10 @@ public class TableItem extends JPanel
         if (_tconfig.isPartyGame()) {
             MessageBundle msgs = ctx.getMessageManager().getBundle(_tconfig.getGameIdent());
             GameDefinition gdef = _tconfig.getGameDefinition();
-            for (int ii = 0; ii < gdef.params.length; ii++) {
-                confdesc.append(msgs.xlate(gdef.params[ii].getLabel()));
+            for (Parameter param : gdef.params) {
+                confdesc.append(msgs.xlate(param.getLabel()));
                 confdesc.append(": ");
-                confdesc.append(_tconfig.params.get(gdef.params[ii].ident));
+                confdesc.append(_tconfig.params.get(param.ident));
                 confdesc.append("<br>\n");
             }
         }
@@ -106,16 +107,16 @@ public class TableItem extends JPanel
         gbc.weightx = 1.0;
         gbc.insets = new Insets(2, 0, 2, 0);
         _seats = new JButton[bcount];
-        for (int i = 0; i < bcount; i++) {
+        for (int ii = 0; ii < bcount; ii++) {
             // create the button
-            _seats[i] = new JButton(JOIN_LABEL);
-            _seats[i].addActionListener(this);
+            _seats[ii] = new JButton(JOIN_LABEL);
+            _seats[ii].addActionListener(this);
 
             // if we're on the left
-            if (i % 2 == 0) {
+            if (ii % 2 == 0) {
                 // if we're the last seat, then we've got an odd number and need to center this
                 // final seat
-                if (i == bcount-1) {
+                if (ii == bcount-1) {
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
                 } else {
                     gbc.gridwidth = 1;
@@ -126,7 +127,7 @@ public class TableItem extends JPanel
             }
 
             // adjust the insets of our last element
-            if (i == bcount-1) {
+            if (ii == bcount-1) {
                 gbc.insets = new Insets(2, 0, 4, 0);
             }
 
@@ -134,11 +135,11 @@ public class TableItem extends JPanel
             if (_tconfig.isPartyGame()) {
                 add(new JLabel(confdesc.toString()), gbc);
             } else {
-                add(_seats[i], gbc);
+                add(_seats[ii], gbc);
             }
 
             // if we just added the first button, add the "go" button right after it
-            if (i == 0) {
+            if (ii == 0) {
                 addGoButton(gbc);
             }
         }
@@ -166,20 +167,20 @@ public class TableItem extends JPanel
 
         // now enable and label the buttons accordingly
         int slength = _seats.length;
-        for (int i = 0; i < slength; i++) {
-            if (table.players[i] == null) {
-                _seats[i].setText(JOIN_LABEL);
-                _seats[i].setEnabled(!isSeated);
-                _seats[i].setActionCommand("join");
+        for (int ii = 0; ii < slength; ii++) {
+            if (table.players[ii] == null) {
+                _seats[ii].setText(JOIN_LABEL);
+                _seats[ii].setEnabled(!isSeated);
+                _seats[ii].setActionCommand("join");
 
-            } else if (table.players[i].equals(_self) && !table.inPlay()) {
-                _seats[i].setText(LEAVE_LABEL);
-                _seats[i].setEnabled(true);
-                _seats[i].setActionCommand("leave");
+            } else if (table.players[ii].equals(_self) && !table.inPlay()) {
+                _seats[ii].setText(LEAVE_LABEL);
+                _seats[ii].setEnabled(true);
+                _seats[ii].setActionCommand("leave");
 
             } else {
-                _seats[i].setText(table.players[i].toString());
-                _seats[i].setEnabled(false);
+                _seats[ii].setText(table.players[ii].toString());
+                _seats[ii].setEnabled(false);
             }
         }
 

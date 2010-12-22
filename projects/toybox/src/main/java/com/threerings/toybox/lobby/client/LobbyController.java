@@ -39,6 +39,7 @@ import static com.threerings.toybox.lobby.Log.log;
 public class LobbyController extends PlaceController
 {
     // documentation inherited
+    @Override
     public void init (CrowdContext ctx, PlaceConfig config)
     {
         super.init(ctx, config);
@@ -49,6 +50,7 @@ public class LobbyController extends PlaceController
     }
 
     // documentation inherited
+    @Override
     public void willEnterPlace (PlaceObject plobj)
     {
         super.willEnterPlace(plobj);
@@ -85,6 +87,7 @@ public class LobbyController extends PlaceController
     }
 
     // documentation inherited
+    @Override
     protected PlaceView createPlaceView (CrowdContext ctx)
     {
         return (_panel = new LobbyPanel((ToyBoxContext)ctx));

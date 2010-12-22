@@ -29,9 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -102,8 +99,8 @@ public class ChatPanel extends JPanel
         _ctx.getOccupantDirector().addOccupantObserver(this);
 
         GroupLayout gl = new VGroupLayout(GroupLayout.STRETCH);
-	gl.setOffAxisPolicy(GroupLayout.STRETCH);
-	setLayout(gl);
+        gl.setOffAxisPolicy(GroupLayout.STRETCH);
+        setLayout(gl);
         setOpaque(false);
 
         // create our scrolling chat text display
@@ -114,20 +111,21 @@ public class ChatPanel extends JPanel
         // we need to create an ultra-custom scroll pane that combines the
         // safe-scroll-pane stuff with a painted background image
         add(new JScrollPane(_text) {
-            protected JViewport createViewport ()
-            {
+            @Override
+            protected JViewport createViewport () {
                 JViewport vp = new JViewport() {
+                    @Override
                     public void setViewPosition (Point p) {
                         super.setViewPosition(p);
-                        // simple scroll mode results in setViewPosition
-                        // causing our view to become invalid, but nothing
-                        // ever happens to queue up a revalidate for said
+                        // simple scroll mode results in setViewPosition causing our view to become
+                        // invalid, but nothing ever happens to queue up a revalidate for said
                         // view, so we have to do it here
                         Component c = getView();
                         if (c instanceof JComponent) {
                             ((JComponent)c).revalidate();
                         }
                     }
+                    @Override
                     public void paintComponent (Graphics g) {
                         super.paintComponent(g);
                         // start with the light blue background
@@ -180,6 +178,7 @@ public class ChatPanel extends JPanel
 
         // listen to ancestor events to request focus when added
         addAncestorListener(new AncestorAdapter() {
+            @Override
             public void ancestorAdded (AncestorEvent e) {
                 if (_focus) {
                     _entry.requestFocus();
@@ -189,9 +188,8 @@ public class ChatPanel extends JPanel
     }
 
     /**
-     * For applications where the chat box has extremely limited space,
-     * the send button can be removed to leave more space for the text
-     * input box.
+     * For applications where the chat box has extremely limited space, the send button can be
+     * removed to leave more space for the text input box.
      *
      * @deprecated Pass non-horizontal to the constructor instead.
      */
@@ -202,10 +200,8 @@ public class ChatPanel extends JPanel
     }
 
     /**
-     * Sets whether the chat box text entry field requests the keyboard
-     * focus when the panel receives {@link
-     * AncestorListener#ancestorAdded} or {@link PlaceView#willEnterPlace}
-     * events.
+     * Sets whether the chat box text entry field requests the keyboard focus when the panel
+     * receives {@link AncestorListener#ancestorAdded} or {@link PlaceView#willEnterPlace} events.
      */
     public void setRequestFocus (boolean focus)
     {
@@ -236,13 +232,13 @@ public class ChatPanel extends JPanel
     // documentation inherited
     public void actionPerformed (ActionEvent e)
     {
-	String cmd = e.getActionCommand();
-	if (cmd.equals("send")) {
+        String cmd = e.getActionCommand();
+        if (cmd.equals("send")) {
             sendText();
 
-	} else {
-	    System.out.println("Unknown action event: " + cmd);
-	}
+        } else {
+            System.out.println("Unknown action event: " + cmd);
+        }
     }
 
     // documentation inherited
@@ -314,8 +310,7 @@ public class ChatPanel extends JPanel
             return true;
 
         } else {
-            log.warning("Received unknown message type [message=" +
-                        message + "].");
+            log.warning("Received unknown message type", "message", message);
             return false;
         }
     }
@@ -336,8 +331,7 @@ public class ChatPanel extends JPanel
             message = "\n" + message;
         }
         append(message, style);
-        _text.scrollRectToVisible(
-            new Rectangle(0, _text.getHeight(), _text.getWidth(), 1));
+        _text.scrollRectToVisible(new Rectangle(0, _text.getHeight(), _text.getWidth(), 1));
     }
 
     protected void appendAndScroll (String speaker, String message, Style style)
@@ -361,14 +355,13 @@ public class ChatPanel extends JPanel
         try {
             doc.insertString(doc.getLength(), text, style);
         } catch (BadLocationException ble) {
-            log.warning("Unable to insert text!? [error=" + ble + "].");
+            log.warning("Unable to insert text!?", "error", ble);
         }
     }
 
     public void willEnterPlace (PlaceObject place)
     {
-        // enable our chat input elements since we're now somewhere that
-        // we can chat
+        // enable our chat input elements since we're now somewhere that we can chat
         _entry.setEnabled(true);
         _send.setEnabled(true);
         if (_focus) {
@@ -383,15 +376,13 @@ public class ChatPanel extends JPanel
         _room = null;
     }
 
-    // documentation inherited
+    @Override
     public Dimension getPreferredSize ()
     {
         Dimension size = super.getPreferredSize();
-        // always prefer a sensible but not overly large width. this also
-        // prevents us from inheriting a foolishly large preferred width
-        // from the JTextPane which sometimes decides it wants to be as
-        // wide as its widest line of text rather than wrap that line of
-        // text.
+        // always prefer a sensible but not overly large width. This also prevents us from
+        // inheriting a foolishly large preferred width from the JTextPane which sometimes decides
+        // it wants to be as wide as its widest line of text rather than wrap that line of text.
         size.width = PREFERRED_WIDTH;
         return size;
     }

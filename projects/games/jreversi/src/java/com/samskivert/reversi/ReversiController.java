@@ -14,7 +14,6 @@ import com.threerings.parlor.game.client.GameController;
 import com.threerings.parlor.turn.client.TurnGameController;
 import com.threerings.parlor.turn.client.TurnGameControllerDelegate;
 
-import com.threerings.toybox.data.ToyBoxGameConfig;
 import com.threerings.toybox.util.ToyBoxContext;
 
 /**

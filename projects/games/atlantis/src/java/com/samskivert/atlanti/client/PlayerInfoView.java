@@ -26,19 +26,17 @@ import com.threerings.crowd.data.PlaceObject;
 import com.samskivert.atlanti.data.AtlantiCodes;
 import com.samskivert.atlanti.data.AtlantiObject;
 import com.samskivert.atlanti.data.Feature;
+import com.samskivert.atlanti.data.Piecen;
 import com.samskivert.atlanti.util.TileUtil;
 
 /**
- * Displays each of the players in the game, their piece color and their
- * score.
+ * Displays each of the players in the game, their piece color and their score.
  */
-public class PlayerInfoView
-    extends JPanel
-    implements PlaceView, AttributeChangeListener, SetListener
+public class PlayerInfoView extends JPanel
+    implements PlaceView, AttributeChangeListener, SetListener<Piecen>
 {
     /**
-     * Constructs a new player info panel, ready for insertion into the
-     * game panel.
+     * Constructs a new player info panel, ready for insertion into the game panel.
      */
     public PlayerInfoView ()
     {
@@ -62,8 +60,8 @@ public class PlayerInfoView
         _piecenLabels = new JLabel[_atlobj.players.length];
 
         // now that we're here, we can add an entry for every player
-        for (int i = 0; i < _atlobj.players.length; i++) {
-            addPlayer(i, _atlobj.players[i]);
+        for (int ii = 0; ii < _atlobj.players.length; ii++) {
+            addPlayer(ii, _atlobj.players[ii]);
         }
 
         // if we have scores, update them
@@ -122,18 +120,18 @@ public class PlayerInfoView
     }
 
     // documentation inherited
-    public void entryAdded (EntryAddedEvent event)
+    public void entryAdded (EntryAddedEvent<Piecen> event)
     {
         updatePiecenCount();
     }
 
     // documentation inherited
-    public void entryUpdated (EntryUpdatedEvent event)
+    public void entryUpdated (EntryUpdatedEvent<Piecen> event)
     {
     }
 
     // documentation inherited
-    public void entryRemoved (EntryRemovedEvent event)
+    public void entryRemoved (EntryRemovedEvent<Piecen> event)
     {
         updatePiecenCount();
     }
@@ -143,8 +141,8 @@ public class PlayerInfoView
      */
     protected void updateScores ()
     {
-        for (int i = 0; i < _atlobj.scores.length; i++) {
-            _scoreLabels[i].setText(Integer.toString(_atlobj.scores[i]));
+        for (int ii = 0; ii < _atlobj.scores.length; ii++) {
+            _scoreLabels[ii].setText(Integer.toString(_atlobj.scores[ii]));
         }
     }
 
@@ -154,10 +152,10 @@ public class PlayerInfoView
     protected void updatePiecenCount ()
     {
         int scount = (_atlobj.scores == null) ? 0 : _atlobj.scores.length;
-        for (int i = 0; i < scount; i++) {
-            int pcount = TileUtil.countPiecens(_atlobj.piecens, i);
+        for (int ii = 0; ii < scount; ii++) {
+            int pcount = TileUtil.countPiecens(_atlobj.piecens, ii);
             int pleft = AtlantiCodes.PIECENS_PER_PLAYER - pcount;
-            _piecenLabels[i].setText("(" + pleft + ")");
+            _piecenLabels[ii].setText("(" + pleft + ")");
         }
     }
 
