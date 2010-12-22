@@ -74,7 +74,7 @@
   </target>
 
   <!-- adds readField and writeField methods to Stremable classes -->
-  <target name="procstream">
+  <target name="procstream" depends="prepare">
     <taskdef name="instream" classpathref="classpath"
              classname="com.threerings.presents.tools.InstrumentStreamableTask"/>
     <!-- now instrument the associated files -->
