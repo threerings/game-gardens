@@ -4,8 +4,6 @@
 
 package com.samskivert.atlanti.client;
 
-import com.google.common.collect.Lists;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -601,7 +599,7 @@ public class AtlantiBoardView extends JPanel
         board.setTileToBePlaced(placing);
 
         // set a feature group to test propagation
-        List<AtlantiTile> tiles = Lists.newArrayList();
+        List<AtlantiTile> tiles = new ArrayList<AtlantiTile>();
         CollectionUtil.addAll(tiles, set.iterator());
         Collections.sort(tiles);
 
@@ -632,7 +630,7 @@ public class AtlantiBoardView extends JPanel
     protected AtlantiController _ctrl;
 
     /** A reference to our tile set. */
-    protected ArrayList<AtlantiTile> _tiles = Lists.newArrayList();
+    protected ArrayList<AtlantiTile> _tiles = new ArrayList<AtlantiTile>();
 
     /** The tile currently being placed by the user. */
     protected AtlantiTile _placingTile;
