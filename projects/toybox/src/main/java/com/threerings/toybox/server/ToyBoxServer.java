@@ -58,7 +58,7 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxServer extends CrowdServer
 {
     /** Configures dependencies needed by the ToyBox services. */
-    public static class Module extends CrowdServer.Module
+    public static class ToyBoxModule extends CrowdServer.CrowdModule
     {
         @Override protected void configure () {
             super.configure();
@@ -74,14 +74,7 @@ public class ToyBoxServer extends CrowdServer
      */
     public static void main (String[] args)
     {
-        Injector injector = Guice.createInjector(new Module());
-        ToyBoxServer server = injector.getInstance(ToyBoxServer.class);
-        try {
-            server.init(injector);
-            server.run();
-        } catch (Exception e) {
-            log.warning("Unable to initialize server.", e);
-        }
+        runServer(new ToyBoxModule(), new PresentsServerModule(ToyBoxServer.class));
     }
 
     @Override // from CrowdServer
@@ -136,8 +129,10 @@ public class ToyBoxServer extends CrowdServer
             if (loader == null) {
                 return super.createPlaceManager(config);
             }
-            return (PlaceManager)Class.forName(
+            PlaceManager mgr = (PlaceManager)Class.forName(
                 config.getManagerClassName(), true, loader).newInstance();
+            _injector.injectMembers(mgr);
+            return mgr;
         }
         @Inject protected ToyBoxManager _toymgr;
     }
