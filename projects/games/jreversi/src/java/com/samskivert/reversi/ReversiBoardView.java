@@ -17,8 +17,6 @@ import java.awt.event.MouseAdapter;
 
 import java.util.HashMap;
 
-import com.google.common.collect.Maps;
-
 import com.samskivert.swing.Label;
 
 import com.threerings.media.VirtualMediaPanel;
@@ -209,7 +207,8 @@ public class ReversiBoardView extends VirtualMediaPanel
     protected Dimension _size = new Dimension(8, 8);
 
     /** Contains a mapping from piece id to the sprite for that piece. */
-    protected HashMap<Comparable<?>, PieceSprite> _sprites = Maps.newHashMap();
+    protected HashMap<Comparable<?>, PieceSprite> _sprites =
+        new HashMap<Comparable<?>, PieceSprite>();
 
     /** Displays a cursor when we're allowing the user to place a piece. */
     protected CursorSprite _cursor = new CursorSprite();
