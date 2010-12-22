@@ -574,14 +574,14 @@ public class AtlantiManager extends GameManager
                 // iterate over all of the grass features that are connected to city features on
                 // this tile and add their claim groups the list for this city feature
                 int[] grasses = FeatureUtil.CITY_GRASS_MAP[tile.type-1];
-                for (int grasse : grasses) {
-                    int farmClaim = tile.claims[grasse];
+                for (int grass : grasses) {
+                    int farmClaim = tile.claims[grass];
 
                     // only worry about claimed grass regions
                     if (farmClaim == 0) {
                         Log.debug("Ignoring unclaimed farm group " +
                                   "[tile=" + tile +
-                                  ", fidx=" + grasse + "].");
+                                  ", fidx=" + grass + "].");
                         continue;
                     }
 
