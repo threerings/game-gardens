@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="yes"?>
+<game>
+  <!-- the string identifier for this game -->
+  <ident>reversi</ident>
+
+  <!-- the controller and manager used for the game -->
+  <controller>com.samskivert.reversi.ReversiController</controller>
+  <manager>com.samskivert.reversi.ReversiManager</manager>
+
+  <!-- defines how the game is matchmade and configured -->
+  <match type="table">
+    <min_seats>2</min_seats>
+    <max_seats>2</max_seats>
+    <start_seats>2</start_seats>
+  </match>
+
+  <!-- settings that the user can configure when creating a game -->
+  <params>
+  </params>
+</game>
