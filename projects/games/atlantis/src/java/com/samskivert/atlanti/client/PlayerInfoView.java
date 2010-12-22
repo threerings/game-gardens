@@ -60,8 +60,8 @@ public class PlayerInfoView extends JPanel
         _piecenLabels = new JLabel[_atlobj.players.length];
 
         // now that we're here, we can add an entry for every player
-        for (int i = 0; i < _atlobj.players.length; i++) {
-            addPlayer(i, _atlobj.players[i]);
+        for (int ii = 0; ii < _atlobj.players.length; ii++) {
+            addPlayer(ii, _atlobj.players[ii]);
         }
 
         // if we have scores, update them
@@ -141,8 +141,8 @@ public class PlayerInfoView extends JPanel
      */
     protected void updateScores ()
     {
-        for (int i = 0; i < _atlobj.scores.length; i++) {
-            _scoreLabels[i].setText(Integer.toString(_atlobj.scores[i]));
+        for (int ii = 0; ii < _atlobj.scores.length; ii++) {
+            _scoreLabels[ii].setText(Integer.toString(_atlobj.scores[ii]));
         }
     }
 
@@ -152,10 +152,10 @@ public class PlayerInfoView extends JPanel
     protected void updatePiecenCount ()
     {
         int scount = (_atlobj.scores == null) ? 0 : _atlobj.scores.length;
-        for (int i = 0; i < scount; i++) {
-            int pcount = TileUtil.countPiecens(_atlobj.piecens, i);
+        for (int ii = 0; ii < scount; ii++) {
+            int pcount = TileUtil.countPiecens(_atlobj.piecens, ii);
             int pleft = AtlantiCodes.PIECENS_PER_PLAYER - pcount;
-            _piecenLabels[i].setText("(" + pleft + ")");
+            _piecenLabels[ii].setText("(" + pleft + ")");
         }
     }
 

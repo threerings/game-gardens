@@ -365,8 +365,8 @@ public class AtlantiManager extends GameManager
         // create a piecen array that we can manipulate while scoring
         Piecen[] piecens = new Piecen[_atlobj.piecens.size()];
         Iterator<Piecen> iter = _atlobj.piecens.iterator();
-        for (int i = 0; iter.hasNext(); i++) {
-            piecens[i] = iter.next();
+        for (int ii = 0; iter.hasNext(); ii++) {
+            piecens[ii] = iter.next();
         }
         return piecens;
     }
@@ -383,16 +383,16 @@ public class AtlantiManager extends GameManager
     protected void scoreFeatures (AtlantiTile tile, Piecen[] piecens, boolean finalTally)
     {
         // potentially score all features on the tile
-        for (int i = 0; i < tile.features.length; i++) {
+        for (int ii = 0; ii < tile.features.length; ii++) {
             // we only need to worry about ROAD and CITY features because those are the only
             // features on this tile that we might have completed
-            Feature f = tile.features[i];
+            Feature f = tile.features[ii];
             if (f.type != TileCodes.CITY && f.type != TileCodes.ROAD) {
                 continue;
             }
 
             // see if any piecens are even on a feature in this group
-            int cgroup = tile.claims[i];
+            int cgroup = tile.claims[ii];
             int[] cgv = getClaimGroupVector(cgroup, piecens);
             if (cgv == null) {
                 // if not, we don't have anything to score
@@ -403,7 +403,7 @@ public class AtlantiManager extends GameManager
 
             // we do have something to score, so we compute the score for
             // this feature
-            int score = TileUtil.computeFeatureScore(_tiles, tile, i);
+            int score = TileUtil.computeFeatureScore(_tiles, tile, ii);
 
             // if the score is positive, it's a completed feature and we score it regardless, we
             // score incomplete features only during the final tally
@@ -460,8 +460,8 @@ public class AtlantiManager extends GameManager
                 }
 
                 // scan their features arrays for claimed cloisters
-                for (int i = 0; i < neighbor.features.length; i++) {
-                    Feature f = neighbor.features[i];
+                for (int ii = 0; ii < neighbor.features.length; ii++) {
+                    Feature f = neighbor.features[ii];
                     Piecen p = neighbor.piecen;
 
                     // is a cloister
@@ -477,14 +477,14 @@ public class AtlantiManager extends GameManager
                     }
 
                     // piecen is on cloister feature
-                    if (neighbor.claims[i] != p.claimGroup) {
+                    if (neighbor.claims[ii] != p.claimGroup) {
                         log.debug("Skipping cloister tile with piecen on non-cloister",
                             "tile", neighbor, "feat", f);
                         continue;
                     }
 
                     // score the cloister
-                    int score = TileUtil.computeFeatureScore(_tiles, neighbor, i);
+                    int score = TileUtil.computeFeatureScore(_tiles, neighbor, ii);
 
                     // if it's completed or if we're doing the final
                     // tally, we score it
@@ -534,8 +534,8 @@ public class AtlantiManager extends GameManager
 
         // do the big process-ola
         int tsize = _tiles.size();
-        for (int i = 0; i < tsize; i++) {
-            AtlantiTile tile = _tiles.get(i);
+        for (int ii = 0; ii < tsize; ii++) {
+            AtlantiTile tile = _tiles.get(ii);
 
             // iterate over all of the city features in this tile
             for (int f = 0; f < tile.features.length; f++) {
@@ -621,22 +621,22 @@ public class AtlantiManager extends GameManager
             }
 
             // now score four points for every player that has the max
-            for (int i = 0; i < pcount.length; i++) {
-                if (pcount[i] == max) {
+            for (int ii = 0; ii < pcount.length; ii++) {
+                if (pcount[ii] == max) {
                     log.debug("Scoring city for player",
-                        "cgroup", cityClaim, "player", getPlayerName(i), "pcount", pcount[i]);
-                    cityScores[i] += 4;
+                        "cgroup", cityClaim, "player", getPlayerName(ii), "pcount", pcount[ii]);
+                    cityScores[ii] += 4;
                 }
             }
         }
 
         // now report the scoring and transfer the counts to the score array
-        for (int i = 0; i < getPlayerCount(); i++) {
-            if (cityScores[i] > 0) {
-                _atlobj.scores[i] += cityScores[i];
+        for (int ii = 0; ii < getPlayerCount(); ii++) {
+            if (cityScores[ii] > 0) {
+                _atlobj.scores[ii] += cityScores[ii];
                 String msg = MessageBundle.tcompose(
-                    "m.scored_fisheries", getPlayerName(i),
-                    String.valueOf(cityScores[i]));
+                    "m.scored_fisheries", getPlayerName(ii),
+                    String.valueOf(cityScores[ii]));
                 systemMessage(ATLANTI_MESSAGE_BUNDLE, msg);
             }
         }
@@ -676,8 +676,8 @@ public class AtlantiManager extends GameManager
         }
 
         // now cut out everyone with scores less than the highest score
-        for (int i = 0; i < _claimGroupVector.length; i++) {
-            _claimGroupVector[i] = (_claimGroupVector[i] < max) ? 0 : 1;
+        for (int ii = 0; ii < _claimGroupVector.length; ii++) {
+            _claimGroupVector[ii] = (_claimGroupVector[ii] < max) ? 0 : 1;
         }
 
         return (max == 0) ? null : _claimGroupVector;
@@ -690,11 +690,11 @@ public class AtlantiManager extends GameManager
     protected void removePiecens (int claimGroup, Piecen[] piecens, boolean finalTally)
     {
         // we always clear the piecens from the array
-        for (int i = 0; i < piecens.length; i++) {
-            if (piecens[i] == null) {
+        for (int ii = 0; ii < piecens.length; ii++) {
+            if (piecens[ii] == null) {
                 continue;
-            } else if (piecens[i].claimGroup == claimGroup) {
-                piecens[i] = null;
+            } else if (piecens[ii].claimGroup == claimGroup) {
+                piecens[ii] = null;
             }
         }
 

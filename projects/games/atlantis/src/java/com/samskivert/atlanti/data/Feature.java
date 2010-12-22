@@ -91,11 +91,11 @@ public class Feature
 
         } else {
             GeneralPath poly = new GeneralPath();
-            for (int i = 4; i < desc.length; i += 2) {
+            for (int ii = 4; ii < desc.length; ii += 2) {
                 // scale the coords accordingly
-                int fx = (desc[i] * TILE_WIDTH) / 4;
-                int fy = (desc[i+1] * TILE_HEIGHT) / 4;
-                if (i == 4) {
+                int fx = (desc[ii] * TILE_WIDTH) / 4;
+                int fy = (desc[ii+1] * TILE_HEIGHT) / 4;
+                if (ii == 4) {
                     poly.moveTo(fx, fy);
                 } else {
                     poly.lineTo(fx, fy);

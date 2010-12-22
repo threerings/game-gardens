@@ -468,8 +468,8 @@ public class AtlantiBoardView extends JPanel
         int orient = coordToOrient(rx, ry);
 
         // scan for a legal orientation that is closest to our desired orientation
-        for (int i = 0; i < 4; i++) {
-            int candOrient = (orient+i)%4;
+        for (int ii = 0; ii < 4; ii++) {
+            int candOrient = (orient+ii)%4;
             if (_validOrients[candOrient]) {
                 if (_placingTile.orientation != candOrient) {
                     _placingTile.orientation = candOrient;

@@ -152,9 +152,9 @@ public class AtlantiTile
         edgeMask = FeatureUtil.translateMask(edgeMask, -orientation);
 
         // look for a feature with a matching edge mask
-        for (int i = 0; i < features.length; i ++) {
-            if ((features[i].edgeMask & edgeMask) != 0) {
-                return i;
+        for (int ii = 0; ii < features.length; ii ++) {
+            if ((features[ii].edgeMask & edgeMask) != 0) {
+                return ii;
             }
         }
 
@@ -175,9 +175,9 @@ public class AtlantiTile
         // we search our features in reverse order because road features
         // overlap grass features geometrically and are known to be
         // specified after the grass features
-        for (int i = features.length-1; i >= 0; i--) {
-            if (features[i].contains(mouseX, mouseY, orientation)) {
-                return i;
+        for (int ii = features.length-1; ii >= 0; ii--) {
+            if (features[ii].contains(mouseX, mouseY, orientation)) {
+                return ii;
             }
         }
 
@@ -319,9 +319,9 @@ public class AtlantiTile
         }
 
 //         // render our features
-//         for (int i = 0; i < features.length; i++) {
+//         for (int ii = 0; ii < features.length; ii++) {
 //             // paint the feature
-//             features[i].paint(g, orientation, claims[i]);
+//             features[ii].paint(g, orientation, claims[ii]);
 //         }
 
         // if we have a shield, draw a square in the lower right
@@ -347,14 +347,14 @@ public class AtlantiTile
 
         // if we have a piecen on this tile, render it as well
         if (piecen != null || piecenDebug) {
-            for (int i = 0; i < features.length; i++) {
+            for (int ii = 0; ii < features.length; ii++) {
                 if (piecenDebug) {
                     Image pimg = PiecenUtil.getPiecenImage(0);
-                    features[i].paintPiecen(g, orientation, pimg, 0);
+                    features[ii].paintPiecen(g, orientation, pimg, 0);
 
-                } else if (piecen.featureIndex == i) {
+                } else if (piecen.featureIndex == ii) {
                     Image pimg = PiecenUtil.getPiecenImage(piecen.owner);
-                    features[i].paintPiecen(g, orientation, pimg, piecen.claimGroup);
+                    features[ii].paintPiecen(g, orientation, pimg, piecen.claimGroup);
                 }
             }
         }

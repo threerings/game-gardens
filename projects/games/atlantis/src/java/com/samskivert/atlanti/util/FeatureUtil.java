@@ -101,15 +101,15 @@ public class FeatureUtil implements TileCodes
 
         // initialize it with features from the repeated feature table or
         // with newly constructed features
-        for (int i = 0; i < features.length; i++) {
-            int[] desc = TILE_FEATURES[type-1][i];
+        for (int ii = 0; ii < features.length; ii++) {
+            int[] desc = TILE_FEATURES[type-1][ii];
             // if the description is a length one array, it is the index
             // into the reused feature table of the desired feature
             if (desc.length == 1) {
-                features[i] = _reusedFeatures[desc[0]];
+                features[ii] = _reusedFeatures[desc[0]];
             } else {
                 // otherwise it is the description of this unique feature
-                features[i] = new Feature(desc);
+                features[ii] = new Feature(desc);
             }
         }
 
@@ -180,9 +180,9 @@ public class FeatureUtil implements TileCodes
     /** {@link #translateMask} helper function. */
     protected static int xlateMask (int[] map, int featureMask, int orientation)
     {
-        for (int i = 0; i < map.length; i++) {
-            if (map[i] == featureMask) {
-                return map[(i + 4 + orientation) % 4];
+        for (int ii = 0; ii < map.length; ii++) {
+            if (map[ii] == featureMask) {
+                return map[(ii + 4 + orientation) % 4];
             }
         }
         return featureMask;
@@ -391,8 +391,8 @@ public class FeatureUtil implements TileCodes
     // create our reused features table
     static {
         _reusedFeatures = new Feature[FEATURES.length];
-        for (int i = 0; i < FEATURES.length; i++) {
-            _reusedFeatures[i] = new Feature(FEATURES[i]);
+        for (int ii = 0; ii < FEATURES.length; ii++) {
+            _reusedFeatures[ii] = new Feature(FEATURES[ii]);
         }
         _shieldFeature = new Feature(SHIELD_FEATURE);
     }

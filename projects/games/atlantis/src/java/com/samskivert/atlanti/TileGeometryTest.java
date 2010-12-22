@@ -30,8 +30,8 @@ public class TileGeometryTest extends JPanel
 {
     public TileGeometryTest ()
     {
-        for (int i = 0; i < TILE_TYPES; i++) {
-            _tiles[i] = new AtlantiTile(i+1, true, NORTH, i % 5, i / 5);
+        for (int ii = 0; ii < TILE_TYPES; ii++) {
+            _tiles[ii] = new AtlantiTile(ii+1, true, NORTH, ii % 5, ii / 5);
         }
     }
 

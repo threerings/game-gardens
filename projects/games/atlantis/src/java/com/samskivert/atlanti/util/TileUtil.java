@@ -47,10 +47,10 @@ public class TileUtil implements TileCodes
         // we need to deep copy the default tile set, so we can't just use clone
         List<AtlantiTile> tiles = Lists.newArrayList();
         int tsize = TILE_SET.size();
-        for (int i = 0; i < tsize; i++) {
+        for (int ii = 0; ii < tsize; ii++) {
             // when testing, we prune out most tiles to make games quicker
             if (!TESTING || RandomUtil.getInt(10) > 7) {
-                tiles.add((TILE_SET.get(i)).clone());
+                tiles.add((TILE_SET.get(ii)).clone());
             }
         }
         return tiles;
@@ -119,8 +119,8 @@ public class TileUtil implements TileCodes
         // for every orientation that we have a positive number of edge
         // matches, we have a valid orientation
         boolean[] orients = new boolean[4];
-        for (int i = 0; i < matches.length; i++) {
-            orients[i] = (matches[i] > 0);
+        for (int ii = 0; ii < matches.length; ii++) {
+            orients[ii] = (matches[ii] > 0);
         }
         return orients;
     }
@@ -205,14 +205,14 @@ public class TileUtil implements TileCodes
 
         // for each feature in the tile, load up its claim group and make sure all features in
         // that group (which will include our new feature) now have the same claim number
-        for (int i = 0; i < tile.features.length; i ++) {
+        for (int ii = 0; ii < tile.features.length; ii ++) {
             int claimGroup = 0;
 
             // clear out the tilefeatures list before enumerating
             flist.clear();
 
             // enumerate the claim group for this feature
-            enumerateGroup(tiles, tile, i, flist);
+            enumerateGroup(tiles, tile, ii, flist);
 
             // find the first non-zero claim number
             for (int t = 0; t < flist.size(); t++) {
@@ -309,8 +309,8 @@ public class TileUtil implements TileCodes
         int score = 0;
         AtlantiTile lastTile = null;
         int fsize = flist.size();
-        for (int i = 0; i < fsize; i++) {
-            TileFeature feat = flist.get(i);
+        for (int ii = 0; ii < fsize; ii++) {
+            TileFeature feat = flist.get(ii);
             if (feat.tile != lastTile) {
                 score++;
                 lastTile = feat.tile;
@@ -527,8 +527,8 @@ public class TileUtil implements TileCodes
     public static int countPiecens (List<AtlantiTile> tiles, int playerIndex)
     {
         int count = 0;
-        for (int i = 0; i < tiles.size(); i++) {
-            AtlantiTile tile = tiles.get(i);
+        for (int ii = 0; ii < tiles.size(); ii++) {
+            AtlantiTile tile = tiles.get(ii);
             if (tile.piecen != null &&
                 tile.piecen.owner == playerIndex) {
                 count++;
@@ -578,7 +578,7 @@ public class TileUtil implements TileCodes
     /** Used to generate our standard tile set. */
     protected static void addTiles (int count, List<AtlantiTile> list, AtlantiTile tile)
     {
-        for (int i = 0; i  < count; i++) {
+        for (int ii = 0; ii  < count; ii++) {
             list.add(tile);
         }
     }
