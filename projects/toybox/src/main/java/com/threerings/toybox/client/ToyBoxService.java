@@ -19,7 +19,6 @@
 
 package com.threerings.toybox.client;
 
-import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 
 /**

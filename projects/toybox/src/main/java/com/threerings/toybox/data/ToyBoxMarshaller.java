@@ -21,7 +21,6 @@ package com.threerings.toybox.data;
 
 import javax.annotation.Generated;
 
-import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.InvocationMarshaller;
 import com.threerings.toybox.client.ToyBoxService;
