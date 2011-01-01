@@ -696,8 +696,7 @@ public class AtlantiManager extends GameManager
 
         // if this isn't the final tally, we also clear 'em from the board
         if (!finalTally) {
-            Piecen[] pvec = _atlobj.piecens.toArray(null);
-            for (Piecen p : pvec) {
+            for (Piecen p : _atlobj.piecens.clone()) {
                 if (p.claimGroup == claimGroup) {
                     removePiecen(p, true);
                 }
