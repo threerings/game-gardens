@@ -171,7 +171,7 @@ public class ToyBoxDirector extends BasicDirector
             }
         };
         log.debug("Requesting lobby oid", "game", _gameId);
-        _toysvc.getLobbyOid(client, _gameId, rl);
+        _toysvc.getLobbyOid(_gameId, rl);
     }
 
     // documentation inherited

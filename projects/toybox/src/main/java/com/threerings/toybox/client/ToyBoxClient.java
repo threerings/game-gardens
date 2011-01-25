@@ -142,7 +142,7 @@ public class ToyBoxClient
                 if (_ctx.getClient().isLoggedOn()) {
                     log.info("Setting idle " + isIdle + ".");
                     BodyService bsvc = _ctx.getClient().requireService(BodyService.class);
-                    bsvc.setIdle(_ctx.getClient(), isIdle);
+                    bsvc.setIdle(isIdle);
                 }
             }
             @Override

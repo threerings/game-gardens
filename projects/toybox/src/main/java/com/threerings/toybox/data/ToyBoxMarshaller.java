@@ -21,7 +21,6 @@ package com.threerings.toybox.data;
 
 import javax.annotation.Generated;
 
-import com.threerings.presents.client.Client;
 import com.threerings.presents.client.InvocationService;
 import com.threerings.presents.data.InvocationMarshaller;
 import com.threerings.toybox.client.ToyBoxService;
@@ -42,12 +41,12 @@ public class ToyBoxMarshaller extends InvocationMarshaller
     public static final int GET_LOBBY_OID = 1;
 
     // from interface ToyBoxService
-    public void getLobbyOid (Client arg1, int arg2, InvocationService.ResultListener arg3)
+    public void getLobbyOid (int arg1, InvocationService.ResultListener arg2)
     {
-        InvocationMarshaller.ResultMarshaller listener3 = new InvocationMarshaller.ResultMarshaller();
-        listener3.listener = arg3;
-        sendRequest(arg1, GET_LOBBY_OID, new Object[] {
-            Integer.valueOf(arg2), listener3
+        InvocationMarshaller.ResultMarshaller listener2 = new InvocationMarshaller.ResultMarshaller();
+        listener2.listener = arg2;
+        sendRequest(GET_LOBBY_OID, new Object[] {
+            Integer.valueOf(arg1), listener2
         });
     }
 }

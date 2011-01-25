@@ -55,11 +55,10 @@ object Reversi
     /** Returns true if the supplied piece represents a legal move for the owning player. */
     def isLegalMove (piece :Piece) = {
       // disallow moves on out of bounds and already occupied spots
-      if (!inBounds(piece.x, piece.y) || getColor(piece.x, piece.y) != Reversi.None) false
+      if (!inBounds(piece.x, piece.y) || getColor(piece.x, piece.y) != None) false
       else {
         val ocolor = Opponent(piece.owner)
-        def isCapture (state :State, x :Int, y :Int, color :Color) =
-          state.step(color, ocolor)
+        def isCapture (state :State, x :Int, y :Int, color :Color) = state.step(color, ocolor)
         // determine whether this play would result in capture of pieces of the opposite color; we
         // check in each possible direction from the specified position
         Deltas.exists(d => fold(piece, d._1, d._2, Start, isCapture) == Success)
@@ -69,8 +68,8 @@ object Reversi
     /** Returns true if the player with the specified color has legal moves. */
     def hasLegalMoves (color :Color) = {
       // search every empty board position for a legal move
-      val empties = for (yy <- 0 until _size; xx <- 0 until _size; 
-                         if (getColor(xx, yy) == Reversi.None)) yield Piece(-1, color, xx, yy)
+      val empties = for (yy <- 0 until _size; xx <- 0 until _size; if (getColor(xx, yy) == None))
+                    yield Piece(-1, color, xx, yy)
       empties.exists(isLegalMove)
     }
 
