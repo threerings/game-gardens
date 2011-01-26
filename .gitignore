@@ -1,9 +1,7 @@
-dist
+dist/
 etc/build_settings.properties
 etc/gardens.conf
 etc/toybox.properties
 pages/client/gg-client.jar
 projects/games/client/gg-client.jar
 projects/games/lib/*.jar
-projects/games/*/dist
-projects/toybox/dist
