@@ -8,7 +8,7 @@ Java. It is built atop the [Narya](http://code.google.com/p/narya/),
 This project contains the under-the-hood moving parts that make up the Game
 Gardens hosting platform. If you are looking to develop a game that runs on
 Game Gardens, you need only use the [Game Gardens
-SDK](http://wiki.gamegardens.com/Main_Page), and you need not build the SDK
+SDK](http://wiki.gamegardens.com/), and you need not build the SDK
 from this code.
 
 This project contains two major components:
