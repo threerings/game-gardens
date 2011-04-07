@@ -42,7 +42,7 @@ public class ToyBoxSession extends CrowdSession
             user.tokens = (TokenRing)_authdata;
         } else {
             // otherwise give them zero privileges
-            user.tokens = new TokenRing();
+            user.tokens = new TokenRing(0);
         }
     }
 }
