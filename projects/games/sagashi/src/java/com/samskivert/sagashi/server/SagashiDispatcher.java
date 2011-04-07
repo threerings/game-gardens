@@ -1,6 +1,6 @@
 //
 // Sagashi - A word finding game for the Game Gardens platform
-// http://github.com/samskivert/game-gardens/blob/master/projects/games/sagashi/LICENSE
+// http://github.com/threerings/game-gardens/blob/master/projects/games/sagashi/LICENSE
 
 package com.samskivert.sagashi.server;
 

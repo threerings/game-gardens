@@ -1,3 +1,7 @@
+//
+// Reversi - A reversi implementation for the Game Gardens platform
+// http://github.com/threerings/game-gardens/blob/master/projects/games/sreversi/LICENSE
+
 import sbt._
 
 class SReversi (info :ProjectInfo) extends DefaultProject(info)

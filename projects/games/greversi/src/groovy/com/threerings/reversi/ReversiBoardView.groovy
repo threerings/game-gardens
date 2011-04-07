@@ -1,6 +1,6 @@
 //
 // Reversi - A reversi implementation for the Game Gardens platform
-// http://github.com/samskivert/game-gardens/blob/master/projects/games/greversi/LICENSE
+// http://github.com/threerings/game-gardens/blob/master/projects/games/greversi/LICENSE
 
 package com.threerings.reversi;
 

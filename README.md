@@ -17,7 +17,7 @@ This project contains two major components:
 
 The ToyBox library coordinates things like pre-game configuration and
 aggregates various services useful for making games. See the docs for
-[ToyBoxContext](http://samskivert.github.com/game-gardens/projects/toybox/docs/api/com/threerings/toybox/util/ToyBoxContext.html)
+[ToyBoxContext](http://threerings.github.com/game-gardens/projects/toybox/docs/api/com/threerings/toybox/util/ToyBoxContext.html)
 for a summary of the services.
 
 ## Gardens Webapp
