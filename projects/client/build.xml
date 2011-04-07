@@ -11,6 +11,9 @@
     <condition property="rt.jar" value="${java.home}/../Classes/classes.jar">
       <available file="${java.home}/../Classes/classes.jar"/>
     </condition>
+    <condition property="jce.jar" value="${java.home}/../Classes/jce.jar">
+      <available file="${java.home}/../Classes/jce.jar"/>
+    </condition>
     <condition property="rt.jar" value="${java.home}/lib/rt.jar">
       <available file="${java.home}/lib/rt.jar"/>
     </condition>
@@ -27,6 +30,7 @@
     <taskdef resource="proguard/ant/task.properties" classpathref="proguard.classpath"/>
     <proguard configuration="lib/gg-client.pro">
       <libraryjar name="${rt.jar}"/>
+      <libraryjar name="${jce.jar}"/>
       <injar path="${com.google.guava:guava:jar}" filter="!META-INF/*"/>
       <injar path="${com.threerings:getdown:jar}" filter="!META-INF/*,!**/tools/**"/>
       <injar path="${com.threerings:narya:jar}"
