@@ -10,7 +10,7 @@
   <repositories>
     <repository>
       <id>ooo-repo</id>
-      <url>http://build.earth.threerings.net/maven-repository</url>
+      <url>http://threerings.github.com/maven-repo</url>
     </repository>
   </repositories>
 

@@ -221,9 +221,9 @@ be handled by the controller in the same stream as the network events
 if the event comes as a result of, say, a timer expiring rather than some
 underlying AWT event like a mouse click. To find out more about this
 mechanism take a look at
-<code><a href="http://samskivert.com/code/samskivert/samskivert/docs/api/com/samskivert/swing/Controller.html">Controller</a></code>
+<code><a href="http://samskivert.github.com/samskivert/apidocs/com/samskivert/swing/Controller.html">Controller</a></code>
 and specifically
-<code><a href="http://samskivert.com/code/samskivert/samskivert/docs/api/com/samskivert/swing/Controller.html#handleAction(java.awt.event.ActionEvent)">handleAction()</a></code>.
+<code><a href="http://samskivert.github.com/samskivert/apidocs/com/samskivert/swing/Controller.html#handleAction(java.awt.event.ActionEvent)">handleAction()</a></code>.
 
 <p><b>SamplePanel</b><br>
 
@@ -242,13 +242,13 @@ view.
 <p> The board view, like any other user interface element that wishes to
 display distributed object state associated with the game "room",
 implements
-<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/crowd/client/PlaceView.html">PlaceView</a></code>.
+<code><a href="http://threerings.github.com/narya/apidocs/com/threerings/crowd/client/PlaceView.html">PlaceView</a></code>.
 By implementing this interface, it will automatically be notified when the
 client has "entered" the game room and later when it has left. That is
 accomplished with the following methods:
 
 <ul>
-<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/crowd/client/PlaceView.html#willEnterPlace(com.threerings.crowd.data.PlaceObject)">willEnterPlace()</a></code><br>
+<li><code><a href="http://threerings.github.com/narya/apidocs/com/threerings/crowd/client/PlaceView.html#willEnterPlace(com.threerings.crowd.data.PlaceObject)">willEnterPlace()</a></code><br>
 
 This is called once we have subscribed to the game object (it is passed as
 a <code>PlaceObject</code> reference but it is indeed your game object and
@@ -258,16 +258,16 @@ therein.
 
 <p><em>Note:</em> if the view wants to respond to changes in the game
 state, there are a couple of options. It might add itself as an
-<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/presents/dobj/AttributeChangeListener.html">AttributeChangeListener</a></code>
+<code><a href="http://threerings.github.com/narya/apidocs/com/threerings/presents/dobj/AttributeChangeListener.html">AttributeChangeListener</a></code>
 and respond to changes to the
-<code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/parlor/game/GameObject.html#state">GameObject.state</a></code>
+<code><a href="http://threerings.github.com/narya/apidocs/com/threerings/parlor/game/GameObject.html#state">GameObject.state</a></code>
 attribute, or the game controller can call down to the view to let it know
 when the game starts or ends or whatever it needs to communicate. It is
 pretty likely that the view will need to listen to the game object to hear
 about game-specific changes, so additional handling of changes to the
 <code>state</code> attribute are pretty easy to incorporate.
 
-<li><code><a href="http://www.threerings.net/code/narya/narya/docs/api/com/threerings/crowd/client/PlaceView.html#didLeavePlace(com.threerings.crowd.data.PlaceObject)">didLeavePlace()</a></code><br>
+<li><code><a href="http://threerings.github.com/narya/apidocs/com/threerings/crowd/client/PlaceView.html#didLeavePlace(com.threerings.crowd.data.PlaceObject)">didLeavePlace()</a></code><br>
 
 This is called when the client has left the game room (generally a player
 is not forced out of the room when the game ends, so this will generally
