@@ -17,8 +17,8 @@
   <dependencies>
     <dependency>
       <groupId>com.threerings</groupId>
-      <artifactId>whirledlib</artifactId>
-      <version>1.0</version>
+      <artifactId>vilyalib</artifactId>
+      <version>1.3</version>
       <scope>compile</scope>
       <type>swc</type>
     </dependency>
