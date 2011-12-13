@@ -23,9 +23,6 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import java.security.CodeSource;
-import java.security.PermissionCollection;
-
 import static com.threerings.toybox.Log.log;
 
 /**
@@ -54,15 +51,6 @@ public class ToyBoxClassLoader extends URLClassLoader
             }
         }
         return true;
-    }
-
-    // documentation inherited
-    @Override
-    protected PermissionCollection getPermissions (CodeSource codesource)
-    {
-        PermissionCollection perms = super.getPermissions(codesource);
-        // TODO: various permissions magic
-        return perms;
     }
 
     /** Looks up the last modified time for all of our source jar files. */
