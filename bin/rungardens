@@ -27,7 +27,7 @@ JAVA_ARGS="-server -mx$SERVER_MEMORY \
     -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger"
 SECURITY_POLICY="$GARDENS_HOME/etc/gardens.policy"
 if [ -f $SECURITY_POLICY ]; then
-    JAVA_ARGS="$JAVA_ARGS -Djava.security.manager"
+    JAVA_ARGS="$JAVA_ARGS -Djava.security.manager=com.threerings.toybox.server.ToyBoxSecurityManager"
     JAVA_ARGS="$JAVA_ARGS -Djava.security.policy=$SECURITY_POLICY"
 fi
 umask 002
