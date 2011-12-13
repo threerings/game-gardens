@@ -63,6 +63,7 @@ import com.threerings.toybox.lobby.server.LobbyManager;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
+import com.threerings.toybox.data.ToyBoxMarshaller;
 import com.threerings.toybox.server.persist.GameRecord.Status;
 import com.threerings.toybox.server.persist.GameRecord;
 import com.threerings.toybox.util.ToyBoxClassLoader;
@@ -99,7 +100,7 @@ public class ToyBoxManager
     @Inject public ToyBoxManager (InvocationManager invmgr)
     {
         // register ourselves as providing the toybox service
-        invmgr.registerDispatcher(new ToyBoxDispatcher(this), TOYBOX_GROUP);
+        invmgr.registerProvider(this, ToyBoxMarshaller.class, TOYBOX_GROUP);
     }
 
     /**

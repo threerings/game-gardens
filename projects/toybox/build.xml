@@ -36,7 +36,7 @@
   <target name="-preptools" depends="-prepare">
     <artifact:dependencies pathId="tools.classpath">
       <remoteRepository id="ooo" url="http://threerings.github.com/maven-repo"/>
-      <dependency groupId="com.threerings" artifactId="narya-tools" version="1.8"/>
+      <dependency groupId="com.threerings" artifactId="narya-tools" version="1.10"/>
     </artifact:dependencies>
     <taskdef resource="com/threerings/presents/tools.properties" classpathref="tools.classpath"/>
   </target>
