@@ -156,7 +156,8 @@
     </echo>
     <java classname="com.threerings.toybox.server.ToyBoxServer" fork="true">
       <classpath refid="classpath"/>
-      <sysproperty key="java.security.manager" value=""/>
+      <sysproperty key="java.security.manager"
+                   value="com.threerings.toybox.server.ToyBoxSecurityManager"/>
       <sysproperty key="java.security.policy" value="${deploy.dir}/server.policy"/>
       <sysproperty key="game_conf" value="${app.name}.xml"/>
     </java>
