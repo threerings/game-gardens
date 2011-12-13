@@ -4,7 +4,8 @@
   <property name="app.name"   value="gardens"/>
   <property name="webapps"    value="gardens"/>
 
-  <!-- bring in our standard build support -->
+  <!-- bring in our internal OOO build support -->
+  <property name="ooo-build.vers" value="1.2"/>
   <ant antfile="etc/ooo/bootstrap.xml"/>
   <import file="${user.home}/.m2/ant-support/1.2/build-support.xml"/>
 
