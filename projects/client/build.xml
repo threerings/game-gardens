@@ -30,6 +30,7 @@
       <libraryjar name="${java.home}/lib/jce.jar"/>
       <injar path="${com.google.guava:guava:jar}" filter="!META-INF/*"/>
       <injar path="${com.threerings:getdown:jar}" filter="!META-INF/*,!**/tools/**"/>
+      <injar path="${com.threerings:ooo-util:jar}" filter="!META-INF/*"/>
       <injar path="${com.threerings:narya:jar}"
              filter="!META-INF/*,!**/admin/**,!**/tools/**"/>
       <injar path="${com.threerings:nenya:jar}" filter="!META-INF/*,!**/tools/**"/>
