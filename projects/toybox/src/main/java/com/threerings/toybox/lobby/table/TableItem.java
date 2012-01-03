@@ -1,6 +1,6 @@
 //
 // ToyBox library - framework for matchmaking networked games
-// Copyright (C) 2005-2011 Three Rings Design, Inc., All Rights Reserved
+// Copyright (C) 2005-2012 Three Rings Design, Inc., All Rights Reserved
 // http://github.com/threerings/game-gardens
 //
 // This library is free software; you can redistribute it and/or modify it
