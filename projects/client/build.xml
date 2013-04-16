@@ -17,7 +17,7 @@
 
     <!-- copy our dependencies somewhere that we can pass them to proguard -->
     <artifact:dependencies filesetId="toybox.fileset">
-      <dependency groupId="com.threerings" artifactId="toybox" version="1.1-SNAPSHOT"/>
+      <dependency groupId="com.threerings" artifactId="toybox" version="1.1"/>
     </artifact:dependencies>
 
     <!-- do the proguardian deed -->
