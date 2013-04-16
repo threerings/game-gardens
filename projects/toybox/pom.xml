@@ -10,7 +10,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>toybox</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
 
   <name>toybox</name>
   <description>Integration library for Game Gardens game hosting service.</description>
@@ -39,6 +39,7 @@
     <connection>scm:git:git://github.com/threerings/game-gardens.git</connection>
     <developerConnection>scm:git:git@github.com:threerings/game-gardens.git</developerConnection>
     <url>http://github.com/threerings/game-gardens/</url>
+    <tag>toybox-1.1</tag>
   </scm>
 
   <properties>
