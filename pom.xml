@@ -4,17 +4,17 @@
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>7</version>
+    <version>5</version>
   </parent>
 
-  <groupId>com.threerings</groupId>
-  <artifactId>toybox</artifactId>
-  <packaging>jar</packaging>
+  <groupId>com.threerings.gardens</groupId>
+  <artifactId>gardens-project</artifactId>
+  <packaging>pom</packaging>
   <version>1.2-SNAPSHOT</version>
 
-  <name>toybox</name>
-  <description>Integration library for Game Gardens game hosting service.</description>
-  <url>http://github.com/threerings/game-gardens/</url>
+  <name>Gardens Meta-Project</name>
+  <description>A platform for hosting multiplayer games written in Java.</description>
+  <url>http://github.com/threerings/game-gardens</url>
   <issueManagement>
     <url>http://github.com/threerings/game-gardens/issues</url>
   </issueManagement>
@@ -38,82 +38,22 @@
   <scm>
     <connection>scm:git:git://github.com/threerings/game-gardens.git</connection>
     <developerConnection>scm:git:git@github.com:threerings/game-gardens.git</developerConnection>
-    <url>http://github.com/threerings/game-gardens/</url>
-    <tag>HEAD</tag>
+    <url>http://github.com/threerings/game-gardens</url>
   </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <gwt.version>2.5.0</gwt.version>
+    <guava.version>13.0</guava.version>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>10.0.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
-      <version>2.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.samskivert</groupId>
-      <artifactId>samskivert</artifactId>
-      <version>1.5</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.samskivert</groupId>
-      <artifactId>depot</artifactId>
-      <version>1.5</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.threerings</groupId>
-      <artifactId>getdown</artifactId>
-      <version>1.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.threerings</groupId>
-      <artifactId>narya</artifactId>
-      <version>1.10</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.threerings</groupId>
-      <artifactId>nenya</artifactId>
-      <version>1.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.threerings</groupId>
-      <artifactId>vilya</artifactId>
-      <version>1.4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-digester</groupId>
-      <artifactId>commons-digester</artifactId>
-      <version>2.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.8.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <modules>
+    <module>toybox</module>
+    <module>server</module>
+<!--
+    <module>webapp</module>
+-->
+  </modules>
 
   <build>
     <plugins>
@@ -122,12 +62,11 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.6</source>
+          <target>1.6</target>
           <fork>true</fork>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
-          <!-- yes, those quoted spaces are a workaround sanctioned by the Maven idiocracy -->
           <compilerArgument>-Xlint" "-Xlint:-serial" "-Xlint:-path</compilerArgument>
         </configuration>
       </plugin>
@@ -141,15 +80,19 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <includes><include>**/*Test.java</include></includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.7</version>
         <configuration>
           <quiet>true</quiet>
           <show>public</show>
-          <links>
-            <link>http://samskivert.github.com/samskivert/apidocs/</link>
-            <link>http://docs.guava-libraries.googlecode.com/git/javadoc/</link>
-          </links>
         </configuration>
       </plugin>
       <plugin>
@@ -166,22 +109,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>2.5</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.3.2</version>
-        <executions>
-          <execution>
-            <id>default</id>
-            <goals>
-              <goal>perform</goal>
-            </goals>
-            <configuration>
-              <pomFileName>projects/toybox/pom.xml</pomFileName>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
