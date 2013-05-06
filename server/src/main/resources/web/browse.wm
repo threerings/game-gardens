@@ -4,7 +4,7 @@
 <p>
 #if (!$string.blank($category))
 <table>
-<tr><td><img src="/images/cat_$category"></td>
+<tr><td><img src="/images/cat_${category}.png"></td>
 <td><b>$i18n.xlate("category.$category")</b>:<br>
     $i18n.xlate("browse.${category}.intro")</td></tr>
 </table>

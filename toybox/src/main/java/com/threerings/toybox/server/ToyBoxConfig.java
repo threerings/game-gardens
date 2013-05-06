@@ -20,9 +20,14 @@
 package com.threerings.toybox.server;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Properties;
 
+import com.google.common.base.Joiner;
+
 import com.samskivert.util.Config;
+import com.samskivert.util.ConfigUtil;
 import com.samskivert.util.StringUtil;
 
 import com.threerings.presents.client.Client;
@@ -32,15 +37,14 @@ import com.threerings.presents.server.DummyAuthenticator;
 import static com.threerings.toybox.Log.log;
 
 /**
- * Provides access to installation specific configuration parameters. Once
- * the {@link ToyBoxManager} has been created, the {@link ToyBoxConfig} is
- * initialized and becomes available for use.
+ * Provides access to installation specific configuration parameters. Once the {@link
+ * ToyBoxManager} has been created, the {@link ToyBoxConfig} is initialized and becomes available
+ * for use.
  */
 public class ToyBoxConfig
 {
-    /** Provides access to our config properties. <em>Do not</em> modify
-     * these properties! */
-    public static Config config = new Config("toybox");
+    /** Provides access to our config properties. */
+    public static Config config = readConfig();
 
     /**
      * Returns the main lobby server host.
@@ -118,5 +122,32 @@ public class ToyBoxConfig
             log.warning("Missing required configuration '" + key + "'.");
         }
         return value;
+    }
+
+    protected static Config readConfig () {
+        // if a properties file exists on the classpath, use it
+        if (ConfigUtil.getStream(
+                "toybox.properties", ToyBoxConfig.class.getClassLoader()) != null) {
+            return new Config("toybox");
+        }
+
+        // otherwise create a default config for local testing
+        log.info("No toybox.properties on classpath, using test config.");
+        String[] defprops = {
+            "resource_dir = target/games",
+            "resource_url = http://localhost:8080/games/",
+            "website_url = http://localhost:8080/",
+            "db.default.driver = org.hsqldb.jdbcDriver",
+            "db.default.username = sa",
+            "db.default.password = none",
+            "db.default.url = jdbc:hsqldb:mem:gardens",
+        };
+        Properties props = new Properties();
+        try {
+            props.load(new StringReader(Joiner.on("\n").join(defprops)));
+        } catch (IOException ioe) {
+            log.warning("Failed to parse default props", ioe); // won't happen
+        }
+        return new Config("toybox", props);
     }
 }
