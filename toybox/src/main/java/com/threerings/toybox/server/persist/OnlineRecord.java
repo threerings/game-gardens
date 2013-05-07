@@ -34,8 +34,8 @@ public class OnlineRecord extends PersistentRecord
 {
     // AUTO-GENERATED: FIELDS START
     public static final Class<OnlineRecord> _R = OnlineRecord.class;
-    public static final ColumnExp GAME_ID = colexp(_R, "gameId");
-    public static final ColumnExp PLAYERS = colexp(_R, "players");
+    public static final ColumnExp<Integer> GAME_ID = colexp(_R, "gameId");
+    public static final ColumnExp<Integer> PLAYERS = colexp(_R, "players");
     // AUTO-GENERATED: FIELDS END
 
     public static final int SCHEMA_VERSION = 1;

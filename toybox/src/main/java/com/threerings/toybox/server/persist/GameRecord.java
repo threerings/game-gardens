@@ -47,19 +47,19 @@ public class GameRecord extends PersistentRecord
 {
     // AUTO-GENERATED: FIELDS START
     public static final Class<GameRecord> _R = GameRecord.class;
-    public static final ColumnExp GAME_ID = colexp(_R, "gameId");
-    public static final ColumnExp CATEGORY = colexp(_R, "category");
-    public static final ColumnExp NAME = colexp(_R, "name");
-    public static final ColumnExp MAINTAINER_ID = colexp(_R, "maintainerId");
-    public static final ColumnExp STATUS = colexp(_R, "status");
-    public static final ColumnExp HOST = colexp(_R, "host");
-    public static final ColumnExp DEFINITION = colexp(_R, "definition");
-    public static final ColumnExp DIGEST = colexp(_R, "digest");
-    public static final ColumnExp DESCRIPTION = colexp(_R, "description");
-    public static final ColumnExp INSTRUCTIONS = colexp(_R, "instructions");
-    public static final ColumnExp CREDITS = colexp(_R, "credits");
-    public static final ColumnExp CREATED = colexp(_R, "created");
-    public static final ColumnExp LAST_UPDATED = colexp(_R, "lastUpdated");
+    public static final ColumnExp<Integer> GAME_ID = colexp(_R, "gameId");
+    public static final ColumnExp<String> CATEGORY = colexp(_R, "category");
+    public static final ColumnExp<String> NAME = colexp(_R, "name");
+    public static final ColumnExp<Integer> MAINTAINER_ID = colexp(_R, "maintainerId");
+    public static final ColumnExp<String> STATUS = colexp(_R, "status");
+    public static final ColumnExp<String> HOST = colexp(_R, "host");
+    public static final ColumnExp<String> DEFINITION = colexp(_R, "definition");
+    public static final ColumnExp<String> DIGEST = colexp(_R, "digest");
+    public static final ColumnExp<String> DESCRIPTION = colexp(_R, "description");
+    public static final ColumnExp<String> INSTRUCTIONS = colexp(_R, "instructions");
+    public static final ColumnExp<String> CREDITS = colexp(_R, "credits");
+    public static final ColumnExp<Date> CREATED = colexp(_R, "created");
+    public static final ColumnExp<Date> LAST_UPDATED = colexp(_R, "lastUpdated");
     // AUTO-GENERATED: FIELDS END
 
     public static final int SCHEMA_VERSION = 1;
@@ -93,7 +93,7 @@ public class GameRecord extends PersistentRecord
     public String host;
 
     /** The XML game definition associated with this version. */
-    @Column(name="DEFINITION")
+    @Column(name="DEFINITION", length=4096)
     public String definition;
 
     /** The MD5 digest of the game jar file. */
@@ -101,15 +101,15 @@ public class GameRecord extends PersistentRecord
     public String digest;
 
     /** A brief description of the game. */
-    @Column(name="DESCRIPTION")
+    @Column(name="DESCRIPTION", length=16384)
     public String description;
 
     /** Brief instructions on how to play the game. */
-    @Column(name="INSTRUCTIONS")
+    @Column(name="INSTRUCTIONS", length=8192)
     public String instructions;
 
     /** Credits and license information for the game. */
-    @Column(name="CREDITS")
+    @Column(name="CREDITS", length=4096)
     public String credits;
 
     /** The date on which the game was created. */

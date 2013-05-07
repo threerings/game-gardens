@@ -36,9 +36,9 @@ public class PlaytimeRecord extends PersistentRecord
 {
     // AUTO-GENERATED: FIELDS START
     public static final Class<PlaytimeRecord> _R = PlaytimeRecord.class;
-    public static final ColumnExp GAME_ID = colexp(_R, "gameId");
-    public static final ColumnExp PERIOD = colexp(_R, "period");
-    public static final ColumnExp PLAYTIME = colexp(_R, "playtime");
+    public static final ColumnExp<Integer> GAME_ID = colexp(_R, "gameId");
+    public static final ColumnExp<Date> PERIOD = colexp(_R, "period");
+    public static final ColumnExp<Integer> PLAYTIME = colexp(_R, "playtime");
     // AUTO-GENERATED: FIELDS END
 
     public static final int SCHEMA_VERSION = 1;
