@@ -2,7 +2,7 @@
 #import ("/header.wm")
 
 #if ($gameid)
-<p><a href="$website_url/gardens/view_game.wm?gameid=$gameid">$i18n.xlate("upload_jar.back_to_game")</a>
+<p><a href="view_game.wm?gameid=$gameid">$i18n.xlate("upload_jar.back_to_game")</a>
 #end
 
 #import ("/footer.wm")

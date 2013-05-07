@@ -36,9 +36,6 @@ class upload_jar @Inject() (config :ToyBoxConfig) extends UserLogic {
   override def invoke (ctx :InvocationContext, app :GardensApp, user :User) {
     val req = ctx.getRequest
 
-    // we'll need this to get back to the main website
-    ctx.put("website_url", config.getWebsiteURL)
-
     // TODO: check disk usage, set max size to current quota
     val fact = new DiskFileItemFactory(4096, new File("/tmp"))
     val fu = new ServletFileUpload(fact)
@@ -74,7 +71,7 @@ class upload_jar @Inject() (config :ToyBoxConfig) extends UserLogic {
 
     // determine where we will be uploading the jar file
     val gdir = config.getResourceDir
-    _log.info("Uploading jar for '${gamedef.ident}'.")
+    _log.info(s"Uploading jar for '${gamedef.ident}'.")
 
     // the next item should be the jar file itself
     val jitem = iter.next.asInstanceOf[FileItem]
@@ -88,7 +85,7 @@ class upload_jar @Inject() (config :ToyBoxConfig) extends UserLogic {
 
     val jar = new File(gdir, gamedef.getMediaPath(gameId))
     jitem.write(jar)
-    _log.info("Wrote $jar.")
+    _log.info(s"Wrote $jar.")
 
     // compute the digest
     val digest = Resource.computeDigest(jar, md, null)

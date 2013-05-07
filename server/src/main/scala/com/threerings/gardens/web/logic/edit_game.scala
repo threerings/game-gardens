@@ -48,7 +48,8 @@ class edit_game @Inject() (config :ToyBoxConfig) extends UserLogic {
 
     // determine where uploads should be sent
     val rurl = new URL(config.getResourceURL)
-    val upurl = new URL(rurl.getProtocol, rurl.getHost, req.getContextPath() + "/upload_jar.wm")
+    val upurl = new URL(rurl.getProtocol, rurl.getHost, rurl.getPort,
+                        req.getContextPath() + "/upload_jar.wm")
     ctx.put("upload_url", upurl)
 
     // assume we're updating unless later overridden

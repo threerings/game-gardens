@@ -21,13 +21,13 @@ import com.samskivert.velocity.Application
 import com.samskivert.velocity.InvocationContext
 import com.samskivert.velocity.Logic
 
-import com.threerings.toybox.server.ToyBoxConfig
 import com.threerings.toybox.server.persist.GameRecord
 
+import com.threerings.gardens.server.GardensConfig
 import com.threerings.gardens.web.GardensApp
 
 /** Provides a JNLP file for a particular game. */
-class game_jnlp @Inject() (config :ToyBoxConfig) extends Logic {
+class game_jnlp @Inject() (config :GardensConfig) extends Logic {
 
   override def invoke (app :Application, ctx :InvocationContext) {
     val gtapp = app.asInstanceOf[GardensApp]
@@ -71,7 +71,7 @@ class game_jnlp @Inject() (config :ToyBoxConfig) extends Logic {
     ctx.getResponse.setDateHeader("Last-Modified", lastModified)
 
     val path = CLIENT_PATH
-    val codebase = try new URL("http", game.host, path)
+    val codebase = try new URL("http", game.host, config.httpServerPort, path)
     catch {
       case e :Exception =>
         _log.log(Level.WARNING, s"Error creating codebase URL [ghost=${game.host}, path=$path].", e)
