@@ -36,13 +36,13 @@ class edit_game @Inject() (config :ToyBoxConfig) extends UserLogic {
 
     // load up the game if an id was provided
     val gameId = ParameterUtil.getIntParameter(req, "gameid", 0, "error.invalid_gameid")
-    val game = if (gameId == 0) null else app.toyBoxRepo.loadGame(gameId)
-    if (game != null) {
-      ctx.put("game", game)
+    val egame = if (gameId == 0) null else app.toyBoxRepo.loadGame(gameId)
+    if (egame != null) {
+      ctx.put("game", egame)
     }
 
     // make sure this user is the maintainer or an admin
-    if (game != null && !(user.userId == game.maintainerId || user.isAdmin)) {
+    if (egame != null && !(user.userId == egame.maintainerId || user.isAdmin)) {
       throw new RedirectException(app.getProperty("access_denied_url"))
     }
 
@@ -57,15 +57,15 @@ class edit_game @Inject() (config :ToyBoxConfig) extends UserLogic {
     // figure out what we're doing
     val action = ParameterUtil.getParameter(req, "action", false)
     if (action == "update") {
-      if (game == null) {
+      if (egame == null) {
         throw new FriendlyException("error.no_such_game")
       }
 
       // read the parameters over top of the existing game
-      populateGame(req, game)
+      populateGame(req, egame)
 
       // update it in the database
-      app.toyBoxRepo.updateGame(game)
+      app.toyBoxRepo.updateGame(egame)
       ctx.put("status", "edit_game.status.updated")
 
     } else if (action.equals("create")) {
@@ -79,7 +79,7 @@ class edit_game @Inject() (config :ToyBoxConfig) extends UserLogic {
       ngame.host = config.getServerHost
       ngame.digest = ""
       ngame.created = new Date(System.currentTimeMillis())
-      ngame.lastUpdated = game.created
+      ngame.lastUpdated = ngame.created
       ctx.put("game", ngame)
 
       // fill in the user supplied information
