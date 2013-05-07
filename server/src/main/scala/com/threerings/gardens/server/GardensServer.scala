@@ -5,6 +5,8 @@
 
 package com.threerings.gardens.server
 
+import java.util.Properties
+
 import com.google.inject.Injector
 
 import com.samskivert.jdbc.StaticConnectionProvider
@@ -17,19 +19,12 @@ import com.threerings.toybox.server.{ToyBoxConfig, ToyBoxServer}
 object GardensServer {
 
   /** Configures dependencies needed by the Gardens services. */
-  class Module extends ToyBoxServer.ToyBoxModule {
+  class Module (props :Properties) extends ToyBoxServer.ToyBoxModule {
     override protected def configure () {
       super.configure()
       bind(classOf[GardensConfig]).toInstance(config);
     }
-    override protected lazy val config = {
-      val props = ToyBoxConfig.testConfig
-      props.setProperty("http_server_port", "8080") // TODO: get these proper-like
-      props.setProperty("web.login_url", "register.wm?from=%R")
-      props.setProperty("web.access_denied_url", "access_denied.wm")
-      props.setProperty("web.auth_cookie.strip_hostname", "true")
-      new GardensConfig(new Config(props))
-    }
+    override protected lazy val config = new GardensConfig(new Config(props))
     override protected def conprov = StaticConnectionProvider.forTest("gardens")
     override protected def autherClass = classOf[GardensAuther]
   }
@@ -73,6 +68,15 @@ object GardensServer {
   }
 
   def main (args :Array[String]) {
-    PresentsServer.runServer(new Module(), new PresentsServer.PresentsServerModule(classOf[Server]))
+    // TODO: load these from a properties file when deployed in production
+    val props = ToyBoxConfig.testConfig
+    props.setProperty("http_server_port", "8080")
+    props.setProperty("test_mode", "true")
+    props.setProperty("web.login_url", "test_auth.wm?from=%R")
+    props.setProperty("web.access_denied_url", "access_denied.wm")
+    props.setProperty("web.auth_cookie.strip_hostname", "true")
+
+    PresentsServer.runServer(new Module(props), new
+      PresentsServer.PresentsServerModule(classOf[Server]))
   }
 }

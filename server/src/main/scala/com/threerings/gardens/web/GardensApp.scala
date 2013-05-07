@@ -12,18 +12,21 @@ import javax.servlet.{ServletConfig, ServletContext}
 import com.samskivert.depot.PersistenceContext
 import com.samskivert.jdbc.ConnectionProvider
 import com.samskivert.servlet.SiteIdentifiers
+import com.samskivert.servlet.user.Password
+import com.samskivert.servlet.user.Username
 import com.samskivert.util.PropertiesUtil
 import com.samskivert.velocity.Application
 
 import com.threerings.user.OOOUser
 import com.threerings.user.depot.DepotUserManager
 
+import com.threerings.gardens.server.GardensConfig
 import com.threerings.toybox.server.persist.ToyBoxRepository
 
 /** Contains references to application-wide resources (like the database repository) and handles
   * initialization and cleanup for those resources.
   */
-class GardensApp (config :Properties, conprov :ConnectionProvider) extends Application {
+class GardensApp (config :GardensConfig, conprov :ConnectionProvider) extends Application {
 
   /** Returns the user manager in use by this application. */
   def userManager = _usermgr
@@ -32,7 +35,7 @@ class GardensApp (config :Properties, conprov :ConnectionProvider) extends Appli
   def toyBoxRepo = _tbrepo
 
   /** Looks up a property in our {@code gardens.properties} application config file. */
-  def getProperty (key :String) = config.getProperty(key)
+  def getProperty (key :String) = config.webConfig.getProperty(key)
 
   /** Shut down the user management application. */
   override def shutdown () {
@@ -44,16 +47,25 @@ class GardensApp (config :Properties, conprov :ConnectionProvider) extends Appli
     }
   }
 
-  override protected def getInitParameter (config :ServletConfig, key :String) = key match {
+  override protected def getInitParameter (svlcfg :ServletConfig, key :String) = key match {
     case "messages_path" => "messages"
     case "org.apache.velocity.properties" => "/velocity.properties"
-    case _ => super.getInitParameter(config, key)
+    case _ => super.getInitParameter(svlcfg, key)
   }
 
   override protected def createSiteIdentifier (ctx :ServletContext) = SiteIdentifiers.single(
     OOOUser.GAMEGARDENS_SITE_ID, "gardens")
 
-  protected val _usermgr = new DepotUserManager(config, conprov)
+  override protected def didInit (svlcfg :ServletConfig) {
+    super.didInit(svlcfg)
+    // if we're in test mode, create a fake 'tester' account
+    if (config.testMode) {
+      _usermgr.getRepository.createUser(new Username("tester"), Password.makeFromClear("tester"),
+                                        "tester@test.com", OOOUser.GAMEGARDENS_SITE_ID, 0)
+    }
+  }
+
+  protected val _usermgr = new DepotUserManager(config.webConfig, conprov)
   protected val _tbrepo = {
     val pctx = new PersistenceContext()
     pctx.init(ToyBoxRepository.GAME_DB_IDENT, conprov, null)

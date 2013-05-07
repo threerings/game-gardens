@@ -46,7 +46,7 @@ class GardensDispatcher @Inject() (config :GardensConfig, conprov :ConnectionPro
         s"[path=$path, lclass=$lclass]", t) ; null
   }
 
-  override protected def createApp (scfg :ServletConfig) = new GardensApp(config.webConfig, conprov)
+  override protected def createApp (scfg :ServletConfig) = new GardensApp(config, conprov)
 
   override protected def getLogicPackage (config :ServletConfig) = "com.threerings.gardens.web.logic"
 
