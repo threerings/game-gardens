@@ -97,8 +97,7 @@ public class ToyBoxManager
             throws PersistenceException;
     }
 
-    @Inject public ToyBoxManager (InvocationManager invmgr)
-    {
+    @Inject public ToyBoxManager (InvocationManager invmgr) {
         // register ourselves as providing the toybox service
         invmgr.registerProvider(this, ToyBoxMarshaller.class, TOYBOX_GROUP);
     }
@@ -123,7 +122,7 @@ public class ToyBoxManager
             _popval.schedule(60 * 1000L, true);
         }
 
-        log.info("ToyBoxManager ready [rsrcdir=" + ToyBoxConfig.getResourceDir() + "].");
+        log.info("ToyBoxManager ready [rsrcdir=" + _config.getResourceDir() + "].");
     }
 
     /**
@@ -145,7 +144,7 @@ public class ToyBoxManager
 
             // compute the digests of all the files
             gamedef = game.parseGameDefinition();
-            File jar = new File(ToyBoxConfig.getResourceDir(), gamedef.getMediaPath(game.gameId));
+            File jar = new File(_config.getResourceDir(), gamedef.getMediaPath(game.gameId));
             log.info("Reading " + jar + "...");
             MessageDigest md = MessageDigest.getInstance("MD5");
             game.digest = Resource.computeDigest(jar, md, null);
@@ -176,7 +175,7 @@ public class ToyBoxManager
             // underlying jar files have changed since we created one
             if (loader == null || !loader.isUpToDate()) {
                 loader = ToyBoxUtil.createClassLoader(
-                    ToyBoxConfig.getResourceDir(), tconfig.getGameId(),
+                    _config.getResourceDir(), tconfig.getGameId(),
                     tconfig.getGameDefinition());
                 _loaders.put(ident, loader);
             }
@@ -400,6 +399,8 @@ public class ToyBoxManager
 
     /** Provides information on {@link GameRecord}s. */
     protected GameRepository _gamerepo;
+
+    @Inject protected ToyBoxConfig _config;
 
     /** Handles distributed object business. */
     @Inject protected PresentsDObjectMgr _omgr;

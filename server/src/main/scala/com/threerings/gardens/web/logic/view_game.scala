@@ -21,17 +21,17 @@ class view_game extends OptionalUserLogic {
   override def invoke (ctx :InvocationContext, app :GardensApp, user :User) {
     val req = ctx.getRequest
     val gameId = ParameterUtil.requireIntParameter(req, "gameid", "error.invalid_gameid")
-    val game = app.getToyBoxRepository.loadGame(gameId)
+    val game = app.toyBoxRepo.loadGame(gameId)
     if (game == null) {
       throw new FriendlyException("error.no_such_game")
     }
     ctx.put("game", game)
-    val creator = app.getUserManager.getRepository.loadUser(game.maintainerId)
+    val creator = app.userManager.getRepository.loadUser(game.maintainerId)
     if (creator != null) {
       ctx.put("creator", creator.username)
       ctx.put("creator_profile", PROFILE_URL + creator.username)
     }
-    ctx.put("players", app.getToyBoxRepository.getOnlineCount(gameId))
+    ctx.put("players", app.toyBoxRepo.getOnlineCount(gameId))
     try {
       ctx.put("single_player", game.parseGameDefinition.isSinglePlayerPlayable)
     } catch {

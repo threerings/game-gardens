@@ -27,7 +27,7 @@ abstract class UserLogic extends Logic {
   // documentation inherited from interface
   override def invoke (app :Application, ctx :InvocationContext) {
     val gtapp = app.asInstanceOf[GardensApp]
-    val user = gtapp.getUserManager.requireUser(ctx.getRequest)
+    val user = gtapp.userManager.requireUser(ctx.getRequest)
     ctx.put("user", user)
     invoke(ctx, gtapp, user)
   }

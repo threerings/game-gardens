@@ -13,6 +13,8 @@ import java.util.regex.Pattern
 import java.net.URL
 import javax.servlet.http.HttpServletRequest
 
+import com.google.inject.Inject
+
 import com.samskivert.servlet.util.FriendlyException
 
 import com.samskivert.velocity.Application
@@ -25,7 +27,7 @@ import com.threerings.toybox.server.persist.GameRecord
 import com.threerings.gardens.web.GardensApp
 
 /** Provides a JNLP file for a particular game. */
-class game_jnlp extends Logic {
+class game_jnlp @Inject() (config :ToyBoxConfig) extends Logic {
 
   override def invoke (app :Application, ctx :InvocationContext) {
     val gtapp = app.asInstanceOf[GardensApp]
@@ -45,7 +47,7 @@ class game_jnlp extends Logic {
     }
 
     // load up the game
-    val game = gtapp.getToyBoxRepository.loadGame(gameId)
+    val game = gtapp.toyBoxRepo.loadGame(gameId)
     if (game == null) {
       throw new FriendlyException("error.no_such_game")
     }
@@ -79,8 +81,8 @@ class game_jnlp extends Logic {
     ctx.put("base_path", req.getContextPath)
     ctx.put("codebase", codebase.toString)
     ctx.put("server", game.host)
-    ctx.put("port", ToyBoxConfig.getServerPort)
-    ctx.put("resource_url", ToyBoxConfig.getResourceURL)
+    ctx.put("port", config.getServerPort)
+    ctx.put("resource_url", config.getResourceURL)
 
     ctx.getResponse.setContentType("application/x-java-jnlp-file")
   }

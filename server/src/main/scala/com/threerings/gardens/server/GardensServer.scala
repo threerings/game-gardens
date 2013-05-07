@@ -6,17 +6,32 @@
 package com.threerings.gardens.server
 
 import com.google.inject.Injector
+
+import com.samskivert.jdbc.StaticConnectionProvider
+import com.samskivert.util.Config
+
 import com.threerings.presents.server.PresentsServer
-import com.threerings.toybox.server.ToyBoxServer
+import com.threerings.toybox.server.{ToyBoxConfig, ToyBoxServer}
 
 /** Main entry point for Game Gardens server. */
 object GardensServer {
+
   /** Configures dependencies needed by the Gardens services. */
   class Module extends ToyBoxServer.ToyBoxModule {
     override protected def configure () {
       super.configure()
-      // TODO
+      bind(classOf[GardensConfig]).toInstance(config);
     }
+    override protected lazy val config = {
+      val props = ToyBoxConfig.testConfig
+      props.setProperty("http_server_port", "8080") // TODO: get these proper-like
+      props.setProperty("web.login_url", "register.wm?from=%R")
+      props.setProperty("web.access_denied_url", "access_denied.wm")
+      props.setProperty("web.auth_cookie.strip_hostname", "true")
+      new GardensConfig(new Config(props))
+    }
+    override protected def conprov = StaticConnectionProvider.forTest("gardens")
+    override protected def autherClass = classOf[GardensAuther]
   }
 
   class Server extends ToyBoxServer {
@@ -44,6 +59,7 @@ object GardensServer {
       // gwtmgr.setDocRoot(new File("target/chat-demo-1.0-SNAPSHOT"));
       // gwtmgr.start();
 
+      _jetty = injector.getInstance(classOf[GardensJetty])
       _jetty.init()
       _jetty.start()
     }
@@ -53,7 +69,7 @@ object GardensServer {
       _jetty.join()
     }
 
-    val _jetty = new GardensJetty(8080) // TODO: get port from config
+    protected var _jetty :GardensJetty = _
   }
 
   def main (args :Array[String]) {

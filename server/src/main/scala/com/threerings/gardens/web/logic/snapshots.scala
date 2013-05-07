@@ -24,10 +24,10 @@ class snapshots extends Logic {
     val category = ParameterUtil.getParameter(ctx.getRequest, "type", ADDED)
 
     val games = if (POPULAR == category) getGames(
-      POPULAR, gtapp.getToyBoxRepository.loadPopularGames(SNAPSHOT_COUNT))
+      POPULAR, gtapp.toyBoxRepo.loadPopularGames(SNAPSHOT_COUNT))
     else if (UPDATED == category) getGames(
-      UPDATED, gtapp.getToyBoxRepository.loadRecentlyUpdated(SNAPSHOT_COUNT))
-    else getGames(ADDED, gtapp.getToyBoxRepository.loadRecentlyAdded(SNAPSHOT_COUNT))
+      UPDATED, gtapp.toyBoxRepo.loadRecentlyUpdated(SNAPSHOT_COUNT))
+    else getGames(ADDED, gtapp.toyBoxRepo.loadRecentlyAdded(SNAPSHOT_COUNT))
 
     ctx.put("games", games)
   }

@@ -12,6 +12,8 @@ import java.util.Iterator
 
 import javax.servlet.http.HttpServletRequest
 
+import com.google.inject.Inject
+
 import com.samskivert.servlet.user.User
 import com.samskivert.servlet.util.FriendlyException
 import com.samskivert.velocity.InvocationContext
@@ -29,13 +31,13 @@ import com.threerings.toybox.server.persist.GameRecord
 import com.threerings.gardens.web.GardensApp
 
 /** Handles the updating of a game's jar file. */
-class upload_jar extends UserLogic {
+class upload_jar @Inject() (config :ToyBoxConfig) extends UserLogic {
 
   override def invoke (ctx :InvocationContext, app :GardensApp, user :User) {
     val req = ctx.getRequest
 
     // we'll need this to get back to the main website
-    ctx.put("website_url", ToyBoxConfig.getWebsiteURL)
+    ctx.put("website_url", config.getWebsiteURL)
 
     // TODO: check disk usage, set max size to current quota
     val fact = new DiskFileItemFactory(4096, new File("/tmp"))
@@ -56,7 +58,7 @@ class upload_jar extends UserLogic {
     }
 
     // now load up the associated game record
-    val game = if (gameId == 0) null else app.getToyBoxRepository.loadGame(gameId)
+    val game = if (gameId == 0) null else app.toyBoxRepo.loadGame(gameId)
     if (game == null) {
       throw new FriendlyException("error.no_such_game")
     }
@@ -71,7 +73,7 @@ class upload_jar extends UserLogic {
     // TODO: put game jars in gameId subdirectories
 
     // determine where we will be uploading the jar file
-    val gdir = ToyBoxConfig.getResourceDir
+    val gdir = config.getResourceDir
     _log.info("Uploading jar for '${gamedef.ident}'.")
 
     // the next item should be the jar file itself
@@ -99,7 +101,7 @@ class upload_jar extends UserLogic {
         game.setStatus(GameRecord.Status.READY)
       }
       // finally update the game record
-      app.getToyBoxRepository.updateGame(game)
+      app.toyBoxRepo.updateGame(game)
     }
 
     ctx.put("status", "upload_jar.updated")

@@ -7,16 +7,23 @@ package com.threerings.gardens.web
 
 import java.io.File
 import java.util.Properties
+import java.util.logging.{Level, Logger}
 import java.util.regex.Pattern
 import javax.servlet.ServletConfig
 
 import org.apache.velocity.runtime.RuntimeConstants
 import org.apache.velocity.runtime.RuntimeSingleton
 
-import com.samskivert.velocity.{ClasspathResourceLoader, DispatcherServlet, InvocationContext}
+import com.google.inject.{Inject, Injector}
+
+import com.samskivert.jdbc.ConnectionProvider
+import com.samskivert.velocity.{ClasspathResourceLoader, DispatcherServlet, InvocationContext, Logic}
+
+import com.threerings.gardens.server.GardensConfig
 
 /** Handles some custom business with regard to Velocity dispatching. */
-class GardensDispatcher extends DispatcherServlet {
+class GardensDispatcher @Inject() (config :GardensConfig, conprov :ConnectionProvider,
+                                   injector :Injector) extends DispatcherServlet {
 
   override def selectTemplate (siteId :Int, ctx :InvocationContext) = {
     // do some massaging of the path to handle JNLP files in a way that doesn't confuse Java Web
@@ -30,7 +37,16 @@ class GardensDispatcher extends DispatcherServlet {
   override protected def resolveLogic (path :String) = super.resolveLogic(
     if (_jnlppat.matcher(path).matches()) "/game_jnlp.wm" else path)
 
-  override protected def createApp (config :ServletConfig) = new GardensApp
+  override protected def instantiateLogic (path :String, lclass :String) = try {
+    val pcl = Class.forName(lclass)
+    injector.getInstance(pcl).asInstanceOf[Logic]
+  } catch {
+    case cnfe :ClassNotFoundException => null
+    case t :Throwable => _log.log(Level.WARNING, "Unable to instantiate logic for application " +
+        s"[path=$path, lclass=$lclass]", t) ; null
+  }
+
+  override protected def createApp (scfg :ServletConfig) = new GardensApp(config.webConfig, conprov)
 
   override protected def getLogicPackage (config :ServletConfig) = "com.threerings.gardens.web.logic"
 
@@ -58,5 +74,5 @@ class GardensDispatcher extends DispatcherServlet {
   }
 
   protected val _jnlppat = Pattern.compile("/game_[0-9]+.jnlp")
-  protected val _log = java.util.logging.Logger.getLogger("gardens")
+  protected val _log = Logger.getLogger("gardens")
 }

@@ -24,7 +24,7 @@ abstract class OptionalUserLogic extends Logic {
   // documentation inherited from interface
   def invoke (app :Application, ctx :InvocationContext) {
     val gtapp = app.asInstanceOf[GardensApp]
-    val user = gtapp.getUserManager.loadUser(ctx.getRequest)
+    val user = gtapp.userManager.loadUser(ctx.getRequest)
     if (user != null) ctx.put("user", user)
     invoke(ctx, gtapp, user)
   }

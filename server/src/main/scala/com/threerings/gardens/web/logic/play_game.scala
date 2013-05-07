@@ -5,6 +5,8 @@
 
 package com.threerings.gardens.web.logic
 
+import com.google.inject.Inject
+
 import com.samskivert.velocity.InvocationContext
 import com.samskivert.servlet.user.User
 
@@ -13,11 +15,11 @@ import com.threerings.toybox.server.ToyBoxConfig
 import com.threerings.gardens.web.GardensApp
 
 /** Fires up a game in an applet. */
-class play_game extends view_game {
+class play_game @Inject() (config :ToyBoxConfig) extends view_game {
 
   override def invoke (ctx :InvocationContext, app :GardensApp, user :User) {
     super.invoke(ctx, app, user)
-    ctx.put("port", ToyBoxConfig.getServerPort)
-    ctx.put("resource_url", ToyBoxConfig.getResourceURL)
+    ctx.put("port", config.getServerPort)
+    ctx.put("resource_url", config.getResourceURL)
   }
 }

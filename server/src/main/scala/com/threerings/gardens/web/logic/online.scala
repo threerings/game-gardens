@@ -22,7 +22,7 @@ class online extends Logic {
     val gtapp = app.asInstanceOf[GardensApp]
     val now = System.currentTimeMillis
     if (_online == null || now - _lastUpdated > UPDATE_INTERVAL) {
-      _online = gtapp.getToyBoxRepository.getOnlineCounts
+      _online = gtapp.toyBoxRepo.getOnlineCounts
       _lastUpdated = now
     }
     ctx.put("online", _online)

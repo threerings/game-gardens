@@ -28,6 +28,7 @@ import com.google.inject.Singleton;
 import com.samskivert.depot.PersistenceContext;
 import com.samskivert.jdbc.ConnectionProvider;
 import com.samskivert.jdbc.StaticConnectionProvider;
+import com.samskivert.util.Config;
 import com.samskivert.util.Lifecycle;
 import com.samskivert.util.StringUtil;
 
@@ -35,9 +36,10 @@ import com.threerings.util.Name;
 
 import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.Authenticator;
-import com.threerings.presents.server.SessionFactory;
 import com.threerings.presents.server.ClientResolver;
+import com.threerings.presents.server.DummyAuthenticator;
 import com.threerings.presents.server.PresentsSession;
+import com.threerings.presents.server.SessionFactory;
 
 import com.threerings.crowd.data.PlaceConfig;
 import com.threerings.crowd.server.CrowdServer;
@@ -57,19 +59,28 @@ import static com.threerings.toybox.Log.log;
 public class ToyBoxServer extends CrowdServer
 {
     /** Configures dependencies needed by the ToyBox services. */
-    public static class ToyBoxModule extends CrowdServer.CrowdModule
-    {
+    public static class ToyBoxModule extends CrowdServer.CrowdModule {
         @Override protected void configure () {
             super.configure();
             bind(PlaceRegistry.class).to(ToyBoxPlaceRegistry.class);
-            bind(Authenticator.class).to(ToyBoxConfig.getAuthenticator());
-            bind(ConnectionProvider.class).toInstance(
-                new StaticConnectionProvider(ToyBoxConfig.getJDBCConfig()));
+            bind(ToyBoxConfig.class).toInstance(config());
+            bind(Authenticator.class).to(autherClass());
+            bind(ConnectionProvider.class).toInstance(conprov());
+        }
+
+        protected ToyBoxConfig config () {
+            return new ToyBoxConfig(new Config(ToyBoxConfig.testConfig()));
+        }
+        protected ConnectionProvider conprov () {
+            return StaticConnectionProvider.forTest("gardens");
+        }
+        protected Class<? extends Authenticator> autherClass () {
+            return DummyAuthenticator.class;
         }
     }
 
     /**
-     * The main entry point for the ToyBox server.
+     * Runs a ToyBox server in test configuration.
      */
     public static void main (String[] args)
     {
@@ -118,7 +129,7 @@ public class ToyBoxServer extends CrowdServer
     @Override
     protected int[] getListenPorts ()
     {
-        return new int[] { ToyBoxConfig.getServerPort() };
+        return new int[] { _config.getServerPort() };
     }
 
     @Singleton
@@ -139,6 +150,7 @@ public class ToyBoxServer extends CrowdServer
         @Inject protected ToyBoxManager _toymgr;
     }
 
+    @Inject protected ToyBoxConfig _config;
     @Inject protected ParlorManager _parmgr;
     @Inject protected ToyBoxManager _toymgr;
     @Inject protected ConnectionProvider _conprov;

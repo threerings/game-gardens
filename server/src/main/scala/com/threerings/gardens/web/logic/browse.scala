@@ -22,9 +22,9 @@ class browse extends OptionalUserLogic {
     val category = ParameterUtil.getParameter(ctx.getRequest, "category", false)
 
     // load up the metadata for all of our games
-    val games = if (category.equals("")) app.getToyBoxRepository.loadGames()
+    val games = if (category.equals("")) app.toyBoxRepo.loadGames()
     // load up the metadata for the games in this category
-    else app.getToyBoxRepository.loadGames(category)
+    else app.toyBoxRepo.loadGames(category)
 
     // sort our games by name
     Collections.sort(games, new Comparator[GameRecord]() {

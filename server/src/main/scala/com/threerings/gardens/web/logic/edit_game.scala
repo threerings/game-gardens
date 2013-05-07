@@ -18,6 +18,8 @@ import com.samskivert.servlet.util.ParameterUtil
 import com.samskivert.text.MessageUtil
 import com.samskivert.velocity.InvocationContext
 
+import com.google.inject.Inject
+
 import com.threerings.presents.server.InvocationException
 
 import com.threerings.toybox.data.GameDefinition
@@ -28,13 +30,13 @@ import com.threerings.toybox.server.persist.GameRecord
 import com.threerings.gardens.web.GardensApp
 
 /** Handles the logic behind creating and managing a game's metadata. */
-class edit_game extends UserLogic {
+class edit_game @Inject() (config :ToyBoxConfig) extends UserLogic {
   override def invoke (ctx :InvocationContext, app :GardensApp, user :User) {
     val req = ctx.getRequest
 
     // load up the game if an id was provided
     val gameId = ParameterUtil.getIntParameter(req, "gameid", 0, "error.invalid_gameid")
-    val game = if (gameId == 0) null else app.getToyBoxRepository.loadGame(gameId)
+    val game = if (gameId == 0) null else app.toyBoxRepo.loadGame(gameId)
     if (game != null) {
       ctx.put("game", game)
     }
@@ -45,7 +47,7 @@ class edit_game extends UserLogic {
     }
 
     // determine where uploads should be sent
-    val rurl = new URL(ToyBoxConfig.getResourceURL)
+    val rurl = new URL(config.getResourceURL)
     val upurl = new URL(rurl.getProtocol, rurl.getHost, req.getContextPath() + "/upload_jar.wm")
     ctx.put("upload_url", upurl)
 
@@ -63,7 +65,7 @@ class edit_game extends UserLogic {
       populateGame(req, game)
 
       // update it in the database
-      app.getToyBoxRepository.updateGame(game)
+      app.toyBoxRepo.updateGame(game)
       ctx.put("status", "edit_game.status.updated")
 
     } else if (action.equals("create")) {
@@ -74,7 +76,7 @@ class edit_game extends UserLogic {
       val ngame = new GameRecord()
       ngame.setStatus(Status.PENDING)
       ngame.maintainerId = user.userId
-      ngame.host = ToyBoxConfig.getServerHost()
+      ngame.host = config.getServerHost
       ngame.digest = ""
       ngame.created = new Date(System.currentTimeMillis())
       ngame.lastUpdated = game.created
@@ -84,7 +86,7 @@ class edit_game extends UserLogic {
       populateGame(req, ngame)
 
       // insert it into the repository
-      app.getToyBoxRepository.insertGame(ngame)
+      app.toyBoxRepo.insertGame(ngame)
       ctx.put("status", "edit_game.status.created")
 
       // now we can switch back to update mode
