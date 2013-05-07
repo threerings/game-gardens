@@ -40,9 +40,8 @@ import static com.threerings.toybox.Log.log;
     public static Properties testConfig () {
         String[] defprops = {
             "server_host", "localhost",
-            "resource_dir", "target/games",
+            "resource_dir", "server/target/games",
             "resource_url", "http://localhost:8080/games/",
-            "website_url", "http://localhost:8080/",
         };
         Properties props = new Properties();
         for (int ii = 0; ii < defprops.length; ii += 2) {
@@ -73,11 +72,6 @@ import static com.threerings.toybox.Log.log;
     /** Returns the base URL via which all resources are downloaded. */
     public String getResourceURL () {
         return requireValue("resource_url");
-    }
-
-    /** Returns the base URL via which the main website is accessed. */
-    public String getWebsiteURL () {
-        return requireValue("website_url");
     }
 
     /** Returns the JDBC configuration for this installation. */
