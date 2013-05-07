@@ -43,12 +43,13 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <guava.version>13.0</guava.version>
+    <guava.version>14.0.1</guava.version>
     <gwt.version>2.5.0</gwt.version>
   </properties>
 
   <modules>
     <module>toybox</module>
+    <module>client</module>
     <module>server</module>
   </modules>
 
