@@ -11,6 +11,10 @@
   <packaging>jar</packaging>
   <name>Gardens Legacy Java Client</name>
 
+  <properties>
+    <mainClass>com.threerings.toybox.client.ToyBoxApp</mainClass>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.threerings</groupId>
@@ -46,13 +50,13 @@
           <dependency>
             <groupId>net.sf.proguard</groupId>
             <artifactId>proguard-base</artifactId>
-            <version>4.8</version>
+            <version>4.9</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
 
         <configuration>
-          <proguardVersion>4.8</proguardVersion>
+          <proguardVersion>4.9</proguardVersion>
           <outputDirectory>${project.build.directory}</outputDirectory>
           <outjar>${project.build.finalName}.jar</outjar>
           <injar>${project.build.finalName}.jar</injar>
@@ -154,4 +158,54 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- wire up testing of the client via: mvn test -Pclient -->
+    <profile>
+      <id>client</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+              <execution>
+                <phase>test</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <classpathScope>test</classpathScope>
+              <mainClass>${mainClass}</mainClass>
+              <arguments>
+                <argument>localhost</argument>
+                <argument>47624</argument>
+              </arguments>
+              <systemProperties>
+                <systemProperty>
+                  <key>no_log_redir</key>
+                  <value>true</value>
+                </systemProperty>
+                <systemProperty>
+                  <key>game_id</key>
+                  <value>1</value>
+                </systemProperty>
+                <systemProperty>
+                  <key>game_name</key>
+                  <value>Atlantis</value>
+                </systemProperty>
+                <systemProperty>
+                  <key>resource_url</key>
+                  <value>http://localhost:8080/games/</value>
+                </systemProperty>
+              </systemProperties>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
