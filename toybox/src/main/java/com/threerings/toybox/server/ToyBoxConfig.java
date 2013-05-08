@@ -40,7 +40,7 @@ import static com.threerings.toybox.Log.log;
     public static Properties testConfig () {
         String[] defprops = {
             "server_host", "localhost",
-            "resource_dir", "server/target/games",
+            "resource_dir", "server/target/web/games",
             "resource_url", "http://localhost:8080/games/",
         };
         Properties props = new Properties();
