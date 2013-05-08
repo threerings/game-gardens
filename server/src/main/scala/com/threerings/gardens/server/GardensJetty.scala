@@ -27,13 +27,21 @@ import com.threerings.gardens.web.GardensDispatcher
     ctx.addServlet(gd, "*.wm")
     ctx.addServlet(gd, "*.jnlp")
 
-    val rsrc = new ResourceHandler
-    rsrc.setDirectoriesListed(false)
-    rsrc.setWelcomeFiles(Array("index.html"))
-    rsrc.setResourceBase("server/src/main/web") // TODO: get from properties
+    def newRH (base :String) = {
+      val rsrc = new ResourceHandler
+      rsrc.setDirectoriesListed(false)
+      rsrc.setWelcomeFiles(Array("index.html"))
+      rsrc.setResourceBase(base)
+      rsrc
+    }
 
     val handlers = new HandlerList
-    handlers.setHandlers(Array(ctx, rsrc))
+    if (config.testMode) {
+      handlers.setHandlers(Array(ctx, newRH("server/src/main/web"), newRH("server/target/web")))
+    } else {
+      // TODO: get actual document root from properties
+      handlers.setHandlers(Array(ctx, newRH("docs")))
+    }
     setHandler(handlers)
   }
 }
