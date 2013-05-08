@@ -23,6 +23,10 @@
       <id>jetty-maven</id>
       <url>http://oss.sonatype.org/content/groups/jetty/</url>
     </repository>
+    <repository>
+      <id>ooo-maven-repo</id>
+      <url>http://ooo-maven.googlecode.com/hg/repository</url>
+    </repository>
   </repositories>
 
   <dependencies>
