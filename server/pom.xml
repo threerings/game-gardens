@@ -14,15 +14,10 @@
   <properties>
     <mainClass>com.threerings.gardens.server.GardensServer</mainClass>
     <scala.version>2.10.1</scala.version>
-    <jetty.version>9.0.0.v20130308</jetty.version>
     <nexus.version>1.1-SNAPSHOT</nexus.version>
   </properties>
 
   <repositories>
-    <repository>
-      <id>jetty-maven</id>
-      <url>http://oss.sonatype.org/content/groups/jetty/</url>
-    </repository>
     <repository>
       <id>ooo-maven-repo</id>
       <url>http://ooo-maven.googlecode.com/hg/repository</url>
@@ -74,18 +69,6 @@
       <artifactId>velocity-ooo</artifactId>
       <version>1.6.4</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
-<!-- TODO: port Nexus to new Jetty 9 websocket API
-    <dependency>
-      <groupId>org.eclipse.jetty.websocket</groupId>
-      <artifactId>websocket-server</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
--->
 
     <dependency>
       <groupId>org.scala-lang</groupId>
