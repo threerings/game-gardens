@@ -45,10 +45,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <guava.version>14.0.1</guava.version>
     <gwt.version>2.5.0</gwt.version>
+    <nexus.version>1.1-SNAPSHOT</nexus.version>
   </properties>
 
   <modules>
     <module>toybox</module>
+    <module>gardens</module>
     <module>client</module>
     <module>server</module>
   </modules>

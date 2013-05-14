@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.threerings.gardens</groupId>
+    <artifactId>gardens-project</artifactId>
+    <version>1.2-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>gardens-api</artifactId>
+  <packaging>jar</packaging>
+  <name>Gardens Game API</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.threerings.nexus</groupId>
+      <artifactId>nexus-core</artifactId>
+      <version>${nexus.version}</version>
+    </dependency>
+  </dependencies>
+</project>
