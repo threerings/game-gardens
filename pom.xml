@@ -50,7 +50,7 @@
 
   <modules>
     <module>toybox</module>
-    <module>gardens</module>
+    <module>api</module>
     <module>client</module>
     <module>server</module>
   </modules>
