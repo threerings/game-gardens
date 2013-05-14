@@ -1,5 +1,0 @@
-<!-- build configuration -->
-<project name="sagashi" default="compile" basedir=".">
-  <property name="app.name" value="sagashi"/>
-  <import file="../lib/game-incl.xml"/>
-</project>

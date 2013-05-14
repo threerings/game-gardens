@@ -1,5 +1,0 @@
-<!-- build configuration -->
-<project name="atlantis" default="compile" basedir=".">
-  <property name="app.name" value="atlantis"/>
-  <import file="../lib/game-incl.xml"/>
-</project>

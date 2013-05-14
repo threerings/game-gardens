@@ -1,5 +1,0 @@
-<!-- build configuration -->
-<project name="reversi" default="compile" basedir=".">
-  <property name="app.name" value="reversi"/>
-  <import file="../lib/game-incl.xml"/>
-</project>
