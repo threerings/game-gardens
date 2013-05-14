@@ -14,9 +14,9 @@
   <properties>
     <mainClass>com.threerings.gardens.server.GardensServer</mainClass>
     <scala.version>2.10.1</scala.version>
-    <nexus.version>1.1-SNAPSHOT</nexus.version>
   </properties>
 
+  <!-- TODO: nix use of velocity-ooo and nix this repo -->
   <repositories>
     <repository>
       <id>ooo-maven-repo</id>
@@ -26,14 +26,25 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.samskivert</groupId>
-      <artifactId>depot</artifactId>
-      <version>1.7-SNAPSHOT</version>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>toybox</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>gardens-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>gardens-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.samskivert</groupId>
+      <artifactId>depot</artifactId>
+      <version>1.7-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.threerings</groupId>
