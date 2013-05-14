@@ -1,8 +1,0 @@
-#!/bin/sh
-#
-# Gracefully reboots all Game Gardens game servers running on this machine.
-
-PIDS=`ps auxww | grep ToyBoxServer | grep -v grep | awk '{ print $2 }' | sort -n`
-if [ ! -z "$PIDS" ]; then
-    echo $PIDS | xargs kill -INT
-fi
