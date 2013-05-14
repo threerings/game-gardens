@@ -17,7 +17,7 @@ public interface Scoreboard {
      * scoreboard.
      * @param iconPath the path (relative to your game's resource root) of the icon image.
      */
-    void setIcon (int playerIdx, String iconPath);
+    void setIcon (int playerId, String iconPath);
 
     /** Sets the stat value for the specified player and column to {@code data}. Stats are optional
      * tabular data displayed to the right of the player's names in the scoreboard. You can also
@@ -25,7 +25,7 @@ public interface Scoreboard {
      * @param data the data to display in the specified stat cell. This should not be more than
      * three or four characters wide or your scoreboard will probably look crappy.
      */
-    void setStat (int playerIdx, int column, String data);
+    void setStat (int playerId, int column, String data);
 
     /** Sets the icon to display above the specified stat column. This can provide some indication
      * to the player of the meaning of that stat column, and the {@code tooltip} (which is shown if
@@ -38,7 +38,7 @@ public interface Scoreboard {
      * indicate that it is that player's turn, or at the end of the game to highlight that that
      * player was the winner.
      */
-    void setHighlight (int playerIdx);
+    void setHighlight (int playerId);
 
     /** Causes the scoreboard to sort the players based on the value of the specified stat column.
      * The order will automatically be updated when any stat data changes.

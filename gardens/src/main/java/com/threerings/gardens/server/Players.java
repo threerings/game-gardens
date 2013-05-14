@@ -8,13 +8,17 @@ package com.threerings.gardens.server;
 /** Provides access to info on the players of the game. */
 public interface Players {
 
-    /** Returns the number of players in the game. */
-    int playerCount ();
+    /** Returns the ids of the players in the game. If this is a party game, or some other
+     * non-table-game, this method will return a zero-length array. In those games, whether or not
+     * someone is a player tends to depend more on whether they participated during a particular
+     * round. */
+    int[] players ();
 
-    /** Returns the name of the player at {@code index}. */
-    String playerName (int index);
+    /** Returns the name of the user identified by {@code id}. */
+    String name (int id);
 
-    /** Returns the index of the player making the current service request, or -1 if the requester
-     * is not a player. */
-    int currentPlayerIndex ();
+    /** Returns the id of the user making the current service request. Note: the user may or may
+     * not be a player as defined by {@link #players}. If someone is watching they game, their
+     * client can make a service request (due to hacking, or a bug, or maybe by design). */
+    int callerId ();
 }
