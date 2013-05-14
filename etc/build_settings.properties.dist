@@ -1,9 +1,0 @@
-#
-# Build settings for the Game Gardens system
-
-#
-# Used when signing the Game Gardens client
-
-# sign.keystore = keystore.dat
-# sign.alias = ALIAS
-# sign.storepass = STOREPASS
