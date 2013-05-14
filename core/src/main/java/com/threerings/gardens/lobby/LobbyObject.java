@@ -3,8 +3,9 @@
 // Copyright (c) 2005-2013, Three Rings Design, Inc. - All rights reserved.
 // https://github.com/threerings/game-gardens/blob/master/LICENSE
 
-package com.threerings.gardens.distrib;
+package com.threerings.gardens.lobby;
 
+import com.threerings.nexus.distrib.DMap;
 import com.threerings.nexus.distrib.DService;
 import com.threerings.nexus.distrib.NexusObject;
 import com.threerings.nexus.io.Streamable;

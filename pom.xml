@@ -51,6 +51,7 @@
   <modules>
     <module>toybox</module>
     <module>api</module>
+    <module>core</module>
     <module>client</module>
     <module>server</module>
   </modules>
