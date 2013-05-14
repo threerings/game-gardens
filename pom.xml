@@ -49,11 +49,13 @@
   </properties>
 
   <modules>
-    <module>toybox</module>
+    <!-- new hotness -->
     <module>api</module>
     <module>core</module>
-    <module>client</module>
     <module>server</module>
+    <!-- old and busted -->
+    <module>toybox</module>
+    <module>java-client</module>
   </modules>
 
   <build>

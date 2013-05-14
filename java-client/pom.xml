@@ -7,7 +7,7 @@
     <version>1.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>gardens-client</artifactId>
+  <artifactId>gardens-java-client</artifactId>
   <packaging>jar</packaging>
   <name>Gardens Legacy Java Client</name>
 
