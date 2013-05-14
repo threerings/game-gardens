@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.threerings.gardens</groupId>
+    <artifactId>gardens-project</artifactId>
+    <version>1.2-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>lobby</artifactId>
+  <packaging>war</packaging>
+
+  <name>Gardens Lobby</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.threerings.nexus</groupId>
+      <artifactId>nexus-gwt-io</artifactId>
+      <version>${nexus.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.threerings</groupId>
+      <artifactId>gwt-utils</artifactId>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- handles auto-generation of Nexus code -->
+      <plugin>
+        <groupId>org.bsc.maven</groupId>
+        <artifactId>maven-processor-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>process</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <defaultOutputDirectory>${project.build.sourceDirectory}</defaultOutputDirectory>
+              <excludes>
+                <exclude>**/Streamer_*.java</exclude>
+                <exclude>**/Factory_*.java</exclude>
+              </excludes>
+              <processors>
+                <processor>com.threerings.nexus.gencode.Processor</processor>
+              </processors>
+              <compilerArguments>
+                -Acom.threerings.nexus.gencode.header=${basedir}/../etc/SOURCE_HEADER
+              </compilerArguments>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.threerings.nexus</groupId>
+            <artifactId>nexus-tools</artifactId>
+            <version>${nexus.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>${gwt.version}</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
