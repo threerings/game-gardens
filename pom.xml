@@ -46,6 +46,7 @@
     <guava.version>14.0.1</guava.version>
     <gwt.version>2.5.0</gwt.version>
     <nexus.version>1.1-SNAPSHOT</nexus.version>
+    <scala.version>2.10.1</scala.version>
   </properties>
 
   <modules>

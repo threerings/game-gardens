@@ -13,7 +13,6 @@
 
   <properties>
     <mainClass>com.threerings.gardens.server.GardensServer</mainClass>
-    <scala.version>2.10.1</scala.version>
   </properties>
 
   <!-- TODO: nix use of velocity-ooo and nix this repo -->
@@ -44,7 +43,7 @@
     <dependency>
       <groupId>com.samskivert</groupId>
       <artifactId>depot</artifactId>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.6.1</version>
     </dependency>
     <dependency>
       <groupId>com.threerings</groupId>
@@ -123,11 +122,6 @@
             <goals><goal>compile</goal></goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>st.happy_camper.maven.plugins</groupId>
-        <artifactId>ensime-maven-plugin</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
       </plugin>
     </plugins>
   </build>
