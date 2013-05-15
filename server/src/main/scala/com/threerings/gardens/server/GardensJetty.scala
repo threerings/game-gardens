@@ -11,13 +11,17 @@ import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.{HandlerList, ResourceHandler}
 import org.eclipse.jetty.servlet.{ServletContextHandler, ServletHolder}
 
+import com.threerings.nexus.client.GWTClient
+import com.threerings.nexus.io.Serializer
+import com.threerings.nexus.server.{GWTIOJettyServlet, NexusServer}
+
 import com.threerings.gardens.web.GardensDispatcher
 
 /** Customizes a Jetty server and handles HTTP requests. */
 @Singleton class GardensJetty @Inject() (config :GardensConfig, injector :Injector)
     extends Server(config.httpServerPort) {
 
-  def init () {
+  def init (server :NexusServer, szer :Serializer) {
     // wire up our servlet context
     val ctx = new ServletContextHandler
     ctx.setContextPath("/")
@@ -26,6 +30,8 @@ import com.threerings.gardens.web.GardensDispatcher
     val gd = new ServletHolder(injector.getInstance(classOf[GardensDispatcher]))
     ctx.addServlet(gd, "*.wm")
     ctx.addServlet(gd, "*.jnlp")
+    val gwtIO = new GWTIOJettyServlet(server.getSessionManager, szer)
+    ctx.addServlet(new ServletHolder(gwtIO), GWTClient.DEFAULT_WS_PATH)
 
     def newRH (base :String) = {
       val rsrc = new ResourceHandler

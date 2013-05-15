@@ -6,14 +6,19 @@
 package com.threerings.gardens.server
 
 import java.util.Properties
+import java.util.concurrent.Executors
 
 import com.google.inject.Injector
 
-import com.samskivert.jdbc.StaticConnectionProvider
-import com.samskivert.util.Config
+import com.samskivert.jdbc.{ConnectionProvider, StaticConnectionProvider}
+import com.samskivert.util.{Config, Lifecycle}
 
+import com.threerings.nexus.server.{JVMConnectionManager, NexusConfig, NexusServer}
 import com.threerings.presents.server.PresentsServer
 import com.threerings.toybox.server.{ToyBoxConfig, ToyBoxServer}
+
+import com.threerings.gardens.lobby.LobbyManager
+import com.threerings.gardens.user.UserManager
 
 /** Main entry point for Game Gardens server. */
 object GardensServer {
@@ -33,29 +38,38 @@ object GardensServer {
     override def init (injector :Injector) {
       super.init(injector)
 
-      // Properties props = new Properties();
-      // props.setProperty("nexus.node", "test");
-      // props.setProperty("nexus.hostname", "localhost");
-      // props.setProperty("nexus.rpc_timeout", "1000");
-      // NexusConfig config = new NexusConfig(props);
+      // TODO: get these from properties file when in production
+      val props = new Properties()
+      props.setProperty("nexus.node", "test")
+      props.setProperty("nexus.hostname", "localhost")
+      props.setProperty("nexus.rpc_timeout", "1000")
+      val config = new NexusConfig(props)
 
-      // // create our server
-      // ExecutorService exec = Executors.newFixedThreadPool(3);
-      // NexusServer server = new NexusServer(config, exec);
+      // create our server
+      val exec = Executors.newFixedThreadPool(3)
+      val server = new NexusServer(config, exec)
 
-      // // set up a connection manager and listen on a port
-      // final JVMConnectionManager jvmmgr = new JVMConnectionManager(server.getSessionManager());
-      // jvmmgr.listen(config.publicHostname, 1234);
-      // jvmmgr.start();
+      // set up a connection manager and listen on a port
+      val jvmmgr = new JVMConnectionManager(server.getSessionManager())
+      jvmmgr.listen(config.publicHostname, 1234)
+      jvmmgr.start()
 
-      // // set up a Jetty instance and our GWTIO servlet
-      // final GWTConnectionManager gwtmgr = new GWTConnectionManager(
-      //     server.getSessionManager(), new ChatSerializer(), config.publicHostname, 6502);
-      // gwtmgr.setDocRoot(new File("target/chat-demo-1.0-SNAPSHOT"));
-      // gwtmgr.start();
+      // create our user and lobby managers (they register themselves with Nexus)
+      val lobbyMgr = new LobbyManager(server)
+      new UserManager(server, injector.getInstance(classOf[ConnectionProvider]), lobbyMgr)
+
+      // shut things down when PresentsServer shuts us down
+      val cycle = injector.getInstance(classOf[Lifecycle])
+      cycle.addComponent(new Lifecycle.ShutdownComponent() {
+        def shutdown () {
+          exec.shutdown()
+          jvmmgr.disconnect()
+          jvmmgr.shutdown()
+        }
+      })
 
       _jetty = injector.getInstance(classOf[GardensJetty])
-      _jetty.init()
+      _jetty.init(server, null) // TODO: serializer
       _jetty.start()
     }
 
