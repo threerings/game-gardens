@@ -43,7 +43,8 @@ import com.threerings.gardens.web.GardensDispatcher
 
     val handlers = new HandlerList
     if (config.testMode) {
-      handlers.setHandlers(Array(ctx, newRH("server/src/main/web"), newRH("server/target/web")))
+      handlers.setHandlers(Array(ctx, newRH("server/src/main/web"), newRH("server/target/web"),
+                                 newRH("client/target/gardens-client")))
     } else {
       // TODO: get actual document root from properties
       handlers.setHandlers(Array(ctx, newRH("docs")))
