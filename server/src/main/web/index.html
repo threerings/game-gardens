@@ -1,135 +1,93 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Game Gardens</title>
-<link rel="stylesheet" type="text/css" href="/style.css">
-<link rel="SHORTCUT ICON" href="/favicon.ico">
+  <title>Game Gardens</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link rel="SHORTCUT ICON" href="/favicon.ico">
 </head>
 
 <body marginwidth=0 marginheight=0 class="main_body">
+  <!-- header -->
+  <table cellpadding=0 cellspacing=0 border=0 width=780 height=104>
+  <tr><td class="main_header_left">
+    <table cellpadding=0 cellspacing=0 border=0 style="margin-left: 65px">
+    <tr><td class="main_header_navi">
+        <a href="/about.html">About</a>
+        <!--#include file="links_incl.html"-->
+    </td></tr>
+    </table>
+  </td><td width="348" class="main_header_right">
+  <div align="right" style="padding-right: 105px; padding-top: 20px">
+  <form action="login.wm">
+  Username:
+  <input type="text" name="username" style="width: 90px"/><br/>
+  Password:
+  <input type="password" name="password" style="width: 90px"/><br/>
+  <input type="submit" name="submit" value="Login"/>
+  </form>
+  </div>
+  </td>
+  </tr>
+  </table>
 
-<!-- header -->
-<table cellpadding=0 cellspacing=0 border=0 width=780 height=104>
-<tr><td class="main_header_left">
-  <table cellpadding=0 cellspacing=0 border=0 style="margin-left: 65px">
-  <tr><td class="main_header_navi">
-  <!--#include file="links_incl.html"-->
+  <!-- lobby box -->
+  <table cellpadding=0 cellspacing=0 border=0 class="box_table">
+  <tr><td colspan=3><img src="/images/play_bar.png"></td></tr>
+  <tr><td class="box_left"/>
+  <td class="box_body" style="max-width: 730px">
+  <div id="client" style="width: 730px; height: 500px"/>
+  </td>
+  <td class="box_right"></td></tr>
+  <tr><td class="box_lower_left"/>
+      <td class="box_bottom"/>
+      <td class="box_lower_right"/></tr>
+  </table>
+  <script src="gardens/gardens.nocache.js"></script>
+
+  <!-- talk and make boxes -->
+  <table cellpadding=0 cellspacing=0 border=0 class="box_table">
+  <tr><td>
+
+  <table cellpadding=0 cellspacing=0 border=0 width=380>
+  <tr><td colspan=3><img src="/images/talk_bar.png"></td></tr>
+  <tr><td class="box_left"></td>
+  <td class="box_body">
+  Meet and talk with other players about games, game design and making your own
+  games <a href="http://groups.google.com/group/game-gardens">on the forums!</a>
+  </td>
+  <td class="box_right"></td></tr>
+  <tr><td class="box_lower_left"/>
+      <td class="box_bottom"/>
+      <td class="box_lower_right"/></tr>
+  </table>
+
+  </td><td width="10"></td><td>
+
+  <table cellpadding=0 cellspacing=0 border=0 width=380>
+  <tr><td colspan=3 class="make_header">
+  <img src="/images/make_bar.png"></td></tr>
+  <tr><td class="box_left"></td>
+  <td class="box_body">
+  If you're a Java programmer, head to the <a href="http://wiki.gamegardens.com/">wiki</a> and
+  check out the <a href="http://wiki.gamegardens.com/Main_Page#Tutorials">tutorials!</a>
+  </td>
+  <td class="box_right"></td></tr>
+  <tr><td class="box_lower_left"/>
+      <td class="box_bottom"/>
+      <td class="box_lower_right"/></tr>
+  </table>
+
   </td></tr>
   </table>
-</td><td width="348" class="main_header_right">
-<div align="right" style="padding-right: 105px">
-Welcome to<br/>
-<span class="bigred">Game Gardens!</span><br/>
-A community of game<br/>
-players and makers.
-</div>
-</td>
-</tr>
-</table>
 
-<!-- news box -->
-<table cellpadding=0 cellspacing=0 border=0 class="box_table">
-<tr><td colspan=3><img src="/images/news_bar.png"></td></tr>
-<tr><td class="box_left"/>
-<td class="box_body" style="max-width: 730px">
-<!--#include file="news_incl.html"-->
-</td>
-<td class="box_right"></td></tr>
-<tr><td class="box_lower_left"/>
-    <td class="box_bottom"/>
-    <td class="box_lower_right"/></tr>
-</table>
-
-<!-- play box -->
-<table cellpadding=0 cellspacing=0 border=0 class="play_table">
-<tr><td><img src="/images/play_bar_left.png"></td>
-<td><img src="/images/online_top.png"></td>
-<td><img src="/images/play_bar_one.png"></td>
-<td><img src="/images/popular_top.png"></td>
-<td><img src="/images/play_bar_two.png"></td>
-<td><img src="/images/updated_top.png"></td>
-<td><img src="/images/play_bar_three.png"></td></tr>
-</table>
-
-<table cellpadding=0 cellspacing=0 border=0 class="play_table">
-<tr><td class="left_cell" width=101>
-<a href="/gardens/browse.wm?category=strategy"><img src="/images/cat_strategy.png" border="0"></a><br/>
-<a href="/gardens/browse.wm?category=classic"><img src="/images/cat_classic.png" border="0"></a><br/>
-<a href="/gardens/browse.wm?category=party"><img src="/images/cat_party.png" border="0"></a><br/>
-<a href="/gardens/browse.wm?category=card"><img src="/images/cat_card.png" border="0"></a><br/>
-<a href="/gardens/browse.wm?category=word"><img src="/images/cat_word.png" border="0"></a><br/>
-<a href="/gardens/browse.wm?category=other"><img src="/images/cat_other.png"
-border="0"></a></td>
-
-<td class="play_list" width=197>
-<ol><!--#include virtual="/gardens/online.wm"--></ol>
-</td>
-<td class="play_cell" width=20/>
-<td class="play_list" width=197>
-<ol><!--#include virtual="/gardens/snapshots.wm?type=popular"--></ol>
-</td>
-<td class="play_cell" width=20/>
-<td class="play_list" width=197>
-<ol><!--#include virtual="/gardens/snapshots.wm?type=updated"--></ol>
-</td>
-<td class="right_cell" width=33/></tr>
-</table>
-
-<table cellpadding=0 cellspacing=0 border=0 class="play_table_bottom">
-<tr><td class="left_cell" width=101/>
-<td class="play_cell"><img src="/images/game_bottom.png"></td>
-<td class="play_cell" width=20/>
-<td class="play_cell"><img src="/images/game_bottom.png"></td>
-<td class="play_cell" width=20/>
-<td class="play_cell"><img src="/images/game_bottom.png"></td>
-<td class="right_cell" width=33/></tr>
-</table>
-
-<!-- talk and make boxes -->
-<table cellpadding=0 cellspacing=0 border=0 class="box_table">
-<tr><td>
-
-<table cellpadding=0 cellspacing=0 border=0 width=380>
-<tr><td colspan=3><img src="/images/talk_bar.png"></td></tr>
-<tr><td class="box_left"></td>
-<td class="box_body">
-Meet and talk with other players about games, game design and making your own
-games <a href="http://groups.google.com/group/game-gardens">on the forums!</a>
-</td>
-<td class="box_right"></td></tr>
-<tr><td class="box_lower_left"/>
-    <td class="box_bottom"/>
-    <td class="box_lower_right"/></tr>
-</table>
-
-</td><td width="10"></td><td>
-
-<table cellpadding=0 cellspacing=0 border=0 width=380>
-<tr><td colspan=3 class="make_header">
-<img src="/images/make_bar.png"></td></tr>
-<tr><td class="box_left"></td>
-<td class="box_body">
-Head to the wiki to download the
-<a href="http://wiki.gamegardens.com/">toolkit</a> and check out the
-<a href="http://wiki.gamegardens.com/Main_Page#Tutorials">tutorials!</a>
-</td>
-<td class="box_right"></td></tr>
-<tr><td class="box_lower_left"/>
-    <td class="box_bottom"/>
-    <td class="box_lower_right"/></tr>
-</table>
-
-</td></tr>
-</table>
-
-<table width=780><tr><td align="center">
-<table><tr><td class="main_footer_navi">
-&copy;2005-2006 
-<a href="mailto:gardens@threerings.net">Three Rings Design, Inc</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<!--#include file="links_incl.html"-->
-</td></tr></table>
-</td></tr></table>
-
+  <table width=780><tr><td align="center">
+  <table><tr><td class="main_footer_navi">
+    &copy;2005-2013
+    <a href="mailto:gardens@threerings.net">Three Rings Design, Inc</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/about.html">About</a>
+    <!--#include file="links_incl.html"-->
+  </td></tr></table>
+  </td></tr></table>
 </body>
 </html>
