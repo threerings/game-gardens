@@ -1,0 +1,19 @@
+<module rename-to="gardens">
+  <inherits name="com.threerings.nexus.GWTIO"/>
+<!--
+  <inherits name="com.threerings.gwt.Utils"/>
+-->
+
+  <!-- speed up compile time; target only modern HTML5 browsers -->
+  <set-property name='user.agent' value='safari'/>
+  <set-configuration-property name="user.agent.runtimeWarning" value="false" />
+
+  <source path="client"/>
+  <source path="lobby"/>
+  <source path="user"/>
+
+<!--
+  <stylesheet src="standard.css"/>
+-->
+  <entry-point class="com.threerings.gardens.client.GardensEntryPoint"/>
+</module>
