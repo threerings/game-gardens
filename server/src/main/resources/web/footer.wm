@@ -1,13 +1,11 @@
 </td></tr>
 
-<tr><td style="padding-left: 15; padding-top: 25; padding-bottom: 15" class="ftable">&copy;2005
+<tr><td style="padding-left: 15; padding-top: 25; padding-bottom: 15" class="ftable">&copy;2005-2013
 <a href="mailto:gardens@threerings.net">$i18n.xlate("footer.ooo")</a></td>
 <td style="padding-top: 25; padding-bottom: 15" class="ftable">
 <a href="/">$i18n.xlate("footer.home")</a>
-| <a href="/about.html">$i18n.xlate("footer.about")</a>
 | <a href="/register/">$i18n.xlate("footer.account")</a>
 | <a href="http://groups.google.com/group/game-gardens">$i18n.xlate("footer.forums")</a>
-| <a href="/gardens/browse.wm">$i18n.xlate("footer.games")</a>
 </td></tr>
 <tr><td colspan="2"><img src="/images/footer_background.png"></td></tr>
 </table>

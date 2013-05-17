@@ -6,7 +6,9 @@
 package com.threerings.gardens.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -20,6 +22,14 @@ import com.threerings.nexus.client.NexusClient;
 public class GardensEntryPoint implements EntryPoint {
 
     @Override public void onModuleLoad () {
+        // if we're logged in, swap out the login UI for the logout UI
+        String auth = Cookies.getCookie("id_"), username = Cookies.getCookie("nm_");
+        if (auth != null && username != null) {
+            Document.get().getElementById("login").getStyle().setDisplay(Style.Display.NONE);
+            Document.get().getElementById("userinfo").getStyle().clearDisplay();
+            Document.get().getElementById("username").setInnerText(username);
+        }
+
         ClientContext ctx = new ClientContext() {
             public NexusClient client () {
                 return _client;
@@ -36,7 +46,7 @@ public class GardensEntryPoint implements EntryPoint {
             protected Widget _main;
         };
         // TODO: show lobby or chat sidebar based on loc parameter
-        ctx.setMainPanel(new Label("Auth Token : " + Window.Location.getParameter("auth")));
+        ctx.setMainPanel(new Label("Auth Token: " + auth));
     }
 
     protected static final String CLIENT_DIV = "client";

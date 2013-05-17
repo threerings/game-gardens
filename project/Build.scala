@@ -29,9 +29,10 @@ object GardensBuild extends Build {
 
   lazy val api = builder("api")
   lazy val core = builder("core")
+  lazy val client = builder("client")
   lazy val toybox = builder("toybox")
   lazy val server = builder("server")
 
   // one giant fruit roll-up to bring them all together
-  lazy val gardens = builder.root.aggregate(api, core, toybox, server)
+  lazy val gardens = builder.root.aggregate(api, core, toybox, client, server)
 }

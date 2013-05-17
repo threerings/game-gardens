@@ -4,6 +4,21 @@
   <title>Game Gardens</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   <link rel="SHORTCUT ICON" href="/favicon.ico">
+  <style>
+    #login, #userinfo {
+      text-align: right;
+    }
+    #login {
+      padding-right: 95px;
+      padding-top: 20px;
+    }
+    #userinfo {
+      padding-right: 65px;
+    }
+    #username {
+      font-size: large;
+    }
+  </style>
 </head>
 
 <body marginwidth=0 marginheight=0 class="main_body">
@@ -17,15 +32,27 @@
     </td></tr>
     </table>
   </td><td width="348" class="main_header_right">
-  <div align="right" style="padding-right: 105px; padding-top: 20px">
-  <form action="login.wm">
-  Username:
-  <input type="text" name="username" style="width: 90px"/><br/>
-  Password:
-  <input type="password" name="password" style="width: 90px"/><br/>
-  <input type="submit" name="submit" value="Login"/>
-  </form>
-  </div>
+      <div id="login">
+        <form action="login.wm" method="POST">
+          Username:
+          <input type="text" name="username" style="width: 90px"/><br/>
+          Password:
+          <input type="password" name="password" style="width: 90px"/><br/>
+          <input type="hidden" name="action" value="login"/>
+          <input type="submit" name="submit" value="Login"/>
+          <div style="float: left; font-size: small; padding-left: 75px; padding-top: 10px">
+            <a href="login.wm">Create account</a>
+          </div>
+        </form>
+      </div>
+      <div id="userinfo" style="display: none">
+        <div style="padding: 5px 70px 5px 0px">
+          Welcome to<br/>
+          Game Gardens,<br/>
+          <span id="username"></span>.
+        </div>
+        <a href="login.wm?action=logout">Logout</a>
+      </div>
   </td>
   </tr>
   </table>

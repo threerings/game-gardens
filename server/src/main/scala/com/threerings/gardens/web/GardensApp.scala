@@ -62,6 +62,7 @@ class GardensApp (config :GardensConfig, conprov :ConnectionProvider) extends Ap
     if (config.testMode) {
       _usermgr.getRepository.createUser(new Username("tester"), Password.makeFromClear("tester"),
                                         "tester@test.com", OOOUser.GAMEGARDENS_SITE_ID, 0)
+      _log.info("Created test account 'tester'.")
     }
   }
 

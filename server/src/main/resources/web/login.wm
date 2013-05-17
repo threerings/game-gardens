@@ -1,0 +1,22 @@
+#set ($title = $i18n.xlate("login.title"))
+#import ("/header.wm")
+
+<form action="login.wm" method="POST">
+$form.fixedHidden("action", "login")
+<h2>Already have an account?</h2>
+<table>
+<tr><td>Username:</td><td>Password:</td><td></td></tr>
+<tr><td>$form.text("username", "size='20'", $username)</td>
+    <td>$form.password("password", "size='20'", $password)</td>
+    <td colspan="2" align="right">$form.submit($i18n.xlate("login.login"))</td></tr>
+</table>
+</form>
+
+<h2> Don't have an account?</h2>
+<p>
+  Game Gardens uses the same accounts as Puzzle Pirates and Bang! Howdy.<br/>
+  <a href="https://www.banghowdy.com/register/" target="_blank">Create an account</a> on the Bang!
+  Howdy website, and come back here to login!
+</p>
+
+#import ("/footer.wm")

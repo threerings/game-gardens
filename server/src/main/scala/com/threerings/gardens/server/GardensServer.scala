@@ -88,7 +88,6 @@ object GardensServer {
     props.setProperty("test_mode", "true")
     props.setProperty("web.login_url", "test_auth.wm?from=%R")
     props.setProperty("web.access_denied_url", "access_denied.wm")
-    props.setProperty("web.auth_cookie.strip_hostname", "true")
 
     PresentsServer.runServer(new Module(props), new
       PresentsServer.PresentsServerModule(classOf[Server]))
