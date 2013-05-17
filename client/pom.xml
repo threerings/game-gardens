@@ -24,6 +24,19 @@
     </dependency>
 
     <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>gardens-core</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>com.threerings</groupId>
+      <artifactId>gwt-utils</artifactId>
+      <version>1.7.1</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.threerings.nexus</groupId>
       <artifactId>nexus-gwt-io</artifactId>
       <version>${nexus.version}</version>

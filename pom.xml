@@ -50,15 +50,10 @@
   </properties>
 
   <modules>
-    <!-- new hotness -->
     <module>api</module>
     <module>core</module>
-    <module>client</module>
-    <module>server</module>
-    <!-- old and busted -->
-    <module>toybox</module>
-    <module>java-client</module>
   </modules>
+  <!-- see profiles block below for other shenanigans -->
 
   <build>
     <plugins>
@@ -119,6 +114,30 @@
   </build>
 
   <profiles>
+    <profile>
+      <id>server</id>
+      <activation><activeByDefault>true</activeByDefault></activation>
+      <modules>
+        <module>toybox</module>
+        <module>server</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>client</id>
+      <modules>
+        <module>client</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>all</id>
+      <modules>
+        <module>client</module>
+        <module>toybox</module>
+        <module>java-client</module>
+        <module>server</module>
+      </modules>
+    </profile>
+
     <profile>
       <id>release-sign-artifacts</id>
       <activation>

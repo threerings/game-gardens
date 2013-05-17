@@ -16,23 +16,20 @@ import com.google.gwt.user.client.ui.Widget;
 import com.threerings.nexus.client.GWTClient;
 import com.threerings.nexus.client.NexusClient;
 
+import com.threerings.gardens.distrib.GardensSerializer;
+
 /**
  * The main entry point for the GWT/HTML5 client.
  */
 public class GardensEntryPoint implements EntryPoint {
 
     @Override public void onModuleLoad () {
-        // if we're logged in, swap out the login UI for the logout UI
-        String auth = Cookies.getCookie("id_"), username = Cookies.getCookie("nm_");
-        if (auth != null && username != null) {
-            Document.get().getElementById("login").getStyle().setDisplay(Style.Display.NONE);
-            Document.get().getElementById("userinfo").getStyle().clearDisplay();
-            Document.get().getElementById("username").setInnerText(username);
-        }
-
         ClientContext ctx = new ClientContext() {
             public NexusClient client () {
                 return _client;
+            }
+            public String authToken () {
+                return Cookies.getCookie("id_");
             }
             public void setMainPanel (Widget main) {
                 if (_main != null) {
@@ -42,11 +39,21 @@ public class GardensEntryPoint implements EntryPoint {
             }
             protected NexusClient _client = GWTClient.create(
                 8080, /* TODO: get from deployment.properties */
-                null /* TODO: new GardensSerializer()*/);
+                new GardensSerializer());
             protected Widget _main;
         };
-        // TODO: show lobby or chat sidebar based on loc parameter
-        ctx.setMainPanel(new Label("Auth Token: " + auth));
+
+        // if we're logged in, swap out the login UI for the logout UI
+        String auth = ctx.authToken(), username = Cookies.getCookie("nm_");
+        if (auth != null && username != null) {
+            Document.get().getElementById("login").getStyle().setDisplay(Style.Display.NONE);
+            Document.get().getElementById("userinfo").getStyle().clearDisplay();
+            Document.get().getElementById("username").setInnerText(username);
+        }
+
+        Label status = new Label();
+        ctx.setMainPanel(status);
+        Connector.connect(ctx, status);
     }
 
     protected static final String CLIENT_DIV = "client";

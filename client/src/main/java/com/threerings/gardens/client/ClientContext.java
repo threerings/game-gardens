@@ -15,6 +15,9 @@ public interface ClientContext {
     /** Returns our Nexus client. */
     NexusClient client ();
 
+    /** Returns our current auth token. */
+    String authToken ();
+
     /** Replaces the main panel being displayed by the client. */
     void setMainPanel (Widget panel);
 }

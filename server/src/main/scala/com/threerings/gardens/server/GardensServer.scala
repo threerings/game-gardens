@@ -17,6 +17,7 @@ import com.threerings.nexus.server.{JVMConnectionManager, NexusConfig, NexusServ
 import com.threerings.presents.server.PresentsServer
 import com.threerings.toybox.server.{ToyBoxConfig, ToyBoxServer}
 
+import com.threerings.gardens.distrib.GardensSerializer
 import com.threerings.gardens.lobby.LobbyManager
 import com.threerings.gardens.user.UserManager
 
@@ -69,7 +70,7 @@ object GardensServer {
       })
 
       _jetty = injector.getInstance(classOf[GardensJetty])
-      _jetty.init(server, null) // TODO: serializer
+      _jetty.init(server, new GardensSerializer)
       _jetty.start()
     }
 

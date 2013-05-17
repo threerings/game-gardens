@@ -25,6 +25,7 @@ class UserManager (nexus :Nexus, conprov :ConnectionProvider, lobbyMgr :LobbyMan
   }
 
   override def authenticate (sessionToken :String, callback :Callback[Address[LobbyObject]]) {
+    // TODO: if sessionToken is null, auth user as guest...
     _urepo.loadUserBySession(sessionToken) match {
       case null => throw new NexusException("Invalid session token")
       case user =>
