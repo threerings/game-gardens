@@ -53,7 +53,7 @@ public class GardensEntryPoint implements EntryPoint {
 
         Label status = new Label();
         ctx.setMainPanel(status);
-        Connector.connect(ctx, status);
+        new Connector(ctx, status).connect();
     }
 
     protected static final String CLIENT_DIV = "client";

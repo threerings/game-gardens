@@ -8,42 +8,58 @@ package com.threerings.gardens.client;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 
+import react.Function;
+import react.RFuture;
+import react.Slot;
+import react.UnitSlot;
+import react.Value;
+
 import com.threerings.nexus.distrib.Address;
-import com.threerings.nexus.util.Callback;
 
 import com.threerings.gardens.lobby.LobbyObject;
+import com.threerings.gardens.lobby.LobbyPanel;
 import com.threerings.gardens.user.UserObject;
 
 public class Connector {
 
-    public static void connect (final ClientContext ctx, final Label status) {
-        abstract class CB<T> implements Callback<T> {
-            @Override public void onFailure (Throwable cause) {
-                status.setText(errorPre() + ": " + cause.getMessage());
-            }
-            protected abstract String errorPre ();
-        }
-        String hostname = Window.Location.getHostName();
-        status.setText("Connecting to " + hostname + "...");
+    public final Value<Boolean> connecting = Value.create(false);
 
-        // subscribe to the singleton UserObject on the specified host; this will trigger a
-        // connection to that host
-        Address<UserObject> addr = Address.create(hostname, UserObject.class);
-        ctx.client().subscribe(addr, new CB<UserObject>() {
-            public void onSuccess (UserObject obj) {
-                // TODO: wire up onLost to show "reconnect" panel
-
-                // TODO: show lobby or chat sidebar based on loc parameter
-                status.setText("Connected. Entering lobby...");
-                obj.svc.get().authenticate(ctx.authToken(), new CB<Address<LobbyObject>>() {
-                    public void onSuccess (Address<LobbyObject> addr) {
-                        status.setText("TODO: show lobby panel!");
-                        // _ctx.setMainPanel(new LobbyPanel(ctx, addr));
-                    }
-                    protected String errorPre () { return "Failed to authorize"; }
-                });
-            }
-            protected String errorPre () { return "Failed to connect"; }
-        });
+    public Connector (ClientContext ctx, Label status) {
+        _ctx = ctx;
+        _status = status;
     }
+
+    public void connect () {
+        connecting.update(true);
+        _status.setText("Connecting to server...");
+
+        _ctx.client().<UserObject>subscriber().
+            subscribe(Address.create(Window.Location.getHostName(), UserObject.class)).
+            flatMap(new Function<UserObject,RFuture<Address<LobbyObject>>>() {
+                public RFuture<Address<LobbyObject>> apply (UserObject obj) {
+                    // if we lose connection to the server, drop back to a "reconect" panel
+                    obj.onLost.connect(new UnitSlot() { public void onEmit () {
+                        _ctx.setMainPanel(new ReconnectPanel(_ctx));
+                    }});
+                    // TODO: show lobby or chat sidebar based on loc parameter
+                    _status.setText("Authenticating...");
+                    return obj.svc.get().authenticate(_ctx.authToken());
+                }
+            }).
+            flatMap(_ctx.client().<LobbyObject>subscriber()).
+            onSuccess(new Slot<LobbyObject>() { public void onEmit (LobbyObject obj) {
+                _ctx.setMainPanel(new LobbyPanel(_ctx, obj));
+            }}).
+            onFailure(onFailure);
+    }
+
+    protected final Slot<Throwable> onFailure = new Slot<Throwable>() {
+        public void onEmit (Throwable cause) {
+            _status.setText("Error: " + cause.getMessage());
+            connecting.update(false);
+        }
+    };
+
+    protected final ClientContext _ctx;
+    protected final Label _status;
 }
