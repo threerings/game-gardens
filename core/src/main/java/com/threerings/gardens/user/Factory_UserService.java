@@ -8,9 +8,9 @@ package com.threerings.gardens.user;
 import com.threerings.nexus.distrib.Address;
 import com.threerings.nexus.distrib.DService;
 import com.threerings.nexus.distrib.NexusObject;
-import com.threerings.nexus.util.Callback;
 
 import com.threerings.gardens.lobby.LobbyObject;
+import react.RFuture;
 
 /**
  * Creates {@link UserService} marshaller instances.
@@ -36,16 +36,17 @@ public class Factory_UserService implements DService.Factory<UserService>
                         return UserService.class;
                     }
 
-                    @Override public void dispatchCall (short methodId, Object[] args) {
+                    @Override public RFuture<?> dispatchCall (short methodId, Object[] args) {
+                        RFuture<?> result = null;
                         switch (methodId) {
                         case 1:
-                            service.authenticate(
-                                this.<String>cast(args[0]),
-                                this.<Callback<Address<LobbyObject>>>cast(args[1]));
+                            result = service.authenticate(
+                                this.<String>cast(args[0]));
                             break;
                         default:
-                            super.dispatchCall(methodId, args);
+                            result = super.dispatchCall(methodId, args);
                         }
+                        return result;
                     }
                 };
             }
@@ -63,8 +64,8 @@ public class Factory_UserService implements DService.Factory<UserService>
         @Override public Class<UserService> getServiceClass () {
             return UserService.class;
         }
-        @Override public void authenticate (String sessionToken, Callback<Address<LobbyObject>> onAuthed) {
-            postCall((short)1, sessionToken, onAuthed);
+        @Override public RFuture<Address<LobbyObject>> authenticate (String sessionToken) {
+            return this.<Address<LobbyObject>>postCall((short)1, sessionToken);
         }
     }
 }

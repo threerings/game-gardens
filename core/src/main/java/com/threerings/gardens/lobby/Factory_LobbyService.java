@@ -8,6 +8,8 @@ package com.threerings.gardens.lobby;
 import com.threerings.nexus.distrib.DService;
 import com.threerings.nexus.distrib.NexusObject;
 
+import react.RFuture;
+
 /**
  * Creates {@link LobbyService} marshaller instances.
  */
@@ -32,7 +34,8 @@ public class Factory_LobbyService implements DService.Factory<LobbyService>
                         return LobbyService.class;
                     }
 
-                    @Override public void dispatchCall (short methodId, Object[] args) {
+                    @Override public RFuture<?> dispatchCall (short methodId, Object[] args) {
+                        RFuture<?> result = null;
                         switch (methodId) {
                         case 1:
                             service.createTable(
@@ -50,8 +53,9 @@ public class Factory_LobbyService implements DService.Factory<LobbyService>
                                 this.<Integer>cast(args[0]));
                             break;
                         default:
-                            super.dispatchCall(methodId, args);
+                            result = super.dispatchCall(methodId, args);
                         }
+                        return result;
                     }
                 };
             }
@@ -70,13 +74,13 @@ public class Factory_LobbyService implements DService.Factory<LobbyService>
             return LobbyService.class;
         }
         @Override public void createTable (String gameIdent, GameConfig config, int seats) {
-            postCall((short)1, gameIdent, config, seats);
+            postVoidCall((short)1, gameIdent, config, seats);
         }
         @Override public void takeSeat (int tableId, int seat) {
-            postCall((short)2, tableId, seat);
+            postVoidCall((short)2, tableId, seat);
         }
         @Override public void leaveSeat (int tableId) {
-            postCall((short)3, tableId);
+            postVoidCall((short)3, tableId);
         }
     }
 }
