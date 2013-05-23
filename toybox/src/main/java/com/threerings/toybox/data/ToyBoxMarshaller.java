@@ -22,6 +22,7 @@ package com.threerings.toybox.data;
 import javax.annotation.Generated;
 
 import com.threerings.presents.client.InvocationService;
+import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.data.InvocationMarshaller;
 
 import com.threerings.toybox.client.ToyBoxService;
@@ -35,7 +36,7 @@ import com.threerings.toybox.client.ToyBoxService;
  */
 @Generated(value={"com.threerings.presents.tools.GenServiceTask"},
            comments="Derived from ToyBoxService.java.")
-public class ToyBoxMarshaller extends InvocationMarshaller
+public class ToyBoxMarshaller extends InvocationMarshaller<ClientObject>
     implements ToyBoxService
 {
     /** The method id used to dispatch {@link #getLobbyOid} requests. */

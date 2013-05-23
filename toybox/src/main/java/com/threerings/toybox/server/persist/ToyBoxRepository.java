@@ -284,7 +284,7 @@ public class ToyBoxRepository extends DepotRepository
         classes.add(PlaytimeRecord.class);
     }
 
-    protected static FluentExp ready ()
+    protected static FluentExp<Boolean> ready ()
     {
         return GameRecord.STATUS.eq(GameRecord.Status.READY.toString());
     }

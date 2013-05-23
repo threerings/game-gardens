@@ -20,11 +20,12 @@
 package com.threerings.toybox.client;
 
 import com.threerings.presents.client.InvocationService;
+import com.threerings.presents.data.ClientObject;
 
 /**
  * Provides access to ToyBox invocation services.
  */
-public interface ToyBoxService extends InvocationService
+public interface ToyBoxService extends InvocationService<ClientObject>
 {
     /**
      * Issues a request for the oid of the lobby associated with the
