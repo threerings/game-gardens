@@ -22,7 +22,12 @@ object GardensBuild extends samskivert.MavenBuild {
     )
     case "server" => Seq(
       resolvers += "ooo-maven" at "http://ooo-maven.googlecode.com/hg/repository",
-      autoScalaLibrary := true // we want scala-library back
+      autoScalaLibrary := true, // we want scala-library back
+      // we run the test server with its normal compile depends, so add hsqldb there;
+      // in maven its run as a "test" and the POM thus lists hsqldb as a test depend
+      libraryDependencies ++= Seq(
+        "org.hsqldb" % "hsqldb" % "2.2.4"
+      )
     )
     case _ => Nil
   }
