@@ -7,8 +7,11 @@ package com.threerings.gardens.lobby;
 
 import com.threerings.nexus.distrib.DMap;
 import com.threerings.nexus.distrib.DService;
+import com.threerings.nexus.distrib.DSignal;
 import com.threerings.nexus.distrib.NexusObject;
 import com.threerings.nexus.io.Streamable;
+
+import com.threerings.gardens.user.ChatMessage;
 
 /** Contains the distributed state of the lobby. */
 public class LobbyObject extends NexusObject {
@@ -50,6 +53,9 @@ public class LobbyObject extends NexusObject {
 
     /** Provides access to lobby services. */
     public final DService<LobbyService> svc;
+
+    /** Emitted when someone sends a chat event. */
+    public final DSignal<ChatMessage> chat = DSignal.create(this);
 
     /** The occupants of the lobby as {@code id -> username}. */
     public final DMap<Integer,String> occupants = DMap.create(this);

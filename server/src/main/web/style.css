@@ -13,11 +13,6 @@ a:link, a:visited { color: #B64141 }
 a:hover { color: #8c1d12 }
 a:active { color: #8c1d12 }
 
-table {
-  border-collapse: collapse;
-  border-width: 0;
-}
-
 th, td, center, div { /* ns 4 */
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -38,6 +33,11 @@ h1, h2, h4 {
 h3 {
    font-family: Helvetica, Arial, sans-serif;
    margin-bottom: 0px
+}
+
+.flat_table {
+  border-collapse: collapse;
+  border-width: 0;
 }
 
 /* fonts of all shapes and sizes */

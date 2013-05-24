@@ -22,4 +22,7 @@ public interface LobbyService extends NexusService {
 
     /** Requests to leave the seat occupied by this client at the specified table. */
     void leaveSeat (int tableId);
+
+    /** Requests that the specified message be sent as chat to this lobby. */
+    void sendChat (String message);
 }

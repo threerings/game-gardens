@@ -53,6 +53,8 @@ public class Connector {
             onFailure(onFailure);
     }
 
+    // TODO: if we get invalid session token, clear our cookie, log in as a guest, and tell the
+    // containing page to clear out the "you are logged in" display
     protected final Slot<Throwable> onFailure = new Slot<Throwable>() {
         public void onEmit (Throwable cause) {
             _status.setText("Error: " + cause.getMessage());

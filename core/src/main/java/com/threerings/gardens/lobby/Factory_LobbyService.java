@@ -52,6 +52,10 @@ public class Factory_LobbyService implements DService.Factory<LobbyService>
                             service.leaveSeat(
                                 this.<Integer>cast(args[0]));
                             break;
+                        case 4:
+                            service.sendChat(
+                                this.<String>cast(args[0]));
+                            break;
                         default:
                             result = super.dispatchCall(methodId, args);
                         }
@@ -81,6 +85,9 @@ public class Factory_LobbyService implements DService.Factory<LobbyService>
         }
         @Override public void leaveSeat (int tableId) {
             postVoidCall((short)3, tableId);
+        }
+        @Override public void sendChat (String message) {
+            postVoidCall((short)4, message);
         }
     }
 }

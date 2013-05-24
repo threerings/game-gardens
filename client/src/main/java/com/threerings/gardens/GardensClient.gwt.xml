@@ -11,9 +11,6 @@
   <source path="lobby"/>
   <source path="user"/>
 
-<!--
-  <stylesheet src="standard.css"/>
--->
   <entry-point class="com.threerings.gardens.client.GardensEntryPoint"/>
 
   <!-- super devmode -->

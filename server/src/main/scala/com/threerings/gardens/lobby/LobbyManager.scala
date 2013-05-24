@@ -7,7 +7,7 @@ package com.threerings.gardens.lobby
 
 import com.threerings.nexus.distrib.{Nexus, Singleton}
 
-import com.threerings.gardens.user.User
+import com.threerings.gardens.user.{ChatMessage, User}
 
 class LobbyManager (nexus :Nexus) extends Singleton with LobbyService {
   import LobbyObject.Table
@@ -58,6 +58,12 @@ class LobbyManager (nexus :Nexus) extends Singleton with LobbyService {
           }
         }
     }
+  }
+
+  override def sendChat (message :String) {
+    val user = User.require
+    // TODO: check things?
+    obj.chat.emit(new ChatMessage(user.name, message))
   }
 
   protected def seatKeys (table :Table) =
