@@ -12,15 +12,16 @@ object GardensBuild extends samskivert.MavenBuild {
     autoScalaLibrary in Compile := false, // no scala-library dependency (except for tests)
     libraryDependencies ++= Seq(
       "com.novocode" % "junit-interface" % "0.8" % "test->default" // make junit work
-    )
+    ),
+    resolvers += "Local Maven Repository" at Path.userHome.asFile.toURI + "/.m2/repository"
   )
 
   override def moduleSettings (name :String, pom :pomutil.POM) = name match {
-    case "toybox" => Seq(
+    case "toybox" => seq(
       // a bunch of unfixable (without abandoning 1.6) AWT generics warnings
       javacOptions ++= Seq("-Xlint:-rawtypes", "-Xlint:-unchecked")
     )
-    case "server" => Seq(
+    case "server" => spray.revolver.RevolverPlugin.Revolver.settings ++ seq(
       resolvers += "ooo-maven" at "http://ooo-maven.googlecode.com/hg/repository",
       autoScalaLibrary := true, // we want scala-library back
       // we run the test server with its normal compile depends, so add hsqldb there;
