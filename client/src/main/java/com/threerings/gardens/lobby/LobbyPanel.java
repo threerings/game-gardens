@@ -5,9 +5,6 @@
 
 package com.threerings.gardens.lobby;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,12 +17,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import react.Connection;
 import react.Slot;
+
+import com.threerings.nexus.distrib.DMap;
 
 import com.threerings.gwt.ui.EnterClickAdapter;
 import com.threerings.gwt.ui.Widgets;
-
-import com.threerings.nexus.distrib.DMap;
 
 import com.threerings.gardens.client.ClientContext;
 import com.threerings.gardens.user.ChatMessage;
@@ -38,6 +36,27 @@ public class LobbyPanel extends Composite {
 
         initWidget(_binder.createAndBindUi(this));
 
+        // wire up the occupants list display
+        new MapViewer<Integer,String>(_people) {
+            protected Widget createView (Integer id, String name) {
+                return Widgets.newLabel(name);
+            }
+        }.connect(_obj.occupants);
+
+        // wire up the pending tables display and create button
+        new MapViewer<Integer,LobbyObject.Table>(_penders) {
+            protected Widget createView (Integer id, LobbyObject.Table table) {
+                return new TableView(table);
+            }
+        }.connect(_obj.tables);
+
+        _newGame.addClickHandler(new ClickHandler() {
+            public void onClick (ClickEvent event) {
+                _obj.svc.get().createTable("test", new GameConfig(), 2);
+            }
+        });
+
+        // wire up the chat bits
         _obj.chat.connect(new Slot<ChatMessage>() {
             public void onEmit (ChatMessage msg) {
                 if (msg.sender == null) appendLine(msg.message); // from the server
@@ -56,23 +75,6 @@ public class LobbyPanel extends Composite {
         };
         _send.addClickHandler(onSend);
         EnterClickAdapter.bind(_entry, onSend);
-
-        DMap.Listener<Integer,String> occupanter = new DMap.Listener<Integer,String>() {
-            @Override public void onPut (Integer id, String name) {
-                Widget nlabel = Widgets.newLabel(name);
-                _widgets.put(id, nlabel);
-                _people.add(nlabel); // TODO: sorted
-            }
-            @Override public void onRemove (Integer id) {
-                Widget nlabel = _widgets.remove(id);
-                if (nlabel != null) _people.remove(nlabel);
-            }
-            protected Map<Integer,Widget> _widgets = new HashMap<Integer,Widget>();
-        };
-        _obj.occupants.connect(occupanter);
-        for (Map.Entry<Integer,String> entry : _obj.occupants.entrySet()) {
-            occupanter.onPut(entry.getKey(), entry.getValue());
-        }
     }
 
     protected void feedback (String message) {
@@ -87,6 +89,55 @@ public class LobbyPanel extends Composite {
         return new Slot<Throwable>() { public void onEmit (Throwable cause) {
             feedback(errpre + ": " + cause.getMessage());
         }};
+    }
+
+    protected class TableView extends FlowPanel {
+        public final LobbyObject.Table table;
+
+        public TableView (LobbyObject.Table tbl) {
+            this.table = tbl;
+
+            add(Widgets.newLabel(table.gameName));
+            // TODO: display game config
+            _seats = new Button[table.seats];
+            for (int ii = 0; ii < _seats.length; ii++) {
+                final int seat = ii;
+                _seats[ii] = new Button("Join");
+                _seats[ii].addClickHandler(new ClickHandler() {
+                    public void onClick (ClickEvent event) {
+                        // TODO: make this leave rather than take if we're sitting here
+                        _obj.svc.get().takeSeat(table.id, seat);
+                    }
+                });
+            }
+            add(Widgets.newRow(_seats));
+
+            _conn = _obj.sitters.connectNotify(new DMap.Listener<LobbyObject.Seat,Integer>() {
+                public void onPut (LobbyObject.Seat seat, Integer sitterId) {
+                    if (seat.tableId == table.id) {
+                        Button btn = _seats[seat.seat];
+                        // TODO: if sitterId is us, make button say "Leave" and be enabled
+                        btn.setText(_obj.occupants.get(sitterId));
+                        btn.setEnabled(false);
+                    }
+                }
+                public void onRemove (LobbyObject.Seat seat) {
+                    if (seat.tableId == table.id) {
+                        Button btn = _seats[seat.seat];
+                        btn.setText("Join");
+                        btn.setEnabled(true);
+                    }
+                }
+            });
+        }
+
+        protected void onUnload () {
+            super.onUnload();
+            _conn.disconnect();
+        }
+
+        protected final Button[] _seats;
+        protected final Connection _conn;
     }
 
     protected interface Styles extends CssResource {

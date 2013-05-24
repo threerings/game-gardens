@@ -46,9 +46,22 @@ public class LobbyObject extends NexusObject {
         }
     }
 
-    /** Returns a key for the supplied table and seat for the {@link #sitters} map. */
-    public static int sittersKey (int tableId, int seat) {
-        return tableId * 100 + seat;
+    /** Represents a seat at a particular table. */
+    public static class Seat implements Streamable {
+        public final int tableId;
+        public final int seat;
+
+        public Seat (int tableId, int seat) {
+            this.tableId = tableId;
+            this.seat = seat;
+        }
+
+        @Override public int hashCode () { return tableId * 100 + seat; }
+        @Override public boolean equals (Object other) {
+            return other instanceof Seat && ((Seat)other).tableId == tableId &&
+                ((Seat)other).seat == seat;
+        }
+        @Override public String toString () { return tableId + "@" + seat; }
     }
 
     /** Provides access to lobby services. */
@@ -66,8 +79,8 @@ public class LobbyObject extends NexusObject {
     /** The games currently in-progress, mapped by id. */
     public final DMap<Integer,Game> games = DMap.create(this);
 
-    /** Contains a mapping from {table,seat} to occupant user id. See {@link #sittersKey}. */
-    public final DMap<Integer,Integer> sitters = DMap.create(this);
+    /** Contains a mapping from {table,seat} to occupant user id. */
+    public final DMap<Seat,Integer> sitters = DMap.create(this);
 
     public LobbyObject (DService.Factory<LobbyService> svc) {
         this.svc = svc.createService(this);

@@ -5,11 +5,20 @@
 
 package com.threerings.gardens.user;
 
+import react.Signal
+import react.UnitSlot
+
 import com.threerings.nexus.distrib.NexusException
 import com.threerings.nexus.server.SessionLocal
 
 /** Contains session data for an authenticated user. */
-class User (val id :Int, val name :String)
+class User (val id :Int, val name :String) {
+
+  /** A signal emitted when this user disconnects. */
+  val onDisconnect = Signal.create[User]
+
+  override def toString = id + "/" + name
+}
 
 /** [User] related utility methods. */
 object User {
@@ -27,8 +36,10 @@ object User {
   def register (userId :Int, username :String) :User = {
     val user = new User(userId, username)
     SessionLocal.set(classOf[User], user)
-    // TODO: maybe mirror session disconnect into User.onDisconnect?
-    // SessionLocal.getSession.onDisconnect().connect(...)
+    // mirror session disconnect into User.onDisconnect
+    SessionLocal.getSession.onDisconnect.connect(new UnitSlot {
+      def onEmit = user.onDisconnect.emit(user)
+    })
     user
   }
 }

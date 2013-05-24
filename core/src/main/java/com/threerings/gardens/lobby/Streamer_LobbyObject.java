@@ -82,6 +82,36 @@ public class Streamer_LobbyObject
         }
     }
 
+    /**
+     * Handles the streaming of {@link LobbyObject.Seat} instances.
+     */
+    public static class Seat
+        implements Streamer<LobbyObject.Seat>
+    {
+        @Override
+        public Class<?> getObjectClass () {
+            return LobbyObject.Seat.class;
+        }
+
+        @Override
+        public void writeObject (Streamable.Output out, LobbyObject.Seat obj) {
+            writeObjectImpl(out, obj);
+        }
+
+        @Override
+        public LobbyObject.Seat readObject (Streamable.Input in) {
+            return new LobbyObject.Seat(
+                in.readInt(),
+                in.readInt()
+            );
+        }
+
+        public static  void writeObjectImpl (Streamable.Output out, LobbyObject.Seat obj) {
+            out.writeInt(obj.tableId);
+            out.writeInt(obj.seat);
+        }
+    }
+
     @Override
     public Class<?> getObjectClass () {
         return LobbyObject.class;

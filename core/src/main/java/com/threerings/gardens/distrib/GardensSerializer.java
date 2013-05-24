@@ -21,6 +21,7 @@ public class GardensSerializer extends AbstractSerializer {
         mapStreamer(new Streamer_LobbyObject());
         mapStreamer(new Streamer_LobbyObject.Table());
         mapStreamer(new Streamer_LobbyObject.Game());
+        mapStreamer(new Streamer_LobbyObject.Seat());
         mapStreamer(new Streamer_UserObject());
         mapStreamer(new Streamer_ChatMessage());
         mapService(new Factory_LobbyService(), LobbyService.class);
