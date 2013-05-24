@@ -5,6 +5,8 @@
 
 package com.threerings.gardens.server
 
+import java.io.File
+
 import com.google.inject.{Inject, Injector, Singleton}
 
 import org.eclipse.jetty.server.Server
@@ -43,8 +45,15 @@ import com.threerings.gardens.web.GardensDispatcher
 
     val handlers = new HandlerList
     if (config.testMode) {
-      handlers.setHandlers(Array(ctx, newRH("server/src/main/web"), newRH("server/target/web"),
-                                 newRH("client/target/gardens-client")))
+      // maven runs us from the project root, SBT runs us from server/ so we need to set up our
+      // test directories dynamically
+      if (new File("server").isDirectory()) {
+        handlers.setHandlers(Array(ctx, newRH("server/src/main/web"), newRH("server/target/web"),
+                                   newRH("client/target/gardens-client")))
+      } else {
+        handlers.setHandlers(Array(ctx, newRH("src/main/web"), newRH("target/web"),
+                                   newRH("../client/target/gardens-client")))
+      }
     } else {
       // TODO: get actual document root from properties
       handlers.setHandlers(Array(ctx, newRH("docs")))
