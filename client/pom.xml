@@ -63,7 +63,7 @@
               <goal>compile</goal>
             </goals>
           </execution>
-          <!-- runs super-dev-mode via: mvn integration-test -Phtml -->
+          <!-- runs super-dev-mode via: mvn integration-test -Pclient -->
           <execution>
             <id>test-html</id>
             <phase>integration-test</phase>
