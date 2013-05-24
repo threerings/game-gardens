@@ -27,7 +27,12 @@
     <dependency>
       <groupId>com.samskivert</groupId>
       <artifactId>depot</artifactId>
-      <version>1.6.1</version>
+      <version>1.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.samskivert</groupId>
+      <artifactId>samskivert</artifactId>
+      <version>1.8-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.threerings</groupId>
