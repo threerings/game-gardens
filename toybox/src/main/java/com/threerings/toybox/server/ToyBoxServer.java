@@ -48,8 +48,6 @@ import com.threerings.crowd.server.PlaceRegistry;
 
 import com.threerings.parlor.server.ParlorManager;
 
-import com.threerings.toybox.server.persist.ToyBoxRepository;
-
 import static com.threerings.toybox.Log.log;
 
 /**
@@ -66,6 +64,7 @@ public class ToyBoxServer extends CrowdServer
             bind(ToyBoxConfig.class).toInstance(config());
             bind(Authenticator.class).to(autherClass());
             bind(ConnectionProvider.class).toInstance(conprov());
+            bind(PersistenceContext.class).toInstance(new PersistenceContext());
         }
 
         protected ToyBoxConfig config () {
@@ -105,17 +104,14 @@ public class ToyBoxServer extends CrowdServer
             }
         });
 
+        // initialize our persistence context
+        ConnectionProvider conprov = injector.getInstance(ConnectionProvider.class);
+        injector.getInstance(PersistenceContext.class).init("gamedb", conprov, null);
+
+        // pctx.initializeRepositories(true);
+
         // determine whether we've been run in test mode with a single game configuration
         String gconfig = System.getProperty("game_conf");
-        PersistenceContext pctx = null;
-        ToyBoxRepository toyrepo = null;
-        if (StringUtil.isBlank(gconfig)) {
-            pctx = new PersistenceContext();
-            toyrepo = new ToyBoxRepository(pctx);
-            pctx.init(ToyBoxRepository.GAME_DB_IDENT, _conprov, null);
-            pctx.initializeRepositories(true);
-        }
-        _toymgr.init(toyrepo);
         if (!StringUtil.isBlank(gconfig)) {
             _toymgr.setDevelopmentMode(new File(gconfig));
         }
@@ -153,5 +149,4 @@ public class ToyBoxServer extends CrowdServer
     @Inject protected ToyBoxConfig _config;
     @Inject protected ParlorManager _parmgr;
     @Inject protected ToyBoxManager _toymgr;
-    @Inject protected ConnectionProvider _conprov;
 }

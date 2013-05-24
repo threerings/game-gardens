@@ -8,8 +8,10 @@ package com.threerings.gardens.server
 import java.util.Properties
 import java.util.concurrent.Executors
 
-import com.google.inject.Injector
+import com.google.inject.{Injector, Key}
+import com.google.inject.name.Names
 
+import com.samskivert.depot.PersistenceContext
 import com.samskivert.jdbc.{ConnectionProvider, StaticConnectionProvider}
 import com.samskivert.util.{Config, Lifecycle}
 
@@ -28,7 +30,9 @@ object GardensServer {
   class Module (props :Properties) extends ToyBoxServer.ToyBoxModule {
     override protected def configure () {
       super.configure()
-      bind(classOf[GardensConfig]).toInstance(config);
+      bind(classOf[GardensConfig]).toInstance(config)
+      bind(classOf[PersistenceContext]).annotatedWith(Names.named("userdb")).
+        toInstance(new PersistenceContext)
     }
     override protected lazy val config = new GardensConfig(new Config(props))
     override protected def conprov = StaticConnectionProvider.forTest("gardens")
@@ -58,6 +62,11 @@ object GardensServer {
       // create our user and lobby managers (they register themselves with Nexus)
       val lobbyMgr = new LobbyManager(server)
       new UserManager(server, injector.getInstance(classOf[ConnectionProvider]), lobbyMgr)
+
+      // initialize our userdb persistence context
+      val conprov = injector.getInstance(classOf[ConnectionProvider])
+      injector.getInstance(Key.get(classOf[PersistenceContext], Names.named("userdb"))).
+        init("userdb", conprov, null)
 
       // shut things down when PresentsServer shuts us down
       val cycle = injector.getInstance(classOf[Lifecycle])

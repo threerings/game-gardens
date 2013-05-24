@@ -9,8 +9,10 @@ import java.util.Properties
 import java.util.logging.{Logger, Level}
 import javax.servlet.{ServletConfig, ServletContext}
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
+
 import com.samskivert.depot.PersistenceContext
-import com.samskivert.jdbc.ConnectionProvider
 import com.samskivert.servlet.SiteIdentifiers
 import com.samskivert.servlet.user.Password
 import com.samskivert.servlet.user.Username
@@ -26,13 +28,17 @@ import com.threerings.toybox.server.persist.ToyBoxRepository
 /** Contains references to application-wide resources (like the database repository) and handles
   * initialization and cleanup for those resources.
   */
-class GardensApp (config :GardensConfig, conprov :ConnectionProvider) extends Application {
+class GardensApp @Inject() (
+  config :GardensConfig,
+  @Named("userdb") pctx :PersistenceContext,
+  tbrepo :ToyBoxRepository
+) extends Application {
 
   /** Returns the user manager in use by this application. */
-  def userManager = _usermgr
+  val userManager = new DepotUserManager(config.webConfig, pctx)
 
   /** Provides access to the toybox repository. */
-  def toyBoxRepo = _tbrepo
+  def toyBoxRepo = tbrepo
 
   /** Looks up a property in our {@code gardens.properties} application config file. */
   def getProperty (key :String) = config.webConfig.getProperty(key)
@@ -40,7 +46,7 @@ class GardensApp (config :GardensConfig, conprov :ConnectionProvider) extends Ap
   /** Shut down the user management application. */
   override def shutdown () {
     try {
-      _usermgr.shutdown()
+      userManager.shutdown()
       _log.info("Game Gardens application shutdown.")
     } catch {
       case t :Throwable => _log.log(Level.WARNING, "Error shutting down repository", t)
@@ -60,19 +66,11 @@ class GardensApp (config :GardensConfig, conprov :ConnectionProvider) extends Ap
     super.didInit(svlcfg)
     // if we're in test mode, create a fake 'tester' account
     if (config.testMode) {
-      _usermgr.getRepository.createUser(new Username("tester"), Password.makeFromClear("tester"),
-                                        "tester@test.com", OOOUser.GAMEGARDENS_SITE_ID, 0)
+      userManager.getRepository.createUser(
+        new Username("tester"), Password.makeFromClear("tester"),
+        "tester@test.com", OOOUser.GAMEGARDENS_SITE_ID, 0)
       _log.info("Created test account 'tester'.")
     }
-  }
-
-  protected val _usermgr = new DepotUserManager(config.webConfig, conprov)
-  protected val _tbrepo = {
-    val pctx = new PersistenceContext()
-    pctx.init(ToyBoxRepository.GAME_DB_IDENT, conprov, null)
-    val tbrepo = new ToyBoxRepository(pctx)
-    pctx.initializeRepositories(true)
-    tbrepo
   }
 
   protected val _log = Logger.getLogger("gardens")

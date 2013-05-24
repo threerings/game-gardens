@@ -22,8 +22,8 @@ import com.samskivert.velocity.{ClasspathResourceLoader, DispatcherServlet, Invo
 import com.threerings.gardens.server.GardensConfig
 
 /** Handles some custom business with regard to Velocity dispatching. */
-class GardensDispatcher @Inject() (config :GardensConfig, conprov :ConnectionProvider,
-                                   injector :Injector) extends DispatcherServlet {
+class GardensDispatcher @Inject() (injector :Injector, app :GardensApp)
+    extends DispatcherServlet {
 
   override def selectTemplate (siteId :Int, ctx :InvocationContext) = {
     // do some massaging of the path to handle JNLP files in a way that doesn't confuse Java Web
@@ -46,7 +46,7 @@ class GardensDispatcher @Inject() (config :GardensConfig, conprov :ConnectionPro
         s"[path=$path, lclass=$lclass]", t) ; null
   }
 
-  override protected def createApp (scfg :ServletConfig) = new GardensApp(config, conprov)
+  override protected def createApp (scfg :ServletConfig) = app
 
   override protected def getLogicPackage (config :ServletConfig) = "com.threerings.gardens.web.logic"
 

@@ -30,6 +30,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import com.samskivert.depot.DepotRepository;
 import com.samskivert.depot.Exps;
@@ -50,19 +52,13 @@ import static com.threerings.toybox.Log.log;
 /**
  * Provides an interface to our persistent repository of game metadata.
  */
-public class ToyBoxRepository extends DepotRepository
+@Singleton public class ToyBoxRepository extends DepotRepository
     implements ToyBoxManager.GameRepository
 {
     /**
-     * The database identifier used when establishing a database connection. This value being
-     * <code>gamedb</code>.
-     */
-    public static final String GAME_DB_IDENT = "gamedb";
-
-    /**
      * Constructs a new repository with the specified persistence context.
      */
-    public ToyBoxRepository (PersistenceContext ctx)
+    @Inject public ToyBoxRepository (PersistenceContext ctx)
     {
         super(ctx);
     }

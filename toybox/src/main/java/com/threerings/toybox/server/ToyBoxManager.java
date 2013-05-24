@@ -60,6 +60,7 @@ import com.threerings.parlor.game.server.GameManagerDelegate;
 import com.threerings.toybox.lobby.data.LobbyConfig;
 import com.threerings.toybox.lobby.data.LobbyObject;
 import com.threerings.toybox.lobby.server.LobbyManager;
+import com.threerings.toybox.server.persist.ToyBoxRepository;
 
 import com.threerings.toybox.data.GameDefinition;
 import com.threerings.toybox.data.ToyBoxGameConfig;
@@ -97,30 +98,21 @@ public class ToyBoxManager
             throws PersistenceException;
     }
 
-    @Inject public ToyBoxManager (InvocationManager invmgr) {
+    @Inject public ToyBoxManager (InvocationManager invmgr, ToyBoxConfig config,
+                                  PresentsDObjectMgr omgr) {
         // register ourselves as providing the toybox service
         invmgr.registerProvider(this, ToyBoxMarshaller.class, TOYBOX_GROUP);
-    }
+        _config = config;
+        _omgr = omgr;
 
-    /**
-     * Prepares the toybox manager for operation.
-     */
-    public void init (GameRepository gamerepo)
-        throws PersistenceException
-    {
-        // make a note of our server services
-        _gamerepo = gamerepo;
-
-        if (_gamerepo != null) {
-            // periodically write our occupancy information to the database
-            _popval = new Interval(_omgr) {
-                @Override
-                public void expired () {
-                    publishOccupancy();
-                }
-            };
-            _popval.schedule(60 * 1000L, true);
-        }
+        // periodically write our occupancy information to the database
+        _popval = new Interval(_omgr) {
+            @Override
+            public void expired () {
+                publishOccupancy();
+            }
+        };
+        _popval.schedule(60 * 1000L, true);
 
         log.info("ToyBoxManager ready [rsrcdir=" + _config.getResourceDir() + "].");
     }
@@ -195,11 +187,6 @@ public class ToyBoxManager
      */
     public void recordPlaytime (final GameRecord game, long playtime)
     {
-        // we don't record playtime if we're in development mode
-        if (_gamerepo == null) {
-            return;
-        }
-
         int mins = (int)Math.round(playtime / ONE_MINUTE);
         if (mins > ODDLY_LONG) {
             log.warning("Game in play for oddly long time " +
@@ -397,18 +384,10 @@ public class ToyBoxManager
         });
     }
 
-    /** Provides information on {@link GameRecord}s. */
-    protected GameRepository _gamerepo;
-
-    @Inject protected ToyBoxConfig _config;
-
-    /** Handles distributed object business. */
-    @Inject protected PresentsDObjectMgr _omgr;
-
-    /** Handles database business. */
+    protected final ToyBoxConfig _config;
+    protected final PresentsDObjectMgr _omgr;
+    @Inject protected ToyBoxRepository _gamerepo;
     @Inject protected @MainInvoker Invoker _invoker;
-
-    /** Handles creation of places. */
     @Inject protected PlaceRegistry _plreg;
 
     /** Contains pending listeners for lobbies in the process of being resolved. */
